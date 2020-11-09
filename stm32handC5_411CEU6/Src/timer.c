@@ -169,7 +169,9 @@ void TIM3_IRQHandler(void)
 //回调函数，定时器中断服务函数调用
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 { 
-		u16 adc_data,i;
+		u16 adc_data;
+	
+		//u16 i;
 	  if(htim==(&TIM3_Handler))
     {
 					adc_data = Get_Adc(5);
