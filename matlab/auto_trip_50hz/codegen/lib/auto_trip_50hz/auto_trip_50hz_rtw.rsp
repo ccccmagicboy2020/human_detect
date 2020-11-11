@@ -1,0 +1,3 @@
+auto_trip_50hz.o
+auto_trip_50hz_initialize.o
+auto_trip_50hz_terminate.o

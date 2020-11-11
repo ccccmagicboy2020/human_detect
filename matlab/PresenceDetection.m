@@ -2,7 +2,7 @@ close all;
 clearvars;
 clear;
 clc;
-
+addpath(genpath('.\auto_trip_50hz'))
 % 关闭并删除已占用端口
 if ~isempty(instrfind)
 		fclose(instrfind);
@@ -96,7 +96,8 @@ while(1)
 			% 滤除50Hz干扰信号
 			[pks, locs] = findpeaks(AP_single(401:600), f(401:600)); % 50Hz附近峰值
             [M, I] = max(pks);
-            peak_50 = locs(I(1));			
+            peak_50 = locs(I(1));
+            %peak_50_2 = locs(I(2));
 			% 滤除100Hz干扰信号
             [pks, locs] = findpeaks(AP_single(901:1100), f(901:1100)); % 100Hz附近峰值           
             [M, I] = sort(pks, 'descend');
@@ -113,39 +114,9 @@ while(1)
                 M_FIR = 6; % 定义FIR滤波器阶数
                 lamda = 0.99; % 定义遗忘因子
                 Signal_Len = Size_t; % 定义信号数据的个数
-                I = eye(M_FIR); % 生成对应的单位矩阵
-                c = 0.01; % 小正数 保证矩阵P非奇异
-                y_out = zeros(Signal_Len, 1);
-                Eta_out = zeros(Signal_Len, 1);
-                w_out = zeros(Signal_Len, M_FIR);
-                for i = 1: Signal_Len
-                    % 输入数据
-                    if i == 1 % 如果是第一次进入
-                        P_last = I/c;
-                        w_last = zeros(M_FIR, 1);
-                    end
-                    d = Signal_noise(i); % 输入新的期望信号
-                    Interference = [sin(2*pi*peak_50*(i- 1)/fs)
-                        cos(2*pi*peak_50*(i- 1)/fs)
-						sin(2*pi*peak_100_1*(i- 1)/fs)
-						cos(2*pi*peak_100_1*(i- 1)/fs)
-						sin(2*pi*peak_100_2*(i- 1)/fs)
-						cos(2*pi*peak_100_2*(i- 1)/fs)]; % 输入新的信号矢量
-                    % 算法正体
-                    K = (P_last * Interference) / (lamda + Interference'* P_last * Interference); % 计算增益矢量
-                    y = Interference' * w_last; % 计算FIR滤波器输出
-                    Eta = d - y; % 计算估计的误差
-                    w = w_last + K * Eta; % 计算滤波器系数矢量
-                    P = (I - K * Interference') * P_last/lamda; % 计算误差相关矩阵
-                    % 变量更替
-                    P_last = P;
-                    w_last = w;
-                    % 滤波结果存储
-                    y_out(i) = y;
-                    Eta_out(i) = Eta;
-                    w_out(i,:) = w';
-                end           
-                raw_data_MF_ANF = Eta_out; % 对消后信号                
+ 
+                
+                raw_data_MF_ANF = auto_trip_50hz(Signal_noise, fs, lamda, [peak_50, peak_100_1, peak_100_2]);
             end
 			% 频域分析
             win_size = length(raw_data_MF_ANF);
