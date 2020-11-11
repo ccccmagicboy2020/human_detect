@@ -3,6 +3,7 @@ clearvars;
 clear;
 clc;
 addpath(genpath('.\auto_trip_50hz'))
+addpath(genpath('.\cfar_ca'))
 % 关闭并删除已占用端口
 if ~isempty(instrfind)
 		fclose(instrfind);
