@@ -9,9 +9,9 @@ if ~isempty(instrfind)
 		delete(instrfind);
 end
 % 端口配置
-s = serial('com3'); % 创建串行端口对象
-% set(s, 'BaudRate', 115200, 'StopBits', 1, 'Parity', 'none', 'DataBits', 8, 'InputBufferSize', 10250, 'ReadAsyncMode', 'continuous'); % 配置 波特率 停止位 校验方式 数据位 输入缓存大小（字节） 异步读取
-set(s, 'BaudRate', 128000, 'StopBits', 1, 'Parity', 'none', 'DataBits', 8, 'InputBufferSize', 10251, 'ReadAsyncMode', 'continuous'); % 配置 波特率 停止位 校验方式 数据位 输入缓存大小（字节） 异步读取
+s = serial('com31'); % 创建串行端口对象
+set(s, 'BaudRate', 115200, 'StopBits', 1, 'Parity', 'none', 'DataBits', 8, 'InputBufferSize', 100251, 'ReadAsyncMode', 'continuous'); % 配置 波特率 停止位 校验方式 数据位 输入缓存大小（字节） 异步读取
+% set(s, 'BaudRate', 128000, 'StopBits', 1, 'Parity', 'none', 'DataBits', 8, 'InputBufferSize', 10251, 'ReadAsyncMode', 'continuous'); % 配置 波特率 停止位 校验方式 数据位 输入缓存大小（字节） 异步读取
 fopen(s); % 打开串口
 
 sample_rate = 2048; % 实际采样率
@@ -33,7 +33,7 @@ data = zeros(sample_rate, secnum);
 while(1)
     data_corrent = fgetl(s); % fgerl - 读取文件中的行 以字符向量形式返回 并删除换行符
     strlen = length(data_corrent);
-    if strlen ~= 10250
+    if strlen ~= 10249
         continue;
     end
     i = 1;
@@ -104,7 +104,7 @@ while(1)
                 peak_100_1 = locs(I(1));
                 peak_100_2 = locs(I(2));
             end     
-            % 自适应陷波器
+            % 自适应陷波器    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 			raw_data_MF_ANF = raw_data_MF;
             if peak_100_1 > 0
                 Size_t = size(timeStamps, 1);
@@ -174,7 +174,7 @@ while(1)
 			N = 100; % 窗口大小
             pro_N = 50; % 保护单元
             PAD = 10^(-8); % 虚警概率
-            [index, XT] = cfar_ca(xc, N, pro_N, PAD);			
+            [index, XT] = cfar_ca(xc, N, pro_N, PAD);	% @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@		
 			slice_100_CFAR = P .* XT;
 			slice_100_CFAR = slice_100_CFAR(1: length(slice_100_CFAR)/ 2);
 			% 滑窗
