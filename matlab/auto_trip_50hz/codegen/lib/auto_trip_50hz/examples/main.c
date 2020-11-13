@@ -2,7 +2,7 @@
  * File: main.c
  *
  * MATLAB Coder version            : 5.0
- * C/C++ source code generated on  : 11-Nov-2020 16:25:33
+ * C/C++ source code generated on  : 13-Nov-2020 17:07:01
  */
 
 /*************************************************************************/
@@ -36,18 +36,18 @@
 #include "auto_trip_50hz_terminate.h"
 
 /* Function Declarations */
-static void argInit_1x2560_real32_T(float result[2560]);
-static void argInit_1x3_real32_T(float result[3]);
-static float argInit_real32_T(void);
+static void argInit_1x2560_real_T(double result[2560]);
+static void argInit_1x3_real_T(double result[3]);
+static double argInit_real_T(void);
 static void main_auto_trip_50hz(void);
 
 /* Function Definitions */
 
 /*
- * Arguments    : float result[2560]
+ * Arguments    : double result[2560]
  * Return Type  : void
  */
-static void argInit_1x2560_real32_T(float result[2560])
+static void argInit_1x2560_real_T(double result[2560])
 {
   int idx1;
 
@@ -55,22 +55,22 @@ static void argInit_1x2560_real32_T(float result[2560])
   for (idx1 = 0; idx1 < 2560; idx1++) {
     /* Set the value of the array element.
        Change this value to the value that the application requires. */
-    result[idx1] = argInit_real32_T();
+    result[idx1] = argInit_real_T();
   }
 }
 
 /*
- * Arguments    : float result[3]
+ * Arguments    : double result[3]
  * Return Type  : void
  */
-static void argInit_1x3_real32_T(float result[3])
+static void argInit_1x3_real_T(double result[3])
 {
-  float result_tmp;
+  double result_tmp;
 
   /* Loop over the array to initialize each element. */
   /* Set the value of the array element.
      Change this value to the value that the application requires. */
-  result_tmp = argInit_real32_T();
+  result_tmp = argInit_real_T();
   result[0] = result_tmp;
 
   /* Set the value of the array element.
@@ -84,11 +84,11 @@ static void argInit_1x3_real32_T(float result[3])
 
 /*
  * Arguments    : void
- * Return Type  : float
+ * Return Type  : double
  */
-static float argInit_real32_T(void)
+static double argInit_real_T(void)
 {
-  return 0.0F;
+  return 0.0;
 }
 
 /*
@@ -97,20 +97,20 @@ static float argInit_real32_T(void)
  */
 static void main_auto_trip_50hz(void)
 {
-  float fs_tmp;
-  float fv[2560];
-  float fv1[3];
-  float res[2560];
+  double fs_tmp;
+  double dv[2560];
+  double dv1[3];
+  double res[2560];
 
   /* Initialize function 'auto_trip_50hz' input arguments. */
   /* Initialize function input argument 'src'. */
-  fs_tmp = argInit_real32_T();
+  fs_tmp = argInit_real_T();
 
   /* Initialize function input argument 'peaks'. */
   /* Call the entry-point 'auto_trip_50hz'. */
-  argInit_1x2560_real32_T(fv);
-  argInit_1x3_real32_T(fv1);
-  auto_trip_50hz(fv, fs_tmp, fs_tmp, fv1, res);
+  argInit_1x2560_real_T(dv);
+  argInit_1x3_real_T(dv1);
+  auto_trip_50hz(dv, fs_tmp, fs_tmp, dv1, res);
 }
 
 /*

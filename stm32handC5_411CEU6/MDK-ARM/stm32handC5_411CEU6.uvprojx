@@ -313,7 +313,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>4</Optim>
+            <Optim>0</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -448,17 +448,20 @@
               <FileType>1</FileType>
               <FilePath>..\Src\timer.c</FilePath>
             </File>
+            <File>
+              <FileName>hamming.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Inc\hamming.h</FilePath>
+            </File>
+            <File>
+              <FileName>auto_trip_50hz.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\auto_trip_50hz.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
           <GroupName>Doc</GroupName>
-          <Files>
-            <File>
-              <FileName>network_handc5_generate_report.txt</FileName>
-              <FileType>5</FileType>
-              <FilePath>..//network_handc5_generate_report.txt</FilePath>
-            </File>
-          </Files>
         </Group>
         <Group>
           <GroupName>Drivers/STM32F4xx_HAL_Driver</GroupName>

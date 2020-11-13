@@ -1,7 +1,7 @@
 <deployment-project plugin="plugin.coder" plugin-version="R2018b">
-  <configuration build-checksum="3511843065" file="D:\cccc2020\CODE\human_detect\matlab\auto_trip_50hz\auto_trip_50hz.prj" location="D:\cccc2020\CODE\human_detect\matlab\auto_trip_50hz" name="auto_trip_50hz" target="target.unifiedcoder" target-name="MATLAB Coder">
+  <configuration build-checksum="2864134017" file="D:\cccc2020\CODE\human_detect\matlab\auto_trip_50hz\auto_trip_50hz.prj" location="D:\cccc2020\CODE\human_detect\matlab\auto_trip_50hz" name="auto_trip_50hz" target="target.unifiedcoder" target-name="MATLAB Coder">
     <profile key="profile.mex">
-      <param.BuiltInstrumentedMex />
+      <param.BuiltInstrumentedMex>false</param.BuiltInstrumentedMex>
       <param.RanInstrumentedMex>false</param.RanInstrumentedMex>
       <param.WorkingFolder>option.WorkingFolder.Project</param.WorkingFolder>
       <param.SpecifiedWorkingFolder />
@@ -34,7 +34,7 @@
       <param.DefaultTestFile />
       <param.MergeInstrumentationResults>false</param.MergeInstrumentationResults>
       <param.VerificationMode>option.VerificationMode.None</param.VerificationMode>
-      <param.VerificationStatus>option.VerificationStatus.FailedInference</param.VerificationStatus>
+      <param.VerificationStatus>option.VerificationStatus.Passed</param.VerificationStatus>
       <param.EnableMexProfiling>false</param.EnableMexProfiling>
       <var.BuiltWithMexProfiling>false</var.BuiltWithMexProfiling>
       <param.CustomSourceCode />
@@ -64,7 +64,7 @@
       <param.ConstantInputs>option.ConstantInputs.CheckValues</param.ConstantInputs>
       <param.EnableCRICodeCoverage>true</param.EnableCRICodeCoverage>
       <param.EnableJIT>false</param.EnableJIT>
-      <param.EnableJITSilentBailOut />
+      <param.EnableJITSilentBailOut>false</param.EnableJITSilentBailOut>
       <param.CheckForIssuesJIT>true</param.CheckForIssuesJIT>
       <unset>
         <param.BuiltInstrumentedMex />
@@ -223,7 +223,7 @@
       <param.CustomLibrary />
       <param.PostCodeGenCommand />
       <param.TargetLangStandard>C99 (ISO)</param.TargetLangStandard>
-      <param.CodeReplacementLibrary>None</param.CodeReplacementLibrary>
+      <param.CodeReplacementLibrary>ARM Cortex-M (CMSIS)</param.CodeReplacementLibrary>
       <param.DeprecatedCRLFlag>false</param.DeprecatedCRLFlag>
       <param.SameHardware>true</param.SameHardware>
       <param.Toolchain>GNU Tools for ARM Embedded Processors</param.Toolchain>
@@ -407,7 +407,6 @@
         <param.CustomLibrary />
         <param.PostCodeGenCommand />
         <param.TargetLangStandard />
-        <param.CodeReplacementLibrary />
         <param.DeprecatedCRLFlag />
         <param.SameHardware />
         <param.BuildConfiguration />
@@ -835,8 +834,9 @@
       </unset>
     </profile>
     <param.objective>option.objective.c</param.objective>
-    <param.WorkflowStep>generateCode</param.WorkflowStep>
+    <param.WorkflowStep>workflowSummary</param.WorkflowStep>
     <param.TestSnippets>
+      <item>auto_trip_50hz(Signal_noise, fs, lamda, peaks);</item>
       <item>auto_trip_50hz(Signal_noise, fs, lamda, [peak_50, peak_100_1, peak_100_2])</item>
       <item>PresenceDetection</item>
     </param.TestSnippets>
@@ -866,12 +866,12 @@
     <param.unifiedParamStorage />
     <var.gc.lastOutputRoot>codegen\lib\auto_trip_50hz</var.gc.lastOutputRoot>
     <var.gc.lastOutputType>C_CODE</var.gc.lastOutputType>
-    <var.gc.preBuildChecksum>813578840</var.gc.preBuildChecksum>
+    <var.gc.preBuildChecksum>420303573</var.gc.preBuildChecksum>
     <var.cfi.lastOutputRoot>codegen\mex\auto_trip_50hz</var.cfi.lastOutputRoot>
-    <var.cfi.preBuildChecksum>4150939611</var.cfi.preBuildChecksum>
-    <var.lastCfiTestSnippet>PresenceDetection</var.lastCfiTestSnippet>
+    <var.cfi.preBuildChecksum>3657100288</var.cfi.preBuildChecksum>
+    <var.lastCfiTestSnippet>auto_trip_50hz(Signal_noise, fs, lamda, peaks);</var.lastCfiTestSnippet>
     <var.outdatedOnRestore>false</var.outdatedOnRestore>
-    <var.lastUserSourceChecksum>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;checksum&gt;&lt;includedFiles&gt;&lt;file&gt;D:\cccc2020\CODE\human_detect\matlab\auto_trip_50hz\auto_trip_50hz.m&lt;/file&gt;&lt;/includedFiles&gt;&lt;value&gt;2580055373&lt;/value&gt;&lt;/checksum&gt;</var.lastUserSourceChecksum>
+    <var.lastUserSourceChecksum>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;checksum&gt;&lt;includedFiles&gt;&lt;file&gt;D:\cccc2020\CODE\human_detect\matlab\auto_trip_50hz\auto_trip_50hz.m&lt;/file&gt;&lt;/includedFiles&gt;&lt;value&gt;2924804130&lt;/value&gt;&lt;/checksum&gt;</var.lastUserSourceChecksum>
     <var.sourceSetState>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;sourceModel&gt;&lt;primarySourceFiles&gt;&lt;file&gt;D:\cccc2020\CODE\human_detect\matlab\auto_trip_50hz\auto_trip_50hz.m&lt;/file&gt;&lt;/primarySourceFiles&gt;&lt;fixedPointSourceFiles/&gt;&lt;fixedPointSourceRegistered&gt;false&lt;/fixedPointSourceRegistered&gt;&lt;fixedPointSourceSelected&gt;false&lt;/fixedPointSourceSelected&gt;&lt;/sourceModel&gt;</var.sourceSetState>
     <param.forceMexBuild>false</param.forceMexBuild>
     <param.NoDefaultJIT>false</param.NoDefaultJIT>
@@ -920,10 +920,214 @@
     <param.EnableAutoExtrinsicCalls>true</param.EnableAutoExtrinsicCalls>
     <param.UsePreconditions>false</param.UsePreconditions>
     <param.FeatureFlags />
-    <param.FixedPointMode>option.FixedPointMode.Singles</param.FixedPointMode>
+    <param.FixedPointMode>option.FixedPointMode.None</param.FixedPointMode>
     <param.AutoScaleLoopIndexVariables>false</param.AutoScaleLoopIndexVariables>
-    <param.ComputedFixedPointData />
-    <param.UserFixedPointData />
+    <param.ComputedFixedPointData>
+      <ComputedEntities>
+        <Function file="$(PROJECTDIR)\auto_trip_50hz.m" name="auto_trip_50hz" specialization="auto_trip_50hz" specializationId="-1" uniqueId="auto_trip_50hz">
+          <Variable name="res" specid="-1">
+            <Column property="Kind" type="String" value="output" />
+            <MATLABType class="double" complex="false">
+              <size>2560</size>
+              <size>1</size>
+            </MATLABType>
+          </Variable>
+          <Variable name="src" specid="-1">
+            <Column property="Kind" type="String" value="input" />
+            <MATLABType class="double" complex="false">
+              <size>1</size>
+              <size>2560</size>
+            </MATLABType>
+          </Variable>
+          <Variable name="fs" specid="-1">
+            <Column property="Kind" type="String" value="input" />
+            <MATLABType class="double" complex="false">
+              <size>1</size>
+              <size>1</size>
+            </MATLABType>
+          </Variable>
+          <Variable name="lamda" specid="-1">
+            <Column property="Kind" type="String" value="input" />
+            <MATLABType class="double" complex="false">
+              <size>1</size>
+              <size>1</size>
+            </MATLABType>
+          </Variable>
+          <Variable name="peaks" specid="-1">
+            <Column property="Kind" type="String" value="input" />
+            <MATLABType class="double" complex="false">
+              <size>1</size>
+              <size>3</size>
+            </MATLABType>
+          </Variable>
+          <Variable name="mid" specid="-1">
+            <Column property="Kind" type="String" value="persistent" />
+            <MATLABType class="double" complex="false">
+              <size>6</size>
+              <size>1</size>
+            </MATLABType>
+          </Variable>
+          <Variable name="len" specid="-1">
+            <Column property="Kind" type="String" value="local" />
+            <MATLABType class="double" complex="false">
+              <size>1</size>
+              <size>1</size>
+            </MATLABType>
+          </Variable>
+          <Variable name="len2" specid="-1">
+            <Column property="Kind" type="String" value="local" />
+            <MATLABType class="double" complex="false">
+              <size>1</size>
+              <size>1</size>
+            </MATLABType>
+          </Variable>
+          <Variable name="M_FIR" specid="-1">
+            <Column property="Kind" type="String" value="local" />
+            <MATLABType class="double" complex="false">
+              <size>1</size>
+              <size>1</size>
+            </MATLABType>
+          </Variable>
+          <Variable name="I" specid="-1">
+            <Column property="Kind" type="String" value="local" />
+            <MATLABType class="double" complex="false">
+              <size>6</size>
+              <size>6</size>
+            </MATLABType>
+          </Variable>
+          <Variable name="c" specid="-1">
+            <Column property="Kind" type="String" value="local" />
+            <MATLABType class="double" complex="false">
+              <size>1</size>
+              <size>1</size>
+            </MATLABType>
+          </Variable>
+          <Variable name="Eta_out" specid="-1">
+            <Column property="Kind" type="String" value="local" />
+            <MATLABType class="double" complex="false">
+              <size>2560</size>
+              <size>1</size>
+            </MATLABType>
+          </Variable>
+          <Variable name="P_last" specid="-1">
+            <Column property="Kind" type="String" value="local" />
+            <MATLABType class="double" complex="false">
+              <size>6</size>
+              <size>6</size>
+            </MATLABType>
+          </Variable>
+          <Variable name="w_last" specid="-1">
+            <Column property="Kind" type="String" value="local" />
+            <MATLABType class="double" complex="false">
+              <size>6</size>
+              <size>1</size>
+            </MATLABType>
+          </Variable>
+          <Variable name="i" specid="-1">
+            <Column property="Kind" type="String" value="local" />
+            <MATLABType class="double" complex="false">
+              <size>1</size>
+              <size>1</size>
+            </MATLABType>
+          </Variable>
+          <Variable name="d" specid="-1">
+            <Column property="Kind" type="String" value="local" />
+            <MATLABType class="double" complex="false">
+              <size>1</size>
+              <size>1</size>
+            </MATLABType>
+          </Variable>
+          <Variable name="j" specid="-1">
+            <Column property="Kind" type="String" value="local" />
+            <MATLABType class="double" complex="false">
+              <size>1</size>
+              <size>1</size>
+            </MATLABType>
+          </Variable>
+          <Variable name="Interference" specid="-1">
+            <Column property="Kind" type="String" value="local" />
+            <MATLABType class="double" complex="false">
+              <size>6</size>
+              <size>1</size>
+            </MATLABType>
+          </Variable>
+          <Variable name="K" specid="-1">
+            <Column property="Kind" type="String" value="local" />
+            <MATLABType class="double" complex="false">
+              <size>6</size>
+              <size>1</size>
+            </MATLABType>
+          </Variable>
+          <Variable name="y" specid="-1">
+            <Column property="Kind" type="String" value="local" />
+            <MATLABType class="double" complex="false">
+              <size>1</size>
+              <size>1</size>
+            </MATLABType>
+          </Variable>
+          <Variable name="Eta" specid="-1">
+            <Column property="Kind" type="String" value="local" />
+            <MATLABType class="double" complex="false">
+              <size>1</size>
+              <size>1</size>
+            </MATLABType>
+          </Variable>
+          <Variable name="w" specid="-1">
+            <Column property="Kind" type="String" value="local" />
+            <MATLABType class="double" complex="false">
+              <size>6</size>
+              <size>1</size>
+            </MATLABType>
+          </Variable>
+          <Variable name="P" specid="-1">
+            <Column property="Kind" type="String" value="local" />
+            <MATLABType class="double" complex="false">
+              <size>6</size>
+              <size>6</size>
+            </MATLABType>
+          </Variable>
+        </Function>
+      </ComputedEntities>
+    </param.ComputedFixedPointData>
+    <param.UserFixedPointData>
+      <UserEntities>
+        <Function file="$(PROJECTDIR)\auto_trip_50hz.m" name="auto_trip_50hz" specialization="auto_trip_50hz" specializationId="-1" uniqueId="auto_trip_50hz">
+          <Variable name="res" specid="-1">
+            <Column property="LoggingEnabled" type="Boolean" value="true" />
+          </Variable>
+          <Variable name="src" specid="-1">
+            <Column property="LoggingEnabled" type="Boolean" value="true" />
+          </Variable>
+          <Variable name="fs" specid="-1">
+            <Column property="LoggingEnabled" type="Boolean" value="true" />
+          </Variable>
+          <Variable name="lamda" specid="-1">
+            <Column property="LoggingEnabled" type="Boolean" value="true" />
+          </Variable>
+          <Variable name="peaks" specid="-1">
+            <Column property="LoggingEnabled" type="Boolean" value="true" />
+          </Variable>
+          <Variable name="mid" specid="-1" />
+          <Variable name="len" specid="-1" />
+          <Variable name="len2" specid="-1" />
+          <Variable name="M_FIR" specid="-1" />
+          <Variable name="I" specid="-1" />
+          <Variable name="c" specid="-1" />
+          <Variable name="Eta_out" specid="-1" />
+          <Variable name="P_last" specid="-1" />
+          <Variable name="w_last" specid="-1" />
+          <Variable name="i" specid="-1" />
+          <Variable name="d" specid="-1" />
+          <Variable name="j" specid="-1" />
+          <Variable name="Interference" specid="-1" />
+          <Variable name="K" specid="-1" />
+          <Variable name="y" specid="-1" />
+          <Variable name="Eta" specid="-1" />
+          <Variable name="w" specid="-1" />
+          <Variable name="P" specid="-1" />
+        </Function>
+      </UserEntities>
+    </param.UserFixedPointData>
     <param.DefaultWordLength>16</param.DefaultWordLength>
     <param.DefaultFractionLength>4</param.DefaultFractionLength>
     <param.FixedPointSafetyMargin>0</param.FixedPointSafetyMargin>
@@ -937,12 +1141,14 @@
     <param.ShowCoverage>true</param.ShowCoverage>
     <param.ExcludedFixedPointVerificationFiles />
     <param.ExcludedFixedPointSimulationFiles />
-    <param.InstrumentedBuildChecksum />
+    <param.InstrumentedBuildChecksum>2986045682</param.InstrumentedBuildChecksum>
     <param.FixedPointStaticAnalysisChecksum />
-    <param.InstrumentedMexFile />
+    <param.InstrumentedMexFile>${PROJECT_ROOT}\codegen\auto_trip_50hz\fixpt\auto_trip_50hz_float_mex.mexw64</param.InstrumentedMexFile>
     <param.FixedPointValidationChecksum />
     <param.FixedPointSourceCodeChecksum />
-    <param.FixedPointFunctionReplacements />
+    <param.FixedPointFunctionReplacements>
+      <FunctionReplacements />
+    </param.FixedPointFunctionReplacements>
     <param.OptimizeWholeNumbers>true</param.OptimizeWholeNumbers>
     <param.ContainerTypes>false</param.ContainerTypes>
     <param.GeneratedFixedPointFileSuffix>_fixpt</param.GeneratedFixedPointFileSuffix>
@@ -955,9 +1161,9 @@
     <var.lastFixedPointAction>option.fixedPointAction.none</var.lastFixedPointAction>
     <var.lastSimContext />
     <var.lastVerifyContext />
-    <param.fpDataRoot />
-    <param.fpUserFileChecksum />
-    <var.snapshotChecksum />
+    <param.fpDataRoot>D:\cccc2020\CODE\human_detect\matlab\auto_trip_50hz\codegen\auto_trip_50hz\fixpt/guiFpReport.mat</param.fpDataRoot>
+    <param.fpUserFileChecksum>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;checksum&gt;&lt;includedFiles&gt;&lt;file&gt;D:\cccc2020\CODE\human_detect\matlab\auto_trip_50hz\auto_trip_50hz.m&lt;/file&gt;&lt;/includedFiles&gt;&lt;value&gt;2924804130&lt;/value&gt;&lt;/checksum&gt;</param.fpUserFileChecksum>
+    <var.snapshotChecksum>2886046983</var.snapshotChecksum>
     <param.fpLastConvertChecksum />
     <var.functionBlockSid />
     <param.fptSignedness>false</param.fptSignedness>
@@ -1033,9 +1239,8 @@
       <param.EnableAutoExtrinsicCalls />
       <param.UsePreconditions />
       <param.FeatureFlags />
+      <param.FixedPointMode />
       <param.AutoScaleLoopIndexVariables />
-      <param.ComputedFixedPointData />
-      <param.UserFixedPointData />
       <param.DefaultWordLength />
       <param.DefaultFractionLength />
       <param.FixedPointSafetyMargin />
@@ -1049,12 +1254,9 @@
       <param.ShowCoverage />
       <param.ExcludedFixedPointVerificationFiles />
       <param.ExcludedFixedPointSimulationFiles />
-      <param.InstrumentedBuildChecksum />
       <param.FixedPointStaticAnalysisChecksum />
-      <param.InstrumentedMexFile />
       <param.FixedPointValidationChecksum />
       <param.FixedPointSourceCodeChecksum />
-      <param.FixedPointFunctionReplacements />
       <param.OptimizeWholeNumbers />
       <param.ContainerTypes />
       <param.GeneratedFixedPointFileSuffix />
@@ -1066,9 +1268,6 @@
       <var.lastFixedPointAction />
       <var.lastSimContext />
       <var.lastVerifyContext />
-      <param.fpDataRoot />
-      <param.fpUserFileChecksum />
-      <var.snapshotChecksum />
       <param.fpLastConvertChecksum />
       <var.functionBlockSid />
       <param.fptSignedness />

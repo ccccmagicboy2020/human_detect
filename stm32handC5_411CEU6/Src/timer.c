@@ -25,13 +25,15 @@ TIM_OC_InitTypeDef TIM4_CH2Handler;	//定时器14通道1句柄
 TIM_HandleTypeDef TIM10_Handler;      	//定时器句柄 
 TIM_OC_InitTypeDef TIM10_CH1Handler;	//定时器14通道1句柄
 
+u8 change_flag = 0;
+
 u16 Timer_Count = 0;//溢出次数
 
+float in_data[2048]={0};
+s16  AD_Value[1024] = {0};
 
-s16  AD_Value[2560] = {0};
-u16 num ;
 
-extern void measure_fft(void);
+//extern void measure_fft(void);
 
 //通用定时器3中断初始化
 //arr：自动重装值。
@@ -169,9 +171,7 @@ void TIM3_IRQHandler(void)
 //回调函数，定时器中断服务函数调用
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 { 
-		u16 adc_data;
-	
-		//u16 i;
+		u16 adc_data,i;
 	  if(htim==(&TIM3_Handler))
     {
 					adc_data = Get_Adc(5);
@@ -179,16 +179,27 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 					AD_Value[Timer_Count] = adc_data;
 					
 	//				printf("%d \r\n",adc_data);
-	        	Timer_Count++;
-
-						 if(Timer_Count == 2560)
-						 {
-								num = 1;
-						 }
-
-			
-		
-			
+	        Timer_Count++;
+			   
+			    if(Timer_Count == 1024)
+					{
+							for(i=0;i<1024;i++)
+							{
+									in_data[i] = in_data[i+1024];
+							}
+									
+							for(i=1024;i<2048;i++)
+							{ 
+									in_data[i] =  AD_Value[i-1024];
+							}
+              Timer_Count = 0;
+							change_flag = 1;
+					 }	
+					 else
+					 {
+							change_flag = 0;
+					 }
+         
 
     }
 }

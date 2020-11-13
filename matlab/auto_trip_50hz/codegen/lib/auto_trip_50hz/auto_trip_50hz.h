@@ -2,7 +2,7 @@
  * File: auto_trip_50hz.h
  *
  * MATLAB Coder version            : 5.0
- * C/C++ source code generated on  : 11-Nov-2020 16:25:33
+ * C/C++ source code generated on  : 13-Nov-2020 17:07:01
  */
 
 #ifndef AUTO_TRIP_50HZ_H
@@ -15,8 +15,8 @@
 #include "auto_trip_50hz_types.h"
 
 /* Function Declarations */
-extern void auto_trip_50hz(const float src[2560], float fs, float lamda, const
-  float peaks[3], float res[2560]);
+extern void auto_trip_50hz(const double src[2560], double fs, double lamda,
+  const double peaks[3], double res[2560]);
 
 #endif
 

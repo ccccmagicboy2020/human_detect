@@ -122,6 +122,8 @@ typedef __I uint8_t vuc8;
 #define PKout(n)   BIT_ADDR(GPIOK_ODR_Addr,n)  //输出 
 #define PKin(n)    BIT_ADDR(GPIOK_IDR_Addr,n)  //输入
 
+
+
 void Stm32_Clock_Init(u32 plln,u32 pllm,u32 pllp,u32 pllq);//时钟系统配置
 //以下为汇编函数
 void WFI_SET(void);		//执行WFI指令
