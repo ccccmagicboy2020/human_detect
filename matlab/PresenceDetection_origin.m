@@ -116,7 +116,7 @@ while(1)
                 Signal_Len = Size_t; % 定义信号数据的个数
 				peaks = [peak_50, peak_100_1, peak_100_2];
                 
-                dlmwrite('Signal_noise.txt', Signal_noise, 'delimiter', '\t', 'newline', 'pc', 'precision', '%5.1f');
+                dlmwrite('Signal_noise.txt', Signal_noise, 'delimiter', ',', 'newline', 'pc', 'precision', '%5.3f');
 				dlmwrite('fs.txt', fs, 'delimiter', '\t', 'newline', 'pc', 'precision', '%5.0f')
                 dlmwrite('lamda.txt', lamda, 'delimiter', '\t', 'newline', 'pc', 'precision', '%5.2f')
                 dlmwrite('peaks.txt', peaks, 'delimiter', '\t', 'newline', 'pc', 'precision', '%5.1f')

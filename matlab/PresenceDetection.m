@@ -115,9 +115,14 @@ while(1)
                 M_FIR = 6; % 定义FIR滤波器阶数
                 lamda = 0.99; % 定义遗忘因子
                 Signal_Len = Size_t; % 定义信号数据的个数
- 
+                peaks = [peak_50, peak_100_1, peak_100_2];
                 
-                raw_data_MF_ANF = auto_trip_50hz(Signal_noise, fs, lamda, [peak_50, peak_100_1, peak_100_2]);
+                Signal_noise = dlmread('Signal_noise.txt', ',');
+				fs = dlmread('fs.txt', '\t')
+                lamda = dlmread('lamda.txt', '\t')
+                peaks = dlmread('peaks.txt', '\t')                
+                raw_data_MF_ANF = auto_trip_50hz(Signal_noise, fs, lamda, peaks);
+                dlmwrite('raw_data_MF_ANF2.txt', raw_data_MF_ANF, 'delimiter', '\t', 'newline', 'pc', 'precision', '%5.1f')                
             end
 			% 频域分析
             win_size = length(raw_data_MF_ANF);
@@ -169,6 +174,9 @@ while(1)
                 TH = 7*minstep;
                 hold on;
             end
+            
+            
+            
             if((lastcolor == 'r' && maxstep > 5*minstep)||...
 			(lastcolor=='g' && maxstep > 7*minstep && presence_count > 2)) % 存在较大动作或较大运动物体 初次触发门限提高
                 colorflag = 'r';
@@ -195,7 +203,8 @@ while(1)
             
             % 微动探测
             % 只有已证明有目标的前提下进行判断
-            if(lastcolor == 'r') % 有目标                
+            %if(lastcolor == 'r') % 有目标     
+            if(1)
                 slice_50 = AP_single(1: 500); % 取前50Hz频段
                 slice_50_flip = flip(slice_50, 1); % 上下翻转
                 P = [slice_50_flip; slice_50]; % 合成一个矩阵
@@ -212,10 +221,14 @@ while(1)
                 offsetmin = 0.2;
                 % 取峰值
                 [pks, locs] = findpeaks(xxcc(index(1): index(end)), index);
+                
+                
                 C = zeros(1, length(locs));
                 for i = 1: length(locs)
                     C(1, i) = find(index == locs(i));
                 end
+                
+                
                 for i = 1: length(locs)- 8
                     if locs(i) > 500 && locs(i) < 530 % 低频直通车 门限也降低 针对呼吸运动
                         if pks(i) > offsetmin+ XXTT(C(i))
