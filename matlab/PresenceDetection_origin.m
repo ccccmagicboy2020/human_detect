@@ -116,10 +116,10 @@ while(1)
                 Signal_Len = Size_t; % 定义信号数据的个数
 				peaks = [peak_50, peak_100_1, peak_100_2];
                 
-                dlmwrite('Signal_noise.txt', Signal_noise, 'delimiter', ',', 'newline', 'pc', 'precision', '%5.3f');
-				dlmwrite('fs.txt', fs, 'delimiter', '\t', 'newline', 'pc', 'precision', '%5.0f')
-                dlmwrite('lamda.txt', lamda, 'delimiter', '\t', 'newline', 'pc', 'precision', '%5.2f')
-                dlmwrite('peaks.txt', peaks, 'delimiter', '\t', 'newline', 'pc', 'precision', '%5.1f')
+                %dlmwrite('Signal_noise.txt', Signal_noise, 'delimiter', ',', 'newline', 'pc', 'precision', '%5.3f');
+				%dlmwrite('fs.txt', fs, 'delimiter', '\t', 'newline', 'pc', 'precision', '%5.0f')
+                %dlmwrite('lamda.txt', lamda, 'delimiter', '\t', 'newline', 'pc', 'precision', '%5.2f')
+                %dlmwrite('peaks.txt', peaks, 'delimiter', '\t', 'newline', 'pc', 'precision', '%5.1f')
                 
                 
 				
@@ -157,7 +157,7 @@ while(1)
                     w_out(i,:) = w';
                 end           
                 raw_data_MF_ANF = Eta_out; % 对消后信号        
-                dlmwrite('raw_data_MF_ANF.txt', raw_data_MF_ANF, 'delimiter', '\t', 'newline', 'pc', 'precision', '%5.1f')
+                %dlmwrite('raw_data_MF_ANF.txt', raw_data_MF_ANF, 'delimiter', '\t', 'newline', 'pc', 'precision', '%5.1f')
             end
 			% 频域分析
             win_size = length(raw_data_MF_ANF);
@@ -183,10 +183,18 @@ while(1)
 			P = [slice_100_flip; slice_100]; % 合成一个矩阵
 			xc = P.'; % 转置
 			% CA-CFAR
-			N = 100; % 窗口大小
+			
+            N = 100; % 窗口大小
             pro_N = 50; % 保护单元
             PAD = 10^(-8); % 虚警概率
-            [index, XT] = cfar_ca(xc, N, pro_N, PAD);			
+            
+            dlmwrite('xc.txt', xc, 'delimiter', '\t', 'newline', 'pc', 'precision', '%5.3f')
+            
+            [index, XT] = cfar_ca(xc, N, pro_N, PAD);
+            
+            dlmwrite('index.txt', index, 'delimiter', '\t', 'newline', 'pc', 'precision', '%5.3f')
+            dlmwrite('XT.txt', XT, 'delimiter', '\t', 'newline', 'pc', 'precision', '%5.3f')
+            
 			slice_100_CFAR = P .* XT;
 			slice_100_CFAR = slice_100_CFAR(1: length(slice_100_CFAR)/ 2);
 			% 滑窗
