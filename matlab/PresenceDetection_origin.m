@@ -2,16 +2,16 @@ close all;
 clearvars;
 clear;
 clc;
-
+addpath(genpath('.\cfar_ca'))
 % 关闭并删除已占用端口
 if ~isempty(instrfind)
 		fclose(instrfind);
 		delete(instrfind);
 end
 % 端口配置
-s = serial('com3'); % 创建串行端口对象
+s = serial('com31'); % 创建串行端口对象
 % set(s, 'BaudRate', 115200, 'StopBits', 1, 'Parity', 'none', 'DataBits', 8, 'InputBufferSize', 10250, 'ReadAsyncMode', 'continuous'); % 配置 波特率 停止位 校验方式 数据位 输入缓存大小（字节） 异步读取
-set(s, 'BaudRate', 128000, 'StopBits', 1, 'Parity', 'none', 'DataBits', 8, 'InputBufferSize', 10251, 'ReadAsyncMode', 'continuous'); % 配置 波特率 停止位 校验方式 数据位 输入缓存大小（字节） 异步读取
+set(s, 'BaudRate', 115200, 'StopBits', 1, 'Parity', 'none', 'DataBits', 8, 'InputBufferSize', 10251, 'ReadAsyncMode', 'continuous'); % 配置 波特率 停止位 校验方式 数据位 输入缓存大小（字节） 异步读取
 fopen(s); % 打开串口
 
 sample_rate = 2048; % 实际采样率
@@ -33,7 +33,7 @@ data = zeros(sample_rate, secnum);
 while(1)
     data_corrent = fgetl(s); % fgerl - 读取文件中的行 以字符向量形式返回 并删除换行符
     strlen = length(data_corrent);
-    if strlen ~= 10250
+    if strlen ~= 10249
         continue;
     end
     i = 1;
@@ -109,10 +109,21 @@ while(1)
             if peak_100_1 > 0
                 Size_t = size(timeStamps, 1);
                 Signal_noise = raw_data_MF.';
+				
                 % FIR滤波器配置
                 M_FIR = 6; % 定义FIR滤波器阶数
                 lamda = 0.99; % 定义遗忘因子
                 Signal_Len = Size_t; % 定义信号数据的个数
+				peaks = [peak_50, peak_100_1, peak_100_2];
+                
+                dlmwrite('Signal_noise.txt', Signal_noise, 'delimiter', '\t', 'newline', 'pc', 'precision', '%5.1f');
+				dlmwrite('fs.txt', fs, 'delimiter', '\t', 'newline', 'pc', 'precision', '%5.0f')
+                dlmwrite('lamda.txt', lamda, 'delimiter', '\t', 'newline', 'pc', 'precision', '%5.2f')
+                dlmwrite('peaks.txt', peaks, 'delimiter', '\t', 'newline', 'pc', 'precision', '%5.1f')
+                
+                
+				
+				
                 I = eye(M_FIR); % 生成对应的单位矩阵
                 c = 0.01; % 小正数 保证矩阵P非奇异
                 y_out = zeros(Signal_Len, 1);
@@ -145,7 +156,8 @@ while(1)
                     Eta_out(i) = Eta;
                     w_out(i,:) = w';
                 end           
-                raw_data_MF_ANF = Eta_out; % 对消后信号                
+                raw_data_MF_ANF = Eta_out; % 对消后信号        
+                dlmwrite('raw_data_MF_ANF.txt', raw_data_MF_ANF, 'delimiter', '\t', 'newline', 'pc', 'precision', '%5.1f')
             end
 			% 频域分析
             win_size = length(raw_data_MF_ANF);
