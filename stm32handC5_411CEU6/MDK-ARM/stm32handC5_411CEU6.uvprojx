@@ -458,6 +458,36 @@
               <FileType>1</FileType>
               <FilePath>..\Src\auto_trip_50hz.c</FilePath>
             </File>
+            <File>
+              <FileName>cfar_ca.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\cfar_ca.c</FilePath>
+            </File>
+            <File>
+              <FileName>cfar_ca_emxAPI.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\cfar_ca_emxAPI.c</FilePath>
+            </File>
+            <File>
+              <FileName>cfar_ca_data.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\cfar_ca_data.c</FilePath>
+            </File>
+            <File>
+              <FileName>cfar_ca_emxutil.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\cfar_ca_emxutil.c</FilePath>
+            </File>
+            <File>
+              <FileName>cfar_ca_initialize.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\cfar_ca_initialize.c</FilePath>
+            </File>
+            <File>
+              <FileName>rt_nonfinite.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\rt_nonfinite.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

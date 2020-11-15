@@ -213,7 +213,14 @@ while(1)
                 N = 100; % 窗口大小
                 pro_N = 50; % 保护单元
                 PAD = 10^(-8); % 虚警概率
+                
+                dlmwrite('xc.txt', xc, 'delimiter', ',', 'newline', 'pc', 'precision', '%5.3f')
+                
                 [index, XT] = cfar_ca(xc, N, pro_N, PAD);
+                
+                dlmwrite('index.txt', index, 'delimiter', '\t', 'newline', 'pc', 'precision', '%5.0f')
+                dlmwrite('XT.txt', XT, 'delimiter', '\t', 'newline', 'pc', 'precision', '%5.3f')  
+                
                 figure(5);
                 xxcc = 10.* log(abs(xc)/ max(abs(xc))+ 1)./ log(10);
                 XXTT = 10.* log(abs(XT)/ max(abs(XT))+ 1)./ log(10);
