@@ -4,6 +4,8 @@ clear;
 clc;
 addpath(genpath('.\auto_trip_50hz'))
 addpath(genpath('.\cfar_ca'))
+addpath(genpath('.\find_peak_cv'))
+
 % 关闭并删除已占用端口
 if ~isempty(instrfind)
 		fclose(instrfind);
@@ -95,9 +97,17 @@ while(1)
 			peak_100_1 = 0;
 			peak_100_2 = 0;
 			% 滤除50Hz干扰信号
+            
 			[pks, locs] = findpeaks(AP_single(401:600), f(401:600)); % 50Hz附近峰值
             [M, I] = max(pks);
             peak_50 = locs(I(1));
+            
+            dlmwrite('AP_single_401_600.txt', AP_single(401:600), 'delimiter', ',', 'newline', 'pc', 'precision', '%5.3f');
+            dlmwrite('f_401_600.txt', f(401:600), 'delimiter', ',', 'newline', 'pc', 'precision', '%5.3f');
+            [M, I] = find_peak_cv(AP_single(401:600), f(401:600));
+            dlmwrite('M.txt', M, 'delimiter', ',', 'newline', 'pc', 'precision', '%5.3f');
+            dlmwrite('I.txt', I, 'delimiter', ',', 'newline', 'pc', 'precision', '%d');%index
+            
             %peak_50_2 = locs(I(2));
 			% 滤除100Hz干扰信号
             [pks, locs] = findpeaks(AP_single(901:1100), f(901:1100)); % 100Hz附近峰值           

@@ -94,7 +94,9 @@ while(1)
 			peak_100_1 = 0;
 			peak_100_2 = 0;
 			% 滤除50Hz干扰信号
+            
 			[pks, locs] = findpeaks(AP_single(401:600), f(401:600)); % 50Hz附近峰值
+            
             [M, I] = max(pks);
             peak_50 = locs(I(1));			
 			% 滤除100Hz干扰信号
