@@ -105,6 +105,7 @@ int fputc(int ch, FILE *f)
 //	while((USART1->SR&0X40)==0);//循环发送,直到发送完毕   
 //	USART1->DR = (u8) ch;   
 		HAL_UART_Transmit(&huart1, (uint8_t *)&ch, 1, 0xffff);
+		//ITM_SendChar(ch);	
 		return ch;
 }
 

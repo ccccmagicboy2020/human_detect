@@ -131,6 +131,7 @@ void test2(void)
 	int index_size;
 	int XT_size;
 	int i;
+	double temp1111;
 	
 	N = 100;
 	pro_N = 50;
@@ -143,6 +144,7 @@ void test2(void)
 	
 	printf("index size is: %d-%d\r\n", b_index->size[0], b_index->size[1]);
 	printf("XT size is: %d-%d\r\n", XT->size[0], XT->size[1]);
+	printf("double size is: %d\r\n", sizeof(double));
 	
 	delay_init(100);
 	
@@ -158,7 +160,8 @@ void test2(void)
 
 	for (i=0;i<XT_size;i++)
 	{
-			printf("%d - %lf\r\n", i, XT->data[i]);
+			temp1111 = XT->data[i];
+			printf("XT: %d - %lf\r\n", i, temp1111);
 	}  
 	
 	

@@ -101,6 +101,7 @@ void cfar_ca(const double xc[1000], double N, double pro_N, double PAD,
 	
 	int temp0;
 	double temp1;
+//	double temp2;
 
   alpha = N * (rt_powd_snf(PAD, -1.0 / N) - 1.0);
 
@@ -236,9 +237,10 @@ void cfar_ca(const double xc[1000], double N, double pro_N, double PAD,
 		
     XT->data[temp0] = temp1;
 		
+		//temp2 = XT->data[temp0];
 
-		printf("cfar_ca: %d - %lf\r\n", temp0, temp1);
-		printf("cfar_ca: %d - %lf\r\n", temp0, XT->data[temp0]);
+		//printf("cfar_ca: %d - %lf\r\n", temp0, temp1);
+		//printf("cfar_ca: %d - %lf\r\n", temp0, temp2);
 
   }
 }
