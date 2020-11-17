@@ -2,7 +2,7 @@
 ## Makefile generated for MATLAB file/project 'find_peak_cv'. 
 ## 
 ## Makefile     : find_peak_cv_rtw.mk
-## Generated on : Mon Nov 16 14:04:49 2020
+## Generated on : Tue Nov 17 10:14:01 2020
 ## MATLAB Coder version: 5.0 (R2020a)
 ## 
 ## Build Info:
@@ -227,7 +227,7 @@ DEFINES = $(DEFINES_) $(DEFINES_CUSTOM) $(DEFINES_SKIPFORSIL) $(DEFINES_STANDARD
 ## SOURCE FILES
 ###########################################################################
 
-SRCS = $(START_DIR)/rt_nonfinite.c $(START_DIR)/rtGetNaN.c $(START_DIR)/rtGetInf.c $(START_DIR)/find_peak_cv_data.c $(START_DIR)/find_peak_cv_initialize.c $(START_DIR)/find_peak_cv_terminate.c $(START_DIR)/find_peak_cv.c $(START_DIR)/findpeaks.c $(START_DIR)/eml_setop.c $(START_DIR)/sort.c $(START_DIR)/sortIdx.c
+SRCS = $(START_DIR)/rt_nonfinite.c $(START_DIR)/rtGetNaN.c $(START_DIR)/rtGetInf.c $(START_DIR)/find_peak_cv_data.c $(START_DIR)/find_peak_cv_initialize.c $(START_DIR)/find_peak_cv_terminate.c $(START_DIR)/find_peak_cv.c $(START_DIR)/eml_setop.c
 
 ALL_SRCS = $(SRCS)
 
@@ -235,7 +235,7 @@ ALL_SRCS = $(SRCS)
 ## OBJECTS
 ###########################################################################
 
-OBJS = rt_nonfinite.o rtGetNaN.o rtGetInf.o find_peak_cv_data.o find_peak_cv_initialize.o find_peak_cv_terminate.o find_peak_cv.o findpeaks.o eml_setop.o sort.o sortIdx.o
+OBJS = rt_nonfinite.o rtGetNaN.o rtGetInf.o find_peak_cv_data.o find_peak_cv_initialize.o find_peak_cv_terminate.o find_peak_cv.o eml_setop.o
 
 ALL_OBJS = $(OBJS)
 
@@ -535,19 +535,7 @@ find_peak_cv.o : $(START_DIR)/find_peak_cv.c
 	$(CC) $(CFLAGS) -o "$@" "$<"
 
 
-findpeaks.o : $(START_DIR)/findpeaks.c
-	$(CC) $(CFLAGS) -o "$@" "$<"
-
-
 eml_setop.o : $(START_DIR)/eml_setop.c
-	$(CC) $(CFLAGS) -o "$@" "$<"
-
-
-sort.o : $(START_DIR)/sort.c
-	$(CC) $(CFLAGS) -o "$@" "$<"
-
-
-sortIdx.o : $(START_DIR)/sortIdx.c
 	$(CC) $(CFLAGS) -o "$@" "$<"
 
 

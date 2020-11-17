@@ -2,7 +2,7 @@
  * File: main.c
  *
  * MATLAB Coder version            : 5.0
- * C/C++ source code generated on  : 16-Nov-2020 14:04:28
+ * C/C++ source code generated on  : 17-Nov-2020 10:15:54
  */
 
 /*************************************************************************/
@@ -37,8 +37,7 @@
 #include "rt_nonfinite.h"
 
 /* Function Declarations */
-static void argInit_1xd200_real_T(double result_data[], int result_size[2]);
-static void argInit_d200x1_real_T(double result_data[], int result_size[1]);
+static void argInit_1xd2048_real_T(double result_data[], int result_size[2]);
 static double argInit_real_T(void);
 static void main_find_peak_cv(void);
 
@@ -49,7 +48,7 @@ static void main_find_peak_cv(void);
  *                int result_size[2]
  * Return Type  : void
  */
-static void argInit_1xd200_real_T(double result_data[], int result_size[2])
+static void argInit_1xd2048_real_T(double result_data[], int result_size[2])
 {
   int idx1;
 
@@ -63,27 +62,6 @@ static void argInit_1xd200_real_T(double result_data[], int result_size[2])
     /* Set the value of the array element.
        Change this value to the value that the application requires. */
     result_data[idx1] = argInit_real_T();
-  }
-}
-
-/*
- * Arguments    : double result_data[]
- *                int result_size[1]
- * Return Type  : void
- */
-static void argInit_d200x1_real_T(double result_data[], int result_size[1])
-{
-  int idx0;
-
-  /* Set the size of the array.
-     Change this size to the value that the application requires. */
-  result_size[0] = 2;
-
-  /* Loop over the array to initialize each element. */
-  for (idx0 = 0; idx0 < 2; idx0++) {
-    /* Set the value of the array element.
-       Change this value to the value that the application requires. */
-    result_data[idx0] = argInit_real_T();
   }
 }
 
@@ -102,25 +80,20 @@ static double argInit_real_T(void)
  */
 static void main_find_peak_cv(void)
 {
-  double y_value_data[200];
-  int y_value_size[1];
-  double x_value_data[200];
-  int x_value_size[2];
-  double peaks_data[400];
-  int peaks_size[1];
-  double index_data[400];
-  int index_size[1];
+  double y_value_data[2048];
+  int y_value_size[2];
+  double peaks_data[4096];
+  int peaks_size[2];
+  double index_data[4096];
+  int index_size[2];
 
   /* Initialize function 'find_peak_cv' input arguments. */
   /* Initialize function input argument 'y_value'. */
-  argInit_d200x1_real_T(y_value_data, y_value_size);
-
-  /* Initialize function input argument 'x_value'. */
-  argInit_1xd200_real_T(x_value_data, x_value_size);
+  argInit_1xd2048_real_T(y_value_data, y_value_size);
 
   /* Call the entry-point 'find_peak_cv'. */
-  find_peak_cv(y_value_data, y_value_size, x_value_data, x_value_size,
-               peaks_data, peaks_size, index_data, index_size);
+  find_peak_cv(y_value_data, y_value_size, peaks_data, peaks_size, index_data,
+               index_size);
 }
 
 /*

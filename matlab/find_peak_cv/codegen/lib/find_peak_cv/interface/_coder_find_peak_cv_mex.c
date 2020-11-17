@@ -2,7 +2,7 @@
  * File: _coder_find_peak_cv_mex.c
  *
  * MATLAB Coder version            : 5.0
- * C/C++ source code generated on  : 16-Nov-2020 14:04:28
+ * C/C++ source code generated on  : 17-Nov-2020 10:15:54
  */
 
 /* Include Files */
@@ -11,7 +11,7 @@
 
 /* Function Declarations */
 MEXFUNCTION_LINKAGE void find_peak_cv_mexFunction(int32_T nlhs, mxArray *plhs[2],
-  int32_T nrhs, const mxArray *prhs[2]);
+  int32_T nrhs, const mxArray *prhs[1]);
 
 /* Function Definitions */
 
@@ -19,11 +19,11 @@ MEXFUNCTION_LINKAGE void find_peak_cv_mexFunction(int32_T nlhs, mxArray *plhs[2]
  * Arguments    : int32_T nlhs
  *                mxArray *plhs[2]
  *                int32_T nrhs
- *                const mxArray *prhs[2]
+ *                const mxArray *prhs[1]
  * Return Type  : void
  */
 void find_peak_cv_mexFunction(int32_T nlhs, mxArray *plhs[2], int32_T nrhs,
-  const mxArray *prhs[2])
+  const mxArray *prhs[1])
 {
   const mxArray *outputs[2];
   int32_T b_nlhs;
@@ -35,8 +35,8 @@ void find_peak_cv_mexFunction(int32_T nlhs, mxArray *plhs[2], int32_T nrhs,
   st.tls = emlrtRootTLSGlobal;
 
   /* Check for proper number of arguments. */
-  if (nrhs != 2) {
-    emlrtErrMsgIdAndTxt(&st, "EMLRT:runTime:WrongNumberOfInputs", 5, 12, 2, 4,
+  if (nrhs != 1) {
+    emlrtErrMsgIdAndTxt(&st, "EMLRT:runTime:WrongNumberOfInputs", 5, 12, 1, 4,
                         12, "find_peak_cv");
   }
 

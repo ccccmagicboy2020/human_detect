@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.coder" plugin-version="R2018b">
-  <configuration build-checksum="3384076308" file="D:\cccc2020\CODE\human_detect\matlab\find_peak_cv\find_peak_cv.prj" location="D:\cccc2020\CODE\human_detect\matlab\find_peak_cv" name="find_peak_cv" target="target.unifiedcoder" target-name="MATLAB Coder">
+  <configuration build-checksum="1404276502" file="D:\cccc2020\CODE\human_detect\matlab\find_peak_cv\find_peak_cv.prj" location="D:\cccc2020\CODE\human_detect\matlab\find_peak_cv" name="find_peak_cv" target="target.unifiedcoder" target-name="MATLAB Coder">
     <profile key="profile.mex">
       <param.BuiltInstrumentedMex>false</param.BuiltInstrumentedMex>
       <param.RanInstrumentedMex>false</param.RanInstrumentedMex>
@@ -837,7 +837,7 @@
     <param.objective>option.objective.c</param.objective>
     <param.WorkflowStep>workflowSummary</param.WorkflowStep>
     <param.TestSnippets>
-      <item>find_peak_cv(AP_single(401:600), f(401:600));</item>
+      <item>[peaks,index] = find_peak_cv(y_value);</item>
     </param.TestSnippets>
     <param.ExternalFcnMajority>column</param.ExternalFcnMajority>
     <param.UseGlobals>option.UseGlobals.No</param.UseGlobals>
@@ -856,7 +856,7 @@
     <param.AutoInferUnboundedSizeThreshold>2048</param.AutoInferUnboundedSizeThreshold>
     <param.EnableFixedPointStep>false</param.EnableFixedPointStep>
     <param.EnableScreener>true</param.EnableScreener>
-    <param.AnnotationChecksum>2133473036</param.AnnotationChecksum>
+    <param.AnnotationChecksum>2391282444</param.AnnotationChecksum>
     <var.LegacyTarget />
     <var.MirrorOnOpen>false</var.MirrorOnOpen>
     <param.FixedPointEnabled>false</param.FixedPointEnabled>
@@ -865,12 +865,12 @@
     <param.unifiedParamStorage />
     <var.gc.lastOutputRoot>codegen\lib\find_peak_cv</var.gc.lastOutputRoot>
     <var.gc.lastOutputType>C_CODE</var.gc.lastOutputType>
-    <var.gc.preBuildChecksum>2836012230</var.gc.preBuildChecksum>
+    <var.gc.preBuildChecksum>1404276502</var.gc.preBuildChecksum>
     <var.cfi.lastOutputRoot>codegen\mex\find_peak_cv</var.cfi.lastOutputRoot>
-    <var.cfi.preBuildChecksum>2110668986</var.cfi.preBuildChecksum>
-    <var.lastCfiTestSnippet>find_peak_cv(AP_single(401:600), f(401:600));</var.lastCfiTestSnippet>
+    <var.cfi.preBuildChecksum>3023787143</var.cfi.preBuildChecksum>
+    <var.lastCfiTestSnippet>[peaks,index] = find_peak_cv(y_value);</var.lastCfiTestSnippet>
     <var.outdatedOnRestore>false</var.outdatedOnRestore>
-    <var.lastUserSourceChecksum>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;checksum&gt;&lt;includedFiles&gt;&lt;file&gt;D:\cccc2020\CODE\human_detect\matlab\find_peak_cv\find_peak_cv.m&lt;/file&gt;&lt;/includedFiles&gt;&lt;value&gt;2940225002&lt;/value&gt;&lt;/checksum&gt;</var.lastUserSourceChecksum>
+    <var.lastUserSourceChecksum>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;checksum&gt;&lt;includedFiles&gt;&lt;file&gt;D:\cccc2020\CODE\human_detect\matlab\find_peak_cv\find_peak_cv.m&lt;/file&gt;&lt;/includedFiles&gt;&lt;value&gt;3544505628&lt;/value&gt;&lt;/checksum&gt;</var.lastUserSourceChecksum>
     <var.sourceSetState>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;sourceModel&gt;&lt;primarySourceFiles&gt;&lt;file&gt;D:\cccc2020\CODE\human_detect\matlab\find_peak_cv\find_peak_cv.m&lt;/file&gt;&lt;/primarySourceFiles&gt;&lt;fixedPointSourceFiles/&gt;&lt;fixedPointSourceRegistered&gt;false&lt;/fixedPointSourceRegistered&gt;&lt;fixedPointSourceSelected&gt;false&lt;/fixedPointSourceSelected&gt;&lt;/sourceModel&gt;</var.sourceSetState>
     <param.forceMexBuild>false</param.forceMexBuild>
     <param.NoDefaultJIT>false</param.NoDefaultJIT>
@@ -1077,7 +1077,7 @@
     </unset>
     <fileset.entrypoints>
       <file custom-data-expanded="false" value="${PROJECT_ROOT}\find_peak_cv.m">
-        <Marker>1605506592139</Marker>
+        <Marker>1605579327949</Marker>
       </file>
     </fileset.entrypoints>
     <fileset.testbench />
@@ -1085,20 +1085,10 @@
       <file custom-data-expanded="false" value="${PROJECT_ROOT}\find_peak_cv.m">
         <Inputs fileName="find_peak_cv.m" functionName="find_peak_cv">
           <Input Name="y_value" typeId="0" />
-          <Input Name="x_value" typeId="1" />
           <idpTable>
             <type typeId="0">
               <Class>double</Class>
-              <Size>:200 x 1</Size>
-              <Value />
-              <InitialValue />
-              <UserDefined>true</UserDefined>
-              <Complex>false</Complex>
-              <Sparse>false</Sparse>
-            </type>
-            <type typeId="1">
-              <Class>double</Class>
-              <Size>1 x :200</Size>
+              <Size>1 x :2048</Size>
               <Value />
               <InitialValue />
               <UserDefined>true</UserDefined>
