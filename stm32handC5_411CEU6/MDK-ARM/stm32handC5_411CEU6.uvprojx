@@ -489,6 +489,26 @@
               <FileType>1</FileType>
               <FilePath>..\Src\rt_nonfinite.c</FilePath>
             </File>
+            <File>
+              <FileName>find_peak_cv.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\find_peak_cv.c</FilePath>
+            </File>
+            <File>
+              <FileName>eml_setop.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\eml_setop.c</FilePath>
+            </File>
+            <File>
+              <FileName>find_peak_cv_data.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\find_peak_cv_data.c</FilePath>
+            </File>
+            <File>
+              <FileName>find_peak_cv_initialize.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\find_peak_cv_initialize.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
