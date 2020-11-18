@@ -837,7 +837,7 @@
     <param.objective>option.objective.c</param.objective>
     <param.WorkflowStep>workflowSummary</param.WorkflowStep>
     <param.TestSnippets>
-      <item>time_vote = time_detection(data, win_size_time, stride_time, time_times, time_add);</item>
+      <item>time_detection(data, win_size_time, stride_time, time_times, time_add)</item>
     </param.TestSnippets>
     <param.ExternalFcnMajority>column</param.ExternalFcnMajority>
     <param.UseGlobals>option.UseGlobals.No</param.UseGlobals>
@@ -856,7 +856,7 @@
     <param.AutoInferUnboundedSizeThreshold>2048</param.AutoInferUnboundedSizeThreshold>
     <param.EnableFixedPointStep>false</param.EnableFixedPointStep>
     <param.EnableScreener>true</param.EnableScreener>
-    <param.AnnotationChecksum>1692260312</param.AnnotationChecksum>
+    <param.AnnotationChecksum>4188605860</param.AnnotationChecksum>
     <var.LegacyTarget />
     <var.MirrorOnOpen>false</var.MirrorOnOpen>
     <param.FixedPointEnabled>false</param.FixedPointEnabled>
@@ -868,7 +868,7 @@
     <var.gc.preBuildChecksum>4036187680</var.gc.preBuildChecksum>
     <var.cfi.lastOutputRoot>codegen\mex\time_detection</var.cfi.lastOutputRoot>
     <var.cfi.preBuildChecksum>2349818984</var.cfi.preBuildChecksum>
-    <var.lastCfiTestSnippet>time_vote = time_detection(data, win_size_time, stride_time, time_times, time_add);</var.lastCfiTestSnippet>
+    <var.lastCfiTestSnippet>time_detection(data, win_size_time, stride_time, time_times, time_add)</var.lastCfiTestSnippet>
     <var.outdatedOnRestore>false</var.outdatedOnRestore>
     <var.lastUserSourceChecksum>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;checksum&gt;&lt;includedFiles&gt;&lt;file&gt;D:\cccc2020\CODE\human_detect\matlab\presentdetection\time_detection\time_detection.m&lt;/file&gt;&lt;/includedFiles&gt;&lt;value&gt;1747135160&lt;/value&gt;&lt;/checksum&gt;</var.lastUserSourceChecksum>
     <var.sourceSetState>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;sourceModel&gt;&lt;primarySourceFiles&gt;&lt;file&gt;D:\cccc2020\CODE\human_detect\matlab\presentdetection\time_detection\time_detection.m&lt;/file&gt;&lt;/primarySourceFiles&gt;&lt;fixedPointSourceFiles/&gt;&lt;fixedPointSourceRegistered&gt;false&lt;/fixedPointSourceRegistered&gt;&lt;fixedPointSourceSelected&gt;false&lt;/fixedPointSourceSelected&gt;&lt;/sourceModel&gt;</var.sourceSetState>
@@ -1077,7 +1077,7 @@
     </unset>
     <fileset.entrypoints>
       <file custom-data-expanded="false" value="${PROJECT_ROOT}\time_detection.m">
-        <Marker>1605678445293</Marker>
+        <Marker>1605679685327</Marker>
       </file>
     </fileset.entrypoints>
     <fileset.testbench />
@@ -1100,13 +1100,12 @@
               <Sparse>false</Sparse>
             </type>
             <type typeId="1">
-              <Class>double</Class>
+              <Class>int32</Class>
               <Size>1 x 1</Size>
               <Value />
               <InitialValue />
-              <UserDefined>false</UserDefined>
+              <UserDefined>true</UserDefined>
               <Complex>false</Complex>
-              <Sparse>false</Sparse>
             </type>
           </idpTable>
         </Inputs>

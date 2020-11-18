@@ -2,7 +2,7 @@
  * File: main.c
  *
  * MATLAB Coder version            : 5.0
- * C/C++ source code generated on  : 18-Nov-2020 13:52:24
+ * C/C++ source code generated on  : 18-Nov-2020 14:09:05
  */
 
 /*************************************************************************/
@@ -38,6 +38,7 @@
 
 /* Function Declarations */
 static void argInit_32768x1_real_T(double result[32768]);
+static int argInit_int32_T(void);
 static double argInit_real_T(void);
 static void main_time_detection(void);
 
@@ -61,6 +62,15 @@ static void argInit_32768x1_real_T(double result[32768])
 
 /*
  * Arguments    : void
+ * Return Type  : int
+ */
+static int argInit_int32_T(void)
+{
+  return 0;
+}
+
+/*
+ * Arguments    : void
  * Return Type  : double
  */
 static double argInit_real_T(void)
@@ -74,13 +84,13 @@ static double argInit_real_T(void)
  */
 static void main_time_detection(void)
 {
-  double win_size_time_tmp;
+  int win_size_time_tmp;
   static double dv[32768];
   bool time_vote;
 
   /* Initialize function 'time_detection' input arguments. */
   /* Initialize function input argument 'data'. */
-  win_size_time_tmp = argInit_real_T();
+  win_size_time_tmp = argInit_int32_T();
 
   /* Call the entry-point 'time_detection'. */
   argInit_32768x1_real_T(dv);

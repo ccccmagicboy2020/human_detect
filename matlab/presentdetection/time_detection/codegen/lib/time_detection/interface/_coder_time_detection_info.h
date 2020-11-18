@@ -2,7 +2,7 @@
  * File: _coder_time_detection_info.h
  *
  * MATLAB Coder version            : 5.0
- * C/C++ source code generated on  : 18-Nov-2020 13:52:24
+ * C/C++ source code generated on  : 18-Nov-2020 14:09:05
  */
 
 #ifndef _CODER_TIME_DETECTION_INFO_H
