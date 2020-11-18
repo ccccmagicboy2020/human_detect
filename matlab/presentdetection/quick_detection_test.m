@@ -9,9 +9,9 @@ if ~isempty(instrfind)
 		delete(instrfind);
 end
 % 端口配置
-s = serial('com31'); % 创建串行端口对象
-set(s, 'BaudRate', 128000, 'StopBits', 1, 'Parity', 'none', 'DataBits', 8, 'InputBufferSize', 10250, 'ReadAsyncMode', 'continuous'); % 配置 波特率 停止位 校验方式 数据位 输入缓存大小（字节） 异步读取
-fopen(s); % 打开串口
+% s = serial('com31'); % 创建串行端口对象
+% set(s, 'BaudRate', 128000, 'StopBits', 1, 'Parity', 'none', 'DataBits', 8, 'InputBufferSize', 10250, 'ReadAsyncMode', 'continuous'); % 配置 波特率 停止位 校验方式 数据位 输入缓存大小（字节） 异步读取
+% fopen(s); % 打开串口
 
 % 参数预设
 sample_rate = 2048; % 原始采样率
