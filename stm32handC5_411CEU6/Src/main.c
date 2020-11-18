@@ -20,6 +20,7 @@
 #include "cfar_ca.h"
 #include "cfar_ca_emxAPI.h"
 #include "find_peak_cv.h"
+#include "time_detection.h"
 
 #define  FFT_LENGTH		2048		//FFT³¤¶È
 
@@ -143,9 +144,35 @@ const double y_value_data[200]=
 1.385,1.854,1.706,2.291,2.337,2.197,2.702,2.642,2.137,2.692
 };
 
-void test1(void);
-void test2(void);
-void test3(void);
+const double data_accum_MF[32768]=
+{
+0,0,0
+};
+
+void test1(void);//auto_trip_50hz
+void test2(void);//cfar_ca
+void test3(void);//find_peak_cv
+void test4(void);//time_detection
+
+void test4(void)
+{
+	bool time_vote;
+	int win_size_time;
+	int stride_time;
+	int time_times;
+	int time_add;
+	
+	win_size_time = 2048;
+	stride_time = 1024;
+	time_times = 5;
+	time_add = 50;
+	
+	
+	time_vote = time_detection(data_accum_MF, win_size_time, stride_time,
+    time_times, time_add);
+	
+	printf("test4 time_vote: %d\r\n", time_vote);
+}
 
 void test3(void)
 {
@@ -283,6 +310,8 @@ int main(void)
 					test2();
 					
 					test3();
+					
+					test4();
 //					 for(num=0;num<2560;num++)
 //					 {
 //							adc_data = in_data[num]; 
