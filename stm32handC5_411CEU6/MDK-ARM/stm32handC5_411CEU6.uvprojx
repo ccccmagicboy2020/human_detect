@@ -509,6 +509,26 @@
               <FileType>1</FileType>
               <FilePath>..\Src\find_peak_cv_initialize.c</FilePath>
             </File>
+            <File>
+              <FileName>time_detection.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\time_detection.c</FilePath>
+            </File>
+            <File>
+              <FileName>std_cv.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\std_cv.c</FilePath>
+            </File>
+            <File>
+              <FileName>std_cv_data.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\std_cv_data.c</FilePath>
+            </File>
+            <File>
+              <FileName>std_cv_initialize.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\std_cv_initialize.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

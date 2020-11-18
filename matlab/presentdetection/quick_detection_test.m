@@ -66,8 +66,9 @@ while(1)
 % 	% 均值滤波
 % 	data_accum_MF = data_accum - mean(data_accum);
 	% 快速判定
-    %dlmwrite('data_accum_MF.txt', data_accum_MF, 'delimiter', '\t', 'newline', 'pc', 'precision', '%5.3f')
-    data_accum_MF = dlmread('data_accum_MF.txt', '\t');
+    %dlmwrite('data_accum_MF.txt', data_accum_MF', 'delimiter', ',', 'newline', 'pc', 'precision', '%5.3f')
+    data_accum_MF = dlmread('data_accum_MF.txt', ',');
+    data_accum_MF = data_accum_MF';
 	vote_result = quick_detection(data_accum_MF, win_size_time, stride_time, time_times, time_add, win_size_freq, stride_freq, time_accum, xhz, freq_times);
 	if vote_result
 		colorflag = 'r';
