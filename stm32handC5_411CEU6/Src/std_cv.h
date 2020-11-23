@@ -15,7 +15,7 @@
 #include "std_cv_types.h"
 
 /* Function Declarations */
-extern double std_cv(const double data_data[], int data_size);
+extern double std_cv(const float data_data[], int data_size);
 
 #endif
 

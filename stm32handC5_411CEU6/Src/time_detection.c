@@ -32,7 +32,7 @@
  *                int time_add
  * Return Type  : bool
  */
-int time_detection(const double data[], int data_size, int win_size_time, int
+int time_detection(const float data[], int data_size, int win_size_time, int
   stride_time, int time_times, int time_add)
 {
 	int time_vote;

@@ -21,7 +21,7 @@
  *                const int data_size[1]
  * Return Type  : double
  */
-double std_cv(const double data_data[], int data_size)
+double std_cv(const float data_data[], int data_size)
 {
   double result;
   int n;
