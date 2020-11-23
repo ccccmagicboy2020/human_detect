@@ -78,8 +78,7 @@ static fixed gst_spectrum_fix_mpy (fixed a, fixed b);
    size of data = 2**m
    set inverse to 0=dft, 1=idft
  */
-int
-gst_spectrum_fix_fft (fixed fr[], fixed fi[], int m, int inverse)
+int gst_spectrum_fix_fft (fixed fr[], fixed fi[], int m, int inverse)
 {
   int mr, nn, i, j, l, k, istep, n, scale, shift;
   fixed qr, qi, tr, ti, wr, wi;
