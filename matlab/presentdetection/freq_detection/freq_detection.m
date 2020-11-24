@@ -19,6 +19,14 @@ w = window(@hamming, length(data)); % 窗函数
 dlmwrite('w.txt', w', 'delimiter', ',', 'newline', 'pc', 'precision', '%5.3f')
 X = data .* w; % 加窗
 Y = fft(X, length(data)); % FFT
+YY = abs(Y);
+figure;
+YY_FIX = csvread('result.csv');
+
+figure(1)
+plot(YY)
+
+
 AP_double = abs(Y)/ length(data); % 双边谱
 AP_single = AP_double(1: length(data)/ 2); % 单边谱
 AP_single(2: end) = 2* AP_single(2: end); % 计算单边谱幅度并去除零频放大效应
