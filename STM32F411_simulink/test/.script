@@ -1,0 +1,3 @@
+config load "C:\Users\phosense\Downloads\test\test.ioc"
+project generate ui
+exit wait
