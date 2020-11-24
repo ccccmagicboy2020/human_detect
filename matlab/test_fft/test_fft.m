@@ -4,11 +4,11 @@ A1=3; %频率F1信号的幅度
 A2=1.5; %频率F2信号的幅度
 F1=50; %信号1频率(Hz)
 F2=75; %信号2频率(Hz)
-Fs=256; %采样频率(Hz)
+Fs=512; %采样频率(Hz)
 P1=-30; %信号1相位(度)
 P2=90; %信号相位(度)
-N=256; %采样点数
-t=[0:1/Fs:N/Fs]; %采样时刻
+N=Fs*8; %采样点数
+t=[0:1/Fs:(N-1)/Fs]; %采样时刻
 
 %信号
 S=Adc+A1*cos(2*pi*F1*t+pi*P1/180)+A2*cos(2*pi*F2*t+pi*P2/180);
@@ -16,11 +16,20 @@ S=Adc+A1*cos(2*pi*F1*t+pi*P1/180)+A2*cos(2*pi*F2*t+pi*P2/180);
 plot(S);
 title('原始信号');
 
+dlmwrite('data_accum_MF.txt', S, 'delimiter', ',', 'newline', 'pc', 'precision', '%5.3f')
+
+w = window(@hamming, length(S));
+dlmwrite('w.txt', w', 'delimiter', ',', 'newline', 'pc', 'precision', '%5.3f')
+
 figure;
 Y = fft(S,N); %做FFT变换
 Ayy = (abs(Y)); %取模
 plot(Ayy(1:N)); %显示原始的FFT模值结果
 title('FFT 模值');
+
+figure;
+YY_FIX = csvread('result.csv');
+plot(YY_FIX);
 
 figure;
 Ayy=Ayy/(N/2); %换算成实际的幅度
