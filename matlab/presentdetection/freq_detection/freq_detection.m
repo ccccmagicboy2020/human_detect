@@ -18,12 +18,13 @@ Return:
 w = window(@hamming, length(data)); % ´°º¯Êý
 dlmwrite('w.txt', w', 'delimiter', ',', 'newline', 'pc', 'precision', '%5.3f')
 X = data .* w; % ¼Ó´°
+dlmwrite('X.txt', X', 'delimiter', ',', 'newline', 'pc', 'precision', '%5.3f')
 Y = fft(X, length(data)); % FFT
 YY = abs(Y);
 figure;
 YY_FIX = csvread('result.csv');
-
-figure(1)
+plot(YY_FIX)
+figure;
 plot(YY)
 
 
