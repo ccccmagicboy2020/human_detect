@@ -21,9 +21,10 @@
 extern int gst_spectrum_fix_fft (fixed fr[], fixed fi[], int m, int inverse);
 extern void FFT(int dir,int points2, int32_t* real, int32_t* img);
 
-#define TEST_LENGTH_SAMPLES 8192
-q15_t testInput[TEST_LENGTH_SAMPLES];
-q15_t testInput2[4096];
+#define TEST_LENGTH_SAMPLES 4096
+float testInput[TEST_LENGTH_SAMPLES];
+float testInput2[TEST_LENGTH_SAMPLES];
+float testInput3[TEST_LENGTH_SAMPLES];
 
 /*
  * {
@@ -52,44 +53,25 @@ int freq_detection(const float data[], const float win[], int data_size, int win
 	int freq_vote;
 	int i;
 //	int j;
-	arm_cfft_radix4_instance_q15 S;
+	arm_rfft_fast_instance_f32 S;
 	
-  arm_cfft_radix4_init_q15(&S, data_size, 0, 1);
+	arm_rfft_fast_init_f32(&S, data_size);
 	
 	for(i=0; i<data_size; i++)
 	{
-			testInput[i*2+1] = 0;
-			//testInput[i*2] = (short)(data[i]	*	win[i]);
-			testInput[i*2] = (short)(data[i]	*	1000);
-			//j = i % 20;
-			//testInput[i*2] = arm_sin_q15(1638*j);
-			//printf("%d\r\n", testInput[i*2]);
-	}	
+			//testInput[i] = data[i] * win[i];
+			testInput[i] = data[i];
+	}
 	
-	//add window to the raw data and init image part
-//	for (i=0;i<data_size;i++)
-//	{
-//		//buffer[i] = (short)(data[i]	*	win[i]);
-//		buffer[i] = (short)(data[i]	*	1);
-//		im[i] = 0;
-//	}
+  arm_rfft_fast_f32(&S, testInput, testInput2, 0); 
 	
-	//8192=2^13
-	//gst_spectrum_fix_fft(buffer, im, 10, 1);
-	//FFT(1,10,buffer,im);
-	
-	arm_cfft_radix4_q15(&S, testInput);
-	arm_cmplx_mag_q15(testInput, testInput2, data_size);
-	
-	
+	arm_cmplx_mag_f32(testInput2, testInput3, data_size);
+
 	printf("fft abs value start:\r\n");
 	
-	for (i=0; i<data_size;i++)
+	for (i=0;i<data_size/2;i++)
 	{
-		//buffer[i] = sqrt(buffer[i] * buffer[i] + im[i] * im[i]);
-		//printf("freq_detection fft result: %d - %d\r\n", i, buffer[i]);
-		//printf("%d,", buffer[i]);
-		printf("%d,", testInput2[i]);
+		printf("%.3lf,", testInput3[i]);
 	}
 	
 	printf("\r\nend\r\n");
