@@ -534,11 +534,6 @@
               <FileType>1</FileType>
               <FilePath>..\Src\freq_detection.c</FilePath>
             </File>
-            <File>
-              <FileName>fix_fft.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Lib\fix_fft.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
