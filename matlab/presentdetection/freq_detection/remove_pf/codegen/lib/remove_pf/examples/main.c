@@ -2,7 +2,7 @@
  * File: main.c
  *
  * MATLAB Coder version            : 5.0
- * C/C++ source code generated on  : 26-Nov-2020 17:19:56
+ * C/C++ source code generated on  : 26-Nov-2020 19:16:41
  */
 
 /*************************************************************************/
@@ -38,7 +38,6 @@
 
 /* Function Declarations */
 static void argInit_d2048x1_real_T(double result_data[], int result_size[1]);
-static int argInit_int32_T(void);
 static double argInit_real_T(void);
 static void main_remove_pf(void);
 
@@ -67,15 +66,6 @@ static void argInit_d2048x1_real_T(double result_data[], int result_size[1])
 
 /*
  * Arguments    : void
- * Return Type  : int
- */
-static int argInit_int32_T(void)
-{
-  return 0;
-}
-
-/*
- * Arguments    : void
  * Return Type  : double
  */
 static double argInit_real_T(void)
@@ -92,13 +82,13 @@ static void main_remove_pf(void)
   emxArray_real_T *data_remove_pf;
   double data_data[2048];
   int data_size[1];
-  int time_accum_tmp;
+  double time_accum_tmp;
   emxInitArray_real_T(&data_remove_pf, 1);
 
   /* Initialize function 'remove_pf' input arguments. */
   /* Initialize function input argument 'data'. */
   argInit_d2048x1_real_T(data_data, data_size);
-  time_accum_tmp = argInit_int32_T();
+  time_accum_tmp = argInit_real_T();
 
   /* Call the entry-point 'remove_pf'. */
   remove_pf(data_data, data_size, time_accum_tmp, time_accum_tmp, data_remove_pf);

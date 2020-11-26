@@ -2,7 +2,7 @@
  * File: _coder_remove_pf_api.h
  *
  * MATLAB Coder version            : 5.0
- * C/C++ source code generated on  : 26-Nov-2020 17:19:56
+ * C/C++ source code generated on  : 26-Nov-2020 19:16:41
  */
 
 #ifndef _CODER_REMOVE_PF_API_H
@@ -42,8 +42,8 @@ extern emlrtCTX emlrtRootTLSGlobal;
 extern emlrtContext emlrtContextGlobal;
 
 /* Function Declarations */
-extern void remove_pf(real_T data_data[], int32_T data_size[1], int32_T
-                      time_accum, int32_T xhz, emxArray_real_T *data_remove_pf);
+extern void remove_pf(real_T data_data[], int32_T data_size[1], real_T
+                      time_accum, real_T xhz, emxArray_real_T *data_remove_pf);
 extern void remove_pf_api(const mxArray * const prhs[3], int32_T nlhs, const
   mxArray *plhs[1]);
 extern void remove_pf_atexit(void);

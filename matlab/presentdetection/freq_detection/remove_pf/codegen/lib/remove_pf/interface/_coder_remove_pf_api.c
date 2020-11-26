@@ -2,7 +2,7 @@
  * File: _coder_remove_pf_api.c
  *
  * MATLAB Coder version            : 5.0
- * C/C++ source code generated on  : 26-Nov-2020 17:19:56
+ * C/C++ source code generated on  : 26-Nov-2020 19:16:41
  */
 
 /* Include Files */
@@ -25,9 +25,9 @@ emlrtContext emlrtContextGlobal = { true,/* bFirstTime */
 /* Function Declarations */
 static void b_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u, const
   emlrtMsgIdentifier *parentId, real_T **y_data, int32_T y_size[1]);
-static int32_T c_emlrt_marshallIn(const emlrtStack *sp, const mxArray
-  *time_accum, const char_T *identifier);
-static int32_T d_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u, const
+static real_T c_emlrt_marshallIn(const emlrtStack *sp, const mxArray *time_accum,
+  const char_T *identifier);
+static real_T d_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u, const
   emlrtMsgIdentifier *parentId);
 static void e_emlrt_marshallIn(const emlrtStack *sp, const mxArray *src, const
   emlrtMsgIdentifier *msgId, real_T **ret_data, int32_T ret_size[1]);
@@ -37,8 +37,8 @@ static const mxArray *emlrt_marshallOut(const emxArray_real_T *u);
 static void emxFree_real_T(emxArray_real_T **pEmxArray);
 static void emxInit_real_T(const emlrtStack *sp, emxArray_real_T **pEmxArray,
   int32_T numDimensions, boolean_T doPush);
-static int32_T f_emlrt_marshallIn(const emlrtStack *sp, const mxArray *src,
-  const emlrtMsgIdentifier *msgId);
+static real_T f_emlrt_marshallIn(const emlrtStack *sp, const mxArray *src, const
+  emlrtMsgIdentifier *msgId);
 
 /* Function Definitions */
 
@@ -61,12 +61,12 @@ static void b_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u, const
  * Arguments    : const emlrtStack *sp
  *                const mxArray *time_accum
  *                const char_T *identifier
- * Return Type  : int32_T
+ * Return Type  : real_T
  */
-static int32_T c_emlrt_marshallIn(const emlrtStack *sp, const mxArray
-  *time_accum, const char_T *identifier)
+static real_T c_emlrt_marshallIn(const emlrtStack *sp, const mxArray *time_accum,
+  const char_T *identifier)
 {
-  int32_T y;
+  real_T y;
   emlrtMsgIdentifier thisId;
   thisId.fIdentifier = (const char *)identifier;
   thisId.fParent = NULL;
@@ -80,12 +80,12 @@ static int32_T c_emlrt_marshallIn(const emlrtStack *sp, const mxArray
  * Arguments    : const emlrtStack *sp
  *                const mxArray *u
  *                const emlrtMsgIdentifier *parentId
- * Return Type  : int32_T
+ * Return Type  : real_T
  */
-static int32_T d_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u, const
+static real_T d_emlrt_marshallIn(const emlrtStack *sp, const mxArray *u, const
   emlrtMsgIdentifier *parentId)
 {
-  int32_T y;
+  real_T y;
   y = f_emlrt_marshallIn(sp, emlrtAlias(u), parentId);
   emlrtDestroyArray(&u);
   return y;
@@ -201,15 +201,15 @@ static void emxInit_real_T(const emlrtStack *sp, emxArray_real_T **pEmxArray,
  * Arguments    : const emlrtStack *sp
  *                const mxArray *src
  *                const emlrtMsgIdentifier *msgId
- * Return Type  : int32_T
+ * Return Type  : real_T
  */
-static int32_T f_emlrt_marshallIn(const emlrtStack *sp, const mxArray *src,
-  const emlrtMsgIdentifier *msgId)
+static real_T f_emlrt_marshallIn(const emlrtStack *sp, const mxArray *src, const
+  emlrtMsgIdentifier *msgId)
 {
-  int32_T ret;
+  real_T ret;
   static const int32_T dims = 0;
-  emlrtCheckBuiltInR2012b(sp, msgId, src, "int32", false, 0U, &dims);
-  ret = *(int32_T *)emlrtMxGetData(src);
+  emlrtCheckBuiltInR2012b(sp, msgId, src, "double", false, 0U, &dims);
+  ret = *(real_T *)emlrtMxGetData(src);
   emlrtDestroyArray(&src);
   return ret;
 }
@@ -226,8 +226,8 @@ void remove_pf_api(const mxArray * const prhs[3], int32_T nlhs, const mxArray
   emxArray_real_T *data_remove_pf;
   real_T (*data_data)[2048];
   int32_T data_size[1];
-  int32_T time_accum;
-  int32_T xhz;
+  real_T time_accum;
+  real_T xhz;
   emlrtStack st = { NULL,              /* site */
     NULL,                              /* tls */
     NULL                               /* prev */

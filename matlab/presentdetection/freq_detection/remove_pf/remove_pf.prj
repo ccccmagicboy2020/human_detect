@@ -836,6 +836,7 @@
     <param.objective>option.objective.c</param.objective>
     <param.WorkflowStep>workflowSummary</param.WorkflowStep>
     <param.TestSnippets>
+      <item>remove_pf(AP_single, time_accum, xhz)</item>
       <item>freq_detection</item>
     </param.TestSnippets>
     <param.ExternalFcnMajority>column</param.ExternalFcnMajority>
@@ -855,7 +856,7 @@
     <param.AutoInferUnboundedSizeThreshold>2048</param.AutoInferUnboundedSizeThreshold>
     <param.EnableFixedPointStep>false</param.EnableFixedPointStep>
     <param.EnableScreener>true</param.EnableScreener>
-    <param.AnnotationChecksum>2630248884</param.AnnotationChecksum>
+    <param.AnnotationChecksum>2330637380</param.AnnotationChecksum>
     <var.LegacyTarget />
     <var.MirrorOnOpen>false</var.MirrorOnOpen>
     <param.FixedPointEnabled>false</param.FixedPointEnabled>
@@ -864,10 +865,10 @@
     <param.unifiedParamStorage />
     <var.gc.lastOutputRoot>codegen\lib\remove_pf</var.gc.lastOutputRoot>
     <var.gc.lastOutputType>C_CODE</var.gc.lastOutputType>
-    <var.gc.preBuildChecksum>3305437476</var.gc.preBuildChecksum>
+    <var.gc.preBuildChecksum>2132006353</var.gc.preBuildChecksum>
     <var.cfi.lastOutputRoot>codegen\mex\remove_pf</var.cfi.lastOutputRoot>
-    <var.cfi.preBuildChecksum>1279889818</var.cfi.preBuildChecksum>
-    <var.lastCfiTestSnippet>freq_detection</var.lastCfiTestSnippet>
+    <var.cfi.preBuildChecksum>2967208026</var.cfi.preBuildChecksum>
+    <var.lastCfiTestSnippet>remove_pf(AP_single, time_accum, xhz)</var.lastCfiTestSnippet>
     <var.outdatedOnRestore>false</var.outdatedOnRestore>
     <var.lastUserSourceChecksum>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;checksum&gt;&lt;includedFiles&gt;&lt;file&gt;D:\cccc2020\CODE\human_detect\matlab\presentdetection\freq_detection\remove_pf\remove_pf.m&lt;/file&gt;&lt;/includedFiles&gt;&lt;value&gt;614003011&lt;/value&gt;&lt;/checksum&gt;</var.lastUserSourceChecksum>
     <var.sourceSetState>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;sourceModel&gt;&lt;primarySourceFiles&gt;&lt;file&gt;D:\cccc2020\CODE\human_detect\matlab\presentdetection\freq_detection\remove_pf\remove_pf.m&lt;/file&gt;&lt;/primarySourceFiles&gt;&lt;fixedPointSourceFiles/&gt;&lt;fixedPointSourceRegistered&gt;false&lt;/fixedPointSourceRegistered&gt;&lt;fixedPointSourceSelected&gt;false&lt;/fixedPointSourceSelected&gt;&lt;/sourceModel&gt;</var.sourceSetState>
@@ -1076,7 +1077,7 @@
     </unset>
     <fileset.entrypoints>
       <file custom-data-expanded="false" value="${PROJECT_ROOT}\remove_pf.m">
-        <Marker>1606382179944</Marker>
+        <Marker>1606389375372</Marker>
       </file>
     </fileset.entrypoints>
     <fileset.testbench>
@@ -1099,12 +1100,13 @@
               <Sparse>false</Sparse>
             </type>
             <type typeId="1">
-              <Class>int32</Class>
+              <Class>double</Class>
               <Size>1 x 1</Size>
               <Value />
               <InitialValue />
               <UserDefined>true</UserDefined>
               <Complex>false</Complex>
+              <Sparse>false</Sparse>
             </type>
           </idpTable>
         </Inputs>
