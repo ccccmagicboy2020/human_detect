@@ -11,6 +11,8 @@
 #include <math.h>
 #include <stdio.h>
 #include <arm_math.h>
+#include "cfar_ca_emxAPI.h"
+#include "remove_pf.h"
 
 
 #define fixed short
@@ -48,10 +50,20 @@ float testInput3[TEST_LENGTH_SAMPLES];
  * Return Type  : bool
  */
 int freq_detection(const float data[], const float win[], int data_size, int win_size_freq, int
-  stride_freq, int time_accum, int xhz, int freq_times)
+  stride_freq, int time_accum, int xhz, int freq_times, int respiration_times, int respirationfreq_vote[2])
 {
 	int freq_vote;
 	int i;
+	int half_size;
+	int data_remove_size;
+	float	rm_data;
+	/* 去除工频及其谐波周围2Hz频点*/
+	emxArray_real_T *data_remove_pf;
+	
+	emxInitArray_real_T(&data_remove_pf, 1);
+	
+	half_size = (int)(data_size/2);
+	
 //	int j;
 	arm_rfft_fast_instance_f32 S;
 	
@@ -64,18 +76,51 @@ int freq_detection(const float data[], const float win[], int data_size, int win
 	}
 	
   arm_rfft_fast_f32(&S, testInput, testInput2, 0); 
-	
 	arm_cmplx_mag_f32(testInput2, testInput3, data_size);
+	
+	for (i=0;i<half_size;i++)	//
+	{
+		testInput3[i] = testInput3[i] / TEST_LENGTH_SAMPLES;
+	}
 
+	for (i=1;i<half_size;i++)	//
+	{
+		testInput3[i] = testInput3[i] * 2;
+	}
+	
 	printf("fft abs value start:\r\n");
 	
-	for (i=0;i<data_size/2;i++)
+	for (i=0;i<half_size;i++)
 	{
 		printf("%.3lf,", testInput3[i]);
 	}
 	
-	printf("\r\nend\r\n");
+	printf("\r\nend\r\n");	
+
+	printf("xxxxxx - %d - %d - %d\r\n", half_size, time_accum, xhz);	
+	remove_pf(testInput3, half_size, time_accum, xhz, data_remove_pf);    //去除工频及其谐波周围2Hz频点
 	
+	data_remove_size =  data_remove_pf->size[0];
+	printf("remove_pf size is: %d\r\n", data_remove_size);
+	
+	printf("fft remove_pf value start:\r\n");
+	
+	for (i=0;i<data_remove_size;i++)
+	{
+			rm_data = data_remove_pf->data[i];
+			printf("%.3lf,", rm_data);
+	}  
+	
+	printf("\r\nend\r\n");	
+	
+	
+
+	
+	
+	
+	
+	
+	emxDestroyArray_real_T(data_remove_pf);
   return freq_vote;
 }
 

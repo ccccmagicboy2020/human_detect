@@ -98,6 +98,8 @@ void test5(void)
 	int time_accum;
 	int xhz;
 	int freq_times;
+	int respiration_times;
+	int respirationfreq_vote[2];
 	
 	win_size_freq = 1024;
 	stride_freq = 408;
@@ -105,9 +107,20 @@ void test5(void)
 	xhz = 2; //
 	freq_times = 40;
 	
-	freq_vote = freq_detection(data_accum_MF, win, 4096, win_size_freq, stride_freq, time_accum, xhz, freq_times);
+	freq_vote = freq_detection(
+																data_accum_MF, 
+																win, 
+																4096, 
+																win_size_freq, 
+																stride_freq, 
+																time_accum, 
+																xhz, 
+																freq_times, 
+																respiration_times, 
+																respirationfreq_vote);
 	
-	printf("test5 freq_vote: %d\r\n", freq_vote);
+	printf("test5 freq_vote: %d - %d\r\n", freq_vote, respirationfreq_vote[0]);
+	
 }
 
 void test4(void)

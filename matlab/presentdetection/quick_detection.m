@@ -21,7 +21,8 @@ Return:
 	quick_detection_result: 快检测判定结果（布尔值）
 %}
 
-time_vote = time_detection(data, win_size_time, stride_time, time_times, time_add); % 时域判定
+% time_vote = time_detection(data, win_size_time, stride_time, time_times, time_add); % 时域判定
+time_vote = 1;
 if time_vote
 	[freq_vote, respirationfreq_vote] = freq_detection(data_sample, win_size_freq, stride_freq, time_accum, xhz, freq_times, respiration_times); % 频域判定
 	if freq_vote

@@ -314,7 +314,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>0</Optim>
+            <Optim>4</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -533,6 +533,11 @@
               <FileName>freq_detection.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\freq_detection.c</FilePath>
+            </File>
+            <File>
+              <FileName>remove_pf.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\remove_pf.c</FilePath>
             </File>
           </Files>
         </Group>

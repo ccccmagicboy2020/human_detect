@@ -33,7 +33,12 @@ plot(YY)
 AP_double = abs(Y)/ length(data); % 双边谱
 AP_single = AP_double(1: length(data)/ 2); % 单边谱
 AP_single(2: end) = 2* AP_single(2: end); % 计算单边谱幅度并去除零频放大效应
+figure;
+plot(AP_single)
 AP_single_ANF = remove_pf(AP_single, time_accum, xhz); % 去除工频及其谐波周围2Hz频点
+figure;
+plot(AP_single_ANF)
+
 freq = zeros((length(AP_single_ANF)- win_size_freq)/ stride_freq+ 1, 1); % 计算窗数量
 for i = 1: length(freq)
 	freq(i, 1) = sum(abs(AP_single_ANF((i- 1)* stride_freq+ 1: (i- 1)* stride_freq+ win_size_freq))) / win_size_freq;

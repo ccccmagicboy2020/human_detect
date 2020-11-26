@@ -14,7 +14,7 @@
 
 /* Function Declarations */
 extern int freq_detection(const float data[], const float win[], int data_size, int win_size_freq, int
-  stride_freq, int time_accum, int xhz, int freq_times);
+  stride_freq, int time_accum, int xhz, int freq_times, int respiration_times, int respirationfreq_vote[2]);
 
 #endif
 

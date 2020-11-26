@@ -2,6 +2,7 @@
 
 addpath(genpath('.\time_detection'))
 addpath(genpath('.\freq_detection'))
+addpath(genpath('.\freq_detection\remove_pf'))
 
 % 关闭并删除已占用端口
 if ~isempty(instrfind)
@@ -32,42 +33,45 @@ respiration_times = 22; % 呼吸频域乘法门限
 colorflag = 'g'; % 初始为绿色
 
 while(1)
-	% 数据获取
-	data_current = fgetl(s); % fgerl - 读取文件中的行 以字符向量形式返回 并删除换行符
-	strlen = length(data_current);
-	if strlen ~= 10249
-		continue
-	end
-	i = 1;
-	if(data_current(i) == 0x42 && data_current(i+ 1) == 0x65 && data_current(i+ 2) == 0x67 && data_current(i+ 3) == 0x69 && data_current(i+ 4) == 0x6E)
-		for index = 1: 2048
-			if data_current(i+ 5+ 5*index) == 0x20
-				qian = double(data_current(i+ 5*index+ 1)- 0x30);
-				bai = double(data_current(i+ 5*index+ 2)- 0x30);
-				shi = double(data_current(i+ 5*index+ 3)- 0x30);
-				ge = double(data_current(i+ 5*index+ 4)- 0x30);
-				data(index, 1) = qian*1000 + bai*100 + shi*10 + ge*1;
-			end
-		end
-	end
-	% 数据处理
-	data_sample = data(1:div:end, 1); % 原始数据抽样
-	num = sample_rate / div; % 原始数据抽样后的总数
-	raw_data = reshape(data_sample, num, 1); % 原始数据降维
-	% 填满累积数据
-	if count < time_accum
-		data_accum(sample_rate* count+ 1: sample_rate* (count+ 1), 1) = raw_data;		
-		count = count + 1;
-		continue
-	end
-	% 新入数据滑窗
-	data_accum(1: sample_rate* (time_accum- 1), 1) = data_accum(sample_rate+ 1: end, 1);
-	data_accum(sample_rate* (time_accum- 1)+ 1: end, 1) = raw_data;
-	% 均值滤波
-	data_accum_MF = data_accum - mean(data_accum);
-	data_accum_MF_sample = data_accum_MF(1:4:end, 1); % 数据抽样
+% 	% 数据获取
+% 	data_current = fgetl(s); % fgerl - 读取文件中的行 以字符向量形式返回 并删除换行符
+% 	strlen = length(data_current);
+% 	if strlen ~= 10249
+% 		continue
+% 	end
+% 	i = 1;
+% 	if(data_current(i) == 0x42 && data_current(i+ 1) == 0x65 && data_current(i+ 2) == 0x67 && data_current(i+ 3) == 0x69 && data_current(i+ 4) == 0x6E)
+% 		for index = 1: 2048
+% 			if data_current(i+ 5+ 5*index) == 0x20
+% 				qian = double(data_current(i+ 5*index+ 1)- 0x30);
+% 				bai = double(data_current(i+ 5*index+ 2)- 0x30);
+% 				shi = double(data_current(i+ 5*index+ 3)- 0x30);
+% 				ge = double(data_current(i+ 5*index+ 4)- 0x30);
+% 				data(index, 1) = qian*1000 + bai*100 + shi*10 + ge*1;
+% 			end
+% 		end
+% 	end
+% 	% 数据处理
+% 	data_sample = data(1:div:end, 1); % 原始数据抽样
+% 	num = sample_rate / div; % 原始数据抽样后的总数
+% 	raw_data = reshape(data_sample, num, 1); % 原始数据降维
+% 	% 填满累积数据
+% 	if count < time_accum
+% 		data_accum(sample_rate* count+ 1: sample_rate* (count+ 1), 1) = raw_data;		
+% 		count = count + 1;
+% 		continue
+% 	end
+% 	% 新入数据滑窗
+% 	data_accum(1: sample_rate* (time_accum- 1), 1) = data_accum(sample_rate+ 1: end, 1);
+% 	data_accum(sample_rate* (time_accum- 1)+ 1: end, 1) = raw_data;
+% 	% 均值滤波
+% 	data_accum_MF = data_accum - mean(data_accum);
+    
+    data_accum_MF_sample = dlmread('data_accum_MF.txt', ',');
+% 	data_accum_MF_sample = data_accum_MF(1:4:end, 1); % 数据抽样
 	% 时频判定
-	quick_detection_result = quick_detection(data_accum_MF, data_accum_MF_sample, win_size_time, stride_time, time_times, time_add, win_size_freq, stride_freq, time_accum, xhz, freq_times, respiration_times);
+% 	quick_detection_result = quick_detection(data_accum_MF, data_accum_MF_sample, win_size_time, stride_time, time_times, time_add, win_size_freq, stride_freq, time_accum, xhz, freq_times, respiration_times);
+	quick_detection_result = quick_detection(data_accum_MF_sample', data_accum_MF_sample', win_size_time, stride_time, time_times, time_add, win_size_freq, stride_freq, time_accum, xhz, freq_times, respiration_times);
 	if quick_detection_result
 		colorflag = 'r';
 	else
