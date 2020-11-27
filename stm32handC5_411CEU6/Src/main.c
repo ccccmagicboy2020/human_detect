@@ -101,11 +101,12 @@ void test5(void)
 	int respiration_times;
 	int respirationfreq_vote[2];
 	
-	win_size_freq = 1024;
-	stride_freq = 408;
+	win_size_freq = 256;
+	stride_freq = 102;
 	time_accum = 8;
 	xhz = 2; //
 	freq_times = 40;
+	respiration_times = 22;
 	
 	freq_vote = freq_detection(
 																data_accum_MF, 

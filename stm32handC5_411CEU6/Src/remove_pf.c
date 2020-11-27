@@ -33,7 +33,7 @@
  * Return Type  : void
  */
 void remove_pf(const float data_data[], int data_size, double
-               time_accum, double xhz, emxArray_real_T *data_remove_pf)
+               time_accum, double xhz, float data_remove_pf[2048], int result_size[2])
 {
   double d;
   int loop_ub;
@@ -47,8 +47,8 @@ void remove_pf(const float data_data[], int data_size, double
   int i3;
   int b_loop_ub;
   int b_i;
-	int temp0;
-	double temp1;
+//	int temp0;
+//	double temp1;
 	
   d = xhz * time_accum;
   if (1.0 > d) {
@@ -98,26 +98,26 @@ void remove_pf(const float data_data[], int data_size, double
   }
 
   part_2_idx_0 = part_2->size[0] * part_2->size[1];
-  i2 = data_remove_pf->size[0];
-  data_remove_pf->size[0] = ((loop_ub + part_2_idx_0) + i1) - i;
-  emxEnsureCapacity_real_T(data_remove_pf, i2);
+  i2 = result_size[0];
+  result_size[0] = ((loop_ub + part_2_idx_0) + i1) - i;
+  //emxEnsureCapacity_real_T(data_remove_pf, i2);
   for (i2 = 0; i2 < loop_ub; i2++) {
-    data_remove_pf->data[i2] = data_data[i2];
-		printf("remove_pf: %d - %lf\r\n", i2, part_2->data[i2]);
+    data_remove_pf[i2] = data_data[i2];
+		//printf("remove_pf: %d - %lf\r\n", i2, part_2->data[i2]);
   }
 
   for (i2 = 0; i2 < part_2_idx_0; i2++) {
-    data_remove_pf->data[i2 + loop_ub] = part_2->data[i2];
-		printf("remove_pf: %d - %lf\r\n", i2, part_2->data[i2]);
+    data_remove_pf[i2 + loop_ub] = part_2->data[i2];
+		//printf("remove_pf: %d - %lf\r\n", i2, part_2->data[i2]);
   }
 
   emxFree_real_T(&part_2);
   b_loop_ub = i1 - i;
   for (i1 = 0; i1 < b_loop_ub; i1++) {
-    data_remove_pf->data[(i1 + loop_ub) + part_2_idx_0] = data_data[i + i1];
-		temp0 = (i1 + loop_ub) + part_2_idx_0;
-		temp1 = data_data[i + i1];
-		printf("remove_pf: %d - %lf\r\n", temp0, temp1);
+    data_remove_pf[(i1 + loop_ub) + part_2_idx_0] = data_data[i + i1];
+//		temp0 = (i1 + loop_ub) + part_2_idx_0;
+//		temp1 = data_data[i + i1];
+		//printf("remove_pf: %d - %lf\r\n", temp0, temp1);
   }
 	
 	

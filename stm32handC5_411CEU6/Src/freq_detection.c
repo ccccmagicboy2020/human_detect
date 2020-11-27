@@ -27,7 +27,7 @@ extern void FFT(int dir,int points2, int32_t* real, int32_t* img);
 float testInput[TEST_LENGTH_SAMPLES];
 float testInput2[TEST_LENGTH_SAMPLES];
 float testInput3[TEST_LENGTH_SAMPLES];
-
+float data_remove_pf[2048];
 /*
  * {
  * Function Name: freq_detection
@@ -54,13 +54,23 @@ int freq_detection(const float data[], const float win[], int data_size, int win
 {
 	int freq_vote;
 	int i;
+	int j;
 	int half_size;
 	int data_remove_size;
-	float	rm_data;
-	/* 去除工频及其谐波周围2Hz频点*/
-	emxArray_real_T *data_remove_pf;
+	int pf_result_size[2];
+	int mean_size;
+	double mean_value[20];
+	double sum;
+	double maxValue;
+	double minValue;
 	
-	emxInitArray_real_T(&data_remove_pf, 1);
+	float respirationfreq_max;
+	uint32_t pIndex;
+	float respirationfreq_mean;
+	/* 去除工频及其谐波周围2Hz频点*/
+	//emxArray_real_T *data_remove_pf;
+	
+	//emxInitArray_real_T(&data_remove_pf, 1);
 	
 	half_size = (int)(data_size/2);
 	
@@ -98,29 +108,76 @@ int freq_detection(const float data[], const float win[], int data_size, int win
 	printf("\r\nend\r\n");	
 
 	printf("xxxxxx - %d - %d - %d\r\n", half_size, time_accum, xhz);	
-	remove_pf(testInput3, half_size, time_accum, xhz, data_remove_pf);    //去除工频及其谐波周围2Hz频点
+	remove_pf(testInput3, half_size, time_accum, xhz, data_remove_pf, pf_result_size);    //去除工频及其谐波周围2Hz频点
 	
-	data_remove_size =  data_remove_pf->size[0];
+	data_remove_size =  pf_result_size[0];
 	printf("remove_pf size is: %d\r\n", data_remove_size);
 	
 	printf("fft remove_pf value start:\r\n");
 	
 	for (i=0;i<data_remove_size;i++)
 	{
-			rm_data = data_remove_pf->data[i];
-			printf("%.3lf,", rm_data);
+			printf("%.3lf,", data_remove_pf[i]);
 	}  
 	
 	printf("\r\nend\r\n");	
 	
+	mean_size = (int)((data_remove_size - win_size_freq) / stride_freq + 1);
+	printf("std size is: %d\r\n", mean_size);
 	
-
+	sum = 0;
 	
+	for (i=0;i<mean_size;i++)
+	{
+		for (j=0;j<win_size_freq;j++)
+		{
+			sum += fabs(data_remove_pf[i*stride_freq + j]);
+		}
+		mean_value[i] = sum / win_size_freq;
+		sum = 0;
+		printf("freq_detection std_value: %d - %.4lf\r\n", i, mean_value[i]);
+	}	
 	
+	maxValue = mean_value[0];
+	minValue = mean_value[0];
+	for (int i=0; i<mean_size; i++)  
+	{  
+			if (maxValue<mean_value[i])  
+			{  
+					maxValue = mean_value[i];  
+			}  
+			if (minValue>mean_value[i])  
+			{  
+					minValue = mean_value[i];  
+			}  
+	}  
 	
+	printf("freq_detection max-min: %lf - %lf\r\n", maxValue, minValue);
 	
+	if (maxValue > minValue * freq_times)
+	{
+		freq_vote = 1;
+	}
+	else
+	{
+		freq_vote = 0;
+	}
 	
-	emxDestroyArray_real_T(data_remove_pf);
+	arm_max_f32(data_remove_pf, time_accum* 0.5, &respirationfreq_max, &pIndex);
+	printf("freq_detection max freq index-result: %d - %lf\r\n", pIndex, respirationfreq_max);
+	
+	arm_mean_f32(data_remove_pf, time_accum* 0.5, &respirationfreq_mean);
+	printf("freq_detection mean freq result: %lf\r\n", respirationfreq_mean);
+	
+	if ((respirationfreq_max > minValue*respiration_times) || (respirationfreq_max > minValue*respiration_times*0.618))
+	{
+		respirationfreq_vote[0] = 1;
+	}
+	else
+	{
+		respirationfreq_vote[0] = 0;
+	}
+	//emxDestroyArray_real_T(data_remove_pf);
   return freq_vote;
 }
 
