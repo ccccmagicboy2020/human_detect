@@ -1,36 +1,36 @@
-%% å¿«æ£€æµ‹
+%% ¿ì¼ì²â
 
-% å…³é—­å¹¶åˆ é™¤å·²å ç”¨ç«¯å£
+% ¹Ø±Õ²¢É¾³ıÒÑÕ¼ÓÃ¶Ë¿Ú
 if ~isempty(instrfind)
 		fclose(instrfind);
 		delete(instrfind);
 end
-% ç«¯å£é…ç½®
-s = serial('com3'); % åˆ›å»ºä¸²è¡Œç«¯å£å¯¹è±¡
-set(s, 'BaudRate', 115200, 'StopBits', 1, 'Parity', 'none', 'DataBits', 8, 'InputBufferSize', 10250, 'ReadAsyncMode', 'continuous'); % é…ç½® æ³¢ç‰¹ç‡ åœæ­¢ä½ æ ¡éªŒæ–¹å¼ æ•°æ®ä½ è¾“å…¥ç¼“å­˜å¤§å°ï¼ˆå­—èŠ‚ï¼‰ å¼‚æ­¥è¯»å–
-fopen(s); % æ‰“å¼€ä¸²å£
+% ¶Ë¿ÚÅäÖÃ
+s = serial('com6'); % ´´½¨´®ĞĞ¶Ë¿Ú¶ÔÏó
+set(s, 'BaudRate', 115200, 'StopBits', 1, 'Parity', 'none', 'DataBits', 8, 'InputBufferSize', 10250, 'ReadAsyncMode', 'continuous'); % ÅäÖÃ ²¨ÌØÂÊ Í£Ö¹Î» Ğ£Ñé·½Ê½ Êı¾İÎ» ÊäÈë»º´æ´óĞ¡£¨×Ö½Ú£© Òì²½¶ÁÈ¡
+fopen(s); % ´ò¿ª´®¿Ú
 
-% å‚æ•°é¢„è®¾
-sample_rate = 2048; % åŸå§‹é‡‡æ ·ç‡
-div = 1; % åˆ†é¢‘æ•°
-data = zeros(sample_rate, 1); % æ•°æ®æ„å»º
-time_accum = 8; % ç´¯ç§¯æ—¶é—´
-data_accum = zeros(sample_rate* time_accum, 1); % ç´¯ç§¯æ•°æ®
-count = 0; % ç´¯ç§¯è®¡æ•°
-win_size_time = sample_rate; % æ—¶åŸŸçª—é•¿
-stride_time = sample_rate/ 2; % æ—¶åŸŸæ­¥é•¿
-time_times = 5; % æ—¶åŸŸä¹˜æ³•é—¨é™
-time_add = 50; % æ—¶åŸŸåŠ æ³•é—¨é™
-win_size_freq = sample_rate/ 2; % é¢‘åŸŸçª—é•¿
-stride_freq = 408; % é¢‘åŸŸæ­¥é•¿
-xhz = 2; % å»é™¤é¢‘ç‚¹æ•°é‡
-freq_times = 40; % é¢‘åŸŸä¹˜æ³•é—¨é™
-respiration_times = 22; % å‘¼å¸é¢‘åŸŸä¹˜æ³•é—¨é™
-colorflag = 'g'; % åˆå§‹ä¸ºç»¿è‰²
+% ²ÎÊıÔ¤Éè
+sample_rate = 2048; % Ô­Ê¼²ÉÑùÂÊ
+div = 1; % ·ÖÆµÊı
+data = zeros(sample_rate, 1); % Êı¾İ¹¹½¨
+time_accum = 8; % ÀÛ»ıÊ±¼ä
+data_accum = zeros(sample_rate* time_accum, 1); % ÀÛ»ıÊı¾İ
+count = 0; % ÀÛ»ı¼ÆÊı
+win_size_time = sample_rate; % Ê±Óò´°³¤
+stride_time = sample_rate/ 2; % Ê±Óò²½³¤
+time_times = 5; % Ê±Óò³Ë·¨ÃÅÏŞ
+time_add = 50; % Ê±Óò¼Ó·¨ÃÅÏŞ
+win_size_freq = sample_rate/ 2/ 4; % ÆµÓò´°³¤
+stride_freq = 408/ 4; % ÆµÓò²½³¤
+xhz = 2; % È¥³ıÆµµãÊıÁ¿
+freq_times = 11; % ÆµÓò³Ë·¨ÃÅÏŞ
+respiration_times = 22; % ºôÎüÆµÓò³Ë·¨ÃÅÏŞ
+colorflag = 'g'; % ³õÊ¼ÎªÂÌÉ«
 
 while(1)
-	% æ•°æ®è·å–
-	data_current = fgetl(s); % fgerl - è¯»å–æ–‡ä»¶ä¸­çš„è¡Œ ä»¥å­—ç¬¦å‘é‡å½¢å¼è¿”å› å¹¶åˆ é™¤æ¢è¡Œç¬¦
+	% Êı¾İ»ñÈ¡
+	data_current = fgetl(s); % fgerl - ¶ÁÈ¡ÎÄ¼şÖĞµÄĞĞ ÒÔ×Ö·ûÏòÁ¿ĞÎÊ½·µ»Ø ²¢É¾³ı»»ĞĞ·û
 	strlen = length(data_current);
 	if strlen ~= 10249
 		continue
@@ -47,35 +47,36 @@ while(1)
 			end
 		end
 	end
-	% æ•°æ®å¤„ç†
-	data_Samples = data(1:div:end, 1); % åŸå§‹æ•°æ®æŠ½æ ·
-	num = sample_rate / div; % åŸå§‹æ•°æ®æŠ½æ ·åçš„æ€»æ•°
-	raw_data = reshape(data_Samples, num, 1); % åŸå§‹æ•°æ®é™ç»´
-	% å¡«æ»¡ç´¯ç§¯æ•°æ®
+	% Êı¾İ´¦Àí
+	data_sample = data(1:div:end, 1); % Ô­Ê¼Êı¾İ³éÑù
+	num = sample_rate / div; % Ô­Ê¼Êı¾İ³éÑùºóµÄ×ÜÊı
+	raw_data = reshape(data_sample, num, 1); % Ô­Ê¼Êı¾İ½µÎ¬
+	% ÌîÂúÀÛ»ıÊı¾İ
 	if count < time_accum
 		data_accum(sample_rate* count+ 1: sample_rate* (count+ 1), 1) = raw_data;		
 		count = count + 1;
 		continue
 	end
-	% æ–°å…¥æ•°æ®æ»‘çª—
+	% ĞÂÈëÊı¾İ»¬´°
 	data_accum(1: sample_rate* (time_accum- 1), 1) = data_accum(sample_rate+ 1: end, 1);
 	data_accum(sample_rate* (time_accum- 1)+ 1: end, 1) = raw_data;
-	% å‡å€¼æ»¤æ³¢
+	% ¾ùÖµÂË²¨
 	data_accum_MF = data_accum - mean(data_accum);
-	% æ—¶é¢‘åˆ¤å®š
-	quick_detection_result = quick_detection(data_accum_MF, win_size_time, stride_time, time_times, time_add, win_size_freq, stride_freq, time_accum, xhz, freq_times, respiration_times);
+	data_accum_MF_sample = data_accum_MF(1:4:end, 1); % Êı¾İ³éÑù
+	% Ê±ÆµÅĞ¶¨
+	quick_detection_result = quick_detection(data_accum_MF, data_accum_MF_sample, win_size_time, stride_time, time_times, time_add, win_size_freq, stride_freq, time_accum, xhz, freq_times, respiration_times);
 	if quick_detection_result
 		colorflag = 'r';
 	else
 		colorflag = 'g';
 	end
-	% å›¾å½¢æ˜¾ç¤º
+	% Í¼ĞÎÏÔÊ¾
 	figure(1)
-	alpha = 0: pi/20: 2*pi; % è§’åº¦[0, 2*pi]
-	R = 2; % åŠå¾„
+	alpha = 0: pi/20: 2*pi; % ½Ç¶È[0, 2*pi]
+	R = 2; % °ë¾¶
 	xx = R* cos(alpha);
 	yy = R* sin(alpha);
 	plot(xx, yy, '-')
 	axis equal
-	fill(xx, yy, colorflag); % é¢œè‰²å¡«å……
+	fill(xx, yy, colorflag); % ÑÕÉ«Ìî³ä
 end

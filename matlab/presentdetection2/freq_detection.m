@@ -2,35 +2,45 @@ function [freq_vote, respirationfreq_vote] = freq_detection(data, win_size_freq,
 
 %{
 Function Name: freq_detection
-Description: æ ¹æ®çª—å†…å‡å€¼è¿”å›é¢‘åŸŸåˆ¤å®šç»“æœ
-Input: 
-	data: ä¸€ç»´æ•°ç»„
-	win_size_freq: é¢‘åŸŸçª—é•¿
-	stride_freq: é¢‘åŸŸæ­¥é•¿
-	time_accum: ç´¯ç§¯æ—¶é—´
-	xhz: å»é™¤é¢‘ç‚¹æ•°é‡
-	freq_times: é¢‘åŸŸä¹˜æ³•é—¨é™
-	respiration_times: å‘¼å¸é¢‘åŸŸä¹˜æ³•é—¨é™
+Description: ¸ù¾İ´°ÄÚ¾ùÖµ·µ»ØÆµÓòÅĞ¶¨½á¹û
+Input:
+	data: Ò»Î¬Êı×é
+	win_size_freq: ÆµÓò´°³¤
+	stride_freq: ÆµÓò²½³¤
+	time_accum: ÀÛ»ıÊ±¼ä
+	xhz: È¥³ıÆµµãÊıÁ¿
+	freq_times: ÆµÓò³Ë·¨ÃÅÏŞ
+	respiration_times: ºôÎüÆµÓò³Ë·¨ÃÅÏŞ
 Output: None
-Return: 
-	freq_vote: é¢‘åŸŸåˆ¤å®šç»“æœï¼ˆå¸ƒå°”å€¼ï¼‰
-	respirationfreq_vote: 0.5Hzå†…é¢‘è°±è¿‡é—¨é™åˆ¤å®šç»“æœï¼ˆå¸ƒå°”å€¼ï¼‰
+Return:
+	freq_vote: ÆµÓòÅĞ¶¨½á¹û£¨²¼¶ûÖµ£©
+	respirationfreq_vote: 0.5HzÄÚÆµÆ×¹ıÃÅÏŞÅĞ¶¨½á¹û£¨²¼¶ûÖµ£©
 %}
 
-w = window(@hamming, length(data)); % çª—å‡½æ•°
-X = data .* w; % åŠ çª—
+w = window(@hamming, length(data)); % ´°º¯Êı
+X = data .* w; % ¼Ó´°
 Y = fft(X, length(data)); % FFT
-AP_double = abs(Y)/ length(data); % åŒè¾¹è°±
-AP_single = AP_double(1: length(data)/ 2); % å•è¾¹è°±
-AP_single(2: end) = 2* AP_single(2: end); % è®¡ç®—å•è¾¹è°±å¹…åº¦å¹¶å»é™¤é›¶é¢‘æ”¾å¤§æ•ˆåº”
-AP_single_ANF = remove_pf(AP_single, time_accum, xhz); % å»é™¤å·¥é¢‘åŠå…¶è°æ³¢å‘¨å›´2Hzé¢‘ç‚¹
-freq = zeros((length(AP_single_ANF)- win_size_freq)/ stride_freq+ 1, 1); % è®¡ç®—çª—æ•°é‡
+AP_double = abs(Y)/ length(data); % Ë«±ßÆ×
+AP_single = AP_double(1: length(data)/ 2); % µ¥±ßÆ×
+AP_single(2: end) = 2* AP_single(2: end); % ¼ÆËãµ¥±ßÆ×·ù¶È²¢È¥³ıÁãÆµ·Å´óĞ§Ó¦
+AP_single_ANF = remove_pf(AP_single, time_accum, xhz,50); % È¥³ı¹¤Æµ¼°ÆäĞ³²¨ÖÜÎ§2HzÆµµã
+freq = zeros((length(AP_single_ANF)- win_size_freq)/ stride_freq+ 1, 1); % ¼ÆËã´°ÊıÁ¿
 for i = 1: length(freq)
-	freq(i, 1) = sum(abs(AP_single_ANF((i- 1)* stride_freq+ 1: (i- 1)* stride_freq+ win_size_freq))) / win_size_freq;
+    freq(i, 1) = sum(abs(AP_single_ANF((i- 1)* stride_freq+ 1: (i- 1)* stride_freq+ win_size_freq))) / win_size_freq;
 end
-freq_vote = max(freq) > min(freq)* freq_times; % æ ¹æ®æ»‘çª—æ•°æ®çš„æœ€å¤§æœ€å°å‡å€¼è¿›è¡Œé¢‘åŸŸåˆ¤å®š
-respirationfreq_max = max(AP_single_ANF(1: (time_accum* 0.5+ 1))); % 0.5Hzå†…é¢‘è°±æœ€å¤§å€¼
-respirationfreq_mean = mean(AP_single_ANF(1: (time_accum* 0.5+ 1))); % 0.5Hzå†…é¢‘è°±å‡å€¼
-respirationfreq_vote = (respirationfreq_max > min(freq)* respiration_times) || (respirationfreq_mean > min(freq)* respiration_times* 0.618); % æ ¹æ®0.5Hzå†…çš„æœ€å¤§å€¼å‡å€¼è¿›è¡Œé¢‘åŸŸåˆ¤å®š
+freq_vote = max(freq) > min(freq)* freq_times; % ¸ù¾İ»¬´°Êı¾İµÄ×î´ó×îĞ¡¾ùÖµ½øĞĞÆµÓòÅĞ¶¨
+respirationfreq_max = max(AP_single_ANF(1: (time_accum* 0.5+ 1))); % 0.5HzÄÚÆµÆ××î´óÖµ
+respirationfreq_mean = mean(AP_single_ANF(1: (time_accum* 0.5+ 1))); % 0.5HzÄÚÆµÆ×¾ùÖµ
+respirationfreq_vote = (respirationfreq_max > min(freq)* respiration_times) || (respirationfreq_mean > min(freq)* respiration_times* 0.618); % ¸ù¾İ0.5HzÄÚµÄ×î´óÖµ¾ùÖµ½øĞĞÆµÓòÅĞ¶¨
 
+figure(13);
+plot(freq);hold on;
+plot(min(freq)* freq_times*ones(length(freq)),'r*');hold on;
+plot(respirationfreq_max*ones(length(freq)),'b');hold on;
+plot(respirationfreq_mean*ones(length(freq)),'b');hold on;
+plot(min(freq)* respiration_times*ones(length(freq)),'r');hold on;
+plot(min(freq)* respiration_times* 0.618*ones(length(freq)),'r');
+
+title('ĞÅºÅÆµÓò¼ì²â');
+hold off;
 end

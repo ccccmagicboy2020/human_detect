@@ -3,6 +3,7 @@
 #include "adc.h"
 #include "stdio.h"
 #include "delay.h"
+#include "fifo.h"
 //////////////////////////////////////////////////////////////////////////////////	 
 //本程序只供学习使用，未经作者许可，不得用于其它任何用途
 //ALIENTEK STM32F407开发板
@@ -15,7 +16,9 @@
 //Copyright(C) 广州市星翼电子科技有限公司 2014-2024
 //All rights reserved									  
 ////////////////////////////////////////////////////////////////////////////////// 	
+extern void rgb_led(int mode);
 
+int index = 0;
 
 TIM_HandleTypeDef TIM3_Handler;      //定时器句柄 
 
@@ -24,14 +27,6 @@ TIM_OC_InitTypeDef TIM4_CH2Handler;	//定时器14通道1句柄
 
 TIM_HandleTypeDef TIM10_Handler;      	//定时器句柄 
 TIM_OC_InitTypeDef TIM10_CH1Handler;	//定时器14通道1句柄
-
-u8 change_flag = 0;
-
-u16 Timer_Count = 0;//溢出次数
-
-float in_data[2048]={0};
-s16  AD_Value[1024] = {0};
-
 
 //extern void measure_fft(void);
 
@@ -170,36 +165,19 @@ void TIM3_IRQHandler(void)
 
 //回调函数，定时器中断服务函数调用
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
-{ 
-		u16 adc_data,i;
-	  if(htim==(&TIM3_Handler))
+{
+	  if(htim==(&TIM3_Handler))	//timer3:
     {
-					adc_data = Get_Adc(5);
-	//				temp_val+=adc_data;
-					AD_Value[Timer_Count] = adc_data;
-					
-	//				printf("%d \r\n",adc_data);
-	        Timer_Count++;
-			   
-			    if(Timer_Count == 1024)
-					{
-							for(i=0;i<1024;i++)
-							{
-									in_data[i] = in_data[i+1024];
-							}
-									
-							for(i=1024;i<2048;i++)
-							{ 
-									in_data[i] =  AD_Value[i-1024];
-							}
-              Timer_Count = 0;
-							change_flag = 1;
-					 }	
-					 else
-					 {
-							change_flag = 0;
-					 }
-         
-
+//			index++;
+			FIFO_WriteOneData(&FIFO_Data[0], Get_Adc(5));
+			
+//			if (0 == index % 2)
+//			{
+//				rgb_led(3);
+//			}
+//			else
+//			{
+//				rgb_led(4);
+//			}
     }
 }

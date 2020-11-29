@@ -2,22 +2,33 @@ function [time_vote] = time_detection(data, win_size_time, stride_time, time_tim
 
 %{
 Function Name: time_detection
-Description: æ ¹æ®çª—å†…æ ‡å‡†å·®è¿”å›æ—¶åŸŸåˆ¤å®šç»“æœ
+Description: ¸ù¾İ´°ÄÚ±ê×¼²î·µ»ØÊ±ÓòÅĞ¶¨½á¹û
 Input: 
-	data: ä¸€ç»´æ•°ç»„
-	win_size_time: æ—¶åŸŸçª—é•¿
-	stride_time: æ—¶åŸŸæ­¥é•¿
-	time_times: æ—¶åŸŸä¹˜æ³•é—¨é™
-	time_add: æ—¶åŸŸåŠ æ³•é—¨é™
+	data: Ò»Î¬Êı×é
+	win_size_time: Ê±Óò´°³¤
+	stride_time: Ê±Óò²½³¤
+	time_times: Ê±Óò³Ë·¨ÃÅÏŞ
+	time_add: Ê±Óò¼Ó·¨ÃÅÏŞ
 Output: None
 Return:
-	time_vote: æ—¶åŸŸåˆ¤å®šç»“æœï¼ˆå¸ƒå°”å€¼ï¼‰
+	time_vote: Ê±ÓòÅĞ¶¨½á¹û£¨²¼¶ûÖµ£©
 %}
 
-time = zeros((length(data)- win_size_time) / stride_time+ 1, 1); % è®¡ç®—çª—æ•°é‡
+time = zeros((length(data)- win_size_time) / stride_time+ 1, 1); % ¼ÆËã´°ÊıÁ¿
 for i = 1: length(time)
-	time(i, 1) = std(data((i- 1)* stride_time+ 1: (i- 1)* stride_time+ win_size_time)); % çª—å†…æ ‡å‡†å·®
+	time(i, 1) = std(data((i- 1)* stride_time+ 1: (i- 1)* stride_time+ win_size_time)); % ´°ÄÚ±ê×¼²î
 end
-time_vote = max(time) > min(min(time)* time_times, min(time)+ time_add); % æ ¹æ®æ»‘çª—æ•°æ®çš„æœ€å¤§æœ€å°æ ‡å‡†å·®è¿›è¡Œæ—¶åŸŸåˆ¤å®š
+time_vote = max(time) > min(min(time)* time_times, min(time)+ time_add); % ¸ù¾İ»¬´°Êı¾İµÄ×î´ó×îĞ¡±ê×¼²î½øĞĞÊ±ÓòÅĞ¶¨
+figure(12);
+plot(data);
+title('ĞÅºÅÊ±Óò²¨ĞÎ');
 
+figure(15);
+plot(abs(time));hold on;
+plot(min(time)* time_times*ones(length(time)),'r');hold on;
+plot((min(time)+ time_add)*ones(length(time)),'b');hold on;
+title('ĞÅºÅÊ±Óò¼ì²â');
+% xlabel('t (milliseconds)')
+% ylabel('X(t)')
+hold off;
 end

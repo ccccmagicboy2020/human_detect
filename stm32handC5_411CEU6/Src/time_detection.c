@@ -32,25 +32,34 @@
  *                int time_add
  * Return Type  : bool
  */
-int time_detection(const float data[], int data_size, int win_size_time, int
+int time_detection(short int data[], int data_size, int win_size_time, int
   stride_time, int time_times, int time_add)
 {
 	int time_vote;
 	int std_size;
-	double std_value[20];
+	float std_value[20] = {0};
 	int i;
+	int j;
 	double maxValue;
 	double minValue;
 	
 	double temp0;
 	double temp1;
+	float data_temp[2048] = {0};
 	
 	std_size = (int)((data_size - win_size_time) / stride_time + 1);
 	
+	printf("time_detection: %d - %d - %d - %d - %d\r\n", data_size, win_size_time, stride_time, time_times, time_add);
+	printf("time_detection std_size: %d\r\n", std_size);
+	
 	for (i=0;i<std_size;i++)
 	{
-		std_value[i] = std_cv(&data[i*stride_time], win_size_time);
-		printf("time_detection std_value: %d - %lf\r\n", i, std_value[i]);
+		for(j=0;j<win_size_time;j++)
+		{
+			data_temp[j] = data[i*stride_time + j];
+		}		
+		std_value[i] = std_cv(data_temp, win_size_time);
+		//printf("time_detection std_value: %d - %lf\r\n", i, std_value[i]);
 	}
 	
 {  
@@ -62,7 +71,7 @@ int time_detection(const float data[], int data_size, int win_size_time, int
         {  
             maxValue = std_value[i];  
         }  
-        if (minValue>std_value[i])  
+        if (minValue>std_value[i])
         {  
             minValue = std_value[i];  
         }  

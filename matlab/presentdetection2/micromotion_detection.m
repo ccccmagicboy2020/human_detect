@@ -2,50 +2,70 @@ function [micromotion_detection_result] = micromotion_detection(data, secnum, xh
 
 %{
 Function Name: micromotion_detection
-Description: å¾®åŠ¨æ£€æµ‹
+Description: Î¢¶¯¼ì²â
 Input:
-	data: ä¸€ç»´æ•°ç»„
-	secnum: ç´¯ç§¯æ—¶é—´
-	xhz: å»é™¤é¢‘ç‚¹æ•°é‡
-	N: CFARçª—å£å¤§å°
-	pro_N: CFARä¿æŠ¤å•å…ƒå¤§å°
-	PAD: CFARè™šè­¦æ¦‚ç‡
-	offset: é—¨é™åç½®
-	rr_threshold: å‘¼å¸é¢‘ç‡é—¨é™
+	data: Ò»Î¬Êı×é
+	secnum: ÀÛ»ıÊ±¼ä
+	xhz: È¥³ıÆµµãÊıÁ¿
+	N: CFAR´°¿Ú´óĞ¡
+	pro_N: CFAR±£»¤µ¥Ôª´óĞ¡
+	PAD: CFARĞé¾¯¸ÅÂÊ
+	offset: ÃÅÏŞÆ«ÖÃ
+	rr_threshold: ºôÎüÆµÂÊÃÅÏŞ
 Output: None
 Return:
-	micromotion_detection_result: å¾®åŠ¨æ£€æµ‹åˆ¤å®šç»“æœï¼ˆå¸ƒå°”å€¼ï¼‰
+	micromotion_detection_result: Î¢¶¯¼ì²âÅĞ¶¨½á¹û£¨²¼¶ûÖµ£©
 %}
 
-micromotion_detection_result = 0; % é»˜è®¤ä¸ºæ— äºº
+micromotion_detection_result = 0; % Ä¬ÈÏÎªÎŞÈË
 
-w = window(@hamming, length(data)); % çª—å‡½æ•°
-X = data .* w; % åŠ çª—
+w = window(@hamming, length(data)); % ´°º¯Êı
+X = data .* w; % ¼Ó´°
 Y = fft(X, length(data)); % FFT
-AP_double = abs(Y)/ length(data); % åŒè¾¹è°±
-AP_single = AP_double(1: length(data)/ 2); % å•è¾¹è°±
-AP_single(2: end) = 2* AP_single(2: end); % è®¡ç®—å•è¾¹è°±å¹…åº¦å¹¶å»é™¤é›¶é¢‘æ”¾å¤§æ•ˆåº”
-AP_single_ANF = remove_pf(AP_single, secnum, xhz); % å»é™¤å·¥é¢‘åŠå…¶è°æ³¢å‘¨å›´xHzé¢‘ç‚¹
-slice = AP_single_ANF(1: 50* secnum); % å–å‰50Hzé¢‘æ®µ
-slice_flip = flip(slice, 1); % ä¸Šä¸‹ç¿»è½¬
-P = [slice_flip; slice]; % åˆæˆä¸€ä¸ªçŸ©é˜µ
-xc = P.'; % è½¬ç½®
+AP_double = abs(Y)/ length(data); % Ë«±ßÆ×
+AP_single = AP_double(1: length(data)/ 2); % µ¥±ßÆ×
+AP_single(2: end) = 2* AP_single(2: end); % ¼ÆËãµ¥±ßÆ×·ù¶È²¢È¥³ıÁãÆµ·Å´óĞ§Ó¦
+AP_single_ANF = remove_pf(AP_single, secnum, xhz,50); % È¥³ı¹¤Æµ¼°ÆäĞ³²¨ÖÜÎ§xHzÆµµã
+slice = AP_single_ANF(1: 50* secnum); % È¡Ç°50HzÆµ¶Î
+slice_flip = flip(slice, 1); % ÉÏÏÂ·­×ª
+P = [slice_flip; slice]; % ºÏ³ÉÒ»¸ö¾ØÕó
+xc = P.'; % ×ªÖÃ
 [index, XT] = cfar_ca(xc, N, pro_N, PAD); % CA-CFAR
-xxcc = 10.* log(abs(xc)/ max(abs(xc))+ 1)./ log(10); % æ•°æ®å¯¹æ•°å½’ä¸€åŒ–
-XXTT = 10.* log(abs(XT)/ max(abs(XT))+ 1)./ log(10); % é—¨é™å¯¹æ•°å½’ä¸€åŒ–
-% å¾®åŠ¨åˆ¤å®š
+xxcc = 10.* log(abs(xc)/ max(abs(xc))+ 1)./ log(10); % Êı¾İ¶ÔÊı¹éÒ»»¯
+XXTT = 10.* log(abs(XT)/ max(abs(XT))+ 1)./ log(10); % ÃÅÏŞ¶ÔÊı¹éÒ»»¯
+
+figure(11)
+plot(xxcc, 'b')
+hold on
+title('Î¢¶¯¼ì²â')
+plot(index, offset+ XXTT, 'r')
+hold on
+
+
+% Î¢¶¯ÅĞ¶¨
 for i = 50* secnum : (50+ rr_threshold)* secnum
 	if xxcc(i) > offset + XXTT(i- (N+ pro_N)/ 2)
-		micromotion_detection_result = 1;                     
-		break
+		micromotion_detection_result = 1;   
+        figure(11)
+        plot(length(index),max(offset+ XXTT),'p','MarkerSize',30,...
+                    'MarkerEdgeColor','r',...
+                    'MarkerFaceColor','r');
+        break
 	end
 end
+figure(11);hold off
 
-% % è°ƒå‚ç»˜å›¾
+figure(12);
+plot(data);
+% xlabel('t (milliseconds)')
+% ylabel('X(t)')
+title('ĞÅºÅÊ±Óò²¨ĞÎ');
+
+% % µ÷²Î»æÍ¼
 % figure(1)
 % plot(xxcc, 'b')
 % hold on
-% title('å¾®åŠ¨æ£€æµ‹')
+% title('Î¢¶¯¼ì²â')
 % plot(index, offset+ XXTT, 'r')
 % hold off
 

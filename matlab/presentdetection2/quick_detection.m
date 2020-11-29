@@ -1,28 +1,29 @@
-function [quick_detection_result] = quick_detection(data, win_size_time, stride_time, time_times, time_add, win_size_freq, stride_freq, time_accum, xhz, freq_times, respiration_times)
+function [quick_detection_result] = quick_detection(data, data_sample, win_size_time, stride_time, time_times, time_add, win_size_freq, stride_freq, time_accum, xhz, freq_times, respiration_times)
 
 %{
 Function Name: quick_detection
-Description: å¿«æ£€æµ‹
+Description: ¿ì¼ì²â
 Input:
-	data: ä¸€ç»´æ•°ç»„
-	win_size_time: æ—¶åŸŸçª—é•¿
-	stride_time: æ—¶åŸŸæ­¥é•¿
-	time_times: æ—¶åŸŸä¹˜æ³•é—¨é™
-	time_add: æ—¶åŸŸåŠ æ³•é—¨é™
-	win_size_freq: é¢‘åŸŸçª—é•¿
-	stride_freq: é¢‘åŸŸæ­¥é•¿
-	time_accum: ç´¯ç§¯æ—¶é—´
-	xhz: å»é™¤é¢‘ç‚¹æ•°é‡
-	freq_times: é¢‘åŸŸä¹˜æ³•é—¨é™
-	respiration_times: å‘¼å¸é¢‘åŸŸä¹˜æ³•é—¨é™
+	data: Ò»Î¬Êı×é
+	data_sample: Ò»Î¬Êı×é³éÑù
+	win_size_time: Ê±Óò´°³¤
+	stride_time: Ê±Óò²½³¤
+	time_times: Ê±Óò³Ë·¨ÃÅÏŞ
+	time_add: Ê±Óò¼Ó·¨ÃÅÏŞ
+	win_size_freq: ÆµÓò´°³¤
+	stride_freq: ÆµÓò²½³¤
+	time_accum: ÀÛ»ıÊ±¼ä
+	xhz: È¥³ıÆµµãÊıÁ¿
+	freq_times: ÆµÓò³Ë·¨ÃÅÏŞ
+	respiration_times: ºôÎüÆµÓò³Ë·¨ÃÅÏŞ
 Output: None
 Return: 
-	quick_detection_result: å¿«æ£€æµ‹åˆ¤å®šç»“æœï¼ˆå¸ƒå°”å€¼ï¼‰
+	quick_detection_result: ¿ì¼ì²âÅĞ¶¨½á¹û£¨²¼¶ûÖµ£©
 %}
 
-time_vote = time_detection(data, win_size_time, stride_time, time_times, time_add); % æ—¶åŸŸåˆ¤å®š
+time_vote = time_detection(data, win_size_time, stride_time, time_times, time_add); % Ê±ÓòÅĞ¶¨
 if time_vote
-	[freq_vote, respirationfreq_vote] = freq_detection(data, win_size_freq, stride_freq, time_accum, xhz, freq_times, respiration_times); % é¢‘åŸŸåˆ¤å®š
+	[freq_vote, respirationfreq_vote] = freq_detection(data_sample, win_size_freq, stride_freq, time_accum, xhz, freq_times, respiration_times); % ÆµÓòÅĞ¶¨
 	if freq_vote
 		quick_detection_result = 1;
 	else

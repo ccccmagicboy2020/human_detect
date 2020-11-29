@@ -23,14 +23,14 @@
 #include "time_detection.h"
 #include "std_cv.h"
 #include "freq_detection.h"
+#include "fifo.h"
 
-#define  FFT_LENGTH		2048		//FFT长度
+/////////////////////////////////////////////////////
+//u16	in_data[4096]={0};				//raw大池子  8K
+short int	in_data[16384]={0};				//raw大池子  32K
+short int	in_data_mf[16384]={0};				//raw大池子  32K
+extern int index;
 
-extern u8 change_flag;
-
-u16 num ;
-float  adc_data = 0;
-extern float in_data[2048];  
 extern const float hamming_TAB1[2048];
 
 const double src[2560]=
@@ -89,6 +89,81 @@ void test2(void);//cfar_ca
 void test3(void);//find_peak_cv
 void test4(void);//time_detection
 void test5(void);//freq_detection
+void rgb_led(int mode);//RGB
+int quick_detection(
+																							short int	in_data[16384], 
+																							int win_size_time, 
+																							int stride_time, 
+																							int time_times,
+																							int time_add, 
+																							int win_size_freq, 
+																							int stride_freq, 
+																							int time_accum, 
+																							int xhz, 
+																							int freq_times, 
+																							int respiration_times
+																							);
+																							
+int quick_detection(
+																							short int	in_data[16384], 
+																							int win_size_time, 
+																							int stride_time, 
+																							int time_times,
+																							int time_add, 
+																							int win_size_freq, 
+																							int stride_freq, 
+																							int time_accum, 
+																							int xhz, 
+																							int freq_times, 
+																							int respiration_times
+																							)
+{
+	int result = 0;
+	int time_vote = 0;
+	
+	time_vote = time_detection(in_data, 16384, win_size_time, stride_time,
+    time_times, time_add);
+	
+	printf("time_vote: %d\r\n", time_vote);
+	
+	result = time_vote;
+	
+	return result;
+}
+
+void rgb_led(int mode)
+{
+	if (0 == mode)
+	{
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_1,GPIO_PIN_RESET);	//RED
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_0,GPIO_PIN_SET);	
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_2,GPIO_PIN_SET);		
+	}
+	else if (1 == mode)
+	{
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_2,GPIO_PIN_RESET);//GREEN
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_0,GPIO_PIN_SET);
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_1,GPIO_PIN_SET);
+	}
+	else if (2 == mode)
+	{
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_0,GPIO_PIN_RESET);//BLUE
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_2,GPIO_PIN_SET);
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_1,GPIO_PIN_SET);
+	}
+	else if (3 == mode)
+	{
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_0,GPIO_PIN_SET);//white
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_2,GPIO_PIN_SET);
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_1,GPIO_PIN_SET);	
+	}
+	else if (4 == mode)
+	{
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_0,GPIO_PIN_RESET);//black(off)
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_2,GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOA,GPIO_PIN_1,GPIO_PIN_RESET);		
+	}
+}
 
 void test5(void)
 {
@@ -126,21 +201,21 @@ void test5(void)
 
 void test4(void)
 {
-	bool time_vote;
-	int win_size_time;
-	int stride_time;
-	int time_times;
-	int time_add;
-	
-	win_size_time = 2048;
-	stride_time = 1024;
-	time_times = 5;
-	time_add = 50;
-	
-	time_vote = time_detection(data_accum_MF, 16384, win_size_time, stride_time,
-    time_times, time_add);
-	
-	printf("test4 time_vote: %d\r\n", time_vote);
+//	bool time_vote;
+//	int win_size_time;
+//	int stride_time;
+//	int time_times;
+//	int time_add;
+//	
+//	win_size_time = 2048;
+//	stride_time = 1024;
+//	time_times = 5;
+//	time_add = 50;
+//	
+//	time_vote = time_detection(data_accum_MF, 16384, win_size_time, stride_time,
+//    time_times, time_add);
+//	
+//	printf("test4 time_vote: %d\r\n", time_vote);
 }
 
 void test3(void)
@@ -236,7 +311,15 @@ void test1(void)
 
 int main(void)
 {
-			u16 num = 0;
+			int i = 0;
+			int k = 0;
+			unsigned int sum = 0;
+			int trigger_flag0 = 0;
+			int quick_detection_result = 0;
+			short int raw_mean = 0;
+	
+			FIFO_Init(&FIFO_Data[0]);
+	
 			HAL_Init();
 			Stm32_Clock_Init(200,25,2,7);
 			
@@ -244,9 +327,8 @@ int main(void)
 			MY_ADC_Init();
 			LED_Init();		//初始化LED	 
 			
-			
-			TIM3_Init(40-1,5000-1);        // 100us  3.9ms
-			
+			//TIM3_Init(19, 4882);        // 20*4883/50=1953.2us
+			TIM3_Init(19, 1220);        // 20*1221/50=488.4us
 			
 			TIM10_PWM_Init(500-1,100-1);    	//84M/84=1M的计数频率，自动重装载为500，那么PWM频率为1M/500=2kHZ  500-1
 			TIM_SetTIM10Compare1(0); 	
@@ -257,42 +339,90 @@ int main(void)
 			MX_GPIO_Init();
 			MX_CRC_Init();
 			MX_USART1_UART_Init();
-		 
-//			printf("test\r\n");
 			
 			while (1)
 			{
-					num++;
-					//printf("test\r\n");
-					
-				
-				  if(change_flag==1)
+				//move the raw data array
+				if (2048 < FIFO_GetDataCount(&FIFO_Data[0]))
+				{
+					if (8 == i)
 					{
-						 //measure_fft();
-						 change_flag=0;
+						for(k=0;k<14336;k++)
+						{
+							in_data[k] = in_data[k + 2048];
+						}
+						printf("fifo number: %d - %d\r\n", i, FIFO_GetDataCount(&FIFO_Data[0]));
+						FIFO_ReadData(&FIFO_Data[0], &in_data[2048*(i-1)], 2048);
+						printf("fifo number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[0]));	
+						trigger_flag0 = 1;
+						//__disable_irq();
+					}
+					else
+					{
+						printf("fifo number: %d - %d\r\n", i, FIFO_GetDataCount(&FIFO_Data[0]));
+						FIFO_ReadData(&FIFO_Data[0], &in_data[2048*i], 2048);
+						printf("fifo number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[0]));						
+						i++;
+					}
+				}
+				
+				//
+				if (trigger_flag0)
+				{
+					trigger_flag0 = 0;
+					sum = 0;
+					
+					//均值滤波
+					//arm_mean_f32(in_data, 16384, &raw_mean);
+					for(k=0;k<16384;k++)
+					{
+						sum += (unsigned short int)in_data[k];
+					}
+					raw_mean = (unsigned int )(sum / 16384 + 0.5);
+					
+					printf("sum and mean of raw: %d - %d\r\n", sum, raw_mean);
+					for(k=0;k<16384;k++)
+					{
+						in_data_mf[k] = in_data[k] - raw_mean;
+						//printf("0x%04X ", in_data_mf[k]);
+						//printf("%d ", in_data_mf[k]);
 					}
 					
-					delay_ms(100);
+					quick_detection_result = quick_detection(
+																							/* data =  */in_data_mf, 
+																							/* win_size_time =  */2048, 
+																							/* stride_time =  */1024, 
+																							/* time_times =  */5,
+																							/* time_add =  */50, 
+																							/* win_size_freq =  */256, 
+																							/* stride_freq =  */102, 
+																							/* time_accum =  */8, 
+																							/* xhz =  */2, 
+																							/* freq_times =  */40, 
+																							/* respiration_times =  */22
+																							);
 					
-					test1();
+					if (quick_detection_result)
+					{
+						rgb_led(0);	//red
+					}
+					else
+					{
+						rgb_led(1);		//green
+					}
 					
-					test2();
+//					index++;
+//					if (0 == index % 2)
+//					{
+//						rgb_led(3);
+//					}
+//					else
+//					{
+//						rgb_led(4);
+//					}
 					
-					test3();
-					
-					test4();//time
-					
-					test5();//freq
-					
-					
-//					 for(num=0;num<2560;num++)
-//					 {
-//							adc_data = in_data[num]; 
-//							printf("%d ",adc_data);	
-//					 }
-//					 
-//					 printf("END \r\n");
-					
+					//__enable_irq();    // 开启总中断
+				}
 			}
   
 }

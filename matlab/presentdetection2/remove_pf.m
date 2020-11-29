@@ -1,22 +1,23 @@
-function [data_remove_pf] = remove_pf(data, time_accum, xhz)
+function [data_remove_pf] = remove_pf(data, time_accum, xhz, freq50or60)
 
 %{
 Function Name: remove_pf
-Description: æš´åŠ›å»é™¤å·¥é¢‘åŠå…¶è°æ³¢å‘¨å›´xHzé¢‘ç‚¹
+Description: ±©Á¦È¥³ı¹¤Æµ¼°ÆäĞ³²¨ÖÜÎ§xHzÆµµã
 Input: 
-	data: ä¸€ç»´æ•°ç»„
-	time_accum: ç´¯ç§¯æ—¶é—´
-	xhz: å»é™¤é¢‘ç‚¹æ•°é‡
+	data: Ò»Î¬Êı×é
+	time_accum: ÀÛ»ıÊ±¼ä
+	xhz: È¥³ıÆµµãÊıÁ¿
+    freq50or60:¹¤Æµ¸ÉÈÅÆµµãÖµ
 Output: None
 Return: 
-	data_remove_pf: å»é™¤å·¥é¢‘å¹²æ‰°åçš„æ•°æ®
+	data_remove_pf: È¥³ı¹¤Æµ¸ÉÈÅºóµÄÊı¾İ
 %}
 
 part_1 = data(1: xhz* time_accum);
-part_3 = data(50* time_accum* fix(length(data)/ (50* time_accum))+ xhz* time_accum+ 1: length(data));
-part_2 = zeros(50* time_accum- 2* xhz* time_accum, fix(length(data)/ (50* time_accum)));
-for i  = 1: fix(length(data)/ (50* time_accum))
-	part_2(:, i) = data(50* time_accum* (i- 1)+ xhz* time_accum+ 1: 50* time_accum* i- xhz* time_accum);
+part_3 = data(freq50or60* time_accum* fix(length(data)/ (freq50or60* time_accum))+ xhz* time_accum+ 1: length(data));
+part_2 = zeros(freq50or60* time_accum- 2* xhz* time_accum, fix(length(data)/ (freq50or60* time_accum)));
+for i  = 1: fix(length(data)/ (freq50or60* time_accum))
+	part_2(:, i) = data(freq50or60* time_accum* (i- 1)+ xhz* time_accum+ 1: freq50or60* time_accum* i- xhz* time_accum);
 end
 part_2 = reshape(part_2, numel(part_2), 1);
 data_remove_pf = [part_1
