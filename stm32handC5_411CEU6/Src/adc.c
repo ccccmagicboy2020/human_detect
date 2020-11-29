@@ -22,7 +22,7 @@ void MY_ADC_Init(void)
 { 
     ADC1_Handler.Instance=ADC1;
     ADC1_Handler.Init.ClockPrescaler=ADC_CLOCK_SYNC_PCLK_DIV4;   //4分频，ADCCLK=PCLK2/4=90/4=22.5MHZ
-    ADC1_Handler.Init.Resolution=ADC_RESOLUTION_12B;             //12位模式
+    ADC1_Handler.Init.Resolution=ADC_RESOLUTION_8B;             //12位模式
     ADC1_Handler.Init.DataAlign=ADC_DATAALIGN_RIGHT;             //右对齐
     ADC1_Handler.Init.ScanConvMode=DISABLE;                      //非扫描模式
     ADC1_Handler.Init.EOCSelection=DISABLE;                      //关闭EOC中断
@@ -63,7 +63,7 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* hadc)
 //获得ADC值
 //ch: 通道值 0~16，取值范围为：ADC_CHANNEL_0~ADC_CHANNEL_16
 //返回值:转换结果
-u16 Get_Adc(u32 ch)   
+u8 Get_Adc(u32 ch)   
 {
    
 	
@@ -71,7 +71,7 @@ u16 Get_Adc(u32 ch)
 	
     HAL_ADC_PollForConversion(&ADC1_Handler,10);                //轮询转换
  
-	  return (u16)HAL_ADC_GetValue(&ADC1_Handler);	        //返回最近一次ADC1规则组的转换结果
+	  return (u8)HAL_ADC_GetValue(&ADC1_Handler);	        //返回最近一次ADC1规则组的转换结果
 }
 //获取指定通道的转换值，取times次,然后平均 
 //times:获取次数

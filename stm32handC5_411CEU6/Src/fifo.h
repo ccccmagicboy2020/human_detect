@@ -17,7 +17,8 @@
  * 并将此数据类型作为FIFO数据结构库的成员类型。
  * 这么做的好处是可以方便的修改FIFO的成员数据类型。
  */
-typedef short int FIFO_DataType;
+//typedef short int FIFO_DataType;
+typedef char FIFO_DataType;
 
 typedef struct
 {
@@ -38,7 +39,7 @@ void FIFO_Init(FIFO_Struct *FIFO_Data);
 void FIFO_WriteData(FIFO_Struct *FIFO_Data,FIFO_DataType *Data, uint32_t length);
 void FIFO_WriteOneData(FIFO_Struct *FIFO_Data,FIFO_DataType Data);
 void FIFO_ReadData(FIFO_Struct *FIFO_Data,FIFO_DataType *Data, uint32_t length);
-short int FIFO_ReadOneData(FIFO_Struct *FIFO_Data);
+FIFO_DataType FIFO_ReadOneData(FIFO_Struct *FIFO_Data);
 uint8_t FIFO_IsDataFull(FIFO_Struct *FIFO_Data);
 uint8_t FIFO_IsDataEmpty(FIFO_Struct *FIFO_Data);
 uint32_t FIFO_GetDataCount(FIFO_Struct *FIFO_Data);

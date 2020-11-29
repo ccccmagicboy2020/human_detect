@@ -13,6 +13,7 @@
 #include <arm_math.h>
 #include "cfar_ca_emxAPI.h"
 #include "remove_pf.h"
+#include "fifo.h"
 
 
 #define fixed short
@@ -49,7 +50,7 @@ float data_remove_pf[2048];
  *                int time_add
  * Return Type  : bool
  */
-int freq_detection(const float data[], const float win[], int data_size, int win_size_freq, int
+int freq_detection(FIFO_DataType data[], const float win[], int data_size, int win_size_freq, int
   stride_freq, int time_accum, int xhz, int freq_times, int respiration_times, int respirationfreq_vote[2])
 {
 	int freq_vote;

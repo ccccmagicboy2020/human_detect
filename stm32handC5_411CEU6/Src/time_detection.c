@@ -10,6 +10,7 @@
 #include <math.h>
 #include <stdio.h>
 #include "std_cv.h"
+#include "fifo.h"
 
 /*
  * {
@@ -32,7 +33,7 @@
  *                int time_add
  * Return Type  : bool
  */
-int time_detection(short int data[], int data_size, int win_size_time, int
+int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
   stride_time, int time_times, int time_add)
 {
 	int time_vote;

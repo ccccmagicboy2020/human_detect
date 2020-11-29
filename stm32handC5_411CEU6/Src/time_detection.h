@@ -12,9 +12,10 @@
 #include <stddef.h>
 #include <stdlib.h>
 #include "stm32f4xx.h"
+#include "fifo.h"
 
 /* Function Declarations */
-extern int time_detection(short int data[], int data_size, int win_size_time, int
+extern int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
   stride_time, int time_times, int time_add);
 
 #endif
