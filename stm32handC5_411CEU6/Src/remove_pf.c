@@ -33,7 +33,7 @@
  * Return Type  : void
  */
 void remove_pf(const float data_data[], int data_size, double
-               time_accum, double xhz, float data_remove_pf[2048], int result_size[2])
+               time_accum, double xhz, double freq50or60, float data_remove_pf[2048], int result_size[2])
 {
   double d;
   int loop_ub;
@@ -57,8 +57,8 @@ void remove_pf(const float data_data[], int data_size, double
     loop_ub = (int)d;
   }
 
-  x = trunc((double)data_size / (50.0 * time_accum));
-  d1 = (50.0 * time_accum * x + d) + 1.0;
+  x = trunc((double)data_size / (freq50or60 * time_accum));
+  d1 = (freq50or60 * time_accum * x + d) + 1.0;
   if (d1 > data_size) {
     i = 0;
     i1 = 0;
@@ -68,7 +68,7 @@ void remove_pf(const float data_data[], int data_size, double
   }
 
   emxInit_real_T(&part_2, 2);
-  i2 = (int)(50.0 * time_accum - 2.0 * xhz * time_accum);
+  i2 = (int)(freq50or60 * time_accum - 2.0 * xhz * time_accum);
   part_2_idx_0 = part_2->size[0] * part_2->size[1];
   part_2->size[0] = i2;
   i3 = (int)x;
@@ -79,10 +79,10 @@ void remove_pf(const float data_data[], int data_size, double
     part_2->data[i2] = 0.0;
   }
 
-  i2 = (int)trunc((double)data_size / (50.0 * time_accum));
+  i2 = (int)trunc((double)data_size / (freq50or60 * time_accum));
   for (b_i = 0; b_i < i2; b_i++) {
-    d1 = (50.0 * time_accum * (((double)b_i + 1.0) - 1.0) + d) + 1.0;
-    x = 50.0 * time_accum * ((double)b_i + 1.0) - d;
+    d1 = (freq50or60 * time_accum * (((double)b_i + 1.0) - 1.0) + d) + 1.0;
+    x = freq50or60 * time_accum * ((double)b_i + 1.0) - d;
     if (d1 > x) {
       part_2_idx_0 = 0;
       i3 = 0;

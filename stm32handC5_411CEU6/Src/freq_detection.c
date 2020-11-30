@@ -111,7 +111,7 @@ int freq_detection(FIFO_DataType data[], const float win[], int data_size, int w
 
 	printf("freq_detection: %d - %d - %d - %d - %d - %d - %d\r\n", data_size, win_size_freq, stride_freq, time_accum, xhz, freq_times, respiration_times);
 	printf("xxxxxx - %d - %d - %d\r\n", half_size, time_accum, xhz);	
-	remove_pf(testInput3, half_size, time_accum, xhz, data_remove_pf, pf_result_size);    //去除工频及其谐波周围2Hz频点
+	remove_pf(testInput3, half_size, time_accum, xhz, 50, data_remove_pf, pf_result_size);    //去除工频及其谐波周围2Hz频点
 	
 	data_remove_size =  pf_result_size[0];
 	printf("remove_pf size is: %d\r\n", data_remove_size);
@@ -166,10 +166,10 @@ int freq_detection(FIFO_DataType data[], const float win[], int data_size, int w
 		freq_vote = 0;
 	}
 	
-	arm_max_f32(data_remove_pf, time_accum* 0.5, &respirationfreq_max, &pIndex);
+	arm_max_f32(data_remove_pf, time_accum* 0.5 + 1, &respirationfreq_max, &pIndex);
 	printf("freq_detection max freq index-result: %d - %lf\r\n", pIndex, respirationfreq_max);
 	
-	arm_mean_f32(data_remove_pf, time_accum* 0.5, &respirationfreq_mean);
+	arm_mean_f32(data_remove_pf, time_accum* 0.5 + 1, &respirationfreq_mean);
 	printf("freq_detection mean freq result: %lf\r\n", respirationfreq_mean);
 	
 	if ((respirationfreq_max > minValue*respiration_times) || (respirationfreq_max > minValue*respiration_times*0.618))

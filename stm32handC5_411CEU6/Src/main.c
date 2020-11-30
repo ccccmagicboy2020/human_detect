@@ -236,7 +236,9 @@ int main(void)
 						in_data[k] = in_data[k] - raw_mean;
 						//printf("0x%04X ", in_data_mf[k]);
 						//printf("%d ", in_data_mf[k]);
+						/////////////////////////////////////////
 						//printf("%d,", in_data[k]);
+						/////////////////////////////////////////
 					}
 					
 					quick_detection_result = quick_detection(

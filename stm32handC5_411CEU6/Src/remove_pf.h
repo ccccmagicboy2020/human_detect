@@ -16,7 +16,7 @@
 
 /* Function Declarations */
 extern void remove_pf(const float data_data[], int data_size, double
-                      time_accum, double xhz, float data_remove_pf[2048], int result_size[2]);
+                      time_accum, double xhz, double freq50or60, float data_remove_pf[2048], int result_size[2]);
 
 #endif
 
