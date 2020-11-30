@@ -18,7 +18,8 @@
  * 这么做的好处是可以方便的修改FIFO的成员数据类型。
  */
 //typedef short int FIFO_DataType;
-typedef char FIFO_DataType;
+//typedef char FIFO_DataType;
+typedef short int FIFO_DataType;
 
 typedef struct
 {
@@ -31,7 +32,7 @@ typedef struct
 
 
 #define FIFO_DATA_NUM		1
-#define FIFO_DATA_SIZE	2500		//fifo的大小, 5K
+#define FIFO_DATA_SIZE	3000		//fifo的大小, 5K
 
 extern FIFO_Struct FIFO_Data[FIFO_DATA_NUM];
 

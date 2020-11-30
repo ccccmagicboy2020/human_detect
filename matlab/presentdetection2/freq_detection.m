@@ -18,6 +18,8 @@ Return:
 %}
 
 w = window(@hamming, length(data)); % ´°º¯Êý
+dlmwrite('w.txt', w', 'delimiter', ',', 'newline', 'pc', 'precision', '%5.3f')
+
 X = data .* w; % ¼Ó´°
 Y = fft(X, length(data)); % FFT
 AP_double = abs(Y)/ length(data); % Ë«±ßÆ×

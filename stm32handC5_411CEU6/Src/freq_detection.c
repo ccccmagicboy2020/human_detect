@@ -82,8 +82,9 @@ int freq_detection(FIFO_DataType data[], const float win[], int data_size, int w
 	
 	for(i=0; i<data_size; i++)
 	{
-			//testInput[i] = data[i] * win[i];
-			testInput[i] = data[i];
+			testInput[i] = data[i] * win[i];
+			//testInput[i] = data[i];
+			//printf("%.3lf,", testInput[i]);
 	}
 	
   arm_rfft_fast_f32(&S, testInput, testInput2, 0); 
@@ -103,11 +104,12 @@ int freq_detection(FIFO_DataType data[], const float win[], int data_size, int w
 	
 	for (i=0;i<half_size;i++)
 	{
-		printf("%.3lf,", testInput3[i]);
+		//printf("%.3lf,", testInput3[i]);
 	}
 	
 	printf("\r\nend\r\n");	
 
+	printf("freq_detection: %d - %d - %d - %d - %d - %d - %d\r\n", data_size, win_size_freq, stride_freq, time_accum, xhz, freq_times, respiration_times);
 	printf("xxxxxx - %d - %d - %d\r\n", half_size, time_accum, xhz);	
 	remove_pf(testInput3, half_size, time_accum, xhz, data_remove_pf, pf_result_size);    //去除工频及其谐波周围2Hz频点
 	
@@ -116,15 +118,15 @@ int freq_detection(FIFO_DataType data[], const float win[], int data_size, int w
 	
 	printf("fft remove_pf value start:\r\n");
 	
-	for (i=0;i<data_remove_size;i++)
-	{
-			printf("%.3lf,", data_remove_pf[i]);
-	}  
+//	for (i=0;i<data_remove_size;i++)
+//	{
+//			printf("%.3lf,", data_remove_pf[i]);
+//	}  
 	
 	printf("\r\nend\r\n");	
 	
 	mean_size = (int)((data_remove_size - win_size_freq) / stride_freq + 1);
-	printf("std size is: %d\r\n", mean_size);
+	printf("mean size is: %d\r\n", mean_size);
 	
 	sum = 0;
 	
@@ -136,7 +138,7 @@ int freq_detection(FIFO_DataType data[], const float win[], int data_size, int w
 		}
 		mean_value[i] = sum / win_size_freq;
 		sum = 0;
-		printf("freq_detection std_value: %d - %.4lf\r\n", i, mean_value[i]);
+		printf("freq_detection mean_value: %d - %.4lf\r\n", i, mean_value[i]);
 	}	
 	
 	maxValue = mean_value[0];
