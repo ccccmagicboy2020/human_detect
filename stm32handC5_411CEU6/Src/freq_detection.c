@@ -60,7 +60,7 @@ int freq_detection(FIFO_DataType data[], const float win[], int data_size, int w
 	int data_remove_size;
 	int pf_result_size[2];
 	int mean_size;
-	double mean_value[20];
+	double mean_value[100];
 	double sum;
 	double maxValue;
 	double minValue;

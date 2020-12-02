@@ -38,7 +38,7 @@ int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
 {
 	int time_vote;
 	int std_size;
-	float std_value[20] = {0};
+	float std_value[100] = {0};
 	int i;
 	int j;
 	double maxValue;
