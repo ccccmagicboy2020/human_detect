@@ -455,89 +455,9 @@
               <FilePath>..\Inc\hamming.h</FilePath>
             </File>
             <File>
-              <FileName>auto_trip_50hz.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\auto_trip_50hz.c</FilePath>
-            </File>
-            <File>
               <FileName>cfar_ca.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\cfar_ca.c</FilePath>
-            </File>
-            <File>
-              <FileName>cfar_ca_emxAPI.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\cfar_ca_emxAPI.c</FilePath>
-            </File>
-            <File>
-              <FileName>cfar_ca_data.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\cfar_ca_data.c</FilePath>
-            </File>
-            <File>
-              <FileName>cfar_ca_emxutil.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\cfar_ca_emxutil.c</FilePath>
-            </File>
-            <File>
-              <FileName>cfar_ca_initialize.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\cfar_ca_initialize.c</FilePath>
-            </File>
-            <File>
-              <FileName>rt_nonfinite.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\rt_nonfinite.c</FilePath>
-            </File>
-            <File>
-              <FileName>find_peak_cv.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\find_peak_cv.c</FilePath>
-            </File>
-            <File>
-              <FileName>eml_setop.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\eml_setop.c</FilePath>
-            </File>
-            <File>
-              <FileName>find_peak_cv_data.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\find_peak_cv_data.c</FilePath>
-            </File>
-            <File>
-              <FileName>find_peak_cv_initialize.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\find_peak_cv_initialize.c</FilePath>
-            </File>
-            <File>
-              <FileName>time_detection.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\time_detection.c</FilePath>
-            </File>
-            <File>
-              <FileName>std_cv.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\std_cv.c</FilePath>
-            </File>
-            <File>
-              <FileName>std_cv_data.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\std_cv_data.c</FilePath>
-            </File>
-            <File>
-              <FileName>std_cv_initialize.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\std_cv_initialize.c</FilePath>
-            </File>
-            <File>
-              <FileName>freq_detection.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\freq_detection.c</FilePath>
-            </File>
-            <File>
-              <FileName>remove_pf.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\remove_pf.c</FilePath>
             </File>
           </Files>
         </Group>
