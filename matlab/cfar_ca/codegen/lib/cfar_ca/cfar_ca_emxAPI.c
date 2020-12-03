@@ -2,14 +2,13 @@
  * File: cfar_ca_emxAPI.c
  *
  * MATLAB Coder version            : 5.0
- * C/C++ source code generated on  : 11-Nov-2020 17:43:04
+ * C/C++ source code generated on  : 03-Dec-2020 09:43:05
  */
 
 /* Include Files */
 #include "cfar_ca_emxAPI.h"
 #include "cfar_ca.h"
 #include "cfar_ca_emxutil.h"
-#include "rt_nonfinite.h"
 #include <stdlib.h>
 
 /* Function Definitions */

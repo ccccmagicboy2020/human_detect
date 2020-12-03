@@ -2,7 +2,7 @@
 ## Makefile generated for MATLAB file/project 'cfar_ca'. 
 ## 
 ## Makefile     : cfar_ca_rtw.mk
-## Generated on : Wed Nov 11 17:43:17 2020
+## Generated on : Thu Dec 03 09:41:49 2020
 ## MATLAB Coder version: 5.0 (R2020a)
 ## 
 ## Build Info:
@@ -227,7 +227,7 @@ DEFINES = $(DEFINES_) $(DEFINES_CUSTOM) $(DEFINES_SKIPFORSIL) $(DEFINES_STANDARD
 ## SOURCE FILES
 ###########################################################################
 
-SRCS = $(START_DIR)/rt_nonfinite.c $(START_DIR)/rtGetNaN.c $(START_DIR)/rtGetInf.c $(START_DIR)/cfar_ca_data.c $(START_DIR)/cfar_ca_initialize.c $(START_DIR)/cfar_ca_terminate.c $(START_DIR)/cfar_ca.c $(START_DIR)/cfar_ca_emxutil.c $(START_DIR)/cfar_ca_emxAPI.c
+SRCS = $(START_DIR)/cfar_ca_initialize.c $(START_DIR)/cfar_ca_terminate.c $(START_DIR)/cfar_ca.c $(START_DIR)/cfar_ca_emxutil.c $(START_DIR)/cfar_ca_emxAPI.c
 
 ALL_SRCS = $(SRCS)
 
@@ -235,7 +235,7 @@ ALL_SRCS = $(SRCS)
 ## OBJECTS
 ###########################################################################
 
-OBJS = rt_nonfinite.o rtGetNaN.o rtGetInf.o cfar_ca_data.o cfar_ca_initialize.o cfar_ca_terminate.o cfar_ca.o cfar_ca_emxutil.o cfar_ca_emxAPI.o
+OBJS = cfar_ca_initialize.o cfar_ca_terminate.o cfar_ca.o cfar_ca_emxutil.o cfar_ca_emxAPI.o
 
 ALL_OBJS = $(OBJS)
 
@@ -505,22 +505,6 @@ $(PRODUCT) : $(OBJS) $(PREBUILT_OBJS)
 
 %.o : D:/cccc2020/CODE/human_detect/matlab/cfar_ca/%.cxx
 	$(CPP) $(CPPFLAGS) -o "$@" "$<"
-
-
-rt_nonfinite.o : $(START_DIR)/rt_nonfinite.c
-	$(CC) $(CFLAGS) -o "$@" "$<"
-
-
-rtGetNaN.o : $(START_DIR)/rtGetNaN.c
-	$(CC) $(CFLAGS) -o "$@" "$<"
-
-
-rtGetInf.o : $(START_DIR)/rtGetInf.c
-	$(CC) $(CFLAGS) -o "$@" "$<"
-
-
-cfar_ca_data.o : $(START_DIR)/cfar_ca_data.c
-	$(CC) $(CFLAGS) -o "$@" "$<"
 
 
 cfar_ca_initialize.o : $(START_DIR)/cfar_ca_initialize.c

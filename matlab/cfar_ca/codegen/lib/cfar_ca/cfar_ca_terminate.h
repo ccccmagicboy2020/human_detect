@@ -2,7 +2,7 @@
  * File: cfar_ca_terminate.h
  *
  * MATLAB Coder version            : 5.0
- * C/C++ source code generated on  : 11-Nov-2020 17:43:04
+ * C/C++ source code generated on  : 03-Dec-2020 09:43:05
  */
 
 #ifndef CFAR_CA_TERMINATE_H

@@ -2,7 +2,7 @@
  * File: _coder_cfar_ca_api.h
  *
  * MATLAB Coder version            : 5.0
- * C/C++ source code generated on  : 11-Nov-2020 17:43:04
+ * C/C++ source code generated on  : 03-Dec-2020 09:43:05
  */
 
 #ifndef _CODER_CFAR_CA_API_H
@@ -42,8 +42,8 @@ extern emlrtCTX emlrtRootTLSGlobal;
 extern emlrtContext emlrtContextGlobal;
 
 /* Function Declarations */
-extern void cfar_ca(real_T xc[1000], real_T N, real_T pro_N, real_T PAD,
-                    emxArray_real_T *b_index, emxArray_real_T *XT);
+extern void cfar_ca(real_T xc_data[], int32_T xc_size[2], real_T N, real_T pro_N,
+                    real_T PAD, emxArray_real_T *b_index, emxArray_real_T *XT);
 extern void cfar_ca_api(const mxArray * const prhs[4], int32_T nlhs, const
   mxArray *plhs[2]);
 extern void cfar_ca_atexit(void);

@@ -2,7 +2,7 @@
  * File: main.c
  *
  * MATLAB Coder version            : 5.0
- * C/C++ source code generated on  : 11-Nov-2020 17:43:04
+ * C/C++ source code generated on  : 03-Dec-2020 09:43:05
  */
 
 /*************************************************************************/
@@ -35,28 +35,33 @@
 #include "cfar_ca.h"
 #include "cfar_ca_emxAPI.h"
 #include "cfar_ca_terminate.h"
-#include "rt_nonfinite.h"
 
 /* Function Declarations */
-static void argInit_1x1000_real_T(double result[1000]);
+static void argInit_1xd2048_real_T(double result_data[], int result_size[2]);
 static double argInit_real_T(void);
 static void main_cfar_ca(void);
 
 /* Function Definitions */
 
 /*
- * Arguments    : double result[1000]
+ * Arguments    : double result_data[]
+ *                int result_size[2]
  * Return Type  : void
  */
-static void argInit_1x1000_real_T(double result[1000])
+static void argInit_1xd2048_real_T(double result_data[], int result_size[2])
 {
   int idx1;
 
+  /* Set the size of the array.
+     Change this size to the value that the application requires. */
+  result_size[0] = 1;
+  result_size[1] = 2;
+
   /* Loop over the array to initialize each element. */
-  for (idx1 = 0; idx1 < 1000; idx1++) {
+  for (idx1 = 0; idx1 < 2; idx1++) {
     /* Set the value of the array element.
        Change this value to the value that the application requires. */
-    result[idx1] = argInit_real_T();
+    result_data[idx1] = argInit_real_T();
   }
 }
 
@@ -77,18 +82,19 @@ static void main_cfar_ca(void)
 {
   emxArray_real_T *b_index;
   emxArray_real_T *XT;
+  double xc_data[2048];
+  int xc_size[2];
   double N_tmp;
-  double dv[1000];
   emxInitArray_real_T(&b_index, 2);
   emxInitArray_real_T(&XT, 2);
 
   /* Initialize function 'cfar_ca' input arguments. */
   /* Initialize function input argument 'xc'. */
+  argInit_1xd2048_real_T(xc_data, xc_size);
   N_tmp = argInit_real_T();
 
   /* Call the entry-point 'cfar_ca'. */
-  argInit_1x1000_real_T(dv);
-  cfar_ca(dv, N_tmp, N_tmp, N_tmp, b_index, XT);
+  cfar_ca(xc_data, xc_size, N_tmp, N_tmp, N_tmp, b_index, XT);
   emxDestroyArray_real_T(XT);
   emxDestroyArray_real_T(b_index);
 }

@@ -1,7 +1,7 @@
 <deployment-project plugin="plugin.coder" plugin-version="R2018b">
-  <configuration build-checksum="1157513736" file="D:\cccc2020\CODE\human_detect\matlab\cfar_ca\cfar_ca.prj" location="D:\cccc2020\CODE\human_detect\matlab\cfar_ca" name="cfar_ca" target="target.unifiedcoder" target-name="MATLAB Coder">
+  <configuration build-checksum="2660634514" file="D:\cccc2020\CODE\human_detect\matlab\cfar_ca\cfar_ca.prj" location="D:\cccc2020\CODE\human_detect\matlab\cfar_ca" name="cfar_ca" target="target.unifiedcoder" target-name="MATLAB Coder">
     <profile key="profile.mex">
-      <param.BuiltInstrumentedMex>false</param.BuiltInstrumentedMex>
+      <param.BuiltInstrumentedMex />
       <param.RanInstrumentedMex>false</param.RanInstrumentedMex>
       <param.WorkingFolder>option.WorkingFolder.Project</param.WorkingFolder>
       <param.SpecifiedWorkingFolder />
@@ -13,7 +13,7 @@
       <param.IntegrityChecks>true</param.IntegrityChecks>
       <param.SaturateOnIntegerOverflow>true</param.SaturateOnIntegerOverflow>
       <param.GlobalDataSyncMethod>option.GlobalDataSyncMethod.SyncAlways</param.GlobalDataSyncMethod>
-      <param.EnableVariableSizing>true</param.EnableVariableSizing>
+      <param.EnableVariableSizing>false</param.EnableVariableSizing>
       <param.DynamicMemoryAllocation>option.DynamicMemoryAllocation.Threshold</param.DynamicMemoryAllocation>
       <param.DynamicMemoryAllocationThreshold>65536</param.DynamicMemoryAllocationThreshold>
       <param.DynamicMemoryAllocationInterface>option.DynamicMemoryAllocationInterface.C</param.DynamicMemoryAllocationInterface>
@@ -64,7 +64,7 @@
       <param.ConstantInputs>option.ConstantInputs.CheckValues</param.ConstantInputs>
       <param.EnableCRICodeCoverage>true</param.EnableCRICodeCoverage>
       <param.EnableJIT>false</param.EnableJIT>
-      <param.EnableJITSilentBailOut>false</param.EnableJITSilentBailOut>
+      <param.EnableJITSilentBailOut />
       <param.CheckForIssuesJIT>true</param.CheckForIssuesJIT>
       <unset>
         <param.BuiltInstrumentedMex />
@@ -79,7 +79,6 @@
         <param.IntegrityChecks />
         <param.SaturateOnIntegerOverflow />
         <param.GlobalDataSyncMethod />
-        <param.EnableVariableSizing />
         <param.DynamicMemoryAllocation />
         <param.DynamicMemoryAllocationThreshold />
         <param.DynamicMemoryAllocationInterface />
@@ -142,7 +141,7 @@
       <param.SearchPaths />
       <param.SaturateOnIntegerOverflow>true</param.SaturateOnIntegerOverflow>
       <param.PurelyIntegerCode>false</param.PurelyIntegerCode>
-      <param.SupportNonFinite>true</param.SupportNonFinite>
+      <param.SupportNonFinite>false</param.SupportNonFinite>
       <param.LoopUnrollThreshold>5</param.LoopUnrollThreshold>
       <param.EnableVariableSizing>true</param.EnableVariableSizing>
       <param.DynamicMemoryAllocation>option.DynamicMemoryAllocation.Threshold</param.DynamicMemoryAllocation>
@@ -326,7 +325,6 @@
         <param.SearchPaths />
         <param.SaturateOnIntegerOverflow />
         <param.PurelyIntegerCode />
-        <param.SupportNonFinite />
         <param.LoopUnrollThreshold />
         <param.EnableVariableSizing />
         <param.DynamicMemoryAllocation />
@@ -835,7 +833,7 @@
       </unset>
     </profile>
     <param.objective>option.objective.c</param.objective>
-    <param.WorkflowStep>generateCode</param.WorkflowStep>
+    <param.WorkflowStep>workflowSummary</param.WorkflowStep>
     <param.TestSnippets>
       <item>cfar_ca(xc, N, pro_N, PAD)</item>
     </param.TestSnippets>
@@ -856,7 +854,7 @@
     <param.AutoInferUnboundedSizeThreshold>2048</param.AutoInferUnboundedSizeThreshold>
     <param.EnableFixedPointStep>false</param.EnableFixedPointStep>
     <param.EnableScreener>true</param.EnableScreener>
-    <param.AnnotationChecksum>3659950719</param.AnnotationChecksum>
+    <param.AnnotationChecksum>716802026</param.AnnotationChecksum>
     <var.LegacyTarget />
     <var.MirrorOnOpen>false</var.MirrorOnOpen>
     <param.FixedPointEnabled>false</param.FixedPointEnabled>
@@ -865,12 +863,12 @@
     <param.unifiedParamStorage />
     <var.gc.lastOutputRoot>codegen\lib\cfar_ca</var.gc.lastOutputRoot>
     <var.gc.lastOutputType>C_CODE</var.gc.lastOutputType>
-    <var.gc.preBuildChecksum>104322157</var.gc.preBuildChecksum>
+    <var.gc.preBuildChecksum>2660634514</var.gc.preBuildChecksum>
     <var.cfi.lastOutputRoot>codegen\mex\cfar_ca</var.cfi.lastOutputRoot>
     <var.cfi.preBuildChecksum>524054750</var.cfi.preBuildChecksum>
     <var.lastCfiTestSnippet>cfar_ca(xc, N, pro_N, PAD)</var.lastCfiTestSnippet>
     <var.outdatedOnRestore>false</var.outdatedOnRestore>
-    <var.lastUserSourceChecksum>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;checksum&gt;&lt;includedFiles&gt;&lt;file&gt;D:\cccc2020\CODE\human_detect\matlab\cfar_ca\cfar_ca.m&lt;/file&gt;&lt;/includedFiles&gt;&lt;value&gt;4099992051&lt;/value&gt;&lt;/checksum&gt;</var.lastUserSourceChecksum>
+    <var.lastUserSourceChecksum>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;checksum&gt;&lt;includedFiles&gt;&lt;file&gt;D:\cccc2020\CODE\human_detect\matlab\cfar_ca\cfar_ca.m&lt;/file&gt;&lt;/includedFiles&gt;&lt;value&gt;382805533&lt;/value&gt;&lt;/checksum&gt;</var.lastUserSourceChecksum>
     <var.sourceSetState>&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;&lt;sourceModel&gt;&lt;primarySourceFiles&gt;&lt;file&gt;D:\cccc2020\CODE\human_detect\matlab\cfar_ca\cfar_ca.m&lt;/file&gt;&lt;/primarySourceFiles&gt;&lt;fixedPointSourceFiles/&gt;&lt;fixedPointSourceRegistered&gt;false&lt;/fixedPointSourceRegistered&gt;&lt;fixedPointSourceSelected&gt;false&lt;/fixedPointSourceSelected&gt;&lt;/sourceModel&gt;</var.sourceSetState>
     <param.forceMexBuild>false</param.forceMexBuild>
     <param.NoDefaultJIT>false</param.NoDefaultJIT>
@@ -1077,7 +1075,7 @@
     </unset>
     <fileset.entrypoints>
       <file custom-data-expanded="false" value="${PROJECT_ROOT}\cfar_ca.m">
-        <Marker>1605087758918</Marker>
+        <Marker>1606958816947</Marker>
       </file>
     </fileset.entrypoints>
     <fileset.testbench />
@@ -1091,10 +1089,10 @@
           <idpTable>
             <type typeId="0">
               <Class>double</Class>
-              <Size>1 x 1000</Size>
+              <Size>1 x :2048</Size>
               <Value />
               <InitialValue />
-              <UserDefined>false</UserDefined>
+              <UserDefined>true</UserDefined>
               <Complex>false</Complex>
               <Sparse>false</Sparse>
             </type>
