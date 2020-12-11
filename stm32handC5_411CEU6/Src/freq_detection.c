@@ -172,7 +172,7 @@ int freq_detection(FIFO_DataType data[], const float win[], int data_size, int w
 	arm_mean_f32(data_remove_pf, time_accum* 0.5 + 1, &respirationfreq_mean);
 	printf("freq_detection mean freq result: %lf\r\n", respirationfreq_mean);
 	
-	if ((respirationfreq_max > minValue*respiration_times) || (respirationfreq_max > minValue*respiration_times*0.618))
+	if ((respirationfreq_max > minValue*respiration_times) || (respirationfreq_mean > minValue*respiration_times*0.618))
 	{
 		respirationfreq_vote[0] = 1;
 	}
