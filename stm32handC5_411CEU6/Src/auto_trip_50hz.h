@@ -17,6 +17,8 @@ extern void auto_trip_50hz(const double src[1024], double fs, double lamda,
   const double peaks[3], double res[1024]);
 extern void auto_trip_50hz2(const float src[1024], short fs,
   const float freq, float res[1024]);
+extern void auto_trip_50hz3(const short src[1024], short fs,
+  const float freq, short res[1024]);
 #endif
 
 /*
