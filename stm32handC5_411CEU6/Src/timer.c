@@ -3,7 +3,6 @@
 #include "adc.h"
 #include "stdio.h"
 #include "delay.h"
-#include "fifo.h"
 //////////////////////////////////////////////////////////////////////////////////	 
 //本程序只供学习使用，未经作者许可，不得用于其它任何用途
 //ALIENTEK STM32F407开发板
@@ -16,9 +15,7 @@
 //Copyright(C) 广州市星翼电子科技有限公司 2014-2024
 //All rights reserved									  
 ////////////////////////////////////////////////////////////////////////////////// 	
-extern void rgb_led(int mode);
 
-int index = 0;
 
 TIM_HandleTypeDef TIM3_Handler;      //定时器句柄 
 
@@ -27,6 +24,16 @@ TIM_OC_InitTypeDef TIM4_CH2Handler;	//定时器14通道1句柄
 
 TIM_HandleTypeDef TIM10_Handler;      	//定时器句柄 
 TIM_OC_InitTypeDef TIM10_CH1Handler;	//定时器14通道1句柄
+
+u8 change_flag = 0;
+
+u16 Timer_Count = 0, Timer_Count1 = 0,Timer_Count2 = 0,DD = 0;//溢出次数
+
+//u16 in_data2[2048]={0};
+u16  AD_Value[512] = {0};
+
+u16  adc_data = 0;
+
 
 //extern void measure_fft(void);
 
@@ -165,19 +172,62 @@ void TIM3_IRQHandler(void)
 
 //回调函数，定时器中断服务函数调用
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
-{
-	  if(htim==(&TIM3_Handler))	//timer3:
+{ 
+		
+	  if(htim==(&TIM3_Handler))
     {
-//			index++;
-			FIFO_WriteOneData(&FIFO_Data[0], Get_Adc(5));
+					adc_data = Get_Adc(5);
+	//				temp_val+=adc_data;
+					AD_Value[Timer_Count] = adc_data;
+					
+				
 			
-//			if (0 == index % 2)
-//			{
-//				rgb_led(3);
-//			}
-//			else
-//			{
-//				rgb_led(4);
-//			}
+	        Timer_Count++;
+//			    Timer_Count1++;
+/********************* TEST *****************************************/			
+//			    if( Timer_Count1==1)
+//					{
+//						  printf("Begin ");
+//					}
+//					printf("%04d ",adc_data);
+//			    if( Timer_Count1==256)
+//					{
+//						  Timer_Count1 = 0;
+//						  printf("End\r\n");
+//					}					
+/********************* TEST *****************************************/						
+					
+			   
+//			    if(Timer_Count == 1024)
+//					{
+//							for(i=0;i<1024;i++)
+//							{
+//									in_data2[i] = in_data2[i+1024];
+//							}
+//									
+//							for(i=1024;i<2048;i++)
+//							{ 
+//									in_data2[i] =  AD_Value[i-1024];
+//							}
+//              Timer_Count = 0;
+//							change_flag = 1;
+//					 }	
+//					 else
+//					 {
+//							change_flag = 0;
+//					 }
+
+						if(Timer_Count == 512)
+						{
+						    Timer_Count = 0;
+							  change_flag = 1;
+						}
+						else
+						{
+								change_flag = 0;
+						}
+         
+
     }
 }
+

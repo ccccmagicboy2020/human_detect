@@ -22,8 +22,7 @@ void MY_ADC_Init(void)
 { 
     ADC1_Handler.Instance=ADC1;
     ADC1_Handler.Init.ClockPrescaler=ADC_CLOCK_SYNC_PCLK_DIV4;   //4分频，ADCCLK=PCLK2/4=90/4=22.5MHZ
-    //ADC1_Handler.Init.Resolution=ADC_RESOLUTION_8B;             //12位模式
-		ADC1_Handler.Init.Resolution=ADC_RESOLUTION_12B;
+    ADC1_Handler.Init.Resolution=ADC_RESOLUTION_12B;             //12位模式
     ADC1_Handler.Init.DataAlign=ADC_DATAALIGN_RIGHT;             //右对齐
     ADC1_Handler.Init.ScanConvMode=DISABLE;                      //非扫描模式
     ADC1_Handler.Init.EOCSelection=DISABLE;                      //关闭EOC中断

@@ -15,7 +15,7 @@
 //#include "find_peak_cv_types.h"
 
 /* Function Declarations */
-extern void find_peak_cv(const double y_value_data[], const int y_value_size,
+extern void find_peak_cv(const float y_value_data[], const int y_value_size,
   double peaks_data[], int peaks_size[2], double index_data[], int index_size[2]);
 
 #endif

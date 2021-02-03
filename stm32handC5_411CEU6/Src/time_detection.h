@@ -16,7 +16,7 @@
 
 /* Function Declarations */
 extern int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
-  stride_time, int time_times, int time_add);
+  stride_time, double time_times, int time_add);
 
 #endif
 

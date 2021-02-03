@@ -15,8 +15,7 @@
 #include "cfar_ca_types.h"
 
 /* Function Declarations */
-extern void cfar_ca(const double xc[1000], double N, double pro_N, double PAD,
-                    emxArray_real_T *b_index, emxArray_real_T *XT);
+extern void cfar_ca(const float xc_data[], int xc_size, double N, double pro_N, double PAD, float b_index[], int b_index_size[2], float XT[]);
 
 #endif
 

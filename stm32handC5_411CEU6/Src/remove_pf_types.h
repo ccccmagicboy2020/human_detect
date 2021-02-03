@@ -1,8 +1,11 @@
 /*
+ * Academic License - for use in teaching, academic research, and meeting
+ * course requirements at degree granting institutions only.  Not for
+ * government, commercial, or other organizational use.
  * File: remove_pf_types.h
  *
  * MATLAB Coder version            : 5.0
- * C/C++ source code generated on  : 26-Nov-2020 19:16:41
+ * C/C++ source code generated on  : 20-Nov-2020 14:07:45
  */
 
 #ifndef REMOVE_PF_TYPES_H
@@ -21,7 +24,7 @@ struct emxArray_real_T
   int *size;
   int allocatedSize;
   int numDimensions;
-  bool canFreeData;
+  boolean_T canFreeData;
 };
 
 #endif                                 /*struct_emxArray_real_T*/

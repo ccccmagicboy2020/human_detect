@@ -13,8 +13,8 @@
 #include <stdlib.h>
 
 /* Function Declarations */
-extern void auto_trip_50hz(const double src[2560], double fs, double lamda,
-  const double peaks[3], double res[2560]);
+extern void auto_trip_50hz(const float src[2560], double fs, double lamda,
+  const double peaks[3], float res[2560]);
 
 #endif
 

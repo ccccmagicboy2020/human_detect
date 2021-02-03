@@ -9,8 +9,8 @@
 #include "time_detection.h"
 #include <math.h>
 #include <stdio.h>
-#include "std_cv.h"
 #include "fifo.h"
+#include "arm_math.h" 
 
 /*
  * {
@@ -34,10 +34,11 @@
  * Return Type  : bool
  */
 int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
-  stride_time, int time_times, int time_add)
+  stride_time, double time_times, int time_add)
 {
 	int time_vote;
 	int std_size;
+	float pResult;
 	float std_value[100] = {0};
 	int i;
 	int j;
@@ -50,8 +51,8 @@ int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
 	
 	std_size = (int)((data_size - win_size_time) / stride_time + 1);
 	
-	printf("time_detection: %d - %d - %d - %d - %d\r\n", data_size, win_size_time, stride_time, time_times, time_add);
-	printf("time_detection std_size: %d\r\n", std_size);
+//	printf("time_detection: %d - %d - %d - %d - %d\r\n", data_size, win_size_time, stride_time, time_times, time_add);
+//	printf("time_detection std_size: %d\r\n", std_size);
 	
 	for (i=0;i<std_size;i++)
 	{
@@ -59,7 +60,8 @@ int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
 		{
 			data_temp[j] = data[i*stride_time + j];
 		}		
-		std_value[i] = std_cv(data_temp, win_size_time);
+		arm_std_f32(data_temp, win_size_time, &pResult);
+		std_value[i] = pResult;
 		//printf("time_detection std_value: %d - %lf\r\n", i, std_value[i]);
 	}
 	
@@ -78,12 +80,12 @@ int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
         }  
     }  
 		
-		printf("time_detection max-min: %lf - %lf\r\n", maxValue, minValue);
+//		printf("time_detection max-min: %lf - %lf\r\n", maxValue, minValue);
 		
 		temp0 = minValue * time_times;
 		temp1 = minValue + time_add;
 		
-		printf("time_detection * - +: %lf - %lf\r\n", temp0, temp1);
+//		printf("time_detection * - +: %lf - %lf\r\n", temp0, temp1);
 		
 		if (temp0 < temp1)
 		{

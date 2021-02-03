@@ -26,7 +26,7 @@
  *                int index_size[2]
  * Return Type  : void
  */
-void find_peak_cv(const double y_value_data[], const int y_value_size, double
+void find_peak_cv(const float y_value_data[], const int y_value_size, double
                   peaks_data[], int peaks_size[2], double index_data[], int
                   index_size[2])
 {
@@ -41,18 +41,18 @@ void find_peak_cv(const double y_value_data[], const int y_value_size, double
   double yk;
   bool isinfyk;
   int iInfinite_size[1];
-  int iInfinite_data[2048];
+  int iInfinite_data[1024];
   char previousdir;
-  int iFinite_data[2048];
+  int iFinite_data[1024];
   int iPk_size[1];
-  int iPk_data[2048];
-  int c_data[4096];
+  int iPk_data[1024];
+  int c_data[2048];
   int c_size[1];
-  int iInflect_data[2048];
+  int iInflect_data[1024];
   int iInflect_size[1];
   int iFinite_size[1];
-  int y_data[4096];
-  int idx_data[4096];
+  int y_data[2048];
+  int idx_data[2048];
   if (!isInitialized_find_peak_cv) {
     find_peak_cv_initialize();
   }
