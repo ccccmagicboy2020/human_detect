@@ -1,0 +1,221 @@
+#include "myled.h"
+#include "hc32_ddl.h"
+#include "sys.h"
+
+
+//int delay_time  = 0, delay_time_num = 0, respirationfreq_num = 0;
+//float   offsetmax = 0;
+//float   offsetmin = 0;
+//double res_times = 0;
+//int CUT = 0;
+
+
+
+//void KEY_Init(void)
+//{
+//	  stc_port_init_t stcPortInit;
+
+//      /* configuration structure initialization */
+//      MEM_ZERO_STRUCT(stcPortInit);
+
+//      stcPortInit.enPinMode = Pin_Mode_In;
+//      stcPortInit.enExInt = Enable;
+//      stcPortInit.enPullUp = Enable;
+
+//      /* LED0 Port/Pin initialization */
+//	  PORT_Init(PortB, Pin05, &stcPortInit);
+//	  PORT_Init(PortB, Pin06, &stcPortInit);
+//	  PORT_Init(PortA, Pin08, &stcPortInit);
+//	  PORT_Init(PortB, Pin13, &stcPortInit);
+//	  PORT_Init(PortB, Pin14, &stcPortInit);
+//	  PORT_Init(PortB, Pin15, &stcPortInit);
+//  
+//	  if(KEY1 == 0)
+//	  {
+//		  res_times = 20.5;
+//	  }
+//	  else
+//	  {
+//	      res_times = 21.5;
+//	  }
+//	  
+//	  
+//	  if(KEY2 == 0)
+//	  {
+//		  CUT = 1;
+//	  }
+//	  else
+//	  {
+//	      CUT = 0;
+//	  }
+//	  if(KEY5 == 0 && KEY6 == 0)
+//	  {
+//		   offsetmax = 0.65;
+//           offsetmin = 0.6;		  
+//	  }
+//	  else if(KEY5 == 0 && KEY6 == 1)
+//	  {
+//		   offsetmax = 0.7;
+//           offsetmin = 0.65;	
+//	  }
+//	  else if(KEY5 == 1 && KEY6 == 0)
+//	  {
+//		   offsetmax = 0.75;
+//           offsetmin = 0.7;		
+//	  }
+//	  else if(KEY5 == 1 && KEY6 == 1)
+//	  {
+//		   offsetmax = 0.8;
+//           offsetmin = 0.75;			
+//	  }	  
+//	  
+//	  if(KEY7 == 0 && KEY8 == 0)
+//	  {
+//		   delay_time  = 32, delay_time_num = 4, respirationfreq_num = 0;			
+//	  }
+//	  else if(KEY7 == 0 && KEY8 == 1)
+//	  {
+//		   delay_time  = 64, delay_time_num = 8, respirationfreq_num = 1;			
+//	  }
+//	  else if(KEY7 == 1 && KEY8 == 0)
+//	  {
+//		  delay_time  = 192, delay_time_num = 24, respirationfreq_num = 3;			
+//	  }
+//	  else if(KEY7 == 1 && KEY8 == 1)
+//	  {
+//		  delay_time  = 320, delay_time_num = 40, respirationfreq_num = 5;			
+//	  }
+//}
+void led_init(void)
+{
+	  stc_port_init_t stcPortInit;
+
+      /* configuration structure initialization */
+      MEM_ZERO_STRUCT(stcPortInit);
+
+      stcPortInit.enPinMode = Pin_Mode_Out;
+      stcPortInit.enExInt = Enable;
+      stcPortInit.enPullUp = Enable;
+
+      /* LED0 Port/Pin initialization */
+      PORT_Init(PortA, Pin01, &stcPortInit);   //Red
+	  PORT_Init(PortA, Pin05, &stcPortInit);   //Blue
+	 
+	
+	  PORT_SetBits(PortA, Pin01);
+	  PORT_SetBits(PortA, Pin05); 
+}
+
+
+void LED_RED(void)
+{
+	PORT_ResetBits(PortA, Pin01);
+	PORT_SetBits(PortA, Pin05);	
+}
+void LED_RED_TWO(void)
+{
+	PORT_ResetBits(PortA, Pin01);
+	PORT_SetBits(PortA, Pin05);
+	Ddl_Delay1ms(100);
+	PORT_SetBits(PortA, Pin01);
+	PORT_SetBits(PortA, Pin05);
+	Ddl_Delay1ms(100);
+	PORT_ResetBits(PortA, Pin01);
+	PORT_SetBits(PortA, Pin05);
+	
+}
+
+
+
+void LED_BLUE_TWO(void)
+{
+	
+	PORT_SetBits(PortA, Pin01);
+	PORT_ResetBits(PortA, Pin05);
+	Ddl_Delay1ms(100);
+	PORT_SetBits(PortA, Pin01);
+	PORT_SetBits(PortA, Pin05);
+	Ddl_Delay1ms(100);
+	PORT_SetBits(PortA, Pin01);
+	PORT_ResetBits(PortA, Pin05);
+}
+
+void LED_GREEN(void)
+{
+	
+	PORT_ResetBits(PortA, Pin01);
+	PORT_ResetBits(PortA, Pin05);
+	
+}
+
+
+
+/**
+ ******************************************************************************
+ ** \brief  Initialize the system clock for the sample
+ **
+ ** \param  None
+ **
+ ** \return None
+ ******************************************************************************/
+void SysClkIni(void)
+{
+    en_clk_sys_source_t     enSysClkSrc;
+    stc_clk_sysclk_cfg_t    stcSysClkCfg;
+    stc_clk_xtal_cfg_t      stcXtalCfg;
+    stc_clk_mpll_cfg_t      stcMpllCfg;
+
+    MEM_ZERO_STRUCT(enSysClkSrc);
+    MEM_ZERO_STRUCT(stcSysClkCfg);
+    MEM_ZERO_STRUCT(stcXtalCfg);
+    MEM_ZERO_STRUCT(stcMpllCfg);
+
+    /* Set bus clk div. */
+    stcSysClkCfg.enHclkDiv = ClkSysclkDiv1;   // 168MHz
+    stcSysClkCfg.enExclkDiv = ClkSysclkDiv2;  // 84MHz
+    stcSysClkCfg.enPclk0Div = ClkSysclkDiv1;  // 168MHz
+    stcSysClkCfg.enPclk1Div = ClkSysclkDiv4;  // 42MHz
+    stcSysClkCfg.enPclk2Div = ClkSysclkDiv4;  // 42MHz
+    stcSysClkCfg.enPclk3Div = ClkSysclkDiv4;  // 42MHz
+    stcSysClkCfg.enPclk4Div = ClkSysclkDiv2;  // 84MHz
+    CLK_SysClkConfig(&stcSysClkCfg);
+
+    /* Switch system clock source to MPLL. */
+    /* Use Xtal as MPLL source. */
+    stcXtalCfg.enMode = ClkXtalModeOsc;
+    stcXtalCfg.enDrv = ClkXtalLowDrv;
+    stcXtalCfg.enFastStartup = Enable;
+    CLK_XtalConfig(&stcXtalCfg);
+    CLK_XtalCmd(Enable);
+
+    /* MPLL config. */
+    /*system clk = 168M, pclk1 = 84M, pclk3 = 42M*/
+    stcMpllCfg.pllmDiv = 1u;
+    stcMpllCfg.plln = 42u;
+    stcMpllCfg.PllpDiv = 2u;
+    stcMpllCfg.PllqDiv = 2u;
+    stcMpllCfg.PllrDiv = 2u;
+
+    CLK_SetPllSource(ClkPllSrcXTAL);
+    CLK_MpllConfig(&stcMpllCfg);
+
+    /* flash read wait cycle setting */
+    EFM_Unlock();
+    EFM_SetLatency(EFM_LATENCY_4);
+    EFM_Lock();
+	
+	
+
+    /* Enable MPLL. */
+    CLK_MpllCmd(Enable);
+
+    /* Wait MPLL ready. */
+    while(Set != CLK_GetFlagStatus(ClkFlagMPLLRdy))
+    {
+        ;
+    }
+
+    /* Switch system clock source to MPLL. */
+    CLK_SetSysClkSource(CLKSysSrcMPLL);
+}
+
