@@ -13,6 +13,7 @@
 #include <stdlib.h>
 //#include "stm32f4xx.h"
 #include "sys.h"
+#include "fifo.h"
 
 /* Function Declarations */
 extern int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int

@@ -1,6 +1,7 @@
 #ifndef _MATLAB_H
 #define _MATLAB_H
 #include "sys.h"
+#include "fifo.h"
 
 
 #define   m    1600    //不同的分辨率对应的m值不同

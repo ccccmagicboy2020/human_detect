@@ -16,6 +16,7 @@
 #include "std_cv.h"
 #include "freq_detection.h"
 #include "stdio.h"
+#include "fifo.h"
 
 #define	  N           	300         //CFAR窗口大小
 #define		pro_N      	 	200         //CFAR保护单元大小
@@ -33,7 +34,8 @@ extern const float hamming_TAB2[4096];
 float   offsetmax =  0.65;     //门限偏置
 float   offsetmin =  0.6; 
 
-FIFO_DataType Fast_detection_data[16384] = {0};
+FIFO_DataType Fast_detection_data[16384] = {0};//big raw data pool
+
 u8 quick_detection_result = 0;
 u8 transformation = 0;
 u8 ad_accum = 0;
@@ -64,7 +66,16 @@ u16  AD_Value1[2048];
 //int delay_time_num =(int)(delay_time* 2/ secnum) ;
 //int respirationfreq_num =(int)(delay_time* 2/ secnum*0.125);
 
-	
+void do_it(void)
+{
+	//
+	if (2048 < FIFO_GetDataCount(&FIFO_Data[0]))
+	{
+		printf("fifo number: %d - %d\r\n", i, FIFO_GetDataCount(&FIFO_Data[0]));
+		FIFO_ReadData(&FIFO_Data[0], &Fast_detection_data[2048*i], 2048);
+		printf("fifo number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[0]));
+	}
+}
 					
 void measure_fft(u16 AD[512])
 {
@@ -350,20 +361,15 @@ int main(void)
 	timer0_init();
 	ADC_StartConvert(M4_ADC1);
 	
+	FIFO_Init(&FIFO_Data[0]);
 	uart_protocol_init();
 	
   while(1)
   {	
-  	//算法 256ms
-  	if(change_flag==1)
-  	{
-  		//PORT_Toggle(LED0_PORT, LED0_PIN);
-  		change_flag=0;			
-  		measure_fft(AD_Value);
-  	}
+  	//算法
+		do_it();
   	//uart access
   	uart_service();
-  	
   }
 }
 

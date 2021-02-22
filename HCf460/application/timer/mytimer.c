@@ -4,6 +4,7 @@
 #include "hc32_ddl.h"
 #include "arm_math.h" 
 #include "sys.h"
+#include "fifo.h"
 
 /* Define Timer Unit for example */
 #define TMR_UNIT            (M4_TMR02)
@@ -18,7 +19,10 @@
 #define  LED0_PIN         (Pin06)
 
 u8 change_flag = 0;
-u16  adc_data = 0,Timer_Count = 0, Timer_Count1 = 0,Timer_Count2 = 0;//溢出次数;
+u16  adc_data = 0;		//adc数据
+u16  Timer_Count = 0;
+u16  Timer_Count1 = 0;
+u16  Timer_Count2 = 0;//溢出次数;
 u16  AD_Value[512] = {0};
 
 static uint16_t m_au16Adc1Value[ADC1_CH_COUNT];
@@ -72,57 +76,14 @@ void timer0_init(void)
     TIMER0_Cmd(TMR_UNIT,Tim0_ChannelA,Enable);
 }
 
-void Timer0A_CallBack(void)
+void Timer0A_CallBack(void)		// T === 500us
 {
 //	PORT_Toggle(LED0_PORT, LED0_PIN);
 	ADC_PollingSa(M4_ADC1, m_au16Adc1Value, ADC1_CH_COUNT, TIMEOUT_MS);
 	adc_data =  m_au16Adc1Value[6u];
-	AD_Value[Timer_Count] = adc_data;
-	Timer_Count++;
-		           
-	Timer_Count1++;
-	Timer_Count2++;
-/********************* TEST *****************************************/			
-			  
-//	if(Timer_Count2==1 || (Timer_Count2-1)%256 == 0)
-//	{
-//		if((Timer_Count2-1)%2048 == 0)
-//		{
-//			printf("BegiN ");
-//		}
-//		else
-//		{
-//			printf("Begin ");
-//		}
-//					
-//	}
-//	printf("%04d ",adc_data);
-//	if( Timer_Count1==256 )
-//	{
-//		Timer_Count1 = 0;
-//		if(Timer_Count2==2048)
-//		{
-//			Timer_Count2 = 0;
-//			printf("End\r\n");
-//		}
-//		else
-//		{
-//			printf("End\r\n");
-//		}
-//					
-//					
-//	}	
-/********************* TEST *****************************************/			
 //	printf("DC12_IN6 value %d \r\n",adc_data);
-	if(Timer_Count == 512)
-	{
-		Timer_Count = 0;
-		change_flag = 1;
-	}
-	else
-	{
-		change_flag = 0;
-	}
-	UsartRxErrProcess();
+	FIFO_WriteOneData(&FIFO_Data[0], adc_data);
+	
+//	UsartRxErrProcess();
 }
 

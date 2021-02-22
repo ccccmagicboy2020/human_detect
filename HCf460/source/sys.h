@@ -21,7 +21,6 @@ typedef const uint32_t uc32;
 typedef const uint16_t uc16;  
 typedef const uint8_t uc8; 
 
-typedef short int FIFO_DataType;  
 #endif
 
 

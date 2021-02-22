@@ -339,7 +339,7 @@
               <MiscControls>--diag_suppress=186,66</MiscControls>
               <Define>__DEBUG,HC32F46x,USE_DEVICE_DRIVER_LIB,ARM_MATH_CM4,_CC_ARM,__TARGET_FPU_VFP,__FPU_PRESENT,ARM_MATH_MATRIX_CHECK,ARM_MATH_ROUNDING,SYSTEM_GLOBAL</Define>
               <Undefine></Undefine>
-              <IncludePath>C:\Keil_v5\ARM\include;..\MDK;..\source;..\common;..\driver\inc;..\driver\src;..\application\adc;..\application\led;..\application\usart;..\application\timer;..\DSP;..\application\matlab;..\DSP\Include;..\application\uart_protocol</IncludePath>
+              <IncludePath>C:\Keil_v5\ARM\include;..\MDK;..\source;..\common;..\driver\inc;..\driver\src;..\application\adc;..\application\led;..\application\usart;..\application\timer;..\DSP;..\application\matlab;..\DSP\Include;..\application\uart_protocol;..\application\fifo</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -563,6 +563,11 @@
               <FileType>1</FileType>
               <FilePath>..\application\uart_protocol\uart_protocol.c</FilePath>
             </File>
+            <File>
+              <FileName>fifo.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\application\fifo\fifo.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -571,7 +576,7 @@
             <File>
               <FileName>arm_cortexM4lf_math.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\DSP\arm_cortexM4lf_math.lib</FilePath>
+              <FilePath>..\HCf460\DSP\arm_cortexM4lf_math.lib</FilePath>
             </File>
           </Files>
         </Group>
@@ -1137,6 +1142,11 @@
               <FileType>1</FileType>
               <FilePath>..\application\uart_protocol\uart_protocol.c</FilePath>
             </File>
+            <File>
+              <FileName>fifo.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\application\fifo\fifo.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1145,7 +1155,7 @@
             <File>
               <FileName>arm_cortexM4lf_math.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>..\DSP\arm_cortexM4lf_math.lib</FilePath>
+              <FilePath>..\HCf460\DSP\arm_cortexM4lf_math.lib</FilePath>
             </File>
           </Files>
         </Group>

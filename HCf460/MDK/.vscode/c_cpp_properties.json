@@ -16,8 +16,10 @@
                 "d:\\cccc2020\\CODE\\human_detect\\HCf460\\DSP",
                 "d:\\cccc2020\\CODE\\human_detect\\HCf460\\application\\matlab",
                 "d:\\cccc2020\\CODE\\human_detect\\HCf460\\DSP\\Include",
+                "d:\\cccc2020\\CODE\\human_detect\\HCf460\\application\\uart_protocol",
                 "d:\\Keil_v5\\ARM\\ARMCC\\include",
-                "d:\\Keil_v5\\ARM\\ARMCC\\include\\rw"
+                "d:\\Keil_v5\\ARM\\ARMCC\\include\\rw",
+                "d:\\cccc2020\\CODE\\human_detect\\HCf460\\HCf460\\DSP"
             ],
             "defines": [
                 "__DEBUG",
@@ -29,6 +31,7 @@
                 "__FPU_PRESENT",
                 "ARM_MATH_MATRIX_CHECK",
                 "ARM_MATH_ROUNDING",
+                "SYSTEM_GLOBAL",
                 "__CC_ARM",
                 "__arm__",
                 "__align(x)=",
@@ -120,7 +123,8 @@
                 "d:\\cccc2020\\CODE\\human_detect\\HCf460\\application\\usart",
                 "d:\\cccc2020\\CODE\\human_detect\\HCf460\\application\\timer",
                 "d:\\cccc2020\\CODE\\human_detect\\HCf460\\application\\matlab",
-                "d:\\cccc2020\\CODE\\human_detect\\HCf460\\DSP"
+                "d:\\cccc2020\\CODE\\human_detect\\HCf460\\application\\uart_protocol",
+                "d:\\cccc2020\\CODE\\human_detect\\HCf460\\HCf460\\DSP"
             ],
             "defines": [
                 "HC32F46x",
