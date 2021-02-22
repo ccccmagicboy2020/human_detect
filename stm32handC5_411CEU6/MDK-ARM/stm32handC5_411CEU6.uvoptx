@@ -889,7 +889,7 @@
 
   <Group>
     <GroupName>Lib</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -900,7 +900,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Drivers\CMSIS\Lib\ARM\arm_cortexM4lf_math.lib</PathWithFileName>
+      <PathWithFileName>..\Drivers\CMSIS\DSP\LIB\arm_cortexM4lf_math.lib</PathWithFileName>
       <FilenameWithoutPath>arm_cortexM4lf_math.lib</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
