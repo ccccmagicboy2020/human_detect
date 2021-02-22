@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "exception": "c",
+        "iosfwd": "c",
+        "limits": "c",
+        "memory": "c",
+        "new": "c",
+        "string": "c",
+        "utility": "c"
+    }
+}

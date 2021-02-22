@@ -175,12 +175,6 @@ void AdcInitConfig(void)
     PWC_Fcg3PeriphClockCmd(PWC_FCG3_PERIPH_ADC1, Enable);
     /* 2. Initialize ADC1. */
     ADC_Init(M4_ADC1, &stcAdcInit);
-
-//    stcAdcInit.enResolution = AdcResolution_8Bit;
-//    /* 1. Enable ADC2. */
-//    PWC_Fcg3PeriphClockCmd(PWC_FCG3_PERIPH_ADC2, Enable);
-//    /* 2. Initialize ADC2. */
-//    ADC_Init(M4_ADC2, &stcAdcInit);
 }
 
 /**
@@ -192,7 +186,6 @@ void AdcChannelConfig(void)
 {
     stc_adc_ch_cfg_t stcChCfg;
     uint8_t au8Adc1SaSampTime[ADC1_SA_CHANNEL_COUNT] = ADC1_SA_CHANNEL_SAMPLE_TIME;
-//    uint8_t au8Adc2SaSampTime[ADC2_SA_CHANNEL_COUNT] = ADC2_SA_CHANNEL_SAMPLE_TIME;
 
     MEM_ZERO_STRUCT(stcChCfg);
 
@@ -203,35 +196,7 @@ void AdcChannelConfig(void)
     AdcSetChannelPinMode(M4_ADC1, ADC1_CHANNEL, Pin_Mode_Ana);  // Pin_Mode_Ana = 2  GPIO Analog mode
     /* 2. Add ADC channel. */
     ADC_AddAdcChannel(M4_ADC1, &stcChCfg);
-
-    /* 3. Configure the average channel if you need. */
-//    ADC_ConfigAvg(M4_ADC1, AdcAvcnt_32);
-    /* 4. Add average channel if you need. */
-//    ADC_AddAvgChannel(M4_ADC1, ADC1_AVG_CHANNEL);
-
-//    stcChCfg.u32Channel  = ADC2_SA_CHANNEL;
-//    stcChCfg.pu8SampTime = au8Adc2SaSampTime;
-    /* 1. Set the ADC pin to analog mode. */
-//    AdcSetChannelPinMode(M4_ADC2, ADC2_CHANNEL, Pin_Mode_Ana);
-    /* 2. Add ADC channel. */
-//    ADC_AddAdcChannel(M4_ADC2, &stcChCfg);
-
-    /* 3. Configure the average channel if you need. */
-//    ADC_ConfigAvg(M4_ADC2, AdcAvcnt_64);
-    /* 4. Add average channel if you need. */
-//    ADC_AddAvgChannel(M4_ADC2, ADC2_AVG_CHANNEL);
-
-    /**************************** Enable interrupts ***************************/
-    /* Enable ADC1 sequence A interrupt. */
-//    ADC_SeqITCmd(M4_ADC1, ADC_SEQ_A, Enable);
-
-    /* Enable ADC2 sequence A interrupt. */
-//    ADC_SeqITCmd(M4_ADC2, ADC_SEQ_A, Enable);
 }
-
-
-
-
 
 /**
  *******************************************************************************
@@ -393,7 +358,5 @@ void AdcConfig(void)
     AdcClockConfig();
     AdcInitConfig();
     AdcChannelConfig();
-   
-    
 }
 

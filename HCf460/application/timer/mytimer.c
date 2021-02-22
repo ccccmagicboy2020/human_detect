@@ -30,9 +30,7 @@ void timer0_init(void)
     stc_irq_regi_conf_t stcIrqRegiConf;
     stc_port_init_t stcPortInit;
 	
-
     stc_clk_freq_t stcClkTmp;
-
 
     MEM_ZERO_STRUCT(stcTimerCfg);
     MEM_ZERO_STRUCT(stcIrqRegiConf);
@@ -40,7 +38,6 @@ void timer0_init(void)
 	
 	    /* Get pclk1 */
     CLK_GetClockFreq(&stcClkTmp);
-
 
     /* Enable XTAL32 */
     CLK_Xtal32Cmd(Enable);
@@ -71,7 +68,7 @@ void timer0_init(void)
     /* Enable NVIC */
     NVIC_EnableIRQ(stcIrqRegiConf.enIRQn);
 	
-	  /*start timer0*/
+	/*start timer0*/
     TIMER0_Cmd(TMR_UNIT,Tim0_ChannelA,Enable);
 }
 
