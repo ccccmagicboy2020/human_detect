@@ -86,7 +86,7 @@ int quick_detection(
 			//printf("%d, ", in_data_freq[i]);
 		}
 		//
-freq_vote = freq_detection(
+		freq_vote = freq_detection(
 																in_data_freq, 
 																win, 
 																4096, 
@@ -197,7 +197,7 @@ int main(void)
 						}
 						printf("fifo number: %d - %d\r\n", i, FIFO_GetDataCount(&FIFO_Data[0]));
 						FIFO_ReadData(&FIFO_Data[0], &in_data[2048*(i-1)], 2048);
-						printf("fifo number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[0]));	
+						printf("fifo number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[0]));
 						trigger_flag0 = 1;
 						//__disable_irq();
 					}
@@ -205,7 +205,7 @@ int main(void)
 					{
 						printf("fifo number: %d - %d\r\n", i, FIFO_GetDataCount(&FIFO_Data[0]));
 						FIFO_ReadData(&FIFO_Data[0], &in_data[2048*i], 2048);
-						printf("fifo number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[0]));						
+						printf("fifo number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[0]));	
 						i++;
 					}
 				}
