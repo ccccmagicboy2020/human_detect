@@ -14,6 +14,10 @@ FIFO_Struct FIFO_Data[FIFO_DATA_NUM] =
 				.BufferSize = FIFO_DATA_SIZE,
 				.Buffer = FIFO_DataBuffer[0],
 		},
+		{
+				.BufferSize = FIFO_DATA_SIZE,
+				.Buffer = FIFO_DataBuffer[1],
+		},		
 };
 
 

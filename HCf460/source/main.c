@@ -18,23 +18,37 @@
 #include "stdio.h"
 #include "fifo.h"
 
-#define	  N           	300         //CFAR窗口大小
-#define		pro_N      	 	200         //CFAR保护单元大小
-#define		PAD      			0.00000001  //虚警概率
+#define		N						300         //CFAR窗口大小
+#define		pro_N					200         //CFAR保护单元大小
+#define		PAD						0.00000001  //虚警概率
   
-#define   rr_threshold  0.6    //呼吸频率截取范围
-#define	  secnum   			16
+#define		rr_threshold			0.6    //呼吸频率截取范围
+#define		secnum					16
+
+#define		FEEDRATE				2048			//采样率，单位为samples/s
+
+#define		FAST_CHECK_SAMPLES		512				//快检测样本数
+#define		FAST_CHECK_DUTY			8				//快检测周期，单位为秒s
+#define		FAST_MAX_DATA_POOL		FEEDRATE	*	FAST_CHECK_DUTY
+#define		FAST_CHECK_TIMES		FAST_MAX_DATA_POOL	>> 9
+
+#define		SLOW_CHECK_SAMPLES		2048			//慢检测样本数
+#define		SLOW_CHECK_OVER_SAMPLE	3				//慢检测超采样冥
+#define		SLOW_CHECK_DUTY			16				//慢检测周期，单位为秒s
+#define		SLOW_CHECK_USE_SAMPLES	SLOW_CHECK_SAMPLES >> SLOW_CHECK_OVER_SAMPLE	//慢检测实际用的样本数
+#define		SLOW_MAX_DATA_POOL		(FEEDRATE >> SLOW_CHECK_OVER_SAMPLE)	*	SLOW_CHECK_DUTY
+#define		SLOW_CHECK_TIMES		SLOW_MAX_DATA_POOL	>>	11
+
+#define		MAX_DATA_POOL			FAST_MAX_DATA_POOL
 
 extern u8 change_flag;
 extern u16  AD_Value[512];
 extern const float hamming_TAB2[4096];
 
-/*Fast detection variable declaration*/
-
 float   offsetmax =  0.65;     //门限偏置
-float   offsetmin =  0.6; 
+float   offsetmin =  0.6;
 
-FIFO_DataType Fast_detection_data[16384] = {0};//big raw data pool
+FIFO_DataType Fast_detection_data[MAX_DATA_POOL] = {0};//big raw data pool
 
 u8 quick_detection_result = 0;
 u8 transformation = 0;
@@ -53,324 +67,412 @@ u16 f = 0;
 int delay_time  = 64;
 int delay_time_num = 8;
 int respirationfreq_num = 1;
-/*Macro motion and micro variable declaration*/
 
-//FIFO_DataType  motion_data[4096] = {0}; 
-u16  AD_256Value[256] = {0};
-u16  AD_Value1[2048];
-/* Delay preset */
-
-//int delay_time  = 64, delay_time_num = 8, respirationfreq_num = 1;
-
-
-//int delay_time_num =(int)(delay_time* 2/ secnum) ;
-//int respirationfreq_num =(int)(delay_time* 2/ secnum*0.125);
-
-void do_it(void)
+enum app_state
 {
-	//
-	if (2048 < FIFO_GetDataCount(&FIFO_Data[0]))
+	FAST_CHECK_DATA_PREPARE=0,
+	FAST_CHECK,
+	SLOW_CHECK_DATA_PREPARE_S0,
+	SLOW_CHECK_DATA_PREPARE_S1,
+	SLOW_CHECK_S0,
+	SLOW_CHECK_S1,
+	IDLE,
+	UART_PROTOCOL,
+	ERROR,
+};
+
+enum slow_s0_result
+{
+	NO_PERSON_NOT_SURE=0,
+	BIG_MOTION,
+	BREATHE,
+	BREATHE_NOT_SURE,
+};
+
+u8 state = FAST_CHECK_DATA_PREPARE;	//状态机变量
+u8 next_state = FAST_CHECK_DATA_PREPARE;
+
+int slow_s0_result = NO_PERSON_NOT_SURE;
+int slow_s0_result_last = NO_PERSON_NOT_SURE;
+
+
+void fast_check_data_prepare(void)
+{
+	static	int i = 0;	//index
+	int k = 0;	//index
+	
+	if (FAST_CHECK_SAMPLES < FIFO_GetDataCount(&FIFO_Data[0]))
 	{
-		printf("fifo number: %d - %d\r\n", i, FIFO_GetDataCount(&FIFO_Data[0]));
-		FIFO_ReadData(&FIFO_Data[0], &Fast_detection_data[2048*i], 2048);
-		printf("fifo number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[0]));
+		if (FAST_CHECK_TIMES == i)
+		{			
+			for(k=0;k<MAX_DATA_POOL - FAST_CHECK_SAMPLES;k++)   //滑窗
+			{
+				Fast_detection_data[k] =Fast_detection_data[k + FAST_CHECK_SAMPLES];		
+			}			
+			printf("fifo number: %d - %d\r\n", i, FIFO_GetDataCount(&FIFO_Data[0]));
+			FIFO_ReadData(&FIFO_Data[0], &Fast_detection_data[FAST_CHECK_SAMPLES*(i-1)], FAST_CHECK_SAMPLES);
+			printf("fifo number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[0]));
+			state = FAST_CHECK;
+		}
+		else
+		{
+			printf("fifo0 number: %d - %d\r\n", i, FIFO_GetDataCount(&FIFO_Data[0]));
+			FIFO_ReadData(&FIFO_Data[0], &Fast_detection_data[FAST_CHECK_SAMPLES*i], FAST_CHECK_SAMPLES);
+			printf("fifo0 number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[0]));
+			i++;
+
+			if (i == FAST_CHECK_TIMES)
+			{
+				state = FAST_CHECK;
+			}
+			else
+			{
+				state = IDLE;
+				next_state = FAST_CHECK_DATA_PREPARE;
+			}
+		}
+	}
+	else
+	{
+		state = IDLE;
+		next_state = FAST_CHECK_DATA_PREPARE;
 	}
 }
-					
-void measure_fft(u16 AD[512])
+void fast_check_process(void)
 {
-  u8 quick_detection_result = 0;
-	u8 state_transition_flag = 0;
-	u8 time_detection_result = 0;
-	u8 fre_detection_result = 0;
-	u8 Bigmotion_detection_flag = 0;
-	u8 Fretting_detection_result = 0;
-	
-	u32 adc_num = 0,adc_temp = 0,adc_average= 0, adc_num1 = 0,adc_temp1 = 0,adc_average1= 0;
-	int respirationfreq_vote1[2] = {0};
-	float offset = 0.35;
-				
-	if(transformation == 0)  //快检测
+	int i = 0;	//index
+	int adc_sum = 0;
+	int	adc_temp = 0;
+	int	adc_average= 0;
+	int quick_detection_result = 0;
+
+	for(i=0; i<FAST_MAX_DATA_POOL; i++)
 	{
-		for(k=0;k<15872;k++)   //滑窗
-		{
-			Fast_detection_data[k] =Fast_detection_data[k + 512];		
-		}
-									
-		for(i =0; i<512; i++)  //赋值
-		{
-			Fast_detection_data[i+15872] = AD[i];
-			a++;
-		}
-		
-		if(a==16384 || b==1)
-		{
-			a = 0;
-		}
-								
-		if(a==0)
-		{
-			b = 1;
-			for(i=0; i<16384; i++)
-			{
-				adc_temp = Fast_detection_data[i];
-				adc_num += adc_temp;
-			}							
-			adc_average = adc_num/16384;
+		adc_temp = Fast_detection_data[i];
+		adc_sum += adc_temp;
+	}
+	adc_average = (int)(adc_sum/FAST_MAX_DATA_POOL + 0.5);
 
-			//printf("sum and mean of raw: %d - %d\r\n", adc_num,adc_average);
+	for(i=0; i<FAST_MAX_DATA_POOL; i++)
+	{
+		Fast_detection_data[i] -= adc_average;
+	}
 
-			for(i=0; i<16384; i++)
-			{
-				Fast_detection_data[i] = Fast_detection_data[i] - adc_average;
-				//printf("%04d ", Fast_detection_data[i]);
-			}
+	quick_detection_result = quick_detection(							Fast_detection_data, 
+											/* win_size_time =  */		2048, 
+											/* stride_time =  */		1024, 
+											/* time_times =  */			5.8,
+											/* time_add =  */			60, 
+											/* win_size_freq =  */		256, 
+									        /* stride_freq =  */		102, 
+											/* time_accum =  */			8, 
+											/* xhz1 =  */				2, 
+											/* freq_times =  */			9, 
+											/* respiration_times =  */	20.5
+											);
 
-			quick_detection_result = quick_detection(Fast_detection_data, 
-													/* win_size_time =  */2048, 
-													/* stride_time =  */1024, 
-													/* time_times =  */5.8,
-													/* time_add =  */60, 
-													/* win_size_freq =  */256, 
-											        /* stride_freq =  */102, 
-													/* time_accum =  */8, 
-													/* xhz1 =  */2, 
-													/* freq_times =  */9, 
-													/* respiration_times =  */20.5); 
-			
-			if (quick_detection_result)
+	if (quick_detection_result)
+	{
+		state = SLOW_CHECK_DATA_PREPARE_S0;
+	}
+	else
+	{
+		for(i=0; i<FAST_MAX_DATA_POOL; i++)
+		{
+			Fast_detection_data[i] += adc_average;
+		}
+		state = IDLE;
+		next_state = FAST_CHECK_DATA_PREPARE;
+	}
+}
+
+void slow_check_data_prepare_s0(void)
+{
+	int i = 0;	//index
+	FIFO_DataType  temp[2048] = {0};//temp data
+	
+	if (SLOW_CHECK_SAMPLES < FIFO_GetDataCount(&FIFO_Data[0]))
+	{
+		printf("fifo number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[0]));
+		FIFO_ReadData(&FIFO_Data[0], temp, SLOW_CHECK_SAMPLES);
+		printf("fifo number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[0]));
+
+		for(i=0;i<SLOW_CHECK_USE_SAMPLES;i++)
+		{
+			FIFO_WriteOneData(&FIFO_Data[1], temp[i*SLOW_CHECK_OVER_SAMPLE]);
+		}
+		state = SLOW_CHECK_DATA_PREPARE_S1;
+	}
+	else
+	{
+		state = IDLE;
+		next_state = SLOW_CHECK_DATA_PREPARE_S0;
+	}
+}
+
+void slow_check_data_prepare_s1(void)
+{
+	static	int i = 0;	//index
+	int k = 0;	//index
+	
+	if (SLOW_CHECK_SAMPLES < FIFO_GetDataCount(&FIFO_Data[1]))
+	{
+		if (SLOW_CHECK_TIMES == i)
+		{			
+			for(k=0;k<SLOW_MAX_DATA_POOL - SLOW_CHECK_SAMPLES;k++)   //滑窗
 			{
-				transformation = 1;
-			}
-		    else
-		    {
-				//						 
-			}
-											 
-			for(i=0; i<16384; i++)
+				Fast_detection_data[k] =Fast_detection_data[k + SLOW_CHECK_SAMPLES];		
+			}			
+			printf("fifo1 number: %d - %d\r\n", i, FIFO_GetDataCount(&FIFO_Data[1]));
+			FIFO_ReadData(&FIFO_Data[1], &Fast_detection_data[SLOW_CHECK_SAMPLES*(i-1)], SLOW_CHECK_SAMPLES);
+			printf("fifo1 number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[1]));
+			state = SLOW_CHECK_S0;
+		}
+		else
+		{
+			printf("fifo1 number: %d - %d\r\n", i, FIFO_GetDataCount(&FIFO_Data[1]));
+			FIFO_ReadData(&FIFO_Data[1], &Fast_detection_data[SLOW_CHECK_SAMPLES*i], SLOW_CHECK_SAMPLES);
+			printf("fifo1 number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[1]));
+			i++;
+
+			if (i == SLOW_CHECK_TIMES)
 			{
-				Fast_detection_data[i] = Fast_detection_data[i] + adc_average;
+				state = SLOW_CHECK_S0;
+			}
+			else
+			{
+				state = IDLE;
+				next_state = SLOW_CHECK_DATA_PREPARE_S0;
 			}
 		}
 	}
-	/*Big motion detection and Fretting detection*/
+	else
+	{
+		state = IDLE;
+		next_state = SLOW_CHECK_DATA_PREPARE_S0;
+	}
+}
 
-	else if(transformation == 1)
-    {
-		for(k=0;k<512;k++)
+void slow_check_process_s0(void)
+{
+	int i = 0;	//index
+	int adc_sum = 0;
+	int	adc_temp = 0;
+	int	adc_average= 0;
+	int bigmotion_time_vote = 0;
+	int bigmotion_freq_vote  = 0;
+	int respirationfreq_vote[2] = {0};
+	int	micromotion_detection_result = 0;
+	float offset = 0;
+
+	for(i=0; i<SLOW_MAX_DATA_POOL; i++)
+	{
+		adc_temp = Fast_detection_data[i];
+		adc_sum += adc_temp;
+	}
+	adc_average = (int)(adc_sum/SLOW_MAX_DATA_POOL + 0.5);
+
+	for(i=0; i<SLOW_MAX_DATA_POOL; i++)
+	{
+		Fast_detection_data[i] -= adc_average;
+	}
+
+	bigmotion_time_vote = time_detection(	/*in_data*/			Fast_detection_data, 
+											/*data_size*/		4096,
+											/*win_size_time*/	256,
+											/*stride_time*/		128,
+											/*time_times*/		5,
+											/*time_add*/		50
+											);
+									 
+	bigmotion_freq_vote  = freq_detection(	/*in_data_freq*/			Fast_detection_data,
+											/*hamming_TAB2*/			hamming_TAB2,
+											/*data_size*/				4096,
+											/*win_size_freq*/			128,
+											/*stride_freq*/				64,
+											/*time_accum*/				16,
+											/*xhz1*/					2,
+											/*freq_times*/				6.5,
+											/*respiration_times*/		20.5,
+											/*respirationfreq_vote*/	respirationfreq_vote
+											);
+									
+	if( bigmotion_freq_vote == 1 )
+	{
+		offset = offsetmax;
+	}
+	else
+	{
+		offset = offsetmin;
+	}
+	
+	micromotion_detection_result = Fretting_detection(
+											Fast_detection_data, 
+											N, 
+											pro_N, 
+											PAD, 
+											offset, 
+											rr_threshold
+											);
+
+	for(i=0; i<SLOW_MAX_DATA_POOL; i++)
+	{
+		Fast_detection_data[i] += adc_average;
+	}
+
+	if (1 == bigmotion_time_vote)
+	{
+		slow_s0_result = BIG_MOTION;
+	}
+	else if (1 == micromotion_detection_result)
+	{
+		slow_s0_result = BREATHE;
+	}
+	else if ((0 == bigmotion_freq_vote) && (1 == respirationfreq_vote[0]))
+	{
+		slow_s0_result = BREATHE;
+	}
+	else if ((1 == bigmotion_freq_vote) && (1 == respirationfreq_vote[0]))
+	{
+		slow_s0_result = BREATHE_NOT_SURE;
+	}
+	else
+	{
+		slow_s0_result = NO_PERSON_NOT_SURE;
+	}
+
+	switch (slow_s0_result)
+	{
+	case BIG_MOTION:
+		state = IDLE;
+		next_state = SLOW_CHECK_DATA_PREPARE_S0;
+		break;
+	case BREATHE:
+		state = IDLE;
+		next_state = SLOW_CHECK_DATA_PREPARE_S0;
+		break;
+	case BREATHE_NOT_SURE:
+		state = SLOW_CHECK_S1;
+		break;
+	case NO_PERSON_NOT_SURE:
+		state = SLOW_CHECK_S1;
+		break;
+	default:
+		state = ERROR;
+		break;
+	}
+	
+}
+
+//delay_time_num = (ceil)(delay_time* 2/ secnum); 
+//respirationfreq_num=(ceil)(delay_time* 2/ secnum*0.125);
+
+void slow_check_process_s1(void)
+{
+	static int breathe_timer = 0;
+	static int no_person_timer = 0;
+
+	if (slow_s0_result_last != slow_s0_result)
+	{
+		slow_s0_result_last = slow_s0_result;
+		state = IDLE;
+		next_state = SLOW_CHECK_DATA_PREPARE_S0;		
+	}
+	else
+	{
+		switch (slow_s0_result)
 		{
-			AD_Value1[512*f + k] = AD[k];
-	    }
-		f++;
-		if(f==4)
-		{
-			f = 0;
-			ad_accum = 1;
+		case BREATHE_NOT_SURE:
+			breathe_timer++;
+			if (breathe_timer > 3)
+			{
+				//do some thing
+			}
+			state = IDLE;
+			next_state = SLOW_CHECK_DATA_PREPARE_S0;		
+			break;
+		case NO_PERSON_NOT_SURE:
+			no_person_timer++;
+			if (no_person_timer > 5)
+			{
+				state = IDLE;
+				next_state = FAST_CHECK_DATA_PREPARE;				
+				//do some thing
+			}
+			else
+			{
+				state = IDLE;
+				next_state = SLOW_CHECK_DATA_PREPARE_S0;
+			}
+			break;
+		default:
+			state = ERROR;
+			break;
 		}
-		
-		
-		if(ad_accum == 1)
-		{
-			for(k=0;k<2048;k++)      //滑窗8s数据
-			{
-				Fast_detection_data[k] =Fast_detection_data[k + 2048]; 									
-			}
-										
-			for(i =0; i<256; i++)    //提取数据-8位取1位
-			{
-				AD_256Value[i] = AD_Value1[i*8];
-				Fast_detection_data[i+e*256+2048] = AD_256Value[i];
-				c++;				 //c自加避免标志位一直置0	
-                ad_accum = 0;				
-			}
-			e++;
-			if(e==8)                 //累计8s刷新一次 包含旧数据8s 累计16s的处理数据
-			{
-				if(c==2048 || d==1)
-				{
-					c = 0;
-					e = 0;
-				}
-			}
-										
-			if(c == 0)               //开始处理数据
-			{
-				d = 1;
-				for(i=0; i<4096; i++)
-				{
-					adc_temp1 = Fast_detection_data[i];
-					adc_num1 += adc_temp1;
-				}
-														
-				adc_average1 = adc_num1/4096;
-				//printf("sum and mean of raw: %d - %d\r\n", adc_num1,adc_average1);
-				for(i=0; i<4096; i++)
-				{
-					Fast_detection_data[i] = Fast_detection_data[i] - adc_average1;
-					//printf("%d ",Fast_detection_data[i]);
-				}	
-				// printf("END DATA\r\n");
-				
-				/*Big motion detection*/
-				
-				time_detection_result = time_detection(/*in_data*/Fast_detection_data, 
-														/*data_size*/4096 
-														/*win_size_time*/,256 
-														/*stride_time*/,128
-														/*time_times*/,5 
-														/*time_add*/,50);
-												 
-				fre_detection_result  = freq_detection(/*in_data_freq*/Fast_detection_data,
-														/*hamming_TAB2*/hamming_TAB2
-														/*data_size*/	,4096
-														/*win_size_freq*/,128
-														/*stride_freq*/,64
-														/*time_accum*/,16
-														/*xhz1*/,2
-														/*freq_times*/,6.5
-														/*respiration_times*/,20.5
-														/*respirationfreq_vote*/,respirationfreq_vote1);
-				//printf("time-fre-res: %d - %d - %d\r\n", time_detection_result, fre_detection_result, respirationfreq_vote1[0]);
+	}
+}
 
-				if(  time_detection_result == 1 && fre_detection_result == 1 )
-				{
-					Bigmotion_detection_flag = 1;
-				}
-				else
-				{
-					Bigmotion_detection_flag = 0;
-				}
-				//printf("Bigmotion_detection_flag:%d \r\n",  Bigmotion_detection_flag);
-												
-				if( fre_detection_result == 1 )
-				{
-					offset = offsetmax;
-				}
-				else
-				{
-					offset = offsetmin;
-				}
-				/*Fretting detection*/
-				
-				Fretting_detection_result = Fretting_detection(Fast_detection_data, N, pro_N, PAD, offset, rr_threshold);
-				//printf("Fretting_detection_result:%d \r\n",  Fretting_detection_result);
-												 
-				if(Bigmotion_detection_flag == 1)
-				{
-					LED_RED_TWO();
-					printf("红色 1 \r\n");
-					red = 1;
-					blue = 0;
-					delay_time_num = (ceil)(delay_time* 2/ secnum); 
-					respirationfreq_num=(ceil)(delay_time* 2/ secnum*0.125);
-					state_transition_flag = 0;
-				}
-				else if(Fretting_detection_result ==1)
-				{
-					LED_BLUE_TWO();
-					//printf("蓝色 1 \r\n");
-					blue = 1;
-					red = 0;
-					delay_time_num = (ceil)(delay_time* 2/ secnum); 
-					respirationfreq_num=(ceil)(delay_time* 2/ secnum*0.125);
-					state_transition_flag = 0;
-				}
-				else if( (!(time_detection_result))   &&  (!(fre_detection_result))  && respirationfreq_vote1[0] )
-				{
-					LED_BLUE_TWO();
-					//printf("蓝色 1 \r\n");
-					blue = 1;
-					red = 0;
-					delay_time_num = (ceil)(delay_time* 2/ secnum);
-					respirationfreq_num=(ceil)(delay_time* 2/ secnum*0.125);
-					state_transition_flag = 0;
-				}
-				else if( (!(time_detection_result)) &&  fre_detection_result  && respirationfreq_vote1[0] )
-				{
-					respirationfreq_num = respirationfreq_num-1;
-					if(respirationfreq_num < 0)
-					{
-						LED_BLUE_TWO();
-						//printf("蓝色 1 \r\n");
-						blue = 1;
-						red = 0;
-						delay_time_num = (ceil)(delay_time* 2/ secnum);    //重置次数
-						respirationfreq_num=(ceil)(delay_time* 2/ secnum*0.125);
-						state_transition_flag = 0;
-					}
-					else
-					{
-						delay_time_num = delay_time_num - 1;
-						//printf("delay_time_num1：%d \r\n",  delay_time_num);
-						if(delay_time_num == 0)
-						{
-							LED_GREEN();
-							printf("绿色 \r\n");
-							state_transition_flag++;
-						}
-					}
-															
-				}
-				else
-				{
-					delay_time_num = delay_time_num - 1;
-                    if(red == 1)
-					{
-						printf("红色 0 \r\n");
-						
-					}
-					else if(blue == 1)
-					{
-						printf("蓝色 0 \r\n");
-					
-					}
-					
-					if(delay_time_num == 0)
-					{
-						LED_GREEN();
-						printf("绿色 \r\n");
-						state_transition_flag++;
-																  
-					}
-				}
-				
-				if(state_transition_flag == 1)
-				{
-					state_transition_flag = 0;
-					transformation = 0;
-					delay_time_num = (ceil)(delay_time* 2/ secnum);    //重置次数
-					respirationfreq_num=(ceil)(delay_time* 2/ secnum*0.125);
-					a = 0,b = 0, c =0, d =0, e =0;
-				}
-												
-				for(i=0; i<4096; i++)
-				{
-					Fast_detection_data[i] = Fast_detection_data[i] + adc_average1;
-				}
-			}
-		}		
-	}	
+void idle_process(void)
+{
+	state = UART_PROTOCOL;
+}
+
+void error_process(void)
+{
+	//do some print
+}
+
+void app(void)
+{
+	switch (state)
+	{
+		case	FAST_CHECK_DATA_PREPARE:
+			fast_check_data_prepare();
+			break;
+		case	FAST_CHECK:
+			fast_check_process();
+			break;
+		case	SLOW_CHECK_DATA_PREPARE_S0:
+			slow_check_data_prepare_s0();
+			break;
+		case	SLOW_CHECK_DATA_PREPARE_S1:
+			slow_check_data_prepare_s1();
+			break;			
+		case	SLOW_CHECK_S0:
+			slow_check_process_s0();
+			break;
+		case	SLOW_CHECK_S1:
+			slow_check_process_s1();
+			break;
+		case	UART_PROTOCOL:
+			uart_service();
+			break;
+		case	IDLE:
+			idle_process();
+			break;
+		case	ERROR:
+			error_process();
+			break;
+		default:
+			error_process();
+			break;
+	}
 }
 
 int main(void)
 {
+	FIFO_Init(&FIFO_Data[0]);
+	FIFO_Init(&FIFO_Data[1]);	
 	SysClkIni();
 	led_init();
 	usart_init();
 	AdcConfig();
 	timer0_init();
 	ADC_StartConvert(M4_ADC1);
-	
-	FIFO_Init(&FIFO_Data[0]);
 	uart_protocol_init();
 	
-  while(1)
-  {	
-  	//算法
-		do_it();
-  	//uart access
-  	uart_service();
-  }
+	while(1)
+	{				
+		app();
+	}
 }
-
-

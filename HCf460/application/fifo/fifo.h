@@ -28,7 +28,7 @@ typedef struct
 	uint32_t DataCount;					//剩余数据量
 } FIFO_Struct;
 
-#define FIFO_DATA_NUM			1
+#define FIFO_DATA_NUM		2			//两支fifo
 #define FIFO_DATA_SIZE		2500		//fifo的大小, 5K
 
 extern FIFO_Struct FIFO_Data[FIFO_DATA_NUM];
