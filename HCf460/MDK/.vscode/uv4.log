@@ -1,11 +1,4 @@
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'd:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'adc_03_sa_interrupt_Debug'
-compiling main.c...
-..\source\main.c(353): warning:  #223-D: function "FIFO_Init" declared implicitly
-  	FIFO_Init(&FIFO_Data[0]);
-..\source\main.c(353): error:  #20: identifier "FIFO_Data" is undefined
-  	FIFO_Init(&FIFO_Data[0]);
-..\source\main.c: 1 warning, 1 error
-".\output\debug\adc_03_sa_interrupt.axf" - 1 Error(s), 1 Warning(s).
-Target not created.
-Build Time Elapsed:  00:00:04
+".\output\debug\adc_03_sa_interrupt.axf" - 0 Error(s), 0 Warning(s).
+Build Time Elapsed:  00:00:01

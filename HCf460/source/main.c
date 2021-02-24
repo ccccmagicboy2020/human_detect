@@ -41,32 +41,12 @@
 
 #define		MAX_DATA_POOL			FAST_MAX_DATA_POOL
 
-extern u8 change_flag;
-extern u16  AD_Value[512];
 extern const float hamming_TAB2[4096];
 
 float   offsetmax =  0.65;     //门限偏置
 float   offsetmin =  0.6;
 
 FIFO_DataType Fast_detection_data[MAX_DATA_POOL] = {0};//big raw data pool
-
-u8 quick_detection_result = 0;
-u8 transformation = 0;
-u8 ad_accum = 0;
-u8 red = 1;
-u8 blue = 1;
-u16  ad = 0;
-u16 a = 0;
-u16 b = 0;
-u16 c =0;
-u16 d =0;
-u16 e =0;
-u16 i = 0;
-u16 k = 0;
-u16 f = 0;
-int delay_time  = 64;
-int delay_time_num = 8;
-int respirationfreq_num = 1;
 
 enum app_state
 {
@@ -89,8 +69,8 @@ enum slow_s0_result
 	BREATHE_NOT_SURE,
 };
 
-u8 state = FAST_CHECK_DATA_PREPARE;	//状态机变量
-u8 next_state = FAST_CHECK_DATA_PREPARE;
+int state = FAST_CHECK_DATA_PREPARE;	//状态机变量
+int next_state = FAST_CHECK_DATA_PREPARE;
 
 int slow_s0_result = NO_PERSON_NOT_SURE;
 int slow_s0_result_last = NO_PERSON_NOT_SURE;

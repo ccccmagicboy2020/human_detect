@@ -18,12 +18,10 @@
 #define  LED0_PORT        (PortB)
 #define  LED0_PIN         (Pin06)
 
-u8 change_flag = 0;
 u16  adc_data = 0;		//adc数据
 u16  Timer_Count = 0;
 u16  Timer_Count1 = 0;
 u16  Timer_Count2 = 0;//溢出次数;
-u16  AD_Value[512] = {0};
 
 static uint16_t m_au16Adc1Value[ADC1_CH_COUNT];
 void Timer0A_CallBack(void);
