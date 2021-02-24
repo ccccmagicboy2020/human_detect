@@ -100,9 +100,11 @@ void data_handle(unsigned short offset)
   {
   case READ_PARAMETER_CMD:                                 //读参数
     //read some data
+    read_data_handle();
     break;
   case WRITE_PARAMETER_CMD:                                //写参数
     //write some data
+    write_data_handle();
     break;
   default:
     break;
@@ -166,4 +168,14 @@ void uart_service(void)
   {
     my_memcpy(stream_uart_rx_buf,stream_uart_rx_buf + offset,rx_in);
   }
+}
+
+void read_data_handle(void)
+{
+  //
+}
+
+void write_data_handle(void)
+{
+  //
 }

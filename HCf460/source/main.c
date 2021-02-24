@@ -45,8 +45,15 @@ extern const float hamming_TAB2[4096];
 
 float   offsetmax =  0.65;     //√≈œﬁ∆´÷√
 float   offsetmin =  0.6;
+float	res_times = 20.5;
 
 FIFO_DataType Fast_detection_data[MAX_DATA_POOL] = {0};//big raw data pool
+
+enum work_mode
+{
+	ALL_CHECK=0,
+	FAST_CHECK_ONLY,
+};
 
 enum app_state
 {
@@ -75,6 +82,7 @@ int next_state = FAST_CHECK_DATA_PREPARE;
 int slow_s0_result = NO_PERSON_NOT_SURE;
 int slow_s0_result_last = NO_PERSON_NOT_SURE;
 
+int run_mode = ALL_CHECK;
 
 void fast_check_data_prepare(void)
 {
@@ -148,10 +156,10 @@ void fast_check_process(void)
 											/* time_accum =  */			8, 
 											/* xhz1 =  */				2, 
 											/* freq_times =  */			9, 
-											/* respiration_times =  */	20.5
+											/* respiration_times =  */	res_times
 											);
 
-	if (quick_detection_result)
+	if (quick_detection_result && (run_mode == ALL_CHECK))
 	{
 		state = SLOW_CHECK_DATA_PREPARE_S0;
 	}
@@ -273,7 +281,7 @@ void slow_check_process_s0(void)
 											/*time_accum*/				16,
 											/*xhz1*/					2,
 											/*freq_times*/				6.5,
-											/*respiration_times*/		20.5,
+											/*respiration_times*/		res_times,
 											/*respirationfreq_vote*/	respirationfreq_vote
 											);
 									
