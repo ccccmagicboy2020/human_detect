@@ -188,7 +188,7 @@ int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
 		temp0 = minValue * time_times;
 		temp1 = minValue + time_add;
 		
-		//printf("%lf - %lf - %lf ", maxValue,temp0, temp1);
+		printf("max:%lf > times:%lf - add:%lf\r\n", maxValue, temp0, temp1);
 		
 		if (temp0 < temp1)
 		{
