@@ -2,6 +2,7 @@
 #define _SYS_H
 
 #include "stdint.h"
+#include "fifo.h"
 
 typedef int32_t  s32;
 typedef int16_t s16;

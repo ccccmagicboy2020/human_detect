@@ -16,6 +16,8 @@ void led_init(void)
       /* LED0 Port/Pin initialization */
       PORT_Init(PortA, Pin01, &stcPortInit);   //Red
 	  PORT_Init(PortA, Pin05, &stcPortInit);   //Blue
+	  
+	  PORT_Init(PortB, Pin06, &stcPortInit);   //Blue
 	 
 	  PORT_SetBits(PortA, Pin01);
 	  PORT_SetBits(PortA, Pin05); 
@@ -56,6 +58,22 @@ void LED_GREEN(void)
 	PORT_ResetBits(PortA, Pin01);
 	PORT_ResetBits(PortA, Pin05);
 }
+
+void LED_GREEN_TWO(void)
+{
+	
+	PORT_ResetBits(PortA, Pin01);
+	PORT_ResetBits(PortA, Pin05);
+	Ddl_Delay1ms(100);
+	PORT_SetBits(PortA, Pin01);
+	PORT_SetBits(PortA, Pin05);
+	Ddl_Delay1ms(100);
+	PORT_ResetBits(PortA, Pin01);
+	PORT_ResetBits(PortA, Pin05);
+	
+}
+
+
 
 /**
  ******************************************************************************

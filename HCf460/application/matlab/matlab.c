@@ -9,7 +9,6 @@
 #include "time_detection.h"
 #include "std_cv.h"
 #include "freq_detection.h"
-#include "fifo.h"
 
 #define   FFT_LENGTH	4096		//FFT长度
 #define   xhz     		2           //去除频点数量

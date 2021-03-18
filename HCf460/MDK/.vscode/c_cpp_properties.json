@@ -19,8 +19,7 @@
                 "d:\\cccc2020\\CODE\\human_detect\\HCf460\\application\\uart_protocol",
                 "d:\\cccc2020\\CODE\\human_detect\\HCf460\\application\\fifo",
                 "d:\\Keil_v5\\ARM\\ARMCC\\include",
-                "d:\\Keil_v5\\ARM\\ARMCC\\include\\rw",
-                "d:\\cccc2020\\CODE\\human_detect\\HCf460\\HCf460\\DSP"
+                "d:\\Keil_v5\\ARM\\ARMCC\\include\\rw"
             ],
             "defines": [
                 "__DEBUG",
@@ -126,7 +125,7 @@
                 "d:\\cccc2020\\CODE\\human_detect\\HCf460\\application\\matlab",
                 "d:\\cccc2020\\CODE\\human_detect\\HCf460\\application\\uart_protocol",
                 "d:\\cccc2020\\CODE\\human_detect\\HCf460\\application\\fifo",
-                "d:\\cccc2020\\CODE\\human_detect\\HCf460\\HCf460\\DSP"
+                "d:\\cccc2020\\CODE\\human_detect\\HCf460\\DSP"
             ],
             "defines": [
                 "HC32F46x",
