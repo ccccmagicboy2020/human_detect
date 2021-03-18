@@ -431,7 +431,7 @@ void slow_check_process_s1(void)
 			break;
 		case NO_PERSON_NOT_SURE:
 			no_person_timer++;
-			if (no_person_timer > 3)		//delay_time_num
+			if (no_person_timer >= 1)		//delay_time_num
 			{
 				no_person_timer = 0;
 				state = IDLE;
