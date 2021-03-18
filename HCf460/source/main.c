@@ -83,6 +83,7 @@ int slow_s0_result = NO_PERSON_NOT_SURE;
 int slow_s0_result_last = NO_PERSON_NOT_SURE;
 
 int run_mode = ALL_CHECK;
+//int run_mode = FAST_CHECK_ONLY;
 
 void fast_check_data_prepare(void)
 {
@@ -97,16 +98,16 @@ void fast_check_data_prepare(void)
 			{
 				Fast_detection_data[k] =Fast_detection_data[k + FAST_CHECK_SAMPLES];		
 			}			
-			printf("fifo number: %d - %d\r\n", i, FIFO_GetDataCount(&FIFO_Data[0]));
+			//printf("fifo0 number: %d - %d\r\n", i, FIFO_GetDataCount(&FIFO_Data[0]));
 			FIFO_ReadData(&FIFO_Data[0], &Fast_detection_data[FAST_CHECK_SAMPLES*(i-1)], FAST_CHECK_SAMPLES);
-			printf("fifo number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[0]));
+			//printf("fifo0 number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[0]));
 			state = FAST_CHECK;			//bingo to check
 		}
 		else		// fullfill the tank
 		{
-			printf("fifo0 number: %d - %d\r\n", i, FIFO_GetDataCount(&FIFO_Data[0]));
+			//printf("fifo0 number: %d - %d\r\n", i, FIFO_GetDataCount(&FIFO_Data[0]));
 			FIFO_ReadData(&FIFO_Data[0], &Fast_detection_data[FAST_CHECK_SAMPLES*i], FAST_CHECK_SAMPLES);
-			printf("fifo0 number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[0]));
+			//printf("fifo0 number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[0]));
 			i++;
 
 			if (i == FAST_CHECK_TIMES)
@@ -149,8 +150,8 @@ void fast_check_process(void)
 	quick_detection_result = quick_detection(							Fast_detection_data, 
 											/* win_size_time =  */		2048, 
 											/* stride_time =  */		1024, 
-											/* time_times =  */			4,
-											/* time_add =  */			32, 
+											/* time_times =  */			4,		//4
+											/* time_add =  */			32, 		//32
 											/* win_size_freq =  */		256, 
 									        /* stride_freq =  */		102, 
 											/* time_accum =  */			8, 
@@ -173,14 +174,14 @@ void fast_check_process(void)
 		next_state = FAST_CHECK_DATA_PREPARE;		//loopback
 	}
 
-	printf("快%d \r\n", quick_detection_result);
+	printf("快 %d \r\n", quick_detection_result);
 	if (quick_detection_result)
 	{
-		LED_RED();	
+		LED_RED();
 	}
 	else
 	{
-		LED_GREEN_TWO();												 
+		LED_GREEN_TWO();		//无人
 	}
 }
 
@@ -191,9 +192,9 @@ void slow_check_data_prepare_s0(void)
 	
 	if (SLOW_CHECK_SAMPLES < FIFO_GetDataCount(&FIFO_Data[0]))
 	{
-		printf("fifo number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[0]));
+		//printf("fifo0 number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[0]));
 		FIFO_ReadData(&FIFO_Data[0], temp, SLOW_CHECK_SAMPLES);
-		printf("fifo number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[0]));
+		//printf("fifo0 number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[0]));
 
 		for(i=0;i<SLOW_CHECK_USE_SAMPLES;i++)
 		{
@@ -221,16 +222,16 @@ void slow_check_data_prepare_s1(void)
 			{
 				Fast_detection_data[k] =Fast_detection_data[k + SLOW_CHECK_SAMPLES];		
 			}			
-			printf("fifo1 number: %d - %d\r\n", i, FIFO_GetDataCount(&FIFO_Data[1]));
+			//printf("fifo1 number: %d - %d\r\n", i, FIFO_GetDataCount(&FIFO_Data[1]));
 			FIFO_ReadData(&FIFO_Data[1], &Fast_detection_data[SLOW_CHECK_SAMPLES*(i-1)], SLOW_CHECK_SAMPLES);
-			printf("fifo1 number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[1]));
+			//printf("fifo1 number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[1]));
 			state = SLOW_CHECK_S0;		//bingo to check
 		}
 		else		//the tank is not full
 		{
-			printf("fifo1 number: %d - %d\r\n", i, FIFO_GetDataCount(&FIFO_Data[1]));
+			//printf("fifo1 number: %d - %d\r\n", i, FIFO_GetDataCount(&FIFO_Data[1]));
 			FIFO_ReadData(&FIFO_Data[1], &Fast_detection_data[SLOW_CHECK_SAMPLES*i], SLOW_CHECK_SAMPLES);
-			printf("fifo1 number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[1]));
+			//printf("fifo1 number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[1]));
 			i++;
 
 			if (i == SLOW_CHECK_TIMES)
@@ -279,8 +280,8 @@ void slow_check_process_s0(void)
 											/*data_size*/		4096,
 											/*win_size_time*/	256,
 											/*stride_time*/		128,
-											/*time_times*/		5,
-											/*time_add*/		40
+											/*time_times*/		5,			//5
+											/*time_add*/		40				//40
 											);
 									 
 	bigmotion_freq_vote  = freq_detection(	/*in_data_freq*/			Fast_detection_data,
@@ -355,7 +356,7 @@ void slow_check_process_s0(void)
 		break;
 	case BREATHE_NOT_SURE:
 		state = SLOW_CHECK_S1;
-		printf("微 0 \r\n");
+		printf("微 0.3 \r\n");
 		break;
 	case NO_PERSON_NOT_SURE:
 		state = SLOW_CHECK_S1;
@@ -390,23 +391,19 @@ void slow_check_process_s1(void)
 				printf("微 1 \r\n");
 				LED_BLUE_TWO();
 			}
-			else
-			{
-				printf("微 0 \r\n");
-			}
 			state = IDLE;
 			next_state = SLOW_CHECK_DATA_PREPARE_S0;		
 			break;
 		case NO_PERSON_NOT_SURE:
 			no_person_timer++;
-			if (no_person_timer > 5)		//delay_time_num
+			if (no_person_timer > 3)		//delay_time_num
 			{
 				state = IDLE;
 				next_state = FAST_CHECK_DATA_PREPARE;	//no person so all loopback	to fast check
 				//do some thing
 				slow_s0_result = NO_PERSON;
-				LED_GREEN();
-				printf("无 \r\n");				
+				printf("无人 \r\n");
+				LED_GREEN_TWO();
 			}
 			else
 			{
