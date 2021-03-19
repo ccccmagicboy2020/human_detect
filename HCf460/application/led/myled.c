@@ -15,57 +15,35 @@ void led_init(void)
 
       /* LED0 Port/Pin initialization */
       PORT_Init(PortA, Pin01, &stcPortInit);   //Red
-	  PORT_Init(PortA, Pin05, &stcPortInit);   //Blue
-	  
-	  PORT_Init(PortB, Pin06, &stcPortInit);   //Blue
-	 
-	  PORT_SetBits(PortA, Pin01);
-	  PORT_SetBits(PortA, Pin05); 
+	  PORT_Init(PortA, Pin05, &stcPortInit);   //Green
+	  	 
+		led_red(1);
+		led_green(1);	//初始时是亮的
 }
 
-void LED_RED(void)
+void led_red(char onoff)
 {
-	PORT_ResetBits(PortA, Pin01);
-	PORT_SetBits(PortA, Pin05);	
+    if (onoff)
+    {
+        PORT_ResetBits(PortA, Pin01);
+    }
+    else
+    {
+        PORT_SetBits(PortA, Pin01);
+    }
 }
 
-void LED_RED_TWO(void)
+void led_green(char onoff)
 {
-	PORT_ResetBits(PortA, Pin01);
-	PORT_SetBits(PortA, Pin05);
-	Ddl_Delay1ms(30);
-	PORT_SetBits(PortA, Pin01);
-	PORT_SetBits(PortA, Pin05);
-	Ddl_Delay1ms(30);
-	PORT_ResetBits(PortA, Pin01);
-	PORT_SetBits(PortA, Pin05);
+    if (onoff)
+    {
+        PORT_ResetBits(PortA, Pin05);
+    }
+    else
+    {
+        PORT_SetBits(PortA, Pin05);
+    }
 }
-
-void LED_BLUE_TWO(void)
-{
-	PORT_SetBits(PortA, Pin01);
-	PORT_ResetBits(PortA, Pin05);
-	Ddl_Delay1ms(30);
-	PORT_SetBits(PortA, Pin01);
-	PORT_SetBits(PortA, Pin05);
-	Ddl_Delay1ms(30);
-	PORT_SetBits(PortA, Pin01);
-	PORT_ResetBits(PortA, Pin05);
-}
-
-void LED_GREEN(void)
-{
-	PORT_ResetBits(PortA, Pin01);
-	PORT_ResetBits(PortA, Pin05);
-}
-
-void LED_GREEN_TWO(void)
-{
-	PORT_ResetBits(PortA, Pin01);
-	PORT_ResetBits(PortA, Pin05);
-}
-
-
 
 /**
  ******************************************************************************

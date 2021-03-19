@@ -90,15 +90,55 @@ int run_mode = ALL_CHECK;
 
 void clear_buffer(void)
 {
-	int k = 0;
-	
-	for(k=0;k<MAX_DATA_POOL;k++) 
-	{
-		Fast_detection_data[k] = 0;
-	}	
-	
 	fast_retry_flag = 1;
 	slow_retry_flag = 1;
+}
+
+void fast_output_result(char quick_detection_result)
+{
+	printf("quick: %d \r\n", quick_detection_result);
+	if (quick_detection_result)//有人
+	{
+		led_red(1);			
+		led_green(0);
+	}
+	else						//无人
+	{
+		led_red(0);			
+		led_green(0);		
+	}
+}
+
+void slow_output_result(char slow_s0_result)
+{
+	switch (slow_s0_result)
+	{
+	case BIG_MOTION:
+		printf("big: 1 \r\n");
+		led_red(1);			
+		led_green(0);		
+		break;
+	case BREATHE:
+		printf("micro: 1 \r\n");
+		led_red(0);			
+		led_green(1);
+		break;
+	case BREATHE_NOT_SURE:
+		printf("micro: 0.3 \r\n");
+		led_red(0);			
+		led_green(1);		
+		break;
+	case NO_PERSON_NOT_SURE:
+		printf("big: 0.5 \r\n");
+		led_red(0);			
+		led_green(1);		
+		break;
+	case NO_PERSON:
+		printf("slow check no person go fast check\r\n");
+		break;
+	default:
+		break;
+	}	
 }
 
 void fast_check_data_prepare(void)
@@ -110,6 +150,12 @@ void fast_check_data_prepare(void)
 	{
 		fast_retry_flag = 0;
 		i = 0;
+	}
+	
+	if (FAST_CHECK_TIMES > i)
+	{
+		led_red(1);
+		led_green(0);	
 	}
 	
 	if (FAST_CHECK_SAMPLES < FIFO_GetDataCount(&FIFO_Data[0]))
@@ -172,8 +218,8 @@ void fast_check_process(void)
 	quick_detection_result = quick_detection(							Fast_detection_data, 
 											/* win_size_time =  */		2048, 
 											/* stride_time =  */		1024, 
-											/* time_times =  */			40,		//4
-											/* time_add =  */			320, 		//32
+											/* time_times =  */			4,		//4
+											/* time_add =  */			32, 		//32
 											/* win_size_freq =  */		256, 
 									        /* stride_freq =  */		102, 
 											/* time_accum =  */			8, 
@@ -196,15 +242,7 @@ void fast_check_process(void)
 		next_state = FAST_CHECK_DATA_PREPARE;		//loopback
 	}
 
-	printf("quick %d \r\n", quick_detection_result);
-	if (quick_detection_result)
-	{
-		LED_RED();
-	}
-	else
-	{
-		LED_GREEN_TWO();		//无人
-	}
+	fast_output_result(quick_detection_result);
 }
 
 void slow_check_data_prepare_s0(void)
@@ -308,8 +346,8 @@ void slow_check_process_s0(void)
 											/*data_size*/		4096,
 											/*win_size_time*/	256,
 											/*stride_time*/		128,
-											/*time_times*/		20,			//5
-											/*time_add*/		4000				//40
+											/*time_times*/		5,			//5
+											/*time_add*/		40				//40
 											);
 									 
 	bigmotion_freq_vote  = freq_detection(	/*in_data_freq*/			Fast_detection_data,
@@ -319,7 +357,7 @@ void slow_check_process_s0(void)
 											/*stride_freq*/				64,
 											/*time_accum*/				16,
 											/*xhz1*/					2,
-											/*freq_times*/				800,		//6
+											/*freq_times*/				6,		//6
 											/*respiration_times*/		200000,		//res_times
 											/*respirationfreq_vote*/	respirationfreq_vote
 											);
@@ -349,9 +387,9 @@ void slow_check_process_s0(void)
 		Fast_detection_data[i] += adc_average;
 	}
 	
-	//
-	micromotion_detection_result = 0;
-	//
+	///////////////////////////////////////////
+	//micromotion_detection_result = 0;
+	///////////////////////////////////////////
 
 	if (1 == bigmotion_time_vote)
 	{
@@ -374,27 +412,18 @@ void slow_check_process_s0(void)
 		slow_s0_result = NO_PERSON_NOT_SURE;
 	}
 
+	slow_output_result(slow_s0_result);
+
 	switch (slow_s0_result)
 	{
 	case BIG_MOTION:
-		state = IDLE;
-		next_state = SLOW_CHECK_DATA_PREPARE_S0;
-		printf("big: 1 \r\n");
-		LED_RED_TWO();
-		break;
 	case BREATHE:
 		state = IDLE;
 		next_state = SLOW_CHECK_DATA_PREPARE_S0;
-		printf("micro: 1 \r\n");
-		LED_BLUE_TWO();
 		break;
 	case BREATHE_NOT_SURE:
-		state = SLOW_CHECK_S1;
-		printf("micro: 0.3 \r\n");
-		break;
 	case NO_PERSON_NOT_SURE:
 		state = SLOW_CHECK_S1;
-		printf("big: 0 \r\n");
 		break;
 	default:
 		state = ERROR;
@@ -411,7 +440,19 @@ void slow_check_process_s1(void)
 	{
 		slow_s0_result_last = slow_s0_result;
 		state = IDLE;
-		next_state = SLOW_CHECK_DATA_PREPARE_S0;		
+		next_state = SLOW_CHECK_DATA_PREPARE_S0;
+		switch (slow_s0_result)
+		{
+		case BREATHE_NOT_SURE:
+			breathe_timer = 1;		
+			break;
+		case NO_PERSON_NOT_SURE:
+			no_person_timer = 1;
+			break;
+		default:
+			state = ERROR;
+			break;
+		}
 	}
 	else
 	{
@@ -419,28 +460,27 @@ void slow_check_process_s1(void)
 		{
 		case BREATHE_NOT_SURE:
 			breathe_timer++;
-			if (breathe_timer > 3)		//respirationfreq_num
+			if (breathe_timer >= (2 + 1))	//respirationfreq_num
 			{
 				breathe_timer = 0;
 				//do some thing
-				printf("micro: 1 \r\n");
-				LED_BLUE_TWO();
+				slow_s0_result = BREATHE;
+				slow_output_result(slow_s0_result);
 			}
 			state = IDLE;
 			next_state = SLOW_CHECK_DATA_PREPARE_S0;		
 			break;
 		case NO_PERSON_NOT_SURE:
 			no_person_timer++;
-			if (no_person_timer >= 1)		//delay_time_num
+			if (no_person_timer >= 2)		//delay_time_num
 			{
 				no_person_timer = 0;
 				state = IDLE;
 				next_state = FAST_CHECK_DATA_PREPARE;	//no person so all loopback	to fast check
-				clear_buffer();
 				//do some thing
+				clear_buffer();
 				slow_s0_result = NO_PERSON;
-				printf("no person!!! \r\n");
-				LED_GREEN_TWO();
+				slow_output_result(slow_s0_result);
 			}
 			else
 			{
