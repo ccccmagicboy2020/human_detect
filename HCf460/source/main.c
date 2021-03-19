@@ -42,9 +42,12 @@
 
 extern const float hamming_TAB2[4096];
 
-float   offsetmax =  3;     //门限偏置  0.65
-float   offsetmin =  3;		//		0.6
-float	res_times = 17.5;
+float   offsetmax = 3;     //门限偏置  0.65
+float   offsetmin = 3;		//		0.6
+float	res_times = 40000;		//17.5
+float	slow_time_times = 30;
+int 	slow_time_add = 600;
+float	slow_freq_times = 600;
 
 FIFO_DataType Fast_detection_data[MAX_DATA_POOL] = {0};//big raw data pool
 
@@ -225,7 +228,7 @@ void fast_check_process(void)
 											/* time_accum =  */			8, 
 											/* xhz1 =  */				2, 
 											/* freq_times =  */			3, 
-											/* respiration_times =  */	res_times
+											/* respiration_times =  */	17.5
 											);
 
 	if (quick_detection_result && (run_mode == ALL_CHECK))
@@ -346,8 +349,8 @@ void slow_check_process_s0(void)
 											/*data_size*/		4096,
 											/*win_size_time*/	256,
 											/*stride_time*/		128,
-											/*time_times*/		5,			//5
-											/*time_add*/		40				//40
+											/*time_times*/		slow_time_times,			//5
+											/*time_add*/		slow_time_add				//40
 											);
 									 
 	bigmotion_freq_vote  = freq_detection(	/*in_data_freq*/			Fast_detection_data,
@@ -357,8 +360,8 @@ void slow_check_process_s0(void)
 											/*stride_freq*/				64,
 											/*time_accum*/				16,
 											/*xhz1*/					2,
-											/*freq_times*/				6,		//6
-											/*respiration_times*/		200000,		//res_times
+											/*freq_times*/				slow_freq_times,		//6
+											/*respiration_times*/		res_times,		//res_times
 											/*respirationfreq_vote*/	respirationfreq_vote
 											);
 										
