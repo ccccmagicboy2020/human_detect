@@ -137,7 +137,7 @@ int quick_time_detection(FIFO_DataType data[], int data_size, int win_size_time,
 
 
 int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
-  stride_time, double time_times, int time_add)
+  stride_time, float time_times, int time_add)
 {
 	int time_vote;
 	int std_size;
@@ -145,11 +145,12 @@ int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
 	float std_value[100] = {0};
 	int i;
 	int j;
-	double maxValue;
-	double minValue;
+	float maxValue;
+	float minValue;
 	
-	double temp0;
-	double temp1;
+	float temp0;
+	float temp1;
+	float temp2;
 	float data_temp[2048] = {0};
 	
 	std_size = (int)((data_size - win_size_time) / stride_time + 1);
@@ -187,31 +188,27 @@ int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
 		
 		temp0 = minValue * time_times;
 		temp1 = minValue + time_add;
-		
-		printf("max:%lf > times:%lf - add:%lf\r\n", maxValue, temp0, temp1);
-		
+				
 		if (temp0 < temp1)
 		{
-			if (maxValue > temp0)
-			{
-				time_vote = 1;
-			}
-			else
-			{
-				time_vote = 0;
-			}
+			temp2 = temp0;
 		}
 		else
 		{
-			if (maxValue > temp1)
-			{
-				time_vote = 1;
-			}
-			else
-			{
-				time_vote = 0;
-			}
+			temp2 = temp1;
 		}
+
+		if (maxValue > temp2)
+		{
+			time_vote = 1;
+		}
+		else
+		{
+			time_vote = 0;
+		}
+
+		printf("time domain *: %.2lf - %.2lf\r\n", time_times, maxValue/minValue);
+		printf("time domain +: %d - %.2lf\r\n", time_add, maxValue - minValue);
 
   /*  根据滑窗数据的最大最小标准差进行时域判定 */
   return time_vote;

@@ -71,7 +71,7 @@ int Fretting_detection(FIFO_DataType in_data5[4096],double N, double pro_N, doub
 	arm_rfft_fast_instance_f32 S;
 	arm_rfft_fast_init_f32(&S, 4096);
 	int flag_Fretting = 0, index_size[2];   //微动动作标志位
-	u16 i = 0 ,OP = 0,num= 0,num1 = 0,b = 0,data_remove_size = 0 ,XT_size  = 0;
+	u16 i = 0 ,OP = 0, b = 0, data_remove_size = 0 , XT_size  = 0;
 	float rm_data = 0,xc_max = 0,XT_max = 0,p = 0 ,p1 = 0;
     float xc2[m],XT1[m],b_index[2000];  //存储cefar门限数据
 	int pf1_result_size[2];
@@ -177,33 +177,21 @@ int Fretting_detection(FIFO_DataType in_data5[4096],double N, double pro_N, doub
 
 	/*微动检测*/
 
+
 	for(i=(50*secnum-1);i< (50+ rr_threshold)* secnum;i++)
 	{
 		//printf("%.2lf ", xc2[i]);
 		OP = i - (N+ pro_N)/ 2;
-		//printf("peaks-men: %.2lf - %.2lf\r\n", xc2[i],XT1[OP1]);
+		
+		printf("cfar_offset: %.3lf - %.3lf\r\n", offset, xc2[i] - XT1[OP]);
+		
 		if( xc2[i] > offset + XT1[OP])
 		{
-			num++;
-			if(num == 1)
-			{
-				flag_Fretting = 1;
-				//printf("flag_Fretting:%d \r\n ",  flag_Fretting);
-				num = 0;
-			}
-						
-		}
-		else 
-		{
-			num1++;
-			if(num1 == 11)
-			{
-				flag_Fretting = 0;
-				num1 = 0;
-								
-			}
+			flag_Fretting = 1;
+			break;			
 		}
 	}
+
     return flag_Fretting;			
 }
 

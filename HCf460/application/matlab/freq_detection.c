@@ -160,7 +160,7 @@ int freq_detection(FIFO_DataType data[], const float win[], int data_size, int w
 			}  
 	}  
 	
-	printf("freq_detection max-min-times: %lf - %lf - %lf\r\n", maxValue, minValue, maxValue/minValue);
+	printf("freq_detection: %.2lf - %.2lf\r\n", freq_times, maxValue/minValue);
 	
 	if (maxValue > minValue * freq_times)
 	{
@@ -177,8 +177,8 @@ int freq_detection(FIFO_DataType data[], const float win[], int data_size, int w
 	arm_mean_f32(data_remove_pf, time_accum* 0.5 , &respirationfreq_mean);
 //	printf("freq_detection mean freq result: %lf\r\n", respirationfreq_mean);
 	
-	printf("res_max / minValue: %lf & %lf = %lf\r\n", respirationfreq_max, minValue, respirationfreq_max/minValue);
-	printf("res_mean / minValue: %lf & %lf = %lf\r\n", respirationfreq_mean, minValue, respirationfreq_mean/minValue/0.618);
+	printf("res: %.2lf - %.2lf\r\n", respiration_times, respirationfreq_max/minValue);
+	printf("res: %.2lf - %.2lf\r\n", respiration_times, respirationfreq_mean/minValue/0.618);
 	
 	if ((respirationfreq_max > minValue*respiration_times) || (respirationfreq_mean > minValue*respiration_times*0.618))
 	{

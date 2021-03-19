@@ -42,8 +42,8 @@
 
 extern const float hamming_TAB2[4096];
 
-float   offsetmax =  0.65;     //门限偏置
-float   offsetmin =  0.6;
+float   offsetmax =  3;     //门限偏置  0.65
+float   offsetmin =  3;		//		0.6
 float	res_times = 17.5;
 
 FIFO_DataType Fast_detection_data[MAX_DATA_POOL] = {0};//big raw data pool
