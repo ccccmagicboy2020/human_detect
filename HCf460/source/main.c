@@ -42,12 +42,12 @@
 
 extern const float hamming_TAB2[4096];
 
-float   offsetmax = 3;     //门限偏置  0.65
-float   offsetmin = 3;		//		0.6
-float	res_times = 40000;		//17.5
-float	slow_time_times = 30;
-int 	slow_time_add = 600;
-float	slow_freq_times = 600;
+float		slow_time_times = 30;
+int 		slow_time_add = 600;
+float		slow_freq_times = 1800;
+float		res_times = 50000;		//17.5
+float   offsetmax = 3;     		//门限偏置  0.65
+float   offsetmin = 3;				//		0.6
 
 FIFO_DataType Fast_detection_data[MAX_DATA_POOL] = {0};//big raw data pool
 
