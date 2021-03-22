@@ -339,7 +339,7 @@
               <MiscControls>--diag_suppress=186,66</MiscControls>
               <Define>__DEBUG,HC32F46x,USE_DEVICE_DRIVER_LIB,ARM_MATH_CM4,_CC_ARM,__TARGET_FPU_VFP,__FPU_PRESENT,ARM_MATH_MATRIX_CHECK,ARM_MATH_ROUNDING,SYSTEM_GLOBAL</Define>
               <Undefine></Undefine>
-              <IncludePath>C:\Keil_v5\ARM\include;..\MDK;..\source;..\common;..\driver\inc;..\driver\src;..\application\adc;..\application\led;..\application\usart;..\application\timer;..\DSP;..\application\matlab;..\DSP\Include;..\application\uart_protocol;..\application\fifo</IncludePath>
+              <IncludePath>C:\Keil_v5\ARM\include;..\MDK;..\source;..\common;..\driver\inc;..\driver\src;..\application\adc;..\application\led;..\application\usart;..\application\timer;..\DSP;..\application\matlab;..\DSP\Include;..\application\fifo;..\application\tuya</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -559,14 +559,29 @@
               <FilePath>..\application\matlab\time_detection.c</FilePath>
             </File>
             <File>
-              <FileName>uart_protocol.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\application\uart_protocol\uart_protocol.c</FilePath>
-            </File>
-            <File>
               <FileName>fifo.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\application\fifo\fifo.c</FilePath>
+            </File>
+            <File>
+              <FileName>mcu_api.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\application\tuya\mcu_api.c</FilePath>
+            </File>
+            <File>
+              <FileName>mcu_ota_handler.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\application\tuya\mcu_ota_handler.c</FilePath>
+            </File>
+            <File>
+              <FileName>protocol.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\application\tuya\protocol.c</FilePath>
+            </File>
+            <File>
+              <FileName>system.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\application\tuya\system.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1138,14 +1153,29 @@
               <FilePath>..\application\matlab\time_detection.c</FilePath>
             </File>
             <File>
-              <FileName>uart_protocol.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\application\uart_protocol\uart_protocol.c</FilePath>
-            </File>
-            <File>
               <FileName>fifo.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\application\fifo\fifo.c</FilePath>
+            </File>
+            <File>
+              <FileName>mcu_api.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\application\tuya\mcu_api.c</FilePath>
+            </File>
+            <File>
+              <FileName>mcu_ota_handler.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\application\tuya\mcu_ota_handler.c</FilePath>
+            </File>
+            <File>
+              <FileName>protocol.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\application\tuya\protocol.c</FilePath>
+            </File>
+            <File>
+              <FileName>system.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\application\tuya\system.c</FilePath>
             </File>
           </Files>
         </Group>

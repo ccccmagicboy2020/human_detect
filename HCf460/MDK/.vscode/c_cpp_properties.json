@@ -16,8 +16,8 @@
                 "d:\\cccc2020\\CODE\\human_detect\\HCf460\\DSP",
                 "d:\\cccc2020\\CODE\\human_detect\\HCf460\\application\\matlab",
                 "d:\\cccc2020\\CODE\\human_detect\\HCf460\\DSP\\Include",
-                "d:\\cccc2020\\CODE\\human_detect\\HCf460\\application\\uart_protocol",
                 "d:\\cccc2020\\CODE\\human_detect\\HCf460\\application\\fifo",
+                "d:\\cccc2020\\CODE\\human_detect\\HCf460\\application\\tuya",
                 "d:\\Keil_v5\\ARM\\ARMCC\\include",
                 "d:\\Keil_v5\\ARM\\ARMCC\\include\\rw"
             ],
@@ -123,8 +123,8 @@
                 "d:\\cccc2020\\CODE\\human_detect\\HCf460\\application\\usart",
                 "d:\\cccc2020\\CODE\\human_detect\\HCf460\\application\\timer",
                 "d:\\cccc2020\\CODE\\human_detect\\HCf460\\application\\matlab",
-                "d:\\cccc2020\\CODE\\human_detect\\HCf460\\application\\uart_protocol",
                 "d:\\cccc2020\\CODE\\human_detect\\HCf460\\application\\fifo",
+                "d:\\cccc2020\\CODE\\human_detect\\HCf460\\application\\tuya",
                 "d:\\cccc2020\\CODE\\human_detect\\HCf460\\DSP"
             ],
             "defines": [

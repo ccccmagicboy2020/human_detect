@@ -1,3 +1,33 @@
-Load "d:\\cccc2020\\CODE\\human_detect\\HCf460\\MDK\\output\\debug\\adc_03_sa_interrupt.axf" 
-Erase Done.Programming Done.Application running ...
-Flash Load finished at 15:51:55
+*** Using Compiler 'V5.06 update 7 (build 960)', folder: 'd:\Keil_v5\ARM\ARMCC\Bin'
+Build target 'adc_03_sa_interrupt_Debug'
+compiling protocol.c...
+..\application\tuya\protocol.c(95): error:  #35: #error directive: "请将MCU串口发送函数填入该函数,并删除该�?
+   #error "请将MCU串口发送函数填入该函数,并删除该�?"
+..\application\tuya\protocol.c: 0 warnings, 1 error
+compiling mcu_ota_handler.c...
+..\application\tuya\mcu_ota_handler.c(58): error:  #35: #error directive: "请自行完善该功能,完成后请删除该行"
+  	#error "请自行完善该功能,完成后请删除该行"
+..\application\tuya\mcu_ota_handler.c: 0 warnings, 1 error
+compiling mcu_api.c...
+..\application\tuya\mcu_api.c(187): warning:  #223-D: function "isdigit" declared implicitly
+  	if (!isdigit(c = *up)) {
+..\application\tuya\mcu_api.c(188): warning:  #223-D: function "isspace" declared implicitly
+  		while (isspace(c))
+..\application\tuya\mcu_api.c(201): warning:  #223-D: function "isdigit" declared implicitly
+  	for (n = '0' - c; isdigit(c = *++up); ) {
+..\application\tuya\mcu_api.c(558): error:  #20: identifier "bool" is undefined
+  static bool mcu_common_uart_data_unpack(uint8_t data)
+..\application\tuya\mcu_api.c(560): error:  #20: identifier "bool" is undefined
+      bool ret = false;
+..\application\tuya\mcu_api.c(560): error:  #20: identifier "false" is undefined
+      bool ret = false;
+..\application\tuya\mcu_api.c(618): error:  #20: identifier "true" is undefined
+          ret = true;
+..\application\tuya\mcu_api.c(643): warning:  #177-D: variable "offset"  was declared but never referenced
+    unsigned short offset = 0;
+..\application\tuya\mcu_api.c(644): warning:  #550-D: variable "rx_value_len"  was set but never used
+    unsigned short rx_value_len = 0;             //数据帧长�?
+..\application\tuya\mcu_api.c: 5 warnings, 4 errors
+".\output\debug\adc_03_sa_interrupt.axf" - 6 Error(s), 5 Warning(s).
+Target not created.
+Build Time Elapsed:  00:00:01

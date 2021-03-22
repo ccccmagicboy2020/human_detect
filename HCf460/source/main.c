@@ -8,7 +8,6 @@
 #include "math.h" 
 #include "arm_math.h" 
 #include "hamming.h"
-#include "uart_protocol.h"
 
 #include "cfar_ca_emxAPI.h"
 #include "time_detection.h"
@@ -16,6 +15,7 @@
 #include "freq_detection.h"
 #include "stdio.h"
 #include "fifo.h"
+#include "bluetooth.h"
 
 #define		N						300         //CFAR窗口大小
 #define		pro_N					200         //CFAR保护单元大小
@@ -67,7 +67,7 @@ enum app_state
 	SLOW_CHECK_S1,
 	IDLE,
 	UART_PROTOCOL,
-	ERROR,
+	ERROR_ERROR,
 };
 
 enum slow_s0_result
@@ -541,13 +541,13 @@ void app(void)
 			slow_check_process_s1();
 			break;
 		case	UART_PROTOCOL:
-			uart_service();
+			bt_uart_service();
 			uart_post_process();
 			break;
 		case	IDLE:
 			idle_process();
 			break;
-		case	ERROR:
+		case	ERROR_ERROR:
 			error_process();
 			break;
 		default:
@@ -566,7 +566,7 @@ int main(void)
 	AdcConfig();
 	timer0_init();
 	ADC_StartConvert(M4_ADC1);
-	uart_protocol_init();
+	bt_protocol_init();
 	
 	while(1)
 	{				
