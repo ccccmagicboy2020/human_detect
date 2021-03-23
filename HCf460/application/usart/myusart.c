@@ -1,5 +1,6 @@
 #include "myusart.h"
 #include "hc32_ddl.h"
+#include "bluetooth.h"
 
 void ClkInit(void)
 {
@@ -59,6 +60,20 @@ void ClkInit(void)
 
 /**
  *******************************************************************************
+ ** \brief USART RX irq callback function.
+ **
+ ** \param [in] None
+ **
+ ** \retval None
+ **
+ ******************************************************************************/
+static void tuya_UsartRxIrqCallback(void)
+{
+    uart_receive_input(USART_RecData(USART_TUYA_CH));
+}
+
+/**
+ *******************************************************************************
  ** \brief USART RX error process function.
  **
  ** \param [in] None
@@ -87,6 +102,7 @@ void UsartRxErrProcess(void)
 void usart_init(void)
 {
 	en_result_t enRet = Ok;
+    stc_irq_regi_conf_t tuya_stcIrqRegiCfg;
 	uint32_t u32Fcg1Periph = PWC_FCG1_PERIPH_USART1 | PWC_FCG1_PERIPH_USART2 | \
                              PWC_FCG1_PERIPH_USART3 | PWC_FCG1_PERIPH_USART4;
     const stc_usart_uart_init_t stcInitCfg = {
@@ -108,6 +124,10 @@ void usart_init(void)
     /* Initialize USART IO */
     PORT_SetFunc(USART_RX_PORT, USART_RX_PIN, USART_RX_FUNC, Disable);
     PORT_SetFunc(USART_TX_PORT, USART_TX_PIN, USART_TX_FUNC, Disable);
+
+    PORT_SetFunc(USART_TUYA_RX_PORT, USART_TUYA_RX_PIN, USART_TUYA_RX_FUNC, Disable);
+    PORT_SetFunc(USART_TUYA_TX_PORT, USART_TUYA_TX_PIN, USART_TUYA_TX_FUNC, Disable); 
+
 	    /* Initialize UART */
     enRet = USART_UART_Init(USART_CH, &stcInitCfg);
     if (enRet != Ok)
@@ -117,6 +137,15 @@ void usart_init(void)
         }
     }
 
+    //USART_TUYA_CH
+    enRet = USART_UART_Init(USART_TUYA_CH, &stcInitCfg);
+    if (enRet != Ok)
+    {
+        while (1)
+        {
+        }
+    }    
+
     /* Set baudrate */
     enRet = USART_SetBaudrate(USART_CH, USART_BAUDRATE);
     if (enRet != Ok)
@@ -125,10 +154,31 @@ void usart_init(void)
         {
         }
     }
+    //USART_TUYA_CH
+    enRet = USART_SetBaudrate(USART_TUYA_CH, USART_BAUDRATE);
+    if (enRet != Ok)
+    {
+        while (1)
+        {
+        }
+    }    
+
+    /* Set TUYA USART RX IRQ */
+    tuya_stcIrqRegiCfg.enIRQn = Int000_IRQn;
+    tuya_stcIrqRegiCfg.pfnCallback = &tuya_UsartRxIrqCallback;
+    tuya_stcIrqRegiCfg.enIntSrc = USART_TUYA_RI_NUM;
+    enIrqRegistration(&tuya_stcIrqRegiCfg);
+    NVIC_SetPriority(tuya_stcIrqRegiCfg.enIRQn, DDL_IRQ_PRIORITY_DEFAULT);
+    NVIC_ClearPendingIRQ(tuya_stcIrqRegiCfg.enIRQn);
+    NVIC_EnableIRQ(tuya_stcIrqRegiCfg.enIRQn);    
 
     /*Enable RX && TX function*/
     USART_FuncCmd(USART_CH, UsartRx, Enable);
     USART_FuncCmd(USART_CH, UsartTx, Enable);
+
+    USART_FuncCmd(USART_TUYA_CH, UsartRx, Enable);
+    USART_FuncCmd(USART_TUYA_CH, UsartTx, Enable);
+    USART_FuncCmd(USART_TUYA_CH, UsartRxInt, Enable);       //enalbe the rxd interrupt
 }
 
 

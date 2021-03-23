@@ -92,7 +92,7 @@ const DOWNLOAD_CMD_S download_cmd[] =
 *****************************************************************************/
 void uart_transmit_output(unsigned char value)
 {
-	USART_SendData(USART_CH, value);
+	USART_SendData(USART_TUYA_CH, value);
 }
 /******************************************************************************
                            第二步:实现具体用户函数

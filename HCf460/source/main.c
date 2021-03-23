@@ -524,12 +524,14 @@ void app(void)
 	switch (state)
 	{
 		case	FAST_CHECK_DATA_PREPARE:
+			mcu_dp_enum_update(DPID_CHECK_PROCESS, 0);
 			fast_check_data_prepare();
 			break;
 		case	FAST_CHECK:
 			fast_check_process();
 			break;
 		case	SLOW_CHECK_DATA_PREPARE_S0:
+			mcu_dp_enum_update(DPID_CHECK_PROCESS, 1);
 			slow_check_data_prepare_s0();
 			break;
 		case	SLOW_CHECK_DATA_PREPARE_S1:
@@ -542,7 +544,7 @@ void app(void)
 			slow_check_process_s1();
 			break;
 		case	UART_PROTOCOL:
-			//bt_uart_service();
+			bt_uart_service();
 			uart_post_process();
 			break;
 		case	IDLE:
@@ -563,7 +565,7 @@ int main(void)
 	FIFO_Init(&FIFO_Data[1]);
 	SysClkIni();
 	led_init();
-	usart_init();
+	usart_init();//both debug and tuya
 	AdcConfig();
 	timer0_init();
 	ADC_StartConvert(M4_ADC1);
