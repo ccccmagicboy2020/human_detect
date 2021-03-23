@@ -41,12 +41,24 @@
 20. 优化串口解析器
 
 ******************************************************************************/
-//#define SYSTEM_GLOBAL
-
 #include "bluetooth.h"
 //
 //
 extern const DOWNLOAD_CMD_S download_cmd[];
+unsigned char volatile bt_queue_buf[PROTOCOL_HEAD + BT_UART_QUEUE_LMT];  //串口队列缓存
+unsigned char bt_uart_rx_buf[PROTOCOL_HEAD + BT_UART_RECV_BUF_LMT];         //串口接收缓存
+unsigned char bt_uart_tx_buf[PROTOCOL_HEAD + BT_UART_SEND_BUF_LMT];        //串口发送缓存
+//
+volatile unsigned char *queue_in;
+volatile unsigned char *queue_out;
+
+unsigned char stop_update_flag;
+
+#ifndef BT_CONTROL_SELF_MODE
+unsigned char reset_bt_flag;                                                  //重置bt标志(TRUE:成功/FALSE:失败)
+unsigned char set_btmode_flag;                                                //设置bluetooth工作模式标志(TRUE:成功/FALSE:失败)
+unsigned char bt_work_state;                                                  //bt模块当前工作状态
+#endif
 
 /*****************************************************************************
 函数名称 : set_bt_uart_byte
@@ -304,7 +316,7 @@ void data_handle(unsigned short offset)
     bt_work_state = bt_uart_rx_buf[offset + DATA_START];
     if(bt_work_state==0x01||bt_work_state==0x00)
     {
-    	mcu_ota_init_disconnect();
+    	//mcu_ota_init_disconnect();
 
     }
     bt_uart_write_frame(BT_STATE_CMD,0);

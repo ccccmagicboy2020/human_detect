@@ -43,9 +43,9 @@
 ******************************************************************************/
 
 #include "bluetooth.h"
+#include "myusart.h"
+#include "hc32f46x_usart.h"
   
-  
-
 /******************************************************************************
                                 移植须知:
 1:MCU必须在while中直接调用mcu_api.c内的bt_uart_service()函数
@@ -92,12 +92,7 @@ const DOWNLOAD_CMD_S download_cmd[] =
 *****************************************************************************/
 void uart_transmit_output(unsigned char value)
 {
- #error "请将MCU串口发送函数填入该函数,并删除该行"
-/*
-  //示例:
-  extern void Uart_PutChar(unsigned char value);
-  Uart_PutChar(value);	                                //串口发送函数
-*/  
+	USART_SendData(USART_CH, value);
 }
 /******************************************************************************
                            第二步:实现具体用户函数
@@ -127,12 +122,11 @@ void uart_transmit_output(unsigned char value)
 *****************************************************************************/
 void all_data_update(void)
 {
-  #error "请在此处理可下发可上报数据及只上报数据示例,处理完成后删除该行"
   //此代码为平台自动生成，请按照实际数据修改每个可下发可上报函数和只上报函数
-    mcu_dp_enum_update(DPID_LIGHT_STATUS,当前灯状态); //枚举型数据上报;
-    mcu_dp_enum_update(DPID_PERSON_IN_RANGE,当前人状态); //枚举型数据上报;
-    mcu_dp_enum_update(DPID_CHECK_PROCESS,当前测试状态); //枚举型数据上报;
-    mcu_dp_enum_update(DPID_LED_ON_BOARD_STATUS,当前板载灯状态); //枚举型数据上报;
+    mcu_dp_enum_update(DPID_LIGHT_STATUS, 0); //枚举型数据上报;
+    mcu_dp_enum_update(DPID_PERSON_IN_RANGE, 0); //枚举型数据上报;
+    mcu_dp_enum_update(DPID_CHECK_PROCESS, 0); //枚举型数据上报;
+    mcu_dp_enum_update(DPID_LED_ON_BOARD_STATUS, 0); //枚举型数据上报;
 
 
 
@@ -232,7 +226,7 @@ void bt_rf_test_req(void)
 *****************************************************************************/
 void bt_rf_test_result(unsigned char result,signed char rssi)
 {
-  #error "请自行完善该功能,完成后请删除该行"
+  //#error "请自行完善该功能,完成后请删除该行"
   if(result == 0)
   {
     //测试失败
@@ -261,7 +255,7 @@ void bt_rf_test_result(unsigned char result,signed char rssi)
 *****************************************************************************/
 void bt_send_recordable_dp_data(unsigned char snedType,unsigned char dpid,unsigned char dpType, unsigned char value[],unsigned short len)
 {
-	#error "请自行完善该功能,完成后请删除该行"
+	//#error "请自行完善该功能,完成后请删除该行"
 	if(snedType==0x01)//格式1，蓝牙模块自带时间上报
 	{
 
@@ -284,7 +278,7 @@ void bt_send_recordable_dp_data(unsigned char snedType,unsigned char dpid,unsign
 *****************************************************************************/
 void bt_send_recordable_dp_data_result(unsigned char result)
 {
-	#error "请自行完善该功能,完成后请删除该行"
+	//#error "请自行完善该功能,完成后请删除该行"
 }
 #ifdef TUYA_BCI_UART_COMMON_SEND_TIME_SYNC_TYPE 
 /*****************************************************************************
@@ -322,7 +316,7 @@ void bt_send_time_sync_req(unsigned char sync_time_type)
 *****************************************************************************/
 void bt_time_sync_result(unsigned char result,unsigned char sync_time_type,bt_time_struct_data_t bt_time,unsigned short time_zone_100,long long time_stamp_ms)
 {
-	#error "请自行完善该功能,完成后请删除该行"
+	//#error "请自行完善该功能,完成后请删除该行"
 	if(result == 0x00)
 	{
 		//同步时间成功
@@ -371,7 +365,7 @@ void bt_modify_adv_interval_req(unsigned char value)
 *****************************************************************************/
 void bt_modify_adv_interval_result(unsigned char result)
 {
-	#error "请自行完善该功能,完成后请删除该行"
+	//#error "请自行完善该功能,完成后请删除该行"
 	if(result == 0x00)
 	{
 		//成功
@@ -410,7 +404,7 @@ void bt_close_timer_req(unsigned char value)
 *****************************************************************************/
 void bt_close_timer_result(unsigned char result)
 {
-	#error "请自行完善该功能,完成后请删除该行"
+	//#error "请自行完善该功能,完成后请删除该行"
 	if(result == 0x00)
 	{
 		//成功
@@ -449,7 +443,7 @@ void bt_enable_lowpoer_req(unsigned char value)
 *****************************************************************************/
 void bt_enable_lowpoer_result(unsigned char result)
 {
-	#error "请自行完善该功能,完成后请删除该行"
+	//#error "请自行完善该功能,完成后请删除该行"
 	if(result == 0x00)
 	{
 		//成功
@@ -478,6 +472,8 @@ unsigned char bt_send_one_time_password_token(unsigned char value[],unsigned cha
   	length = set_bt_uart_buffer(length,value,8);
   	
 	bt_uart_write_frame(TUYA_BCI_UART_COMMON_SEND_ONE_TIME_PASSWORD_TOKEN,length);
+	
+	return 0;
 }
 /*****************************************************************************
 函数名称 : bt_send_one_time_password_token_result
@@ -489,7 +485,7 @@ unsigned char bt_send_one_time_password_token(unsigned char value[],unsigned cha
 *****************************************************************************/
 void bt_send_one_time_password_token_result(unsigned char result)
 {
-	#error "请自行完善该功能,完成后请删除该行"
+	//#error "请自行完善该功能,完成后请删除该行"
 	if(result == 0x00)
 	{
 		//密码核对通过
@@ -524,7 +520,7 @@ void bt_disconnect_req(void)
 *****************************************************************************/
 void bt_disconnect_result(unsigned char result)
 {
-	#error "请自行完善该功能,完成后请删除该行"
+	//#error "请自行完善该功能,完成后请删除该行"
 	if(result == 0x00)
 	{
 		//成功
@@ -565,7 +561,7 @@ void bt_send_mcu_ver(void)
 *****************************************************************************/
 void bt_factor_reset_notify(void)
 {
-	#error "请自行完善该功能,完成后请删除该行"
+	//#error "请自行完善该功能,完成后请删除该行"
 }
 #endif
 

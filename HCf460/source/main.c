@@ -15,6 +15,7 @@
 #include "freq_detection.h"
 #include "stdio.h"
 #include "fifo.h"
+
 #include "bluetooth.h"
 
 #define		N						300         //CFAR´°¿Ú´óÐ¡
@@ -429,7 +430,7 @@ void slow_check_process_s0(void)
 		state = SLOW_CHECK_S1;
 		break;
 	default:
-		state = ERROR;
+		state = ERROR_ERROR;
 		break;
 	}
 }
@@ -453,7 +454,7 @@ void slow_check_process_s1(void)
 			no_person_timer = 1;
 			break;
 		default:
-			state = ERROR;
+			state = ERROR_ERROR;
 			break;
 		}
 	}
@@ -492,7 +493,7 @@ void slow_check_process_s1(void)
 			}
 			break;
 		default:
-			state = ERROR;
+			state = ERROR_ERROR;
 			break;
 		}
 	}
@@ -541,7 +542,7 @@ void app(void)
 			slow_check_process_s1();
 			break;
 		case	UART_PROTOCOL:
-			bt_uart_service();
+			//bt_uart_service();
 			uart_post_process();
 			break;
 		case	IDLE:

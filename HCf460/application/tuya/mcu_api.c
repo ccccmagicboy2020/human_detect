@@ -673,7 +673,7 @@ void bt_protocol_init(void)
 #ifndef BT_CONTROL_SELF_MODE
   bt_work_state = BT_SATE_UNKNOW;
 #endif
-	mcu_ota_init();
+	//mcu_ota_init();
 
 }
 

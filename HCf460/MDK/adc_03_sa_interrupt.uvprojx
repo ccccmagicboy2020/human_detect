@@ -322,7 +322,7 @@
             <PlainCh>0</PlainCh>
             <Ropi>0</Ropi>
             <Rwpi>0</Rwpi>
-            <wLevel>0</wLevel>
+            <wLevel>2</wLevel>
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
             <uC99>1</uC99>
@@ -339,7 +339,7 @@
               <MiscControls>--diag_suppress=186,66</MiscControls>
               <Define>__DEBUG,HC32F46x,USE_DEVICE_DRIVER_LIB,ARM_MATH_CM4,_CC_ARM,__TARGET_FPU_VFP,__FPU_PRESENT,ARM_MATH_MATRIX_CHECK,ARM_MATH_ROUNDING,SYSTEM_GLOBAL</Define>
               <Undefine></Undefine>
-              <IncludePath>C:\Keil_v5\ARM\include;..\MDK;..\source;..\common;..\driver\inc;..\driver\src;..\application\adc;..\application\led;..\application\usart;..\application\timer;..\DSP;..\application\matlab;..\DSP\Include;..\application\fifo;..\application\tuya</IncludePath>
+              <IncludePath>C:\Keil_v5\ARM\include;..\MDK;..\source;..\common;..\driver\inc;..\driver\src;..\application\tuya;..\application\adc;..\application\led;..\application\usart;..\application\timer;..\application\matlab;..\application\fifo;..\DSP;..\DSP\Include</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -489,19 +489,9 @@
               <FilePath>..\application\timer\mytimer.c</FilePath>
             </File>
             <File>
-              <FileName>sys.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\source\sys.h</FilePath>
-            </File>
-            <File>
               <FileName>matlab.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\application\matlab\matlab.c</FilePath>
-            </File>
-            <File>
-              <FileName>hamming.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\application\matlab\hamming.h</FilePath>
             </File>
             <File>
               <FileName>cfar_ca.c</FileName>
@@ -569,6 +559,11 @@
               <FilePath>..\application\tuya\mcu_api.c</FilePath>
             </File>
             <File>
+              <FileName>system.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\application\tuya\system.c</FilePath>
+            </File>
+            <File>
               <FileName>mcu_ota_handler.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\application\tuya\mcu_ota_handler.c</FilePath>
@@ -577,11 +572,6 @@
               <FileName>protocol.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\application\tuya\protocol.c</FilePath>
-            </File>
-            <File>
-              <FileName>system.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\application\tuya\system.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1083,19 +1073,9 @@
               <FilePath>..\application\timer\mytimer.c</FilePath>
             </File>
             <File>
-              <FileName>sys.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\source\sys.h</FilePath>
-            </File>
-            <File>
               <FileName>matlab.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\application\matlab\matlab.c</FilePath>
-            </File>
-            <File>
-              <FileName>hamming.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\application\matlab\hamming.h</FilePath>
             </File>
             <File>
               <FileName>cfar_ca.c</FileName>
@@ -1163,6 +1143,11 @@
               <FilePath>..\application\tuya\mcu_api.c</FilePath>
             </File>
             <File>
+              <FileName>system.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\application\tuya\system.c</FilePath>
+            </File>
+            <File>
               <FileName>mcu_ota_handler.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\application\tuya\mcu_ota_handler.c</FilePath>
@@ -1171,11 +1156,6 @@
               <FileName>protocol.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\application\tuya\protocol.c</FilePath>
-            </File>
-            <File>
-              <FileName>system.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\application\tuya\system.c</FilePath>
             </File>
           </Files>
         </Group>

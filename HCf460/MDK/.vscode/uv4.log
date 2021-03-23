@@ -1,33 +1,102 @@
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'd:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'adc_03_sa_interrupt_Debug'
-compiling protocol.c...
-..\application\tuya\protocol.c(95): error:  #35: #error directive: "请将MCU串口发送函数填入该函数,并删除该�?
-   #error "请将MCU串口发送函数填入该函数,并删除该�?"
-..\application\tuya\protocol.c: 0 warnings, 1 error
-compiling mcu_ota_handler.c...
-..\application\tuya\mcu_ota_handler.c(58): error:  #35: #error directive: "请自行完善该功能,完成后请删除该行"
-  	#error "请自行完善该功能,完成后请删除该行"
-..\application\tuya\mcu_ota_handler.c: 0 warnings, 1 error
-compiling mcu_api.c...
-..\application\tuya\mcu_api.c(187): warning:  #223-D: function "isdigit" declared implicitly
-  	if (!isdigit(c = *up)) {
-..\application\tuya\mcu_api.c(188): warning:  #223-D: function "isspace" declared implicitly
-  		while (isspace(c))
-..\application\tuya\mcu_api.c(201): warning:  #223-D: function "isdigit" declared implicitly
-  	for (n = '0' - c; isdigit(c = *++up); ) {
-..\application\tuya\mcu_api.c(558): error:  #20: identifier "bool" is undefined
-  static bool mcu_common_uart_data_unpack(uint8_t data)
-..\application\tuya\mcu_api.c(560): error:  #20: identifier "bool" is undefined
-      bool ret = false;
-..\application\tuya\mcu_api.c(560): error:  #20: identifier "false" is undefined
-      bool ret = false;
-..\application\tuya\mcu_api.c(618): error:  #20: identifier "true" is undefined
-          ret = true;
-..\application\tuya\mcu_api.c(643): warning:  #177-D: variable "offset"  was declared but never referenced
-    unsigned short offset = 0;
-..\application\tuya\mcu_api.c(644): warning:  #550-D: variable "rx_value_len"  was set but never used
-    unsigned short rx_value_len = 0;             //数据帧长�?
-..\application\tuya\mcu_api.c: 5 warnings, 4 errors
-".\output\debug\adc_03_sa_interrupt.axf" - 6 Error(s), 5 Warning(s).
+assembling startup_hc32f46x.s...
+compiling hc32f46x_utility.c...
+compiling system_hc32f46x.c...
+compiling hc32f46x_icg.c...
+compiling hc32f46x_efm.c...
+compiling hc32f46x_adc.c...
+compiling hc32f46x_clk.c...
+compiling main.c...
+compiling hc32f46x_gpio.c...
+compiling hc32f46x_sram.c...
+compiling hc32f46x_timer0.c...
+compiling hc32f46x_usart.c...
+compiling myadc.c...
+compiling hc32f46x_pwc.c...
+compiling hc32f46x_interrupts.c...
+compiling cfar_ca.c...
+compiling cfar_ca_data.c...
+compiling cfar_ca_emxAPI.c...
+compiling cfar_ca_initialize.c...
+compiling matlab.c...
+compiling remove_pf_initialize.c...
+compiling remove_pf_terminate.c...
+compiling cfar_ca_emxutil.c...
+compiling remove_pf_cui.c...
+compiling rt_nonfinite.c...
+compiling freq_detection.c...
+compiling fifo.c...
+compiling time_detection.c...
+compiling myled.c...
+compiling myusart.c...
+compiling mytimer.c...
+linking...
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol bt_queue_buf multiply defined (by myled.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol bt_queue_buf multiply defined (by mytimer.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol bt_queue_buf multiply defined (by matlab.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol bt_queue_buf multiply defined (by cfar_ca.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol bt_queue_buf multiply defined (by freq_detection.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol bt_queue_buf multiply defined (by time_detection.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol bt_queue_buf multiply defined (by fifo.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol bt_uart_rx_buf multiply defined (by myled.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol bt_uart_rx_buf multiply defined (by mytimer.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol bt_uart_rx_buf multiply defined (by matlab.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol bt_uart_rx_buf multiply defined (by cfar_ca.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol bt_uart_rx_buf multiply defined (by freq_detection.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol bt_uart_rx_buf multiply defined (by time_detection.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol bt_uart_rx_buf multiply defined (by fifo.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol bt_uart_tx_buf multiply defined (by myled.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol bt_uart_tx_buf multiply defined (by mytimer.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol bt_uart_tx_buf multiply defined (by matlab.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol bt_uart_tx_buf multiply defined (by cfar_ca.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol bt_uart_tx_buf multiply defined (by freq_detection.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol bt_uart_tx_buf multiply defined (by time_detection.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol bt_uart_tx_buf multiply defined (by fifo.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol queue_in multiply defined (by myled.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol queue_in multiply defined (by mytimer.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol queue_in multiply defined (by matlab.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol queue_in multiply defined (by cfar_ca.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol queue_in multiply defined (by freq_detection.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol queue_in multiply defined (by time_detection.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol queue_in multiply defined (by fifo.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol queue_out multiply defined (by myled.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol queue_out multiply defined (by mytimer.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol queue_out multiply defined (by matlab.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol queue_out multiply defined (by cfar_ca.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol queue_out multiply defined (by freq_detection.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol queue_out multiply defined (by time_detection.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol queue_out multiply defined (by fifo.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol stop_update_flag multiply defined (by myled.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol stop_update_flag multiply defined (by mytimer.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol stop_update_flag multiply defined (by matlab.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol stop_update_flag multiply defined (by cfar_ca.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol stop_update_flag multiply defined (by freq_detection.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol stop_update_flag multiply defined (by time_detection.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol stop_update_flag multiply defined (by fifo.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol reset_bt_flag multiply defined (by myled.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol reset_bt_flag multiply defined (by mytimer.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol reset_bt_flag multiply defined (by matlab.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol reset_bt_flag multiply defined (by cfar_ca.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol reset_bt_flag multiply defined (by freq_detection.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol reset_bt_flag multiply defined (by time_detection.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol reset_bt_flag multiply defined (by fifo.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol set_btmode_flag multiply defined (by myled.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol set_btmode_flag multiply defined (by mytimer.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol set_btmode_flag multiply defined (by matlab.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol set_btmode_flag multiply defined (by cfar_ca.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol set_btmode_flag multiply defined (by freq_detection.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol set_btmode_flag multiply defined (by time_detection.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol set_btmode_flag multiply defined (by fifo.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol bt_work_state multiply defined (by myled.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol bt_work_state multiply defined (by mytimer.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol bt_work_state multiply defined (by matlab.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol bt_work_state multiply defined (by cfar_ca.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol bt_work_state multiply defined (by freq_detection.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol bt_work_state multiply defined (by time_detection.o and main.o).
+.\output\debug\adc_03_sa_interrupt.axf: Error: L6200E: Symbol bt_work_state multiply defined (by fifo.o and main.o).
+Not enough information to list load addresses in the image map.
+Finished: 1 information, 0 warning and 63 error messages.
+".\output\debug\adc_03_sa_interrupt.axf" - 63 Error(s), 0 Warning(s).
 Target not created.
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:34

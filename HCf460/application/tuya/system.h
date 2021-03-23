@@ -43,12 +43,6 @@
 #ifndef __SYSTEM_H_
 #define __SYSTEM_H_
 
-#ifdef SYSTEM_GLOBAL
-  #define SYSTEM_EXTERN
-#else
-  #define SYSTEM_EXTERN   extern
-#endif
-
 //=============================================================================
 //帧的字节顺序
 //=============================================================================
@@ -77,7 +71,7 @@
 #define TUYA_BCI_UART_COMMON_UNBOUND_REQ					0x09				//模块解绑
 #define TUYA_BCI_UART_COMMON_RF_TEST	            	    0x0E				//rf射频测试
 #define TUYA_BCI_UART_COMMON_SEND_STORAGE_TYPE              0xE0				//记录型数据上报（离线缓存）
-#define TUYA_BCI_UART_COMMON_SEND_TIME_SYNC_TYPE            0xE1				//获取实时时间
+//#define TUYA_BCI_UART_COMMON_SEND_TIME_SYNC_TYPE            0xE1				//获取实时时间
 #define TUYA_BCI_UART_COMMON_MODIFY_ADV_INTERVAL		    0xE2				//修改休眠模式广播间隔
 #define TUYA_BCI_UART_COMMON_TURNOFF_SYSTEM_TIME		    0xE4				//关闭系统时钟功能
 #define TUYA_BCI_UART_COMMON_ENANBLE_LOWER_POWER		    0xE5				//低功耗使能
@@ -87,11 +81,11 @@
 #define TUYA_BCI_UART_COMMON_QUERY_MCU_VERSION			    0xE8				//查询MCU版本号
 #define TUYA_BCI_UART_COMMON_MCU_SEND_VERSION			    0xE9				//MCU主动发送版本号
 
-#define TUYA_BCI_UART_COMMON_MCU_OTA_REQUEST			    0xEA				//OTA升级请求
-#define TUYA_BCI_UART_COMMON_MCU_OTA_FILE_INFO			    0xEB				//OTA升级文件信息
-#define TUYA_BCI_UART_COMMON_MCU_OTA_FILE_OFFSET	        0xEC				//OTA升级文件偏移请求
-#define TUYA_BCI_UART_COMMON_MCU_OTA_DATA 			        0xED				//OTA升级数据
-#define TUYA_BCI_UART_COMMON_MCU_OTA_END			        0xEE				//OTA升级结束
+//#define TUYA_BCI_UART_COMMON_MCU_OTA_REQUEST			    0xEA				//OTA升级请求
+//#define TUYA_BCI_UART_COMMON_MCU_OTA_FILE_INFO			    0xEB				//OTA升级文件信息
+//#define TUYA_BCI_UART_COMMON_MCU_OTA_FILE_OFFSET	        0xEC				//OTA升级文件偏移请求
+//#define TUYA_BCI_UART_COMMON_MCU_OTA_DATA 			        0xED				//OTA升级数据
+//#define TUYA_BCI_UART_COMMON_MCU_OTA_END			        0xEE				//OTA升级结束
 
 
 //#define TUYA_BCI_UART_COMMON_QUERY_MOUDLE_VERSION			0xA0				//MCU 获取模块版本信息
@@ -124,19 +118,19 @@ typedef struct
 #define         FRAME_FIRST             0x55
 #define         FRAME_SECOND            0xaa
 //============================================================================= 
-SYSTEM_EXTERN unsigned char volatile bt_queue_buf[PROTOCOL_HEAD + BT_UART_QUEUE_LMT];  //串口队列缓存
-SYSTEM_EXTERN unsigned char bt_uart_rx_buf[PROTOCOL_HEAD + BT_UART_RECV_BUF_LMT];         //串口接收缓存
-SYSTEM_EXTERN unsigned char bt_uart_tx_buf[PROTOCOL_HEAD + BT_UART_SEND_BUF_LMT];        //串口发送缓存
+extern unsigned char volatile bt_queue_buf[PROTOCOL_HEAD + BT_UART_QUEUE_LMT];  //串口队列缓存
+extern unsigned char bt_uart_rx_buf[PROTOCOL_HEAD + BT_UART_RECV_BUF_LMT];         //串口接收缓存
+extern unsigned char bt_uart_tx_buf[PROTOCOL_HEAD + BT_UART_SEND_BUF_LMT];        //串口发送缓存
 //
-SYSTEM_EXTERN volatile unsigned char *queue_in;
-SYSTEM_EXTERN volatile unsigned char *queue_out;
+extern volatile unsigned char *queue_in;
+extern volatile unsigned char *queue_out;
 
-SYSTEM_EXTERN unsigned char stop_update_flag;
+extern unsigned char stop_update_flag;
 
 #ifndef BT_CONTROL_SELF_MODE
-SYSTEM_EXTERN unsigned char reset_bt_flag;                                                  //重置bt标志(TRUE:成功/FALSE:失败)
-SYSTEM_EXTERN unsigned char set_btmode_flag;                                                //设置bluetooth工作模式标志(TRUE:成功/FALSE:失败)
-SYSTEM_EXTERN unsigned char bt_work_state;                                                  //bt模块当前工作状态
+extern unsigned char reset_bt_flag;                                                  //重置bt标志(TRUE:成功/FALSE:失败)
+extern unsigned char set_btmode_flag;                                                //设置bluetooth工作模式标志(TRUE:成功/FALSE:失败)
+extern unsigned char bt_work_state;                                                  //bt模块当前工作状态
 #endif
 
 
