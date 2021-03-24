@@ -103,6 +103,27 @@ void usart_init(void)
 {
 	en_result_t enRet = Ok;
     stc_irq_regi_conf_t tuya_stcIrqRegiCfg;
+	
+	stc_port_init_t stcPortInit_in;
+	stc_port_init_t stcPortInit_out;
+	
+	MEM_ZERO_STRUCT(stcPortInit_in);
+	MEM_ZERO_STRUCT(stcPortInit_out);
+	
+    stcPortInit_in.enPinMode = Pin_Mode_In;
+    stcPortInit_in.enExInt = Enable;
+    stcPortInit_in.enPullUp = Enable;	
+	
+    stcPortInit_out.enPinMode = Pin_Mode_Out;
+    stcPortInit_out.enExInt = Enable;
+    stcPortInit_out.enPullUp = Enable;		
+	
+	PORT_Init(USART_RX_PORT, USART_RX_PIN, &stcPortInit_in);
+	PORT_Init(USART_TUYA_RX_PORT, USART_TUYA_RX_PIN, &stcPortInit_in);
+	PORT_Init(USART_TX_PORT, USART_TX_PIN, &stcPortInit_out);
+	PORT_Init(USART_TUYA_TX_PORT, USART_TUYA_TX_PIN, &stcPortInit_out);
+
+	
 	uint32_t u32Fcg1Periph = PWC_FCG1_PERIPH_USART1 | PWC_FCG1_PERIPH_USART2 | \
                              PWC_FCG1_PERIPH_USART3 | PWC_FCG1_PERIPH_USART4;
     const stc_usart_uart_init_t stcInitCfg = {
@@ -164,7 +185,7 @@ void usart_init(void)
     }    
 
     /* Set TUYA USART RX IRQ */
-    tuya_stcIrqRegiCfg.enIRQn = Int000_IRQn;
+    tuya_stcIrqRegiCfg.enIRQn = Int003_IRQn;
     tuya_stcIrqRegiCfg.pfnCallback = &tuya_UsartRxIrqCallback;
     tuya_stcIrqRegiCfg.enIntSrc = USART_TUYA_RI_NUM;
     enIrqRegistration(&tuya_stcIrqRegiCfg);

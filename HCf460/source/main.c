@@ -8,14 +8,12 @@
 #include "math.h" 
 #include "arm_math.h" 
 #include "hamming.h"
-
 #include "cfar_ca_emxAPI.h"
 #include "time_detection.h"
 #include "std_cv.h"
 #include "freq_detection.h"
 #include "stdio.h"
 #include "fifo.h"
-
 #include "bluetooth.h"
 
 #define		N						300         //CFAR´°¿Ú´óÐ¡
@@ -91,6 +89,9 @@ char slow_retry_flag = 0;
 
 int run_mode = ALL_CHECK;
 //int run_mode = FAST_CHECK_ONLY;
+
+int check_status = IDLE;
+int check_status_last = IDLE;
 
 void clear_buffer(void)
 {
@@ -524,14 +525,24 @@ void app(void)
 	switch (state)
 	{
 		case	FAST_CHECK_DATA_PREPARE:
-			mcu_dp_enum_update(DPID_CHECK_PROCESS, 0);
+			check_status = FAST_CHECK_DATA_PREPARE;
+			if (check_status != check_status_last)
+			{
+				mcu_dp_enum_update(DPID_CHECK_PROCESS, FAST_CHECK_DATA_PREPARE);	//fast check
+				check_status_last = check_status;
+			}
 			fast_check_data_prepare();
 			break;
 		case	FAST_CHECK:
 			fast_check_process();
 			break;
 		case	SLOW_CHECK_DATA_PREPARE_S0:
-			mcu_dp_enum_update(DPID_CHECK_PROCESS, 1);
+			check_status = SLOW_CHECK_DATA_PREPARE_S0;
+			if (check_status != check_status_last)
+			{
+				mcu_dp_enum_update(DPID_CHECK_PROCESS, SLOW_CHECK_DATA_PREPARE_S0 - 1);	//slow check
+				check_status_last = check_status;
+			}
 			slow_check_data_prepare_s0();
 			break;
 		case	SLOW_CHECK_DATA_PREPARE_S1:
