@@ -30,6 +30,7 @@
 extern void usart_init(void);
 extern void UsartRxErrProcess(void);
 
+static void tuya_UsartRxIrqCallback(void);
 
 
 #endif

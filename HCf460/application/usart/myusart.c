@@ -69,7 +69,14 @@ void ClkInit(void)
  ******************************************************************************/
 static void tuya_UsartRxIrqCallback(void)
 {
-    uart_receive_input(USART_RecData(USART_TUYA_CH));
+		uint16_t rev_data = 0;
+		unsigned char rev_data1 = 0;
+	
+		rev_data = USART_RecData(USART_TUYA_CH);
+	
+		rev_data1 = (unsigned char)rev_data;
+	
+    uart_receive_input(rev_data1);
 }
 
 /**

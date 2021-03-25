@@ -45,6 +45,10 @@
 #include "bluetooth.h"
 #include "myusart.h"
 #include "hc32f46x_usart.h"
+
+extern int check_status;
+extern int person_in_range_flag;
+extern int led_onboard_status;
   
 /******************************************************************************
                                 移植须知:
@@ -128,9 +132,9 @@ void all_data_update(void)
 {
   //此代码为平台自动生成，请按照实际数据修改每个可下发可上报函数和只上报函数
     mcu_dp_enum_update(DPID_LIGHT_STATUS, 0); //枚举型数据上报;
-    mcu_dp_enum_update(DPID_PERSON_IN_RANGE, 0); //枚举型数据上报;
-    mcu_dp_enum_update(DPID_CHECK_PROCESS, 0); //枚举型数据上报;
-    mcu_dp_enum_update(DPID_LED_ON_BOARD_STATUS, 0); //枚举型数据上报;
+    mcu_dp_enum_update(DPID_PERSON_IN_RANGE, person_in_range_flag); //枚举型数据上报;
+    mcu_dp_enum_update(DPID_CHECK_PROCESS, check_status); //枚举型数据上报;
+    mcu_dp_enum_update(DPID_LED_ON_BOARD_STATUS, led_onboard_status); //枚举型数据上报;
 
 
 

@@ -6,21 +6,7 @@
 #include "sys.h"
 #include "fifo.h"
 
-/* Define Timer Unit for example */
-#define TMR_UNIT            (M4_TMR02)
-#define TMR_INI_GCMA        (INT_TMR02_GCMA)
-#define TMR_INI_GCMB        (INT_TMR02_GCMB)
-
-#define ENABLE_TMR0()      (PWC_Fcg2PeriphClockCmd(PWC_FCG2_PERIPH_TIM02, Enable))
-#define  DLY_MS           (500ul)
-#define TIMEOUT_MS        (10u)
-
-#define  LED0_PORT        (PortB)
-#define  LED0_PIN         (Pin06)
-
 static uint16_t m_au16Adc1Value[ADC1_CH_COUNT];
-
-void Timer0B_CallBack(void);
 
 void timer0_init(void)
 {
@@ -81,7 +67,7 @@ void timer0_init(void)
     TIMER0_Cmd(TMR_UNIT,Tim0_ChannelB,Enable);
 }
 
-void Timer0B_CallBack(void)		// T === 500us
+static void Timer0B_CallBack(void)		// T === 500us
 {
     u16  adc_data = 0;		//adcÊý¾Ý
 

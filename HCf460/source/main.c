@@ -69,6 +69,30 @@ enum app_state
 	ERROR_ERROR,
 };
 
+enum tuya_upload_check_status
+{
+	TUYA_FAST_CHECK=0,
+	TUYA_SLOW_CHECK=1,
+	TUYA_OTHER=2
+};
+
+enum tuya_upload_person_in_range_status
+{
+	TUYA_PERSON_STATUS_NO_PERSON=0,
+	TUYA_PERSON_STATUS_HAVE_PERSON=1,
+	TUYA_PERSON_STATUS_HAVE_PERSON_FROM_GROUP=2,
+	TUYA_PERSON_STATUS_OTHER=3
+};
+
+enum tuya_upload_led_onboard_status
+{
+	TUYA_LED_ONBOARD_RED_OFF_GREEN_OFF=0,
+	TUYA_LED_ONBOARD_RED_ON_GREEN_OFF=1,
+	TUYA_LED_ONBOARD_RED_OFF_GREEN_ON=2,
+	TUYA_LED_ONBOARD_RED_ON_GREEN_ON=3,
+	TUYA_LED_ONBOARD_OTHER=4
+};
+
 enum slow_s0_result
 {
 	NO_PERSON_NOT_SURE=0,			//no person but not sure
@@ -90,9 +114,19 @@ char slow_retry_flag = 0;
 int run_mode = ALL_CHECK;
 //int run_mode = FAST_CHECK_ONLY;
 
-int check_status = IDLE;
-int check_status_last = IDLE;
+int check_status = TUYA_OTHER;
+int check_status_last = TUYA_OTHER;
 
+int person_in_range_flag = TUYA_PERSON_STATUS_OTHER;
+int person_in_range_flag_last = TUYA_PERSON_STATUS_OTHER;
+
+int led_onboard_status = TUYA_LED_ONBOARD_OTHER;
+int led_onboard_status_last = TUYA_LED_ONBOARD_OTHER;
+////////////////////////////////////////////////////////////
+void check_status_upload(unsigned char aaaa);
+void person_in_range_upload(unsigned char aaaa);
+void led_onboard_status_upload(unsigned char aaaa);
+////////////////////////////////////////////////////////////
 void clear_buffer(void)
 {
 	fast_retry_flag = 1;
@@ -106,11 +140,15 @@ void fast_output_result(char quick_detection_result)
 	{
 		led_red(1);			
 		led_green(0);
+		led_onboard_status_upload(TUYA_LED_ONBOARD_RED_ON_GREEN_OFF);
+		person_in_range_upload(TUYA_PERSON_STATUS_HAVE_PERSON);
 	}
 	else						//ÎÞÈË
 	{
 		led_red(0);			
-		led_green(0);		
+		led_green(0);
+		led_onboard_status_upload(TUYA_LED_ONBOARD_RED_OFF_GREEN_OFF);
+		person_in_range_upload(TUYA_PERSON_STATUS_NO_PERSON);	
 	}
 }
 
@@ -121,22 +159,26 @@ void slow_output_result(char slow_s0_result)
 	case BIG_MOTION:
 		printf("big: 1 \r\n");
 		led_red(1);			
-		led_green(0);		
+		led_green(0);
+		led_onboard_status_upload(TUYA_LED_ONBOARD_RED_ON_GREEN_OFF);	
 		break;
 	case BREATHE:
 		printf("micro: 1 \r\n");
 		led_red(0);			
 		led_green(1);
+		led_onboard_status_upload(TUYA_LED_ONBOARD_RED_OFF_GREEN_ON);
 		break;
 	case BREATHE_NOT_SURE:
 		printf("micro: 0.3 \r\n");
 		led_red(0);			
-		led_green(1);		
+		led_green(1);
+		led_onboard_status_upload(TUYA_LED_ONBOARD_RED_OFF_GREEN_ON);
 		break;
 	case NO_PERSON_NOT_SURE:
 		printf("big: 0.5 \r\n");
 		led_red(0);			
-		led_green(1);		
+		led_green(1);
+		led_onboard_status_upload(TUYA_LED_ONBOARD_RED_OFF_GREEN_ON);	
 		break;
 	case NO_PERSON:
 		printf("slow check no person go fast check\r\n");
@@ -160,7 +202,8 @@ void fast_check_data_prepare(void)
 	if (FAST_CHECK_TIMES > i)
 	{
 		led_red(1);
-		led_green(0);	
+		led_green(0);
+		led_onboard_status_upload(TUYA_LED_ONBOARD_RED_ON_GREEN_OFF);
 	}
 	
 	if (FAST_CHECK_SAMPLES < FIFO_GetDataCount(&FIFO_Data[0]))
@@ -207,6 +250,8 @@ void fast_check_process(void)
 	int	adc_temp = 0;
 	int	adc_average= 0;
 	int quick_detection_result = 0;
+
+	check_status_upload(TUYA_FAST_CHECK);
 
 	for(i=0; i<FAST_MAX_DATA_POOL; i++)
 	{
@@ -334,6 +379,8 @@ void slow_check_process_s0(void)
 	int respirationfreq_vote[2] = {0};
 	int	micromotion_detection_result = 0;
 	float offset = 0;
+
+	check_status_upload(TUYA_SLOW_CHECK);
 
 	for(i=0; i<SLOW_MAX_DATA_POOL; i++)
 	{
@@ -520,29 +567,47 @@ void uart_post_process()
 	state = next_state;
 }
 
+void person_in_range_upload(unsigned char aaaa)
+{
+	person_in_range_flag = aaaa;
+	if (person_in_range_flag != person_in_range_flag_last)
+	{
+		mcu_dp_enum_update(DPID_PERSON_IN_RANGE, aaaa);
+		person_in_range_flag_last = person_in_range_flag;
+	}
+}
+
+void check_status_upload(unsigned char aaaa)
+{
+	check_status = aaaa;
+	if (check_status != check_status_last)
+	{
+		mcu_dp_enum_update(DPID_CHECK_PROCESS, aaaa);
+		check_status_last = check_status;
+	}
+}
+
+void led_onboard_status_upload(unsigned char aaaa)
+{
+	led_onboard_status = aaaa;
+	if (led_onboard_status != led_onboard_status_last)
+	{
+		mcu_dp_enum_update(DPID_LED_ON_BOARD_STATUS, aaaa);
+		led_onboard_status_last = led_onboard_status;
+	}
+}
+
 void app(void)
 {
 	switch (state)
 	{
 		case	FAST_CHECK_DATA_PREPARE:
-			check_status = FAST_CHECK_DATA_PREPARE;
-			if (check_status != check_status_last)
-			{
-				mcu_dp_enum_update(DPID_CHECK_PROCESS, FAST_CHECK_DATA_PREPARE);	//fast check
-				check_status_last = check_status;
-			}
 			fast_check_data_prepare();
 			break;
 		case	FAST_CHECK:
 			fast_check_process();
 			break;
 		case	SLOW_CHECK_DATA_PREPARE_S0:
-			check_status = SLOW_CHECK_DATA_PREPARE_S0;
-			if (check_status != check_status_last)
-			{
-				mcu_dp_enum_update(DPID_CHECK_PROCESS, SLOW_CHECK_DATA_PREPARE_S0 - 1);	//slow check
-				check_status_last = check_status;
-			}
 			slow_check_data_prepare_s0();
 			break;
 		case	SLOW_CHECK_DATA_PREPARE_S1:
@@ -583,7 +648,7 @@ int main(void)
 	bt_protocol_init();
 	
 	while(1)
-	{				
+	{
 		app();
 	}
 }
