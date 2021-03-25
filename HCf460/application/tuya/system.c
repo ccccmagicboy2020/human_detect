@@ -319,6 +319,10 @@ void data_handle(unsigned short offset)
     	//mcu_ota_init_disconnect();
 
     }
+	if (bt_work_state == 0x02)
+	{
+		all_data_update();
+	}
     bt_uart_write_frame(BT_STATE_CMD,0);
     break;
 
