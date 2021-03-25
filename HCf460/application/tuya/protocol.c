@@ -41,7 +41,7 @@
 20. 优化串口解析器
 
 ******************************************************************************/
-
+#include "sys.h"
 #include "bluetooth.h"
 #include "myusart.h"
 #include "hc32f46x_usart.h"
@@ -49,7 +49,10 @@
 extern int check_status;
 extern int person_in_range_flag;
 extern int led_onboard_status;
-  
+extern int run_mode;
+extern int state;
+extern int next_state;
+
 /******************************************************************************
                                 移植须知:
 1:MCU必须在while中直接调用mcu_api.c内的bt_uart_service()函数
@@ -77,11 +80,12 @@ const DOWNLOAD_CMD_S download_cmd[] =
   {DPID_PERSON_IN_RANGE, DP_TYPE_ENUM},
   {DPID_CHECK_PROCESS, DP_TYPE_ENUM},
   {DPID_LED_ON_BOARD_STATUS, DP_TYPE_ENUM},
+  {DPID_FAST_CHECK_ONLY, DP_TYPE_BOOL},
 };
 
 
 
-
+void clear_buffer(void);
 /******************************************************************************
                            2:串口单字节发送函数
 请将MCU串口发送函数填入该函数内,并将接收到的数据作为参数传入串口发送函数
@@ -135,6 +139,7 @@ void all_data_update(void)
     mcu_dp_enum_update(DPID_PERSON_IN_RANGE, person_in_range_flag); //枚举型数据上报;
     mcu_dp_enum_update(DPID_CHECK_PROCESS, check_status); //枚举型数据上报;
     mcu_dp_enum_update(DPID_LED_ON_BOARD_STATUS, led_onboard_status); //枚举型数据上报;
+    mcu_dp_bool_update(DPID_FAST_CHECK_ONLY, run_mode); //BOOL型数据上报;
 
 
 
@@ -147,6 +152,44 @@ void all_data_update(void)
 自动化代码模板函数,具体请用户自行实现数据处理
 ******************************************************************************/
 
+/*****************************************************************************
+函数名称 : dp_download_fast_check_only_handle
+功能描述 : 针对DPID_FAST_CHECK_ONLY的处理函数
+输入参数 : value:数据源数据
+        : length:数据长度
+返回参数 : 成功返回:SUCCESS/失败返回:ERROR
+使用说明 : 可下发可上报类型,需要在处理完数据后上报处理结果至app
+*****************************************************************************/
+static unsigned char dp_download_fast_check_only_handle(const unsigned char value[], unsigned short length)
+{
+    //示例:当前DP类型为BOOL
+    unsigned char ret;
+    //0:关/1:开
+    unsigned char fast_check_only;
+    
+    fast_check_only = mcu_get_dp_download_bool(value,length);
+    if(fast_check_only == 0) {
+        //开关关
+		run_mode = ALL_CHECK;
+    }else {
+        //开关开
+		run_mode = FAST_CHECK_ONLY;
+		
+		if (check_status == TUYA_SLOW_CHECK)
+		{
+			state = IDLE;
+			next_state = FAST_CHECK_DATA_PREPARE;		
+			clear_buffer();
+		}
+    }
+  
+    //处理完DP数据后应有反馈
+    ret = mcu_dp_bool_update(DPID_FAST_CHECK_ONLY, run_mode);
+    if(ret == SUCCESS)
+        return SUCCESS;
+    else
+        return ERROR;
+}
 
 
 /******************************************************************************
@@ -178,6 +221,10 @@ unsigned char dp_download_handle(unsigned char dpid,const unsigned char value[],
   unsigned char ret;
   switch(dpid)
   {
+        case DPID_FAST_CHECK_ONLY:
+            //只快检测处理函数
+            ret = dp_download_fast_check_only_handle(value,length);
+        break;
 
 
   default:

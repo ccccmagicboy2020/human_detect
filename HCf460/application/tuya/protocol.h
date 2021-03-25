@@ -129,6 +129,9 @@ mcu在bt模块正确联网后可调用mcu_get_system_time()函数发起校时功
 //板载灯状态(只上报)
 //备注:板子上两个LED的状态
 #define DPID_LED_ON_BOARD_STATUS 141
+//只快检测(可下发可上报)
+//备注:只运行快检测
+#define DPID_FAST_CHECK_ONLY 142
 
 
 
