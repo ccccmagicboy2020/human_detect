@@ -165,7 +165,8 @@ void fast_check_data_prepare(void)
 			//printf("fifo0 number: %d - %d\r\n", i, FIFO_GetDataCount(&FIFO_Data[0]));
 			FIFO_ReadData(&FIFO_Data[0], &Fast_detection_data[FAST_CHECK_SAMPLES*(i-1)], FAST_CHECK_SAMPLES);
 			//printf("fifo0 number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[0]));
-			state = FAST_CHECK;			//bingo to check
+			state = IDLE;
+			next_state = FAST_CHECK;			//bingo to check
 		}
 		else		// fullfill the tank
 		{
