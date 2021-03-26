@@ -32,6 +32,7 @@
                 "ARM_MATH_MATRIX_CHECK",
                 "ARM_MATH_ROUNDING",
                 "SYSTEM_GLOBAL",
+                "USE_INTERN_HRC",
                 "__CC_ARM",
                 "__arm__",
                 "__align(x)=",

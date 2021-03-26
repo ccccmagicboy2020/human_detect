@@ -69,14 +69,11 @@ void timer0_init(void)
 
 static void Timer0B_CallBack(void)		// T === 500us
 {
-    u16  adc_data = 0;		//adc数据
-
-//	PORT_Toggle(LED0_PORT, LED0_PIN);
+  u16  if_adc_data = 0;		//IF adc数据
+	//u16  light_sensor_adc_data = 0;	//光敏数据
 	ADC_PollingSa(M4_ADC1, m_au16Adc1Value, ADC1_CH_COUNT, TIMEOUT_MS);
-	adc_data =  m_au16Adc1Value[6u];
-//	printf("DC12_IN6 value %d \r\n",adc_data);
-	FIFO_WriteOneData(&FIFO_Data[0], adc_data);
-	
-//	UsartRxErrProcess();
+	if_adc_data =  m_au16Adc1Value[6u];
+	//light_sensor_adc_data =  m_au16Adc1Value[9u];
+	FIFO_WriteOneData(&FIFO_Data[0], if_adc_data);
 }
 

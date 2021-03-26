@@ -7,52 +7,18 @@
  */
 #define ADC_CH_REMAP                (0u)
 
-/* ADC clock selection definition. */
-#define ADC_CLK_PCLK                (1u)
-#define ADC_CLK_MPLLQ               (2u)
-#define ADC_CLK_UPLLR               (3u)
-
-/* Select PCLK as ADC clock. */
-#define ADC_CLK                     (ADC_CLK_MPLLQ)
-
 /* ADC1 channel definition for this example. */
-#define ADC1_SA_NORMAL_CHANNEL      (ADC1_CH6)
-//#define ADC1_SA_AVG_CHANNEL         (ADC1_CH12 | ADC1_CH13)
+#define ADC1_SA_NORMAL_CHANNEL      (ADC1_CH6|ADC1_CH9)
 #define ADC1_SA_CHANNEL             (ADC1_SA_NORMAL_CHANNEL)
-#define ADC1_SA_CHANNEL_COUNT       (4u)
+#define ADC1_SA_CHANNEL_COUNT       (2u)
 
-//#define ADC1_AVG_CHANNEL            (ADC1_SA_AVG_CHANNEL)
 #define ADC1_CHANNEL                (ADC1_SA_CHANNEL)
 
-/* ADC1 channel sampling time.     ADC1_CH0  ADC1_CH1  ADC1_CH12   ADC1_CH13 */
-#define ADC1_SA_CHANNEL_SAMPLE_TIME { 0x30,     0x40,      0x50,      0x60 }
-
-/* ADC2 channel definition for this example. */
-//#define ADC2_SA_NORMAL_CHANNEL      (ADC2_CH0 | ADC2_CH2)
-//#define ADC2_SA_AVG_CHANNEL         (ADC2_CH5)
-//#define ADC2_SA_CHANNEL             (ADC2_SA_NORMAL_CHANNEL | ADC2_SA_AVG_CHANNEL)
-//#define ADC2_SA_CHANNEL_COUNT       (3u)
-
-//#define ADC2_AVG_CHANNEL            (ADC2_SA_AVG_CHANNEL)
-//#define ADC2_CHANNEL                (ADC2_SA_CHANNEL)
-
-/* ADC2 channel sampling time.     ADC2_CH0  ADC2_CH2  ADC2_CH5  */
-//#define ADC2_SA_CHANNEL_SAMPLE_TIME { 0x60,     0x50,    0x40 }
+/* ADC1 channel sampling time. */
+#define ADC1_SA_CHANNEL_SAMPLE_TIME {0x30, 0x30}
 
 /* Timer definition for this example. */
 #define TMR_UNIT                    (M4_TMR02)
-
-/* Trigger mode definitions. */
-#define INTERNAL_EVENT_TRIGGER      (1u)
-#define EXTERNAL_PIN_TRIGGER        (2u)
-
-/* The flowing definitions just show the trigger mode. */
-#define ADC1_TRIGGER_MODE           (EXTERNAL_PIN_TRIGGER)
-//#define ADC2_TRIGGER_MODE           (INTERNAL_EVENT_TRIGGER)
-
-/* ADC1 ADTRG port definition. ADC1 trigger pin: PB7 and PE7. */
-#define ADTRG1_PORT                 (PortB)
-#define ADTRG1_PIN                  (Pin07)
 
 /* ADC interrupt flag bit mask definition. */
 #define ADC1_SA_IRQ_BIT             (1ul << 0u)
@@ -88,72 +54,8 @@ static void AdcSetPinMode(uint8_t u8AdcPin, en_pin_mode_t enMode);
  ******************************************************************************/
 void AdcClockConfig(void)
 {
-#if (ADC_CLK == ADC_CLK_PCLK)
-    /* Set bus clock division, depends on the system clock frequency. */
-    m_stcSysclkCfg.enPclk2Div = ClkSysclkDiv32; // 60MHz
-    m_stcSysclkCfg.enPclk4Div = ClkSysclkDiv8;  // 84MHz.
-    CLK_SysClkConfig(&m_stcSysclkCfg);
-    CLK_SetPeriClkSource(ClkPeriSrcPclk);
-
-#elif (ADC_CLK == ADC_CLK_MPLLQ)
-    stc_clk_xtal_cfg_t stcXtalCfg;
-    stc_clk_mpll_cfg_t stcMpllCfg;
-
-    if (CLKSysSrcMPLL == CLK_GetSysClkSource())
-    {
-        /*
-         * Configure MPLLQ(same as MPLLP and MPLLR) when you
-         * configure MPLL as the system clock.
-         */
-    }
-    else
-    {
-        /* Use XTAL as MPLL source. */
-        stcXtalCfg.enFastStartup = Enable;
-        stcXtalCfg.enMode = ClkXtalModeOsc;
-        stcXtalCfg.enDrv  = ClkXtalLowDrv;
-        CLK_XtalConfig(&stcXtalCfg);
-        CLK_XtalCmd(Enable);
-
-        /* Set MPLL out 240MHz. */
-        stcMpllCfg.pllmDiv = 1u;
-        /* mpll = 8M / pllmDiv * plln */
-        stcMpllCfg.plln    = 30u;
-        stcMpllCfg.PllpDiv = 16u;
-        stcMpllCfg.PllqDiv = 16u;
-        stcMpllCfg.PllrDiv = 16u;
-        CLK_SetPllSource(ClkPllSrcXTAL);
-        CLK_MpllConfig(&stcMpllCfg);
-        CLK_MpllCmd(Enable);
-    }
-    CLK_SetPeriClkSource(ClkPeriSrcMpllp);
-
-#elif (ADC_CLK == ADC_CLK_UPLLR)
-    stc_clk_xtal_cfg_t stcXtalCfg;
-    stc_clk_upll_cfg_t stcUpllCfg;
-
-    MEM_ZERO_STRUCT(stcXtalCfg);
-    MEM_ZERO_STRUCT(stcUpllCfg);
-
-    /* Use XTAL as UPLL source. */
-    stcXtalCfg.enFastStartup = Enable;
-    stcXtalCfg.enMode = ClkXtalModeOsc;
-    stcXtalCfg.enDrv = ClkXtalLowDrv;
-    CLK_XtalConfig(&stcXtalCfg);
-    CLK_XtalCmd(Enable);
-
-    /* Set UPLL out 240MHz. */
-    stcUpllCfg.pllmDiv = 2u;
-    /* upll = 8M(XTAL) / pllmDiv * plln */
-    stcUpllCfg.plln    = 60u;
-    stcUpllCfg.PllpDiv = 16u;
-    stcUpllCfg.PllqDiv = 16u;
-    stcUpllCfg.PllrDiv = 16u;
-    CLK_SetPllSource(ClkPllSrcXTAL);
-    CLK_UpllConfig(&stcUpllCfg);
-    CLK_UpllCmd(Enable);
-    CLK_SetPeriClkSource(ClkPeriSrcUpllr);
-#endif
+	//PCLK2:42
+	//PCLK4:84
 }
 
 /**

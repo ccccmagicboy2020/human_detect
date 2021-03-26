@@ -149,9 +149,14 @@ void fast_check_data_prepare(void)
 	
 	if (FAST_CHECK_TIMES > i)
 	{
-		led_red(1);
-		led_green(0);
-		led_onboard_status_upload(TUYA_LED_ONBOARD_RED_ON_GREEN_OFF);
+		//led_red(1);
+		//led_green(0);
+		//led_onboard_status_upload(TUYA_LED_ONBOARD_RED_ON_GREEN_OFF);
+		//person_in_range_upload(TUYA_PERSON_STATUS_HAVE_PERSON);
+
+		//gpio output 
+		//
+		//
 	}
 	
 	if (FAST_CHECK_SAMPLES < FIFO_GetDataCount(&FIFO_Data[0]))
@@ -584,17 +589,47 @@ void app(void)
 	}
 }
 
+void gpio_init(void)
+{
+	stc_port_init_t stcPortInit;
+	/* configuration structure initialization */
+	MEM_ZERO_STRUCT(stcPortInit);
+
+	stcPortInit.enPinMode = Pin_Mode_Out;
+	stcPortInit.enExInt = Enable;
+	stcPortInit.enPullUp = Enable;
+	/* LED0 Port/Pin initialization */
+
+	PORT_Init(PortA, Pin07, &stcPortInit);   //P1-4
+	PORT_Init(PortA, Pin08, &stcPortInit);   //P1-3
+	PORT_Init(PortB, Pin06, &stcPortInit);   //P5-1
+	PORT_Init(PortB, Pin05, &stcPortInit);   //P5-2
+	PORT_Init(PortA, Pin00, &stcPortInit);   //P5-3
+	PORT_Init(PortA, Pin04, &stcPortInit);   //P5-4				
+	PORT_Init(PortB, Pin00, &stcPortInit);   //P5-5
+		
+	PORT_ResetBits(PortA, Pin07);
+	PORT_ResetBits(PortA, Pin08);
+	
+	PORT_ResetBits(PortB, Pin06);
+	PORT_ResetBits(PortB, Pin05);
+	PORT_ResetBits(PortA, Pin00);
+	PORT_ResetBits(PortA, Pin04);
+	PORT_ResetBits(PortB, Pin00);
+}
+
 int main(void)
 {
 	FIFO_Init(&FIFO_Data[0]);
 	FIFO_Init(&FIFO_Data[1]);
 	SysClkIni();
-	led_init();
 	usart_init();//both debug and tuya
+	led_init();	
 	AdcConfig();
 	timer0_init();
 	ADC_StartConvert(M4_ADC1);
 	bt_protocol_init();
+	gpio_init();
 	
 	while(1)
 	{

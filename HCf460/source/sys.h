@@ -43,7 +43,8 @@ enum tuya_upload_check_status
 {
 	TUYA_FAST_CHECK=0,
 	TUYA_SLOW_CHECK=1,
-	TUYA_OTHER=2
+	TUYA_INIT=2,
+	TUYA_OTHER=3
 };
 
 enum tuya_upload_person_in_range_status

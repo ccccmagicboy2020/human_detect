@@ -19,6 +19,8 @@ void led_init(void)
 	  	 
 		led_red(1);
 		led_green(1);	//初始时是亮的
+		led_onboard_status_upload(TUYA_LED_ONBOARD_RED_ON_GREEN_ON);
+		check_status_upload(TUYA_INIT);
 }
 
 void led_red(char onoff)
