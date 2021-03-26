@@ -86,12 +86,14 @@ void SysClkIni(void)
     /* MPLL config. */
     /*system clk = 168M, pclk1 = 84M, pclk3 = 42M*/
     stcMpllCfg.pllmDiv = 1u;
-    stcMpllCfg.plln = 42u;
+    //stcMpllCfg.plln = 42u;//使用外部时钟源8M
+		stcMpllCfg.plln = 21u;//使用外部时钟源8M
     stcMpllCfg.PllpDiv = 2u;
     stcMpllCfg.PllqDiv = 2u;
     stcMpllCfg.PllrDiv = 2u;
 
-    CLK_SetPllSource(ClkPllSrcXTAL);
+    CLK_SetPllSource(ClkPllSrcHRC);//使用内部时钟源16M
+		//CLK_SetPllSource(ClkPllSrcXTAL);//使用外部时钟源8M
     CLK_MpllConfig(&stcMpllCfg);
 
     /* flash read wait cycle setting */
