@@ -132,6 +132,18 @@ mcu在bt模块正确联网后可调用mcu_get_system_time()函数发起校时功
 //只快检测(可下发可上报)
 //备注:只运行快检测
 #define DPID_FAST_CHECK_ONLY 142
+//时域门限0(可下发可上报)
+//备注:时域乘法限
+#define DPID_TIME_TIMES 143
+//时域门限0实时值(只上报)
+//备注:时域乘限实时值
+#define DPID_TIME_TIMES_RT 144
+//时域门限1(可下发可上报)
+//备注:时域加法限
+#define DPID_TIME_ADD 145
+//时域门限1实时值(只上报)
+//备注:时域加法限
+#define DPID_TIME_ADD_RT 146
 
 
 

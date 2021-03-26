@@ -26,7 +26,7 @@ float out1[800] = {0};
 extern const float hamming_TAB2[4096];
 int power_freq = 50;
 
-int quick_detection(FIFO_DataType  in_data[16384],int win_size_time,int stride_time,double time_times,int time_add,int win_size_freq,  
+int quick_detection(FIFO_DataType  in_data[16384],int win_size_time,int stride_time,float time_times,float time_add,int win_size_freq,  
 								   int stride_freq,  int time_accum,int xhz1, int freq_times,	double respiration_times)											 	
 {
 	u8 result = 0;

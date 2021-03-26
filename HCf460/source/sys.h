@@ -3,6 +3,7 @@
 
 #include "stdint.h"
 #include "fifo.h"
+#include "bluetooth.h"
 
 typedef int32_t  s32;
 typedef int16_t s16;

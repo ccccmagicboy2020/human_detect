@@ -17,6 +17,8 @@
 float time_threshold[16] = {0};
 u8 quick_count = 0;
 
+extern int check_status;
+
 /*
  * {
  * Function Name: time_detection
@@ -39,7 +41,7 @@ u8 quick_count = 0;
  * Return Type  : bool
  */
 int quick_time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
-  stride_time, double time_times, int time_add)
+  stride_time, float time_times, float time_add)
 {
 	int time_vote;
 	int std_size;
@@ -137,7 +139,7 @@ int quick_time_detection(FIFO_DataType data[], int data_size, int win_size_time,
 
 
 int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
-  stride_time, float time_times, int time_add)
+  stride_time, float time_times, float time_add)
 {
 	int time_vote;
 	int std_size;
@@ -152,6 +154,11 @@ int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
 	float temp1;
 	float temp2;
 	float data_temp[2048] = {0};
+
+	float time_times_rt = 0;
+	float time_add_rt = 0;
+
+	static int run_counter = 0;
 	
 	std_size = (int)((data_size - win_size_time) / stride_time + 1);
 	
@@ -208,7 +215,29 @@ int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
 		}
 
 		printf("time domain *: %.2lf - %.2lf\r\n", time_times, maxValue/minValue);
-		printf("time domain +: %d - %.2lf\r\n", time_add, maxValue - minValue);
+		printf("time domain +: %.2lf - %.2lf\r\n", time_add, maxValue - minValue);
+		time_times_rt = maxValue/minValue;
+		time_add_rt = maxValue - minValue;
+
+		run_counter++;
+		if (check_status == TUYA_FAST_CHECK)
+		{
+			if(run_counter%4 == 0)
+			{
+				mcu_dp_value_update(DPID_TIME_TIMES, (int)((time_times*100)+0.5f));
+				mcu_dp_value_update(DPID_TIME_ADD, (int)((time_add*100)+0.5f)); 
+				mcu_dp_value_update(DPID_TIME_TIMES_RT, (int)((time_times_rt*100)+0.5f));
+				mcu_dp_value_update(DPID_TIME_ADD_RT, (int)((time_add_rt*100)+0.5f));
+			}
+		}
+		else if (check_status == TUYA_SLOW_CHECK)
+		{
+			mcu_dp_value_update(DPID_TIME_TIMES, (int)((time_times*100)+0.5f));
+			mcu_dp_value_update(DPID_TIME_ADD, (int)((time_add*100)+0.5f)); 
+			mcu_dp_value_update(DPID_TIME_TIMES_RT, (int)((time_times_rt*100)+0.5f));
+			mcu_dp_value_update(DPID_TIME_ADD_RT, (int)((time_add_rt*100)+0.5f));
+		}
+
 
   /*  根据滑窗数据的最大最小标准差进行时域判定 */
   return time_vote;

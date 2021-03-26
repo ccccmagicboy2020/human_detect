@@ -41,13 +41,6 @@
 
 extern const float hamming_TAB2[4096];
 
-float		slow_time_times = 30;
-int 		slow_time_add = 600;
-float		slow_freq_times = 1800;
-float		res_times = 50000;		//17.5
-float   offsetmax = 3;     		//门限偏置  0.65
-float   offsetmin = 3;				//		0.6
-
 FIFO_DataType Fast_detection_data[MAX_DATA_POOL] = {0};//big raw data pool
 
 int state = FAST_CHECK_DATA_PREPARE;	//状态机变量
@@ -69,6 +62,20 @@ int person_in_range_flag_last = TUYA_PERSON_STATUS_OTHER;
 
 int led_onboard_status = TUYA_LED_ONBOARD_OTHER;
 int led_onboard_status_last = TUYA_LED_ONBOARD_OTHER;
+
+////////////////////////////////////////////////////////////
+float quick_time_times = 4;
+float quick_time_add = 32;
+////////////////////////////////////////////////////////////
+float quick_time_times_rt = 0;
+float quick_time_add_rt = 0;
+////////////////////////////////////////////////////////////
+int		slow_time_times = 30;
+int 	slow_time_add = 600;
+float	slow_freq_times = 1800;
+float	res_times = 50000;		//17.5
+float	offsetmax = 3;     		//门限偏置  0.65
+float	offsetmin = 3;			//		0.6
 ////////////////////////////////////////////////////////////
 void check_status_upload(unsigned char aaaa);
 void person_in_range_upload(unsigned char aaaa);
@@ -222,8 +229,8 @@ void fast_check_process(void)
 	quick_detection_result = quick_detection(							Fast_detection_data, 
 											/* win_size_time =  */		2048, 
 											/* stride_time =  */		1024, 
-											/* time_times =  */			4,		//4
-											/* time_add =  */			32, 		//32
+											/* time_times =  */			quick_time_times,		//4
+											/* time_add =  */			quick_time_add, 		//32
 											/* win_size_freq =  */		256, 
 									        /* stride_freq =  */		102, 
 											/* time_accum =  */			8, 

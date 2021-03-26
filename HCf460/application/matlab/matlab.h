@@ -10,7 +10,7 @@
 //extern void Bigmotion_detection(float data[m]);
 
 extern int Fretting_detection(FIFO_DataType in_data5[4096],	double N, double pro_N, double PAD, double  offset, double rr_threshold);
-extern int quick_detection(FIFO_DataType	in_data[16384],int win_size_time,int stride_time,double time_times,int time_add,int win_size_freq,  
+extern int quick_detection(FIFO_DataType	in_data[16384],int win_size_time,int stride_time,float time_times,float time_add,int win_size_freq,  
 										int stride_freq,  int time_accum,int xhz1, int freq_times,	double respiration_times);
 #endif
 
