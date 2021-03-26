@@ -10,9 +10,7 @@ typedef int8_t  s8;
 
 typedef const int32_t sc32;  
 typedef const int16_t sc16;  
-typedef const int8_t sc8;  
-
-  
+typedef const int8_t sc8;
 
 typedef uint32_t  u32;
 typedef uint16_t u16;

@@ -57,12 +57,10 @@ void SysClkIni(void)
 {
     en_clk_sys_source_t     enSysClkSrc;
     stc_clk_sysclk_cfg_t    stcSysClkCfg;
-    stc_clk_xtal_cfg_t      stcXtalCfg;
     stc_clk_mpll_cfg_t      stcMpllCfg;
 
     MEM_ZERO_STRUCT(enSysClkSrc);
     MEM_ZERO_STRUCT(stcSysClkCfg);
-    MEM_ZERO_STRUCT(stcXtalCfg);
     MEM_ZERO_STRUCT(stcMpllCfg);
 
     /* Set bus clk div. */
@@ -75,25 +73,27 @@ void SysClkIni(void)
     stcSysClkCfg.enPclk4Div = ClkSysclkDiv2;  // 84MHz
     CLK_SysClkConfig(&stcSysClkCfg);
 
-    /* Switch system clock source to MPLL. */
-    /* Use Xtal as MPLL source. */
+#ifdef USE_INTERN_HRC
+		CLK_HrcCmd(Enable);       //Enable HRC
+		stcMpllCfg.pllmDiv = 2u;//使用内部时钟源16M
+    CLK_SetPllSource(ClkPllSrcHRC);//使用内部时钟源16M		
+#else
+		stc_clk_xtal_cfg_t      stcXtalCfg;
+		MEM_ZERO_STRUCT(stcXtalCfg);
     stcXtalCfg.enMode = ClkXtalModeOsc;
     stcXtalCfg.enDrv = ClkXtalLowDrv;
     stcXtalCfg.enFastStartup = Enable;
     CLK_XtalConfig(&stcXtalCfg);
     CLK_XtalCmd(Enable);
+		stcMpllCfg.pllmDiv = 1u;//使用外部时钟源8M
+		CLK_SetPllSource(ClkPllSrcXTAL);//使用外部时钟源8M
+#endif
 
-    /* MPLL config. */
-    /*system clk = 168M, pclk1 = 84M, pclk3 = 42M*/
-    stcMpllCfg.pllmDiv = 1u;
-    //stcMpllCfg.plln = 42u;//使用外部时钟源8M
-		stcMpllCfg.plln = 21u;//使用外部时钟源8M
+    stcMpllCfg.plln = 42u;
     stcMpllCfg.PllpDiv = 2u;
     stcMpllCfg.PllqDiv = 2u;
     stcMpllCfg.PllrDiv = 2u;
 
-    CLK_SetPllSource(ClkPllSrcHRC);//使用内部时钟源16M
-		//CLK_SetPllSource(ClkPllSrcXTAL);//使用外部时钟源8M
     CLK_MpllConfig(&stcMpllCfg);
 
     /* flash read wait cycle setting */
