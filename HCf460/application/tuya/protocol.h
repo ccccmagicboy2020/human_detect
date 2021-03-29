@@ -51,7 +51,8 @@
 #define __PROTOCOL_H_
 
 
-
+#include "sys.h"
+#include "bluetooth.h"
 /******************************************************************************
                             用户相关信息配置
 ******************************************************************************/
@@ -81,8 +82,8 @@ MCU可调用mcu_api.c文件内的mcu_firm_update_query()函数获取当前MCU固
                     如当前使用MCU的RAM不够,可修改为24
 ******************************************************************************/
 #ifndef SUPPORT_MCU_FIRM_UPDATE
-#define BT_UART_QUEUE_LMT             16              //数据接收队列大小,如MCU的RAM不够,可缩小
-#define BT_UART_RECV_BUF_LMT          128              //根据用户DP数据大小量定,必须大于32
+#define BT_UART_QUEUE_LMT             512              //数据接收队列大小,如MCU的RAM不够,可缩小
+#define BT_UART_RECV_BUF_LMT          512              //根据用户DP数据大小量定,必须大于32
 #else
 #define BT_UART_QUEUE_LMT             512             //数据接收队列大小,如MCU的RAM不够,可缩小
 #define BT_UART_RECV_BUF_LMT          256             //固件升级缓冲区,需大缓存,必须大于260
@@ -321,6 +322,9 @@ void bt_disconnect_result(unsigned char result);
 使用说明 : MCU可以在此处完成MCU恢复出厂设置的操作
 *****************************************************************************/
 void bt_factor_reset_notify(void);
+
+void clear_buffer(void);
+void Delayms(unsigned short ms);
 
 #endif
 

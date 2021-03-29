@@ -92,10 +92,7 @@ const DOWNLOAD_CMD_S download_cmd[] =
   {DPID_TIME_ADD_RT, DP_TYPE_VALUE},
 };
 
-void clear_buffer(void);
-void Delayms(u16 ms);
-
-void Delayms(u16 ms)
+void Delayms(unsigned short ms)
 {
   u16 i,j;
   u8 k;
