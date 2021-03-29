@@ -148,12 +148,12 @@ int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
 	float std_value[100] = {0};
 	int i;
 	int j;
-	float maxValue;
-	float minValue;
+	float maxValue = 0;
+	float minValue = 0;
 	
-	float temp0;
-	float temp1;
-	float temp2;
+	float temp0 = 0;
+	float temp1 = 0;
+	float temp2 = 0;
 	float data_temp[2048] = {0};
 
 	float time_times_rt = 0;
@@ -175,6 +175,7 @@ int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
 		arm_std_f32(data_temp, win_size_time, &pResult);
 		std_value[i] = pResult;
 		//printf("time_detection std_value: %d - %lf\r\n", i, std_value[i]);
+		//SEGGER_RTT_printf(0, "time_detection std_value: %d - %lf\r\n", i, std_value[i]);
 	}
 	
  
@@ -215,8 +216,8 @@ int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
 			time_vote = 0;
 		}
 
-		printf("time domain *: %.2lf - %.2lf\r\n", time_times, maxValue/minValue);
-		printf("time domain +: %.2lf - %.2lf\r\n", time_add, maxValue - minValue);
+		//printf("time domain *: %.2lf - %.2lf\r\n", time_times, maxValue/minValue);
+		//printf("time domain +: %.2lf - %.2lf\r\n", time_add, maxValue - minValue);
 		time_times_rt = maxValue/minValue;
 		time_add_rt = maxValue - minValue;
 

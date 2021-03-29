@@ -4,6 +4,8 @@
 #include "stdint.h"
 #include "fifo.h"
 #include "bluetooth.h"
+#include "SEGGER_RTT.h"
+#include "SEGGER_RTT_Conf.h"
 
 typedef int32_t  s32;
 typedef int16_t s16;

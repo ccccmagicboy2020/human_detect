@@ -637,6 +637,9 @@ int main(void)
 	ADC_StartConvert(M4_ADC1);
 	bt_protocol_init();
 	gpio_init();
+	SEGGER_RTT_Init();
+	SEGGER_RTT_ConfigUpBuffer(0, NULL, NULL, 0, SEGGER_RTT_MODE_NO_BLOCK_SKIP);
+	SEGGER_RTT_WriteString(0, "phosense");	
 	
 	while(1)
 	{

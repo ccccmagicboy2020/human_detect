@@ -18,6 +18,7 @@
 extern int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
   stride_time, float time_times, float time_add);
 
+//暂时没有用这个
 extern int quick_time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
   stride_time, float time_times, float time_add);
 
