@@ -81,6 +81,8 @@ void check_status_upload(unsigned char aaaa);
 void person_in_range_upload(unsigned char aaaa);
 void led_onboard_status_upload(unsigned char aaaa);
 void clear_buffer(void);
+
+unsigned char upload_disable = 1;
 ////////////////////////////////////////////////////////////
 void clear_buffer(void)
 {
@@ -531,30 +533,42 @@ void uart_post_process()
 void person_in_range_upload(unsigned char aaaa)
 {
 	person_in_range_flag = aaaa;
-	if (person_in_range_flag != person_in_range_flag_last)
+	
+	if (upload_disable == 0)
 	{
-		mcu_dp_enum_update(DPID_PERSON_IN_RANGE, aaaa);
-		person_in_range_flag_last = person_in_range_flag;
+		if (person_in_range_flag != person_in_range_flag_last)
+		{
+			mcu_dp_enum_update(DPID_PERSON_IN_RANGE, aaaa);
+			person_in_range_flag_last = person_in_range_flag;
+		}	
 	}
 }
 
 void check_status_upload(unsigned char aaaa)
 {
 	check_status = aaaa;
-	if (check_status != check_status_last)
+	
+	if (upload_disable == 0)
 	{
-		mcu_dp_enum_update(DPID_CHECK_PROCESS, aaaa);
-		check_status_last = check_status;
+		if (check_status != check_status_last)
+		{
+			mcu_dp_enum_update(DPID_CHECK_PROCESS, aaaa);
+			check_status_last = check_status;
+		}	
 	}
 }
 
 void led_onboard_status_upload(unsigned char aaaa)
 {
 	led_onboard_status = aaaa;
-	if (led_onboard_status != led_onboard_status_last)
+	
+	if (upload_disable == 0)
 	{
-		mcu_dp_enum_update(DPID_LED_ON_BOARD_STATUS, aaaa);
-		led_onboard_status_last = led_onboard_status;
+		if (led_onboard_status != led_onboard_status_last)
+		{
+			mcu_dp_enum_update(DPID_LED_ON_BOARD_STATUS, aaaa);
+			led_onboard_status_last = led_onboard_status;
+		}	
 	}
 }
 

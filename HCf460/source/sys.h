@@ -21,12 +21,14 @@ typedef uint8_t  u8;
 
 typedef const uint32_t uc32;  
 typedef const uint16_t uc16;  
-typedef const uint8_t uc8; 
+typedef const uint8_t uc8;
 
 enum work_mode
 {
 	ALL_CHECK=0,			//default
-	FAST_CHECK_ONLY,
+	FAST_CHECK_ONLY,	//只查快检测
+	SLOW_CHECK_ONLY,	//只查慢检测
+	MODE_OTHER
 };
 
 enum app_state

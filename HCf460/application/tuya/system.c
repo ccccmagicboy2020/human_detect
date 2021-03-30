@@ -54,6 +54,8 @@ volatile unsigned char *queue_out;
 
 unsigned char stop_update_flag;
 
+extern unsigned char upload_disable;
+
 #ifndef BT_CONTROL_SELF_MODE
 unsigned char reset_bt_flag;                                                  //重置bt标志(TRUE:成功/FALSE:失败)
 unsigned char set_btmode_flag;                                                //设置bluetooth工作模式标志(TRUE:成功/FALSE:失败)
@@ -317,11 +319,12 @@ void data_handle(unsigned short offset)
     if(bt_work_state==0x01||bt_work_state==0x00)
     {
     	//mcu_ota_init_disconnect();
-
+			upload_disable = 1;
     }
 	if (bt_work_state == 0x02)
 	{
 		all_data_update();
+		upload_disable = 0;
 	}
     bt_uart_write_frame(BT_STATE_CMD,0);
     break;

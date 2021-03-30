@@ -85,11 +85,11 @@ const DOWNLOAD_CMD_S download_cmd[] =
   {DPID_PERSON_IN_RANGE, DP_TYPE_ENUM},
   {DPID_CHECK_PROCESS, DP_TYPE_ENUM},
   {DPID_LED_ON_BOARD_STATUS, DP_TYPE_ENUM},
-  {DPID_FAST_CHECK_ONLY, DP_TYPE_BOOL},
   {DPID_TIME_TIMES, DP_TYPE_VALUE},
   {DPID_TIME_TIMES_RT, DP_TYPE_VALUE},
   {DPID_TIME_ADD, DP_TYPE_VALUE},
   {DPID_TIME_ADD_RT, DP_TYPE_VALUE},
+  {DPID_WORK_MODE, DP_TYPE_ENUM},
 };
 
 void Delayms(unsigned short ms)
@@ -118,11 +118,19 @@ void Delayms(unsigned short ms)
 *****************************************************************************/
 void uart_transmit_output(unsigned char value)
 {
+#ifndef TUYA_ENABLE
+    USART_CH->DR = value;
+    while (0ul == USART_CH->SR_f.TC)
+    {
+        ;
+    }	
+#else
     USART_TUYA_CH->DR = value;
     while (0ul == USART_TUYA_CH->SR_f.TC)
     {
         ;
     }	
+#endif		
 }
 /******************************************************************************
                            第二步:实现具体用户函数
@@ -154,24 +162,22 @@ void all_data_update(void)
 {
   //此代码为平台自动生成，请按照实际数据修改每个可下发可上报函数和只上报函数
     mcu_dp_enum_update(DPID_LIGHT_STATUS, 0); //枚举型数据上报;
-		Delayms(10);
+		Delayms(100);
     mcu_dp_enum_update(DPID_PERSON_IN_RANGE, person_in_range_flag); //枚举型数据上报;
-		Delayms(10);
+		Delayms(100);
     mcu_dp_enum_update(DPID_CHECK_PROCESS, check_status); //枚举型数据上报;
-		Delayms(10);
+		Delayms(100);
     mcu_dp_enum_update(DPID_LED_ON_BOARD_STATUS, led_onboard_status); //枚举型数据上报;
-		Delayms(10);
-    mcu_dp_bool_update(DPID_FAST_CHECK_ONLY, run_mode); //BOOL型数据上报;
-    Delayms(10);
+    Delayms(100);
     mcu_dp_value_update(DPID_TIME_TIMES, (int)(quick_time_times*100+0.5f)); //VALUE型数据上报;
-    Delayms(10);
+    Delayms(100);
     mcu_dp_value_update(DPID_TIME_TIMES_RT, (int)(quick_time_times_rt*100+0.5f)); //VALUE型数据上报;
-    Delayms(10);
+    Delayms(100);
     mcu_dp_value_update(DPID_TIME_ADD, (int)(quick_time_add*100+0.5f)); //VALUE型数据上报;
-    Delayms(10);
+    Delayms(100);
     mcu_dp_value_update(DPID_TIME_ADD_RT, (int)(quick_time_add_rt*100+0.5f)); //VALUE型数据上报;
-    Delayms(10);
-	
+    Delayms(100);
+		mcu_dp_enum_update(DPID_WORK_MODE, ALL_CHECK); //枚举型数据上报;
 	
 	
 }
@@ -182,45 +188,6 @@ void all_data_update(void)
                             2:所有数据上报处理
 自动化代码模板函数,具体请用户自行实现数据处理
 ******************************************************************************/
-
-/*****************************************************************************
-函数名称 : dp_download_fast_check_only_handle
-功能描述 : 针对DPID_FAST_CHECK_ONLY的处理函数
-输入参数 : value:数据源数据
-        : length:数据长度
-返回参数 : 成功返回:SUCCESS/失败返回:ERROR
-使用说明 : 可下发可上报类型,需要在处理完数据后上报处理结果至app
-*****************************************************************************/
-static unsigned char dp_download_fast_check_only_handle(const unsigned char value[], unsigned short length)
-{
-    //示例:当前DP类型为BOOL
-    unsigned char ret;
-    //0:关/1:开
-    unsigned char fast_check_only;
-    
-    fast_check_only = mcu_get_dp_download_bool(value,length);
-    if(fast_check_only == 0) {
-        //开关关
-		run_mode = ALL_CHECK;
-    }else {
-        //开关开
-		run_mode = FAST_CHECK_ONLY;
-		
-		if (check_status == TUYA_SLOW_CHECK)
-		{
-			state = IDLE;
-			next_state = FAST_CHECK_DATA_PREPARE;		
-			clear_buffer();
-		}
-    }
-  
-    //处理完DP数据后应有反馈
-    ret = mcu_dp_bool_update(DPID_FAST_CHECK_ONLY, run_mode);
-    if(ret == SUCCESS)
-        return SUCCESS;
-    else
-        return ERROR;
-}
 
 /*****************************************************************************
 函数名称 : dp_download_time_times_handle
@@ -277,6 +244,65 @@ static unsigned char dp_download_time_add_handle(const unsigned char value[], un
     else
         return ERROR;
 }
+/*****************************************************************************
+函数名称 : dp_download_work_mode_handle
+功能描述 : 针对DPID_WORK_MODE的处理函数
+输入参数 : value:数据源数据
+        : length:数据长度
+返回参数 : 成功返回:SUCCESS/失败返回:ERROR
+使用说明 : 可下发可上报类型,需要在处理完数据后上报处理结果至app
+*****************************************************************************/
+static unsigned char dp_download_work_mode_handle(const unsigned char value[], unsigned short length)
+{
+    //示例:当前DP类型为ENUM
+    unsigned char ret;
+    unsigned char work_mode;
+    
+    work_mode = mcu_get_dp_download_enum(value,length);
+    switch(work_mode) {
+        case 0:
+					run_mode = 0;		
+        break;
+        
+        case 1:
+					run_mode = 1;
+				
+					if (check_status == TUYA_SLOW_CHECK)
+					{
+						state = IDLE;
+						next_state = FAST_CHECK_DATA_PREPARE;		
+						clear_buffer();
+					}		
+        break;
+        
+        case 2:
+					run_mode = 0;
+				
+					if (check_status == TUYA_FAST_CHECK)
+					{
+						state = IDLE;
+						next_state = SLOW_CHECK_DATA_PREPARE_S0;
+						clear_buffer();
+					}		
+        break;
+        
+        case 3:
+        break;
+        
+        default:
+    
+        break;
+    }
+    
+    //处理完DP数据后应有反馈
+    ret = mcu_dp_enum_update(DPID_WORK_MODE, work_mode);
+    if(ret == SUCCESS)
+        return SUCCESS;
+    else
+        return ERROR;
+}
+
+
 /******************************************************************************
                                 WARNING!!!                     
 此代码为SDK内部调用,请按照实际dp数据实现函数内部数据
@@ -306,10 +332,6 @@ unsigned char dp_download_handle(unsigned char dpid,const unsigned char value[],
   unsigned char ret;
   switch(dpid)
   {
-        case DPID_FAST_CHECK_ONLY:
-            //只快检测处理函数
-            ret = dp_download_fast_check_only_handle(value,length);
-        break;
         case DPID_TIME_TIMES:
             //时域门限0处理函数
             ret = dp_download_time_times_handle(value,length);
@@ -317,6 +339,10 @@ unsigned char dp_download_handle(unsigned char dpid,const unsigned char value[],
         case DPID_TIME_ADD:
             //时域门限1处理函数
             ret = dp_download_time_add_handle(value,length);
+        break;
+        case DPID_WORK_MODE:
+            //检测模式处理函数
+            ret = dp_download_work_mode_handle(value,length);
         break;
 
 

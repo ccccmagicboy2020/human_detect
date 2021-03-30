@@ -12,6 +12,7 @@
 #define USART_RX_PORT                   (PortC)
 #define USART_RX_PIN                    (Pin13)
 #define USART_RX_FUNC                   (Func_Usart3_Rx)
+#define USART_RI_NUM                    (INT_USART3_RI)
 
 #define USART_TUYA_RX_PORT                   (PortA)
 #define USART_TUYA_RX_PIN                    (Pin03)
@@ -31,7 +32,7 @@ extern void usart_init(void);
 extern void UsartRxErrProcess(void);
 
 static void tuya_UsartRxIrqCallback(void);
-
+static void UsartRxIrqCallback(void);
 
 #endif
 

@@ -874,7 +874,7 @@ en_result_t TIMER0_DeInit(M4_TMR0_TypeDef* pstcTim0Reg,en_tim0_channel_t enCh)
  ******************************************************************************/
 void TIMER0_SetTriggerSrc(en_event_src_t enEvent)
 {
-    DDL_ASSERT(IS_VALID_TRIG_SRC_EVENT(enEvent));
+//    DDL_ASSERT(IS_VALID_TRIG_SRC_EVENT(enEvent));
 
     M4_AOS->TMR0_HTSSR_f.TRGSEL = enEvent;
 }
@@ -904,7 +904,7 @@ en_result_t TIMER0_HardTriggerInit(M4_TMR0_TypeDef* pstcTim0Reg,en_tim0_channel_
         DDL_ASSERT(IS_VALID_UNIT(pstcTim0Reg));
         DDL_ASSERT(IS_VALID_CHANNEL(enCh));
         DDL_ASSERT(IS_VALID_FUNCTION(pStcInit->Tim0_OCMode));
-        DDL_ASSERT(IS_VALID_TRIG_SRC_EVENT(pStcInit->Tim0_SelTrigSrc));
+//        DDL_ASSERT(IS_VALID_TRIG_SRC_EVENT(pStcInit->Tim0_SelTrigSrc));
 
         /*Read current BCONR register */
         stcBconrTmp = pstcTim0Reg->BCONR_f;

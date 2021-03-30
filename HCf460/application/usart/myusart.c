@@ -11,6 +11,18 @@
  ** \retval None
  **
  ******************************************************************************/
+static void UsartRxIrqCallback(void)
+{
+		uint16_t rev_data = 0;
+		unsigned char rev_data1 = 0;
+	
+		rev_data = USART_RecData(USART_CH);
+	
+		rev_data1 = (unsigned char)rev_data;
+	
+    uart_receive_input(rev_data1);
+}
+
 static void tuya_UsartRxIrqCallback(void)
 {
 		uint16_t rev_data = 0;
@@ -53,27 +65,8 @@ void UsartRxErrProcess(void)
 void usart_init(void)
 {
 	en_result_t enRet = Ok;
-    stc_irq_regi_conf_t tuya_stcIrqRegiCfg;
-	
-	stc_port_init_t stcPortInit_in;
-	stc_port_init_t stcPortInit_out;
-	
-	MEM_ZERO_STRUCT(stcPortInit_in);
-	MEM_ZERO_STRUCT(stcPortInit_out);
-	
-    stcPortInit_in.enPinMode = Pin_Mode_In;
-    stcPortInit_in.enExInt = Enable;
-    stcPortInit_in.enPullUp = Enable;	
-	
-    stcPortInit_out.enPinMode = Pin_Mode_Out;
-    stcPortInit_out.enExInt = Enable;
-    stcPortInit_out.enPullUp = Enable;		
-	
-	PORT_Init(USART_RX_PORT, USART_RX_PIN, &stcPortInit_in);
-	PORT_Init(USART_TUYA_RX_PORT, USART_TUYA_RX_PIN, &stcPortInit_in);
-	PORT_Init(USART_TX_PORT, USART_TX_PIN, &stcPortInit_out);
-	PORT_Init(USART_TUYA_TX_PORT, USART_TUYA_TX_PIN, &stcPortInit_out);
-
+  stc_irq_regi_conf_t tuya_stcIrqRegiCfg;
+	stc_irq_regi_conf_t stcIrqRegiCfg;
 	
 	uint32_t u32Fcg1Periph = PWC_FCG1_PERIPH_USART1 | PWC_FCG1_PERIPH_USART2 | \
                              PWC_FCG1_PERIPH_USART3 | PWC_FCG1_PERIPH_USART4;
@@ -142,6 +135,15 @@ void usart_init(void)
     NVIC_SetPriority(tuya_stcIrqRegiCfg.enIRQn, DDL_IRQ_PRIORITY_DEFAULT);
     NVIC_ClearPendingIRQ(tuya_stcIrqRegiCfg.enIRQn);
     NVIC_EnableIRQ(tuya_stcIrqRegiCfg.enIRQn);    
+		
+    /* Set USART RX IRQ */
+    stcIrqRegiCfg.enIRQn = Int004_IRQn;
+    stcIrqRegiCfg.pfnCallback = &UsartRxIrqCallback;
+    stcIrqRegiCfg.enIntSrc = USART_RI_NUM;
+    enIrqRegistration(&stcIrqRegiCfg);
+    NVIC_SetPriority(stcIrqRegiCfg.enIRQn, DDL_IRQ_PRIORITY_DEFAULT);
+    NVIC_ClearPendingIRQ(stcIrqRegiCfg.enIRQn);
+    NVIC_EnableIRQ(stcIrqRegiCfg.enIRQn);
 
     /*Enable RX && TX function*/
     USART_FuncCmd(USART_CH, UsartRx, Enable);
@@ -149,7 +151,13 @@ void usart_init(void)
 
     USART_FuncCmd(USART_TUYA_CH, UsartRx, Enable);
     USART_FuncCmd(USART_TUYA_CH, UsartTx, Enable);
+		
+#ifndef TUYA_ENABLE
+		USART_FuncCmd(USART_CH, UsartRxInt, Enable);       //enalbe the rxd interrupt
+#else
     USART_FuncCmd(USART_TUYA_CH, UsartRxInt, Enable);       //enalbe the rxd interrupt
+#endif
+
 }
 
 
