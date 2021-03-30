@@ -145,9 +145,15 @@ int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
 						time_add_last = time_add;
 						Delayms(10);
 					}
-					mcu_dp_value_update(DPID_TIME_TIMES_RT, (int)((time_times_rt*100)+0.5f));
-					Delayms(10);
-					mcu_dp_value_update(DPID_TIME_ADD_RT, (int)((time_add_rt*100)+0.5f));
+					if (time_times_rt != 0)
+					{
+						mcu_dp_value_update(DPID_TIME_TIMES_RT, (int)((time_times_rt*100)+0.5f));
+						Delayms(10);
+					}
+					if (time_add_rt != 0)
+					{
+						mcu_dp_value_update(DPID_TIME_ADD_RT, (int)((time_add_rt*100)+0.5f));
+					}
 				}
 			}
 			else if (check_status == TUYA_SLOW_CHECK)
@@ -164,9 +170,15 @@ int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
 					time_add_last = time_add;
 					Delayms(10);
 				}
-				mcu_dp_value_update(DPID_TIME_TIMES_RT, (int)((time_times_rt*100)+0.5f));
-				Delayms(10);
-				mcu_dp_value_update(DPID_TIME_ADD_RT, (int)((time_add_rt*100)+0.5f));
+				if (time_times_rt != 0)
+				{
+					mcu_dp_value_update(DPID_TIME_TIMES_RT, (int)((time_times_rt*100)+0.5f));
+					Delayms(10);
+				}
+				if (time_add_rt != 0)
+				{
+					mcu_dp_value_update(DPID_TIME_ADD_RT, (int)((time_add_rt*100)+0.5f));
+				}
 			}		
 		}
 
