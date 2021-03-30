@@ -52,7 +52,7 @@ int slow_s0_result_last = NO_PERSON_NOT_SURE;
 char fast_retry_flag = 0;
 char slow_retry_flag = 0;
 
-int run_mode = ALL_CHECK;
+int run_mode = 0;
 
 int check_status = TUYA_OTHER;
 int check_status_last = TUYA_OTHER;
@@ -83,6 +83,7 @@ void led_onboard_status_upload(unsigned char aaaa);
 void clear_buffer(void);
 
 unsigned char upload_disable = 1;
+unsigned char g_work_mode = ALL_CHECK;
 ////////////////////////////////////////////////////////////
 void clear_buffer(void)
 {
@@ -241,7 +242,7 @@ void fast_check_process(void)
 											/* respiration_times =  */	17.5
 											);
 
-	if (quick_detection_result && (run_mode == ALL_CHECK))
+	if (quick_detection_result && (run_mode == 0))
 	{
 		state = SLOW_CHECK_DATA_PREPARE_S0;	//bingo to next
 	}

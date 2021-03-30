@@ -316,12 +316,15 @@ void data_handle(unsigned short offset)
 #ifndef BT_CONTROL_SELF_MODE
   case BT_STATE_CMD:                                  //bt工作状态	
     bt_work_state = bt_uart_rx_buf[offset + DATA_START];
-    if(bt_work_state==0x01||bt_work_state==0x00)
-    {
-    	//mcu_ota_init_disconnect();
-			upload_disable = 1;
-    }
-	if (bt_work_state == 0x02)
+	if(BT_UN_BIND == bt_work_state)
+	{
+		upload_disable = 1;
+	}
+	else if(BT_NOT_CONNECTED == bt_work_state)
+	{
+		upload_disable = 1;
+	}
+	else if(BT_CONNECTED == bt_work_state)
 	{
 		all_data_update();
 		upload_disable = 0;

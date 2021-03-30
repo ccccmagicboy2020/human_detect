@@ -58,6 +58,8 @@ extern float quick_time_times_rt;
 extern float quick_time_add;
 extern float quick_time_add_rt;
 
+extern unsigned char g_work_mode;
+
 /******************************************************************************
                                 移植须知:
 1:MCU必须在while中直接调用mcu_api.c内的bt_uart_service()函数
@@ -177,7 +179,7 @@ void all_data_update(void)
     Delayms(100);
     mcu_dp_value_update(DPID_TIME_ADD_RT, (int)(quick_time_add_rt*100+0.5f)); //VALUE型数据上报;
     Delayms(100);
-		mcu_dp_enum_update(DPID_WORK_MODE, ALL_CHECK); //枚举型数据上报;
+	mcu_dp_enum_update(DPID_WORK_MODE, g_work_mode); //枚举型数据上报;
 	
 	
 }
@@ -294,8 +296,9 @@ static unsigned char dp_download_work_mode_handle(const unsigned char value[], u
         break;
     }
     
+	g_work_mode = work_mode;
     //处理完DP数据后应有反馈
-    ret = mcu_dp_enum_update(DPID_WORK_MODE, work_mode);
+    ret = mcu_dp_enum_update(DPID_WORK_MODE, g_work_mode);
     if(ret == SUCCESS)
         return SUCCESS;
     else
