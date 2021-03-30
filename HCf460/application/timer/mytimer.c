@@ -6,7 +6,7 @@
 #include "sys.h"
 #include "fifo.h"
 
-static uint16_t m_au16Adc1Value[ADC1_CH_COUNT];
+extern uint16_t m_au16Adc1SaValue[ADC1_CH_COUNT];
 
 void timer0_init(void)
 {
@@ -15,6 +15,7 @@ void timer0_init(void)
     stc_port_init_t stcPortInit;
 
     volatile uint32_t u32Pclk1;
+		volatile uint32_t u32cpu;
     stc_clk_freq_t stcClkTmp;
     
 	
@@ -30,19 +31,17 @@ void timer0_init(void)
     /* Get pclk1 */
     CLK_GetClockFreq(&stcClkTmp);
     u32Pclk1 = stcClkTmp.pclk1Freq;
-	//u32cpu = stcClkTmp.sysclkFreq;
+		u32cpu = stcClkTmp.sysclkFreq;
 
-    /* Enable XTAL32 */
-    CLK_Xtal32Cmd(Enable);
 
     /* Timer0 peripheral enable */
     ENABLE_TMR0();
 
     /*config register for channel B */
     stcTimerCfg.Tim0_CounterMode = Tim0_Sync;
-    stcTimerCfg.Tim0_SyncClockSource = Tim0_Pclk1;
+    stcTimerCfg.Tim0_SyncClockSource = Tim0_Pclk1;//50MHz
     stcTimerCfg.Tim0_ClockDivision = Tim0_ClkDiv0;
-    stcTimerCfg.Tim0_CmpValue = (uint16_t)(25000);
+    stcTimerCfg.Tim0_CmpValue = (uint16_t)(25000);//500us
     TIMER0_BaseInit(TMR_UNIT,Tim0_ChannelB,&stcTimerCfg);
 
     /* Enable channel B interrupt */
@@ -58,7 +57,7 @@ void timer0_init(void)
     /* Clear Pending */
     NVIC_ClearPendingIRQ(stcIrqRegiConf.enIRQn);
     /* Set priority */
-    NVIC_SetPriority(stcIrqRegiConf.enIRQn, DDL_IRQ_PRIORITY_15);
+    NVIC_SetPriority(stcIrqRegiConf.enIRQn, DDL_IRQ_PRIORITY_00);
     /* Enable NVIC */
     NVIC_EnableIRQ(stcIrqRegiConf.enIRQn);
 
@@ -70,10 +69,15 @@ void timer0_init(void)
 static void Timer0B_CallBack(void)		// T === 500us
 {
   u16  if_adc_data = 0;		//IF adc数据
-	//u16  light_sensor_adc_data = 0;	//光敏数据
-	ADC_PollingSa(M4_ADC1, m_au16Adc1Value, ADC1_CH_COUNT, TIMEOUT_MS);
-	if_adc_data =  m_au16Adc1Value[6u];
-	//light_sensor_adc_data =  m_au16Adc1Value[9u];
-	FIFO_WriteOneData(&FIFO_Data[0], if_adc_data);
+  //u16  light_sensor_adc_data = 0;	//光敏数据
+
+	if (Set == DMA_GetIrqFlag(ADC1_SA_DMA_UNIT, ADC1_SA_DMA_CH, BlkTrnCpltIrq))
+	{
+			DMA_ClearIrqFlag(ADC1_SA_DMA_UNIT, ADC1_SA_DMA_CH, BlkTrnCpltIrq);
+			if_adc_data =  m_au16Adc1SaValue[6u];
+			//light_sensor_adc_data =  m_au16Adc1SaValue[9u];
+			
+			FIFO_WriteOneData(&FIFO_Data[0], if_adc_data);		
+	}
 }
 

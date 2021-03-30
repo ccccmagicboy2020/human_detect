@@ -57,6 +57,10 @@ void led_green(char onoff)
  ******************************************************************************/
 void SysClkIni(void)
 {
+    volatile uint32_t u32Pclk1;
+		volatile uint32_t u32cpu;
+    stc_clk_freq_t stcClkTmp;
+	
     en_clk_sys_source_t     enSysClkSrc;
     stc_clk_sysclk_cfg_t    stcSysClkCfg;
     stc_clk_mpll_cfg_t      stcMpllCfg;
@@ -66,13 +70,13 @@ void SysClkIni(void)
     MEM_ZERO_STRUCT(stcMpllCfg);
 
     /* Set bus clk div. */
-    stcSysClkCfg.enHclkDiv = ClkSysclkDiv1;   // 168MHz
-    stcSysClkCfg.enExclkDiv = ClkSysclkDiv2;  // 84MHz
-    stcSysClkCfg.enPclk0Div = ClkSysclkDiv1;  // 168MHz
-    stcSysClkCfg.enPclk1Div = ClkSysclkDiv4;  // 42MHz
-    stcSysClkCfg.enPclk2Div = ClkSysclkDiv4;  // 42MHz
-    stcSysClkCfg.enPclk3Div = ClkSysclkDiv4;  // 42MHz
-    stcSysClkCfg.enPclk4Div = ClkSysclkDiv2;  // 84MHz
+    stcSysClkCfg.enHclkDiv = ClkSysclkDiv1;   // 200MHz
+    stcSysClkCfg.enExclkDiv = ClkSysclkDiv2;  // 100MHz
+    stcSysClkCfg.enPclk0Div = ClkSysclkDiv1;  // 200MHz
+    stcSysClkCfg.enPclk1Div = ClkSysclkDiv4;  // 50MHz
+    stcSysClkCfg.enPclk2Div = ClkSysclkDiv4;  // 50MHz
+    stcSysClkCfg.enPclk3Div = ClkSysclkDiv4;  // 50MHz
+    stcSysClkCfg.enPclk4Div = ClkSysclkDiv2;  // 100MHz
     CLK_SysClkConfig(&stcSysClkCfg);
 
 #ifdef USE_INTERN_HRC
@@ -91,12 +95,12 @@ void SysClkIni(void)
 		CLK_SetPllSource(ClkPllSrcXTAL);//使用外部时钟源8M
 #endif
 
-    stcMpllCfg.plln = 42u;
+    stcMpllCfg.plln = 50u;
     stcMpllCfg.PllpDiv = 2u;
     stcMpllCfg.PllqDiv = 2u;
     stcMpllCfg.PllrDiv = 2u;
 
-    CLK_MpllConfig(&stcMpllCfg);
+    CLK_MpllConfig(&stcMpllCfg);//200MHz
 
     /* flash read wait cycle setting */
     EFM_Unlock();
@@ -114,6 +118,10 @@ void SysClkIni(void)
 
     /* Switch system clock source to MPLL. */
     CLK_SetSysClkSource(CLKSysSrcMPLL);
+		
+		CLK_GetClockFreq(&stcClkTmp);
+    u32Pclk1 = stcClkTmp.pclk1Freq;//adc clock
+		u32cpu = stcClkTmp.sysclkFreq;//main clock
 }
 
 

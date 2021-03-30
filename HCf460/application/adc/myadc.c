@@ -1,42 +1,13 @@
 #include "myadc.h"
 #include "hc32_ddl.h"
 
-/*
- * If you remap the mapping between the channel and the pin with the function
- * ADC_ChannleRemap, define ADC_CH_REMAP as non-zero, otherwise define as 0.
- */
-#define ADC_CH_REMAP                (0u)
-
-/* ADC1 channel definition for this example. */
-#define ADC1_SA_NORMAL_CHANNEL      (ADC1_CH6|ADC1_CH9)
-#define ADC1_SA_CHANNEL             (ADC1_SA_NORMAL_CHANNEL)
-#define ADC1_SA_CHANNEL_COUNT       (2u)
-
-#define ADC1_CHANNEL                (ADC1_SA_CHANNEL)
-
-/* ADC1 channel sampling time. */
-#define ADC1_SA_CHANNEL_SAMPLE_TIME {0x30, 0x30}
-
-/* Timer definition for this example. */
-#define TMR_UNIT                    (M4_TMR02)
-
-/* ADC interrupt flag bit mask definition. */
-#define ADC1_SA_IRQ_BIT             (1ul << 0u)
-//#define ADC2_SA_IRQ_BIT             (1ul << 1u)
-
+uint16_t m_au16Adc1SaValue[ADC1_CH_COUNT];
 
 static void AdcSetChannelPinMode(const M4_ADC_TypeDef *ADCx,
                                  uint32_t u32Channel,
                                  en_pin_mode_t enMode);
 static void AdcSetPinMode(uint8_t u8AdcPin, en_pin_mode_t enMode);
 
-/*******************************************************************************
- * Local variable definitions ('static')
- ******************************************************************************/
-//static uint16_t m_au16Adc1Value[ADC1_CH_COUNT];
-//static uint16_t m_au16Adc2Value[ADC2_CH_COUNT];
-
-//static uint32_t  m_u32AdcIrqFlag = 0u;
 
 
 
@@ -54,8 +25,8 @@ static void AdcSetPinMode(uint8_t u8AdcPin, en_pin_mode_t enMode);
  ******************************************************************************/
 void AdcClockConfig(void)
 {
-	//PCLK2:42
-	//PCLK4:84
+	//PCLK2:50--->>>ADC_CLK
+	//PCLK4:100
 }
 
 /**
@@ -71,8 +42,8 @@ void AdcInitConfig(void)
 
     stcAdcInit.enResolution = AdcResolution_12Bit;
     stcAdcInit.enDataAlign  = AdcDataAlign_Right;
-    stcAdcInit.enAutoClear  = AdcClren_Disable;
-    stcAdcInit.enScanMode   = AdcMode_SAContinuous;   //Ñ­»·É¨Ãè
+    stcAdcInit.enAutoClear  = AdcClren_Enable;
+    stcAdcInit.enScanMode   = AdcMode_SAContinuous;
     /* 1. Enable ADC1. */
     PWC_Fcg3PeriphClockCmd(PWC_FCG3_PERIPH_ADC1, Enable);
     /* 2. Initialize ADC1. */
@@ -98,6 +69,11 @@ void AdcChannelConfig(void)
     AdcSetChannelPinMode(M4_ADC1, ADC1_CHANNEL, Pin_Mode_Ana);  // Pin_Mode_Ana = 2  GPIO Analog mode
     /* 2. Add ADC channel. */
     ADC_AddAdcChannel(M4_ADC1, &stcChCfg);
+
+    /* 3. Configure the average channel if you need. */
+    ADC_ConfigAvg(M4_ADC1, AdcAvcnt_256);
+    /* 4. Add average channel if you need. */
+    ADC_AddAvgChannel(M4_ADC1, ADC1_CHANNEL);    
 }
 
 /**
@@ -255,10 +231,53 @@ static void AdcSetPinMode(uint8_t u8AdcPin, en_pin_mode_t enMode)
     }
 }
 
+/**
+ *******************************************************************************
+ ** \brief  DMA configuration for ADC1 and ADC2.
+ **
+ ******************************************************************************/
+static void AdcDmaConfig(void)
+{
+    stc_dma_config_t stcDmaCfg;
+
+    MEM_ZERO_STRUCT(stcDmaCfg);
+
+    stcDmaCfg.u16BlockSize   = ADC1_CH_COUNT;
+    stcDmaCfg.u16TransferCnt = 0u;
+    stcDmaCfg.u32SrcAddr     = (uint32_t)(&M4_ADC1->DR0);
+    stcDmaCfg.u32DesAddr     = (uint32_t)(&m_au16Adc1SaValue[0]);
+    stcDmaCfg.u16DesRptSize  = ADC1_CH_COUNT;
+    stcDmaCfg.u16SrcRptSize  = ADC1_CH_COUNT;
+    stcDmaCfg.u32DmaLlp      = 0u;
+    stcDmaCfg.stcSrcNseqCfg.u16Cnt    = 0u;
+    stcDmaCfg.stcSrcNseqCfg.u32Offset = 0u;
+    stcDmaCfg.stcDesNseqCfg.u16Cnt    = 0u;
+    stcDmaCfg.stcDesNseqCfg.u32Offset = 0u;
+    stcDmaCfg.stcDmaChCfg.enSrcInc    = AddressIncrease;
+    stcDmaCfg.stcDmaChCfg.enDesInc    = AddressIncrease;
+    stcDmaCfg.stcDmaChCfg.enSrcRptEn  = Enable;
+    stcDmaCfg.stcDmaChCfg.enDesRptEn  = Enable;
+    stcDmaCfg.stcDmaChCfg.enSrcNseqEn = Disable;
+    stcDmaCfg.stcDmaChCfg.enDesNseqEn = Disable;
+    stcDmaCfg.stcDmaChCfg.enTrnWidth  = Dma16Bit;
+    stcDmaCfg.stcDmaChCfg.enLlpEn     = Disable;
+    stcDmaCfg.stcDmaChCfg.enIntEn     = Disable;
+
+    PWC_Fcg0PeriphClockCmd(ADC1_SA_DMA_PWC, Enable);
+    DMA_InitChannel(ADC1_SA_DMA_UNIT, ADC1_SA_DMA_CH, &stcDmaCfg);
+    DMA_Cmd(ADC1_SA_DMA_UNIT, Enable);
+    DMA_ChannelCmd(ADC1_SA_DMA_UNIT, ADC1_SA_DMA_CH, Enable);
+    DMA_ClearIrqFlag(ADC1_SA_DMA_UNIT, ADC1_SA_DMA_CH, TrnCpltIrq);
+    PWC_Fcg0PeriphClockCmd(PWC_FCG0_PERIPH_AOS, Enable);
+    DMA_SetTriggerSrc(ADC1_SA_DMA_UNIT, ADC1_SA_DMA_CH, ADC1_SA_DMA_TRGSRC);
+}
+
 void AdcConfig(void)
 {
     AdcClockConfig();
     AdcInitConfig();
     AdcChannelConfig();
+    AdcDmaConfig();
 }
+
 

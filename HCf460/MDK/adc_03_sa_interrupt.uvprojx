@@ -463,6 +463,11 @@
               <FileType>1</FileType>
               <FilePath>..\driver\src\hc32f46x_usart.c</FilePath>
             </File>
+            <File>
+              <FileName>hc32f46x_dmac.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\driver\src\hc32f46x_dmac.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1056,6 +1061,11 @@
               <FileName>hc32f46x_usart.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\driver\src\hc32f46x_usart.c</FilePath>
+            </File>
+            <File>
+              <FileName>hc32f46x_dmac.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\driver\src\hc32f46x_dmac.c</FilePath>
             </File>
           </Files>
         </Group>
