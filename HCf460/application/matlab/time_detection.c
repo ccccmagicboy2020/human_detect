@@ -131,7 +131,7 @@ int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
 			run_counter++;
 			if (check_status == TUYA_FAST_CHECK)
 			{
-				if(run_counter%4 == 0)		//4*256ms=1.024s
+				if(run_counter%8 == 0)		//8*256ms=2.048s
 				{
 					if (time_times != time_times_last)
 					{
@@ -139,28 +139,44 @@ int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
 						time_times_last = time_times;
 					}
 				}
-				else if (run_counter%4 == 1)
+				else if (run_counter%8 == 1)
+				{
+					//wait
+				}
+				else if (run_counter%8 == 2)
 				{
 					if (time_add != time_add_last)
 					{
 						mcu_dp_value_update(DPID_TIME_ADD, (int)((time_add*100)+0.5f)); 
 						time_add_last = time_add;
-					}				
+					}	
 				}
-				else if (run_counter%4 == 2)
+				else if (run_counter%8 == 3)
+				{
+					//wait
+				}
+				else if (run_counter%8 == 4)
 				{
 					if (time_times_rt != (float)0)
 					{
 						mcu_dp_value_update(DPID_TIME_TIMES_RT, (int)((time_times_rt*100)+0.5f));
-					}					
+					}		
 				}
-				else if (run_counter%4 == 3)
+				else if (run_counter%8 == 5)
+				{
+					//wait
+				}
+				else if (run_counter%8 == 6)
 				{
 					if (time_add_rt != (float)0)
 					{
 						mcu_dp_value_update(DPID_TIME_ADD_RT, (int)((time_add_rt*100)+0.5f));
-					}							
+					}	
 				}
+				else if (run_counter%8 == 7)
+				{
+					//wait
+				}				
 			}
 			else if (check_status == TUYA_SLOW_CHECK)
 			{
