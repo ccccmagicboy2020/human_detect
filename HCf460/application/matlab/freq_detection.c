@@ -25,6 +25,9 @@ extern int gst_spectrum_fix_fft (fixed fr[], fixed fi[], int m, int inverse);
 extern void FFT(int dir,int points2, int32_t* real, int32_t* img);
 extern int power_freq;
 
+extern int check_status;
+extern unsigned char upload_disable;
+
 //float fft_inputbuf[TEST_LENGTH_SAMPLES*2], fft_outputbuf[TEST_LENGTH_SAMPLES];	//FFT输入数组//FFT输出数组
 
 
@@ -54,7 +57,7 @@ float data_remove_pf[2048];
  * Return Type  : bool
  */
 int freq_detection(FIFO_DataType data[], const float win[], int data_size, int win_size_freq, int
-  stride_freq, int time_accum, int xhz1, double freq_times, double respiration_times, int respirationfreq_vote[2])
+  stride_freq, int time_accum, int xhz1, float freq_times, float respiration_times, int respirationfreq_vote[2])
 {
 	int freq_vote;
 	int i;
@@ -63,18 +66,17 @@ int freq_detection(FIFO_DataType data[], const float win[], int data_size, int w
 	int data_remove_size;
 	int pf_result_size[2];
 	int mean_size;
-	double mean_value[100];
-	double sum;
-	double maxValue;
-	double minValue;
+	float	mean_value[100];
+	float	sum;
+	float	maxValue;
+	float	minValue;
 	
 	float respirationfreq_max;
 	uint32_t pIndex;
 	float respirationfreq_mean;
 	/* 去除工频及其谐波周围2Hz频点*/
-	//emxArray_real_T *data_remove_pf;
 	
-	//emxInitArray_real_T(&data_remove_pf, 1);
+	static int run_counter = 0;
 	
 	half_size = (int)(data_size/2);
 	
@@ -178,9 +180,9 @@ int freq_detection(FIFO_DataType data[], const float win[], int data_size, int w
 //	printf("freq_detection mean freq result: %lf\r\n", respirationfreq_mean);
 	
 	printf("res: %.2lf - %.2lf\r\n", respiration_times, respirationfreq_max/minValue);
-	printf("res: %.2lf - %.2lf\r\n", respiration_times, respirationfreq_mean/minValue/0.618);
+	printf("res: %.2lf - %.2lf\r\n", respiration_times, respirationfreq_mean/minValue/0.618f);
 	
-	if ((respirationfreq_max > minValue*respiration_times) || (respirationfreq_mean > minValue*respiration_times*0.618))
+	if ((respirationfreq_max > minValue*respiration_times) || (respirationfreq_mean > minValue*respiration_times*0.618f))
 	{
 		respirationfreq_vote[0] = 1;
 	}
@@ -188,8 +190,24 @@ int freq_detection(FIFO_DataType data[], const float win[], int data_size, int w
 	{
 		respirationfreq_vote[0] = 0;
 	}
-	//emxDestroyArray_real_T(data_remove_pf);
-    return freq_vote;
+  
+	if (upload_disable == 0)
+	{
+		run_counter++;
+		if (check_status == TUYA_FAST_CHECK)
+		{
+				if(run_counter%4 == 0)
+				{
+					//
+				}
+		}
+		else if (check_status == TUYA_SLOW_CHECK)
+		{
+			//
+		}
+	}
+	
+	return freq_vote;
 }
 
 /*

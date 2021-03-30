@@ -15,7 +15,7 @@
 
 /* Function Declarations */
 extern int freq_detection(FIFO_DataType data[], const float win[], int data_size, int win_size_freq, int
-  stride_freq, int time_accum, int xhz1, double freq_times, double respiration_times, int respirationfreq_vote[2]);
+  stride_freq, int time_accum, int xhz1, float freq_times, float respiration_times, int respirationfreq_vote[2]);
 
 #endif
 
