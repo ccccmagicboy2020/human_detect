@@ -131,29 +131,35 @@ int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
 			run_counter++;
 			if (check_status == TUYA_FAST_CHECK)
 			{
-				if(run_counter%16 == 0)		//16*256ms=8s
+				if(run_counter%4 == 0)		//4*256ms=1.024s
 				{
 					if (time_times != time_times_last)
 					{
 						mcu_dp_value_update(DPID_TIME_TIMES, (int)((time_times*100)+0.5f));	
 						time_times_last = time_times;
-						Delayms(10);
 					}
+				}
+				else if (run_counter%4 == 1)
+				{
 					if (time_add != time_add_last)
 					{
 						mcu_dp_value_update(DPID_TIME_ADD, (int)((time_add*100)+0.5f)); 
 						time_add_last = time_add;
-						Delayms(10);
-					}
+					}				
+				}
+				else if (run_counter%4 == 2)
+				{
 					if (time_times_rt != (float)0)
 					{
 						mcu_dp_value_update(DPID_TIME_TIMES_RT, (int)((time_times_rt*100)+0.5f));
-						Delayms(10);
-					}
+					}					
+				}
+				else if (run_counter%4 == 3)
+				{
 					if (time_add_rt != (float)0)
 					{
 						mcu_dp_value_update(DPID_TIME_ADD_RT, (int)((time_add_rt*100)+0.5f));
-					}
+					}							
 				}
 			}
 			else if (check_status == TUYA_SLOW_CHECK)
