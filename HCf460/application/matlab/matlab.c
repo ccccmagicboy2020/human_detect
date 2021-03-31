@@ -17,7 +17,7 @@
 extern float testInput[4096];
 extern float testInput2[4096];
 extern float testInput3[4096];//FFT输入数组//FFT输出数组
-
+extern unsigned char upload_disable;
 
 //float in_data1[4096] = {0}; 
 float out[2048] = {0};
@@ -25,6 +25,8 @@ float out1[800] = {0};
 
 extern const float hamming_TAB2[4096];
 int power_freq = 50;
+
+void Delay_ms(unsigned int t);
 
 int quick_detection(FIFO_DataType  in_data[16384],int win_size_time,int stride_time,float time_times,float time_add,int win_size_freq,  
 								   int stride_freq,  int time_accum,int xhz1, int freq_times,	double respiration_times)											 	
@@ -78,6 +80,9 @@ int Fretting_detection(FIFO_DataType in_data5[4096],double N, double pro_N, doub
 	float rm_data = 0,xc_max = 0,XT_max = 0,p = 0 ,p1 = 0;
     float xc2[m],XT1[m],b_index[2000];  //存储cefar门限数据
 	int pf1_result_size[2];
+	
+	float diff = 0;
+	float diff_max = 0;
 	  
 	//加窗处理		
 	for(b=0;b<4096;b++)
@@ -186,7 +191,14 @@ int Fretting_detection(FIFO_DataType in_data5[4096],double N, double pro_N, doub
 		//printf("%.2lf ", xc2[i]);
 		OP = i - (N+ pro_N)/ 2;
 		
-		printf("cfar_offset: %.3lf - %.3lf\r\n", offset, xc2[i] - XT1[OP]);
+		//printf("cfar_offset: %.3lf - %.3lf\r\n", offset, xc2[i] - XT1[OP]);
+		
+		diff = xc2[i] - XT1[OP];
+		
+		if (diff > diff_max)
+		{
+			diff_max = diff;
+		}
 		
 		if( xc2[i] > offset + XT1[OP])
 		{
@@ -194,6 +206,17 @@ int Fretting_detection(FIFO_DataType in_data5[4096],double N, double pro_N, doub
 			break;			
 		}
 	}
+	
+	if (upload_disable == 0)
+	{
+		//upload offset and diff
+		if (diff_max != (float)0)
+		{
+			mcu_dp_value_update(DPID_FREQ_PARAMETER2_RT, (int)((diff_max*100)+0.5f));
+			Delay_ms(100);
+		}
+		mcu_dp_value_update(DPID_FREQ_PARAMETER2, (int)((offset*100)+0.5f));
+	}	
 
     return flag_Fretting;			
 }

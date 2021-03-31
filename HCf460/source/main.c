@@ -398,7 +398,7 @@ void slow_check_process_s0(void)
 											rr_threshold
 											);
 	
-	printf("result: %d - %d - %d - %d\r\n", bigmotion_time_vote, bigmotion_freq_vote, respirationfreq_vote[0], micromotion_detection_result);	
+	//printf("result: %d - %d - %d - %d\r\n", bigmotion_time_vote, bigmotion_freq_vote, respirationfreq_vote[0], micromotion_detection_result);	
 
 	for(i=0; i<SLOW_MAX_DATA_POOL; i++)
 	{

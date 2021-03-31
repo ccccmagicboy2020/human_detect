@@ -250,7 +250,6 @@ int freq_detection(FIFO_DataType data[], const float win[], int data_size, int w
 					Delay_ms(100);
 				}		
 				mcu_dp_value_update(DPID_FREQ_PARAMETER1, (int)((respiration_times*100)+0.5f));	
-				Delay_ms(100);
 			}
 		}
 	}

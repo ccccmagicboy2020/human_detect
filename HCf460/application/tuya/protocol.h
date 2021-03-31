@@ -157,6 +157,12 @@ mcu在bt模块正确联网后可调用mcu_get_system_time()函数发起校时功
 //频域门限1实时值(只上报)
 //备注:呼吸门限实时值
 #define DPID_FREQ_PARAMETER1_RT 161
+//频域门限2(可下发可上报)
+//备注:
+#define DPID_FREQ_PARAMETER2 162
+//频域门限2实时值(只上报)
+//备注:
+#define DPID_FREQ_PARAMETER2_RT 163
 
 
 
