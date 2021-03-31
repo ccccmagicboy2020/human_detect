@@ -213,7 +213,7 @@ int Fretting_detection(FIFO_DataType in_data5[4096],double N, double pro_N, doub
 		if (diff_max != (float)0)
 		{
 			mcu_dp_value_update(DPID_FREQ_PARAMETER2_RT, (int)((diff_max*100)+0.5f));
-			Delay_ms(100);
+			Delay_ms(ALL_UPLOAD_DELAY);
 		}
 		mcu_dp_value_update(DPID_FREQ_PARAMETER2, (int)((offset*100)+0.5f));
 	}	

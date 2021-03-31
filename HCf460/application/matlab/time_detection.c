@@ -131,7 +131,7 @@ int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
 			run_counter++;
 			if (check_status == TUYA_FAST_CHECK)
 			{
-				if(run_counter%8 == 0)		//8*256ms=2.048s
+				if(run_counter%16 == 0)		//16*256ms=4.096s
 				{
 					if (time_times != time_times_last)
 					{
@@ -139,11 +139,7 @@ int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
 						time_times_last = time_times;
 					}
 				}
-				else if (run_counter%8 == 1)
-				{
-					//wait
-				}
-				else if (run_counter%8 == 2)
+				else if (run_counter%16 == 4)
 				{
 					if (time_add != time_add_last)
 					{
@@ -151,32 +147,20 @@ int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
 						time_add_last = time_add;
 					}	
 				}
-				else if (run_counter%8 == 3)
-				{
-					//wait
-				}
-				else if (run_counter%8 == 4)
+				else if (run_counter%16 == 8)
 				{
 					if (time_times_rt != (float)0)
 					{
 						mcu_dp_value_update(DPID_TIME_TIMES_RT, (int)((time_times_rt*100)+0.5f));
 					}		
 				}
-				else if (run_counter%8 == 5)
-				{
-					//wait
-				}
-				else if (run_counter%8 == 6)
+				else if (run_counter%16 == 12)
 				{
 					if (time_add_rt != (float)0)
 					{
 						mcu_dp_value_update(DPID_TIME_ADD_RT, (int)((time_add_rt*100)+0.5f));
 					}	
-				}
-				else if (run_counter%8 == 7)
-				{
-					//wait
-				}				
+				}		
 			}
 			else if (check_status == TUYA_SLOW_CHECK)
 			{
@@ -184,18 +168,18 @@ int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
 				{
 					mcu_dp_value_update(DPID_TIME_TIMES, (int)((time_times*100)+0.5f));	
 					time_times_last = time_times;
-					Delay_ms(100);
+					Delay_ms(ALL_UPLOAD_DELAY);
 				}
 				if (time_add != time_add_last)
 				{
 					mcu_dp_value_update(DPID_TIME_ADD, (int)((time_add*100)+0.5f)); 
 					time_add_last = time_add;
-					Delay_ms(100);
+					Delay_ms(ALL_UPLOAD_DELAY);
 				}
 				if (time_times_rt != (float)0)
 				{
 					mcu_dp_value_update(DPID_TIME_TIMES_RT, (int)((time_times_rt*100)+0.5f));
-					Delay_ms(100);
+					Delay_ms(ALL_UPLOAD_DELAY);
 				}
 				if (time_add_rt != (float)0)
 				{

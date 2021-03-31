@@ -234,20 +234,20 @@ int freq_detection(FIFO_DataType data[], const float win[], int data_size, int w
 			if (freq_times_rt != (float)0)
 			{
 				mcu_dp_value_update(DPID_FREQ_TIMES_RT, (int)((freq_times_rt*100)+0.5f));
-				Delay_ms(100);
+				Delay_ms(ALL_UPLOAD_DELAY);
 			}
 			if (freq_times != freq_times_last)
 			{
 				mcu_dp_value_update(DPID_FREQ_TIMES, (int)((freq_times*100)+0.5f));	
 				freq_times_last = freq_times;
-				Delay_ms(100);
+				Delay_ms(ALL_UPLOAD_DELAY);
 			}	
 			if (0 == respirationfreq_vote[1])	//Âý¼ì²â
 			{
 				if (minTEMP != (float)0)
 				{
 					mcu_dp_value_update(DPID_FREQ_PARAMETER1_RT, (int)((minTEMP*100)+0.5f));
-					Delay_ms(100);
+					Delay_ms(ALL_UPLOAD_DELAY);
 				}		
 				mcu_dp_value_update(DPID_FREQ_PARAMETER1, (int)((respiration_times*100)+0.5f));	
 			}
