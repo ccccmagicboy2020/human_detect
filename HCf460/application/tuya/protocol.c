@@ -53,11 +53,6 @@ extern int run_mode;
 extern int state;
 extern int next_state;
 
-extern float quick_time_times;
-extern float quick_time_times_rt;
-extern float quick_time_add;
-extern float quick_time_add_rt;
-
 extern unsigned char g_work_mode;
 
 void Delay_ms(unsigned int t);
@@ -94,6 +89,8 @@ const DOWNLOAD_CMD_S download_cmd[] =
   {DPID_TIME_ADD, DP_TYPE_VALUE},
   {DPID_TIME_ADD_RT, DP_TYPE_VALUE},
   {DPID_WORK_MODE, DP_TYPE_ENUM},
+  {DPID_FREQ_TIMES, DP_TYPE_VALUE},
+  {DPID_FREQ_TIMES_RT, DP_TYPE_VALUE},
 };
 
 /******************************************************************************
@@ -160,14 +157,6 @@ void all_data_update(void)
     mcu_dp_enum_update(DPID_CHECK_PROCESS, check_status); //枚举型数据上报;
 		Delay_ms(100);
     mcu_dp_enum_update(DPID_LED_ON_BOARD_STATUS, led_onboard_status); //枚举型数据上报;
-    Delay_ms(100);
-    mcu_dp_value_update(DPID_TIME_TIMES, (int)(quick_time_times*100+0.5f)); //VALUE型数据上报;
-    Delay_ms(100);
-    mcu_dp_value_update(DPID_TIME_TIMES_RT, (int)(quick_time_times_rt*100+0.5f)); //VALUE型数据上报;
-    Delay_ms(100);
-    mcu_dp_value_update(DPID_TIME_ADD, (int)(quick_time_add*100+0.5f)); //VALUE型数据上报;
-    Delay_ms(100);
-    mcu_dp_value_update(DPID_TIME_ADD_RT, (int)(quick_time_add_rt*100+0.5f)); //VALUE型数据上报;
     Delay_ms(100);
     mcu_dp_enum_update(DPID_WORK_MODE, g_work_mode); //枚举型数据上报;
 	
@@ -294,6 +283,33 @@ static unsigned char dp_download_work_mode_handle(const unsigned char value[], u
     else
         return ERROR;
 }
+/*****************************************************************************
+函数名称 : dp_download_freq_times_handle
+功能描述 : 针对DPID_FREQ_TIMES的处理函数
+输入参数 : value:数据源数据
+        : length:数据长度
+返回参数 : 成功返回:SUCCESS/失败返回:ERROR
+使用说明 : 可下发可上报类型,需要在处理完数据后上报处理结果至app
+*****************************************************************************/
+static unsigned char dp_download_freq_times_handle(const unsigned char value[], unsigned short length)
+{
+    //示例:当前DP类型为VALUE
+    unsigned char ret;
+    unsigned long freq_times_x;
+    
+    freq_times_x = mcu_get_dp_download_value(value,length);
+    /*
+    //VALUE类型数据处理
+    
+    */
+    
+    //处理完DP数据后应有反馈
+    ret = mcu_dp_value_update(DPID_FREQ_TIMES,freq_times_x);
+    if(ret == SUCCESS)
+        return SUCCESS;
+    else
+        return ERROR;
+}
 
 
 /******************************************************************************
@@ -336,6 +352,10 @@ unsigned char dp_download_handle(unsigned char dpid,const unsigned char value[],
         case DPID_WORK_MODE:
             //检测模式处理函数
             ret = dp_download_work_mode_handle(value,length);
+        break;
+        case DPID_FREQ_TIMES:
+            //频域门限0处理函数
+            ret = dp_download_freq_times_handle(value,length);
         break;
 
 

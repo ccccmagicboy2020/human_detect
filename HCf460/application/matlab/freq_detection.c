@@ -15,26 +15,18 @@
 #include "remove_pf_cui.h"
 #include "sys.h"
 
-
-#define fixed short
-#define int32_t int
 #define TEST_LENGTH_SAMPLES 4096
-//extern short buffer[8192];
-//extern short im[8192];
-extern int gst_spectrum_fix_fft (fixed fr[], fixed fi[], int m, int inverse);
-extern void FFT(int dir,int points2, int32_t* real, int32_t* img);
-extern int power_freq;
 
+extern int power_freq;
 extern int check_status;
 extern unsigned char upload_disable;
-
-//float fft_inputbuf[TEST_LENGTH_SAMPLES*2], fft_outputbuf[TEST_LENGTH_SAMPLES];	//FFT输入数组//FFT输出数组
-
 
 float testInput[TEST_LENGTH_SAMPLES];
 float testInput2[TEST_LENGTH_SAMPLES];
 float testInput3[TEST_LENGTH_SAMPLES];
 float data_remove_pf[2048];
+
+void Delay_ms(unsigned int t);
 /*
  * {
  * Function Name: freq_detection
@@ -77,6 +69,8 @@ int freq_detection(FIFO_DataType data[], const float win[], int data_size, int w
 	/* 去除工频及其谐波周围2Hz频点*/
 	
 	static int run_counter = 0;
+	float freq_times_rt = 0;
+	static float freq_times_last = -1;
 	
 	half_size = (int)(data_size/2);
 	
@@ -162,7 +156,8 @@ int freq_detection(FIFO_DataType data[], const float win[], int data_size, int w
 			}  
 	}  
 	
-	printf("freq_detection: %.2lf - %.2lf\r\n", freq_times, maxValue/minValue);
+	//printf("freq_detection: %.2lf - %.2lf\r\n", freq_times, maxValue/minValue);
+	freq_times_rt = maxValue/minValue;
 	
 	if (maxValue > minValue * freq_times)
 	{
@@ -196,14 +191,37 @@ int freq_detection(FIFO_DataType data[], const float win[], int data_size, int w
 		run_counter++;
 		if (check_status == TUYA_FAST_CHECK)
 		{
-				if(run_counter%4 == 0)
+			if(run_counter%8 == 0)
+			{
+				//
+				if (freq_times_rt != (float)0)
 				{
-					//
+					mcu_dp_value_update(DPID_FREQ_TIMES_RT, (int)((freq_times_rt*100)+0.5f));
 				}
+			}
+			else if (run_counter%8 == 4)
+			{
+				if (freq_times != freq_times_last)
+				{
+					mcu_dp_value_update(DPID_FREQ_TIMES, (int)((freq_times*100)+0.5f));	
+					freq_times_last = freq_times;
+				}
+			}
 		}
 		else if (check_status == TUYA_SLOW_CHECK)
 		{
 			//
+			if (freq_times_rt != (float)0)
+			{
+				mcu_dp_value_update(DPID_FREQ_TIMES_RT, (int)((freq_times_rt*100)+0.5f));
+				Delay_ms(100);
+			}
+			if (freq_times != freq_times_last)
+			{
+				mcu_dp_value_update(DPID_FREQ_TIMES, (int)((freq_times*100)+0.5f));	
+				freq_times_last = freq_times;
+				Delay_ms(100);
+			}			
 		}
 	}
 	

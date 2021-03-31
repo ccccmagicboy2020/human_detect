@@ -145,6 +145,12 @@ mcu在bt模块正确联网后可调用mcu_get_system_time()函数发起校时功
 //检测模式(可下发可上报)
 //备注:控制工作模式
 #define DPID_WORK_MODE 147
+//频域门限0(可下发可上报)
+//备注:频域乘法限
+#define DPID_FREQ_TIMES 148
+//频域门限0实时值(只上报)
+//备注:频域乘限实时值
+#define DPID_FREQ_TIMES_RT 149
 
 
 

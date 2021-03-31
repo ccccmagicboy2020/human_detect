@@ -67,8 +67,7 @@ int led_onboard_status_last = TUYA_LED_ONBOARD_OTHER;
 float quick_time_times = 4;
 float quick_time_add = 32;
 ////////////////////////////////////////////////////////////
-float quick_time_times_rt = 0;
-float quick_time_add_rt = 0;
+
 ////////////////////////////////////////////////////////////
 int		slow_time_times = 30;
 int 	slow_time_add = 600;
