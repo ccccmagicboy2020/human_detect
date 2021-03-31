@@ -13,7 +13,7 @@
 #include "sys.h"
 #include "arm_math.h" 
 
-void Delayms(unsigned short ms);
+void Delay_ms(unsigned int t);
 
 float time_threshold[16] = {0};
 u8 quick_count = 0;
@@ -184,18 +184,18 @@ int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
 				{
 					mcu_dp_value_update(DPID_TIME_TIMES, (int)((time_times*100)+0.5f));	
 					time_times_last = time_times;
-					Delayms(10);
+					Delay_ms(100);
 				}
 				if (time_add != time_add_last)
 				{
 					mcu_dp_value_update(DPID_TIME_ADD, (int)((time_add*100)+0.5f)); 
 					time_add_last = time_add;
-					Delayms(10);
+					Delay_ms(100);
 				}
 				if (time_times_rt != (float)0)
 				{
 					mcu_dp_value_update(DPID_TIME_TIMES_RT, (int)((time_times_rt*100)+0.5f));
-					Delayms(10);
+					Delay_ms(100);
 				}
 				if (time_add_rt != (float)0)
 				{

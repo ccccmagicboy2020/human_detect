@@ -60,6 +60,8 @@ extern float quick_time_add_rt;
 
 extern unsigned char g_work_mode;
 
+void Delay_ms(unsigned int t);
+
 /******************************************************************************
                                 移植须知:
 1:MCU必须在while中直接调用mcu_api.c内的bt_uart_service()函数
@@ -94,18 +96,6 @@ const DOWNLOAD_CMD_S download_cmd[] =
   {DPID_WORK_MODE, DP_TYPE_ENUM},
 };
 
-void Delayms(unsigned short ms)
-{
-  u16 i,j;
-  u8 k;
-  for(i=0;i<ms;i++)
-	{
-    for(j=0;j<0x500;j++)
-		{
-			k++;
-		}
-	}
-}
 /******************************************************************************
                            2:串口单字节发送函数
 请将MCU串口发送函数填入该函数内,并将接收到的数据作为参数传入串口发送函数
@@ -164,22 +154,22 @@ void all_data_update(void)
 {
   //此代码为平台自动生成，请按照实际数据修改每个可下发可上报函数和只上报函数
     mcu_dp_enum_update(DPID_LIGHT_STATUS, 0); //枚举型数据上报;
-		Delayms(100);
+		Delay_ms(100);
     mcu_dp_enum_update(DPID_PERSON_IN_RANGE, person_in_range_flag); //枚举型数据上报;
-		Delayms(100);
+		Delay_ms(100);
     mcu_dp_enum_update(DPID_CHECK_PROCESS, check_status); //枚举型数据上报;
-		Delayms(100);
+		Delay_ms(100);
     mcu_dp_enum_update(DPID_LED_ON_BOARD_STATUS, led_onboard_status); //枚举型数据上报;
-    Delayms(100);
+    Delay_ms(100);
     mcu_dp_value_update(DPID_TIME_TIMES, (int)(quick_time_times*100+0.5f)); //VALUE型数据上报;
-    Delayms(100);
+    Delay_ms(100);
     mcu_dp_value_update(DPID_TIME_TIMES_RT, (int)(quick_time_times_rt*100+0.5f)); //VALUE型数据上报;
-    Delayms(100);
+    Delay_ms(100);
     mcu_dp_value_update(DPID_TIME_ADD, (int)(quick_time_add*100+0.5f)); //VALUE型数据上报;
-    Delayms(100);
+    Delay_ms(100);
     mcu_dp_value_update(DPID_TIME_ADD_RT, (int)(quick_time_add_rt*100+0.5f)); //VALUE型数据上报;
-    Delayms(100);
-	mcu_dp_enum_update(DPID_WORK_MODE, g_work_mode); //枚举型数据上报;
+    Delay_ms(100);
+    mcu_dp_enum_update(DPID_WORK_MODE, g_work_mode); //枚举型数据上报;
 	
 	
 }
