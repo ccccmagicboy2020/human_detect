@@ -72,6 +72,10 @@ int freq_detection(FIFO_DataType data[], const float win[], int data_size, int w
 	float freq_times_rt = 0;
 	static float freq_times_last = -1;
 	
+	float minTEMP = 0;
+	float minTEMP_0 = 0;
+	float minTEMP_1 = 0;
+	
 	half_size = (int)(data_size/2);
 	
 //	int j;
@@ -111,79 +115,95 @@ int freq_detection(FIFO_DataType data[], const float win[], int data_size, int w
 //	printf("freq_detection: %d - %d - %d - %d - %d - %d - %d\r\n", data_size, win_size_freq, stride_freq, time_accum, xhz, freq_times, respiration_times);
 //	printf("xxxxxx - %d - %d - %d\r\n", half_size, time_accum, xhz);	
 	
-	
-	remove_pf_cui(testInput3, half_size, time_accum, xhz1, power_freq, data_remove_pf, pf_result_size);    //去除工频及其谐波周围2Hz频点
-	
-	data_remove_size =  pf_result_size[0];
-//	printf("remove_pf size is: %d\r\n", data_remove_size);
-	
-//	printf("fft remove_pf value start:\r\n");
-	
-	//for (i=0;i<data_remove_size;i++)
-	//{
-		//	printf("%.8lf ", data_remove_pf[i]);
-	//}  
-	
-//	printf("END1 remove freq\r\n");	
-	
-	mean_size = (int)((data_remove_size - win_size_freq) / stride_freq + 1);
-//	printf("mean size is: %d\r\n", mean_size);
-	
-	sum = 0;
-	
-	for (i=0;i<mean_size;i++)
+	if (0 == respirationfreq_vote[1])		//慢检测
 	{
-		for (j=0;j<win_size_freq;j++)
-		{
-			sum += fabs(data_remove_pf[i*stride_freq + j]);
-		}
-		mean_value[i] = sum / win_size_freq;
+		remove_pf_cui(testInput3, half_size, time_accum, xhz1, power_freq, data_remove_pf, pf_result_size);    //去除工频及其谐波周围2Hz频点
+		
+		data_remove_size =  pf_result_size[0];
+	//	printf("remove_pf size is: %d\r\n", data_remove_size);
+		
+	//	printf("fft remove_pf value start:\r\n");
+		
+		//for (i=0;i<data_remove_size;i++)
+		//{
+			//	printf("%.8lf ", data_remove_pf[i]);
+		//}  
+		
+	//	printf("END1 remove freq\r\n");	
+		
+		mean_size = (int)((data_remove_size - win_size_freq) / stride_freq + 1);
+	//	printf("mean size is: %d\r\n", mean_size);
+		
 		sum = 0;
-//		printf("freq_detection mean_value: %d - %.4lf\r\n", i, mean_value[i]);
-	}	
-	
-	maxValue = mean_value[0];
-	minValue = mean_value[0];
-	for (int i=0; i<mean_size; i++)  
-	{  
-			if (maxValue<mean_value[i])  
-			{  
-					maxValue = mean_value[i];  
-			}  
-			if (minValue>mean_value[i])  
-			{  
-					minValue = mean_value[i];  
-			}  
-	}  
-	
-	//printf("freq_detection: %.2lf - %.2lf\r\n", freq_times, maxValue/minValue);
-	freq_times_rt = maxValue/minValue;
-	
-	if (maxValue > minValue * freq_times)
-	{
-		freq_vote = 1;
-	}
-	else
-	{
-		freq_vote = 0;
-	}
-	
-	arm_max_f32(data_remove_pf, time_accum* 0.5 , &respirationfreq_max, &pIndex);
-//	printf("freq_detection max freq index-result: %d - %lf\r\n", pIndex, respirationfreq_max);
-	
-	arm_mean_f32(data_remove_pf, time_accum* 0.5 , &respirationfreq_mean);
-//	printf("freq_detection mean freq result: %lf\r\n", respirationfreq_mean);
-	
-	printf("res: %.2lf - %.2lf\r\n", respiration_times, respirationfreq_max/minValue);
-	printf("res: %.2lf - %.2lf\r\n", respiration_times, respirationfreq_mean/minValue/0.618f);
-	
-	if ((respirationfreq_max > minValue*respiration_times) || (respirationfreq_mean > minValue*respiration_times*0.618f))
-	{
-		respirationfreq_vote[0] = 1;
-	}
-	else
-	{
-		respirationfreq_vote[0] = 0;
+		
+		for (i=0;i<mean_size;i++)
+		{
+			for (j=0;j<win_size_freq;j++)
+			{
+				sum += fabs(data_remove_pf[i*stride_freq + j]);
+			}
+			mean_value[i] = sum / win_size_freq;
+			sum = 0;
+	//		printf("freq_detection mean_value: %d - %.4lf\r\n", i, mean_value[i]);
+		}	
+		
+		maxValue = mean_value[0];
+		minValue = mean_value[0];
+		for (int i=0; i<mean_size; i++)  
+		{  
+				if (maxValue<mean_value[i])  
+				{  
+						maxValue = mean_value[i];  
+				}  
+				if (minValue>mean_value[i])  
+				{  
+						minValue = mean_value[i];  
+				}  
+		}  
+		
+		//printf("freq_detection: %.2lf - %.2lf\r\n", freq_times, maxValue/minValue);
+		freq_times_rt = maxValue/minValue;
+		
+		if (maxValue > minValue * freq_times)
+		{
+			freq_vote = 1;
+		}
+		else
+		{
+			freq_vote = 0;
+		}
+		
+		arm_max_f32(data_remove_pf, time_accum* 0.5 , &respirationfreq_max, &pIndex);
+	//	printf("freq_detection max freq index-result: %d - %lf\r\n", pIndex, respirationfreq_max);
+		
+		arm_mean_f32(data_remove_pf, time_accum* 0.5 , &respirationfreq_mean);
+	//	printf("freq_detection mean freq result: %lf\r\n", respirationfreq_mean);
+		
+		//printf("res: %.2lf - %.2lf\r\n", respiration_times, respirationfreq_max/minValue);
+		//printf("res: %.2lf - %.2lf\r\n", respiration_times, respirationfreq_mean/minValue/0.618f);
+		
+		minTEMP_0 = respirationfreq_max/minValue;
+		minTEMP_1 = respirationfreq_mean/minValue/0.618f;
+		
+		if (minTEMP_0 > minTEMP_1)
+		{
+			minTEMP = minTEMP_1;
+		}
+		else
+		{
+			minTEMP = minTEMP_0;
+		}
+		
+		//printf("res: %.2lf - %.2lf\r\n", respiration_times, minTEMP);
+		
+		if ((respirationfreq_max > minValue*respiration_times) || (respirationfreq_mean > minValue*respiration_times*0.618f))
+		{
+			respirationfreq_vote[0] = 1;
+		}
+		else
+		{
+			respirationfreq_vote[0] = 0;
+		}	
 	}
   
 	if (upload_disable == 0)
@@ -221,7 +241,17 @@ int freq_detection(FIFO_DataType data[], const float win[], int data_size, int w
 				mcu_dp_value_update(DPID_FREQ_TIMES, (int)((freq_times*100)+0.5f));	
 				freq_times_last = freq_times;
 				Delay_ms(100);
-			}			
+			}	
+			if (0 == respirationfreq_vote[1])	//慢检测
+			{
+				if (minTEMP != (float)0)
+				{
+					mcu_dp_value_update(DPID_FREQ_PARAMETER1_RT, (int)((minTEMP*100)+0.5f));
+					Delay_ms(100);
+				}		
+				mcu_dp_value_update(DPID_FREQ_PARAMETER1, (int)((respiration_times*100)+0.5f));	
+				Delay_ms(100);
+			}
 		}
 	}
 	

@@ -35,6 +35,9 @@ int quick_detection(FIFO_DataType  in_data[16384],int win_size_time,int stride_t
 	s16 in_data_freq[4096] = {0};
 	 
 	time_vote = time_detection(in_data, 16384, win_size_time, stride_time,time_times, time_add);
+	
+	respirationfreq_vote[0] = 0;//output: result
+	respirationfreq_vote[1] = 1;//input: enable
 			
 	if (time_vote)
 	{

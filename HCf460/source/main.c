@@ -344,6 +344,9 @@ void slow_check_process_s0(void)
 	float offset = 0;
 
 	check_status_upload(TUYA_SLOW_CHECK);
+	
+	respirationfreq_vote[0] = 0;
+	respirationfreq_vote[1] = 0;	
 
 	for(i=0; i<SLOW_MAX_DATA_POOL; i++)
 	{

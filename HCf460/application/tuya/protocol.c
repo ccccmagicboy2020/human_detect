@@ -91,6 +91,8 @@ const DOWNLOAD_CMD_S download_cmd[] =
   {DPID_WORK_MODE, DP_TYPE_ENUM},
   {DPID_FREQ_TIMES, DP_TYPE_VALUE},
   {DPID_FREQ_TIMES_RT, DP_TYPE_VALUE},
+  {DPID_FREQ_PARAMETER1, DP_TYPE_VALUE},
+  {DPID_FREQ_PARAMETER1_RT, DP_TYPE_VALUE},
 };
 
 /******************************************************************************
@@ -310,6 +312,33 @@ static unsigned char dp_download_freq_times_handle(const unsigned char value[], 
     else
         return ERROR;
 }
+/*****************************************************************************
+函数名称 : dp_download_freq_parameter1_handle
+功能描述 : 针对DPID_FREQ_PARAMETER1的处理函数
+输入参数 : value:数据源数据
+        : length:数据长度
+返回参数 : 成功返回:SUCCESS/失败返回:ERROR
+使用说明 : 可下发可上报类型,需要在处理完数据后上报处理结果至app
+*****************************************************************************/
+static unsigned char dp_download_freq_parameter1_handle(const unsigned char value[], unsigned short length)
+{
+    //示例:当前DP类型为VALUE
+    unsigned char ret;
+    unsigned long freq_parameter1;
+    
+    freq_parameter1 = mcu_get_dp_download_value(value,length);
+    /*
+    //VALUE类型数据处理
+    
+    */
+    
+    //处理完DP数据后应有反馈
+    ret = mcu_dp_value_update(DPID_FREQ_PARAMETER1,freq_parameter1);
+    if(ret == SUCCESS)
+        return SUCCESS;
+    else
+        return ERROR;
+}
 
 
 /******************************************************************************
@@ -356,6 +385,10 @@ unsigned char dp_download_handle(unsigned char dpid,const unsigned char value[],
         case DPID_FREQ_TIMES:
             //频域门限0处理函数
             ret = dp_download_freq_times_handle(value,length);
+        break;
+        case DPID_FREQ_PARAMETER1:
+            //频域门限1处理函数
+            ret = dp_download_freq_parameter1_handle(value,length);
         break;
 
 
