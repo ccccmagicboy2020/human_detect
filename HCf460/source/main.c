@@ -53,6 +53,7 @@ char fast_retry_flag = 0;
 char slow_retry_flag = 0;
 
 int run_mode = 0;
+int slow_only_flag = 0;
 
 int check_status = TUYA_OTHER;
 int check_status_last = TUYA_OTHER;
@@ -118,27 +119,47 @@ void slow_output_result(char slow_s0_result)
 		led_red(1);			
 		led_green(0);
 		led_onboard_status_upload(TUYA_LED_ONBOARD_RED_ON_GREEN_OFF);	
+		if (slow_only_flag == 1)
+		{
+			fast_output_result(1);
+		}
 		break;
 	case BREATHE:
 		printf("micro: 1 \r\n");
 		led_red(0);			
 		led_green(1);
 		led_onboard_status_upload(TUYA_LED_ONBOARD_RED_OFF_GREEN_ON);
+		if (slow_only_flag == 1)
+		{
+			fast_output_result(1);
+		}
 		break;
 	case BREATHE_NOT_SURE:
 		printf("micro: 0.3 \r\n");
 		led_red(0);			
 		led_green(1);
 		led_onboard_status_upload(TUYA_LED_ONBOARD_RED_OFF_GREEN_ON);
+		if (slow_only_flag == 1)
+		{
+			fast_output_result(1);
+		}	
 		break;
 	case NO_PERSON_NOT_SURE:
 		printf("big: 0.5 \r\n");
 		led_red(0);			
 		led_green(1);
-		led_onboard_status_upload(TUYA_LED_ONBOARD_RED_OFF_GREEN_ON);	
+		led_onboard_status_upload(TUYA_LED_ONBOARD_RED_OFF_GREEN_ON);
+		if (slow_only_flag == 1)
+		{
+			fast_output_result(1);
+		}
 		break;
 	case NO_PERSON:
 		printf("slow check no person go fast check\r\n");
+		if (slow_only_flag == 1)
+		{
+			fast_output_result(0);
+		}
 		break;
 	default:
 		break;
@@ -494,9 +515,18 @@ void slow_check_process_s1(void)
 			{
 				no_person_timer = 0;
 				state = IDLE;
-				next_state = FAST_CHECK_DATA_PREPARE;	//no person so all loopback	to fast check
-				//do some thing
-				clear_buffer();
+
+				if (slow_only_flag == 0)
+				{
+					next_state = FAST_CHECK_DATA_PREPARE;	//no person so all loopback	to fast check
+					//do some thing
+					clear_buffer();
+				}
+				else
+				{
+					next_state = SLOW_CHECK_DATA_PREPARE_S0;
+				}				
+
 				slow_s0_result = NO_PERSON;
 				slow_output_result(slow_s0_result);
 			}

@@ -50,6 +50,7 @@ extern int check_status;
 extern int person_in_range_flag;
 extern int led_onboard_status;
 extern int run_mode;
+extern int slow_only_flag;
 extern int state;
 extern int next_state;
 
@@ -246,12 +247,13 @@ static unsigned char dp_download_work_mode_handle(const unsigned char value[], u
     work_mode = mcu_get_dp_download_enum(value,length);
     switch(work_mode) {
         case 0:
-					run_mode = 0;		
+					run_mode = 0;//进慢
+                    slow_only_flag = 0;	//回快	
         break;
         
         case 1:
-					run_mode = 1;
-				
+					run_mode = 1;//不进慢
+                    slow_only_flag = 0;//回快
 					if (check_status == TUYA_SLOW_CHECK)
 					{
 						state = IDLE;
@@ -261,8 +263,8 @@ static unsigned char dp_download_work_mode_handle(const unsigned char value[], u
         break;
         
         case 2:
-					run_mode = 0;
-				
+					run_mode = 0;//进慢
+                    slow_only_flag = 1;//不回快
 					if (check_status == TUYA_FAST_CHECK)
 					{
 						state = IDLE;
