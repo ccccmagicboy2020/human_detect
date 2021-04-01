@@ -88,7 +88,8 @@ unsigned char g_work_mode = ALL_CHECK;
 unsigned char find_me_flag = 0;
 unsigned char find_me_counter = 0;
 ////////////////////////////////////////////////////////////
-unsigned char bt_hand_up_flag = 0;
+unsigned char light_sensor_upload_flag = 0;
+extern unsigned short  light_sensor_adc_data;
 ////////////////////////////////////////////////////////////
 void get_mcu_bt_mode(void);
 void bt_hand_up(void);
@@ -575,10 +576,11 @@ void idle_process(void)
 			find_me_counter = 0;
 		}
 	}
-	if (bt_hand_up_flag)
+	if (light_sensor_upload_flag)
 	{
-		bt_hand_up_flag = 0;//clear flag
-		bt_hand_up();
+		light_sensor_upload_flag = 0;//clear flag
+		//
+		mcu_dp_value_update(DPID_LIGHT_SENSOR_RAW, light_sensor_adc_data);
 	}
 	//
 	state = UART_PROTOCOL;

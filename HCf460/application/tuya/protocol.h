@@ -169,6 +169,9 @@ mcu在bt模块正确联网后可调用mcu_get_system_time()函数发起校时功
 //频域门限2实时值(只上报)
 //备注:
 #define DPID_FREQ_PARAMETER2_RT 163
+//光敏值(只上报)
+//备注:光敏值
+#define DPID_LIGHT_SENSOR_RAW 164
 
 
 

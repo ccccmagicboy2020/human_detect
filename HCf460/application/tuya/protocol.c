@@ -55,8 +55,8 @@ extern int state;
 extern int next_state;
 
 extern unsigned char g_work_mode;
-
 extern unsigned char find_me_flag;
+extern unsigned short  light_sensor_adc_data;
 
 void Delay_ms(unsigned int t);
 
@@ -100,6 +100,7 @@ const DOWNLOAD_CMD_S download_cmd[] =
   {DPID_FREQ_PARAMETER1_RT, DP_TYPE_VALUE},
   {DPID_FREQ_PARAMETER2, DP_TYPE_VALUE},
   {DPID_FREQ_PARAMETER2_RT, DP_TYPE_VALUE},
+  {DPID_LIGHT_SENSOR_RAW, DP_TYPE_VALUE},
 };
 
 /******************************************************************************
@@ -170,6 +171,7 @@ void all_data_update(void)
     mcu_dp_enum_update(DPID_WORK_MODE, g_work_mode); //枚举型数据上报;
 		Delay_ms(ALL_UPLOAD_DELAY);
 		mcu_dp_bool_update(DPID_FIND_ME,1);
+    mcu_dp_value_update(DPID_LIGHT_SENSOR_RAW, light_sensor_adc_data); //VALUE型数据上报;
 	
 }
 

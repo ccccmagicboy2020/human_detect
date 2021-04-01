@@ -8,8 +8,10 @@
 
 extern uint16_t m_au16Adc1SaValue[ADC1_CH_COUNT];
 volatile uint32_t Timer_Counter = 0;
-volatile uint32_t Hand_Up_Timer_Counter = 0;
-extern unsigned char bt_hand_up_flag;
+volatile uint32_t light_sensor_Timer_Counter = 0;
+extern unsigned char light_sensor_upload_flag;
+
+unsigned short  light_sensor_adc_data = 0;	//光敏数据
 
 void Delay_ms(unsigned int t)
 {
@@ -98,13 +100,12 @@ void timer0_init(void)
 static void Timer0B_CallBack(void)		// T === 500us
 {
   u16  if_adc_data = 0;		//IF adc数据
-  //u16  light_sensor_adc_data = 0;	//光敏数据
 
 	if (Set == DMA_GetIrqFlag(ADC1_SA_DMA_UNIT, ADC1_SA_DMA_CH, BlkTrnCpltIrq))
 	{
 		DMA_ClearIrqFlag(ADC1_SA_DMA_UNIT, ADC1_SA_DMA_CH, BlkTrnCpltIrq);
 		if_adc_data =  m_au16Adc1SaValue[6u];
-		//light_sensor_adc_data =  m_au16Adc1SaValue[9u];
+		light_sensor_adc_data =  m_au16Adc1SaValue[9u];
 		
 		FIFO_WriteOneData(&FIFO_Data[0], if_adc_data);		
 	}
@@ -113,12 +114,12 @@ static void Timer0B_CallBack(void)		// T === 500us
 static void Timer0A_CallBack(void)      //  T = 1ms
 {
 	Timer_Counter++;
-	Hand_Up_Timer_Counter++;
+	light_sensor_Timer_Counter++;
 	
-	if (Hand_Up_Timer_Counter >= 1000*60)
+	if (light_sensor_Timer_Counter >= 1000*2)
 	{
-		bt_hand_up_flag = 1;
-		Hand_Up_Timer_Counter = 0;
+		light_sensor_upload_flag = 1;
+		light_sensor_Timer_Counter = 0;
 	}
 }
 
