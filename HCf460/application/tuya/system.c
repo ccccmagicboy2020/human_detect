@@ -172,6 +172,7 @@ static void heat_beat_check(void)
   {
     length = set_bt_uart_byte(length,FALSE);
     mcu_reset_state = TRUE;
+    all_data_update();
   }
   else
   {
@@ -201,7 +202,7 @@ static void product_info_update(void)
 输入参数 : 无
 返回参数 : 无
 *****************************************************************************/
-static void get_mcu_bt_mode(void)
+extern void get_mcu_bt_mode(void)
 {
   unsigned char length = 0;
   
@@ -322,7 +323,7 @@ void data_handle(unsigned short offset)
 	}
 	else if(BT_NOT_CONNECTED == bt_work_state)
 	{
-		upload_disable = 1;
+		upload_disable = 0;
 	}
 	else if(BT_CONNECTED == bt_work_state)
 	{

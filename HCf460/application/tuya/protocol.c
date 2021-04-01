@@ -56,6 +56,8 @@ extern int next_state;
 
 extern unsigned char g_work_mode;
 
+extern unsigned char find_me_flag;
+
 void Delay_ms(unsigned int t);
 
 /******************************************************************************
@@ -83,6 +85,7 @@ const DOWNLOAD_CMD_S download_cmd[] =
 {
   {DPID_LIGHT_STATUS, DP_TYPE_ENUM},
   {DPID_PERSON_IN_RANGE, DP_TYPE_ENUM},
+  {DPID_FIND_ME, DP_TYPE_BOOL},
   {DPID_CHECK_PROCESS, DP_TYPE_ENUM},
   {DPID_LED_ON_BOARD_STATUS, DP_TYPE_ENUM},
   {DPID_TIME_TIMES, DP_TYPE_VALUE},
@@ -164,7 +167,8 @@ void all_data_update(void)
     mcu_dp_enum_update(DPID_LED_ON_BOARD_STATUS, led_onboard_status); //枚举型数据上报;
     Delay_ms(ALL_UPLOAD_DELAY);
     mcu_dp_enum_update(DPID_WORK_MODE, g_work_mode); //枚举型数据上报;
-	
+		Delay_ms(ALL_UPLOAD_DELAY);
+		mcu_dp_bool_update(DPID_FIND_ME,1);
 	
 }
 
@@ -175,6 +179,29 @@ void all_data_update(void)
 自动化代码模板函数,具体请用户自行实现数据处理
 ******************************************************************************/
 
+/*****************************************************************************
+函数名称 : dp_download_find_me_handle
+功能描述 : 针对DPID_FIND_ME的处理函数
+输入参数 : value:数据源数据
+        : length:数据长度
+返回参数 : 成功返回:SUCCESS/失败返回:ERROR
+使用说明 : 可下发可上报类型,需要在处理完数据后上报处理结果至app
+*****************************************************************************/
+static unsigned char dp_download_find_me_handle(const unsigned char value[], unsigned short length)
+{
+    //示例:当前DP类型为BOOL
+    unsigned char ret;
+    //0:关/1:开
+
+		find_me_flag = 1;
+  
+    //处理完DP数据后应有反馈
+    ret = mcu_dp_bool_update(DPID_FIND_ME,1);
+    if(ret == SUCCESS)
+        return SUCCESS;
+    else
+        return ERROR;
+}
 /*****************************************************************************
 函数名称 : dp_download_time_times_handle
 功能描述 : 针对DPID_TIME_TIMES的处理函数
@@ -401,6 +428,10 @@ unsigned char dp_download_handle(unsigned char dpid,const unsigned char value[],
   unsigned char ret;
   switch(dpid)
   {
+        case DPID_FIND_ME:
+            //找我处理函数
+            ret = dp_download_find_me_handle(value,length);
+        break;
         case DPID_TIME_TIMES:
             //时域门限0处理函数
             ret = dp_download_time_times_handle(value,length);

@@ -85,6 +85,11 @@ void clear_buffer(void);
 unsigned char upload_disable = 1;
 unsigned char g_work_mode = ALL_CHECK;
 ////////////////////////////////////////////////////////////
+unsigned char find_me_flag = 0;
+unsigned char find_me_counter = 0;
+
+void get_mcu_bt_mode(void);
+
 void clear_buffer(void)
 {
 	fast_retry_flag = 1;
@@ -93,7 +98,7 @@ void clear_buffer(void)
 
 void fast_output_result(char quick_detection_result)
 {
-	printf("quick: %d \r\n", quick_detection_result);
+	//printf("quick: %d \r\n", quick_detection_result);
 	if (quick_detection_result)//”–»À
 	{
 		led_red(1);			
@@ -121,7 +126,7 @@ void slow_output_result(char slow_s0_result)
 		led_onboard_status_upload(TUYA_LED_ONBOARD_RED_ON_GREEN_OFF);	
 		if (slow_only_flag == 1)
 		{
-			fast_output_result(1);
+			//fast_output_result(1);
 		}
 		break;
 	case BREATHE:
@@ -131,7 +136,7 @@ void slow_output_result(char slow_s0_result)
 		led_onboard_status_upload(TUYA_LED_ONBOARD_RED_OFF_GREEN_ON);
 		if (slow_only_flag == 1)
 		{
-			fast_output_result(1);
+			//fast_output_result(1);
 		}
 		break;
 	case BREATHE_NOT_SURE:
@@ -141,7 +146,7 @@ void slow_output_result(char slow_s0_result)
 		led_onboard_status_upload(TUYA_LED_ONBOARD_RED_OFF_GREEN_ON);
 		if (slow_only_flag == 1)
 		{
-			fast_output_result(1);
+			//fast_output_result(1);
 		}	
 		break;
 	case NO_PERSON_NOT_SURE:
@@ -151,7 +156,7 @@ void slow_output_result(char slow_s0_result)
 		led_onboard_status_upload(TUYA_LED_ONBOARD_RED_ON_GREEN_ON);
 		if (slow_only_flag == 1)
 		{
-			fast_output_result(1);
+			//fast_output_result(1);
 		}
 		break;
 	case NO_PERSON:
@@ -546,7 +551,21 @@ void slow_check_process_s1(void)
 void idle_process(void)
 {
 	//do some thing here global
-	//
+		if (find_me_flag)
+		{
+			led_red(1);			
+			led_green(1);
+			Delay_ms(100);
+			led_red(0);
+			led_green(0);
+			Delay_ms(100);
+			find_me_counter++;
+			if (3 <= find_me_counter)
+			{
+				find_me_flag = 0;
+				find_me_counter = 0;
+			}
+		}
 	//
 	state = UART_PROTOCOL;
 }
@@ -686,7 +705,8 @@ int main(void)
 	gpio_init();
 	SEGGER_RTT_Init();
 	SEGGER_RTT_ConfigUpBuffer(0, NULL, NULL, 0, SEGGER_RTT_MODE_NO_BLOCK_SKIP);
-	SEGGER_RTT_WriteString(0, "phosense");	
+	SEGGER_RTT_WriteString(0, "phosense");
+	get_mcu_bt_mode();
 	
 	while(1)
 	{
