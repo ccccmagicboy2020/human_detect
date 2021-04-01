@@ -87,8 +87,11 @@ unsigned char g_work_mode = ALL_CHECK;
 ////////////////////////////////////////////////////////////
 unsigned char find_me_flag = 0;
 unsigned char find_me_counter = 0;
-
+////////////////////////////////////////////////////////////
+unsigned char bt_hand_up_flag = 0;
+////////////////////////////////////////////////////////////
 void get_mcu_bt_mode(void);
+void bt_hand_up(void);
 
 void clear_buffer(void)
 {
@@ -548,24 +551,35 @@ void slow_check_process_s1(void)
 	}
 }
 
+void bt_hand_up(void)
+{
+	//
+	bt_uart_write_frame(BT_HAND_UP, 0);
+}
+
 void idle_process(void)
 {
 	//do some thing here global
-		if (find_me_flag)
+	if (find_me_flag)
+	{
+		led_red(1);			
+		led_green(1);
+		Delay_ms(100);
+		led_red(0);
+		led_green(0);
+		Delay_ms(100);
+		find_me_counter++;
+		if (3 <= find_me_counter)
 		{
-			led_red(1);			
-			led_green(1);
-			Delay_ms(100);
-			led_red(0);
-			led_green(0);
-			Delay_ms(100);
-			find_me_counter++;
-			if (3 <= find_me_counter)
-			{
-				find_me_flag = 0;
-				find_me_counter = 0;
-			}
+			find_me_flag = 0;
+			find_me_counter = 0;
 		}
+	}
+	if (bt_hand_up_flag)
+	{
+		bt_hand_up_flag = 0;//clear flag
+		bt_hand_up();
+	}
 	//
 	state = UART_PROTOCOL;
 }
@@ -707,6 +721,7 @@ int main(void)
 	SEGGER_RTT_ConfigUpBuffer(0, NULL, NULL, 0, SEGGER_RTT_MODE_NO_BLOCK_SKIP);
 	SEGGER_RTT_WriteString(0, "phosense");
 	get_mcu_bt_mode();
+	bt_hand_up();
 	
 	while(1)
 	{

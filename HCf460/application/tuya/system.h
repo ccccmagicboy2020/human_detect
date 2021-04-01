@@ -92,6 +92,7 @@
 
 #define TUYA_BCI_UART_COMMON_FACTOR_RESET_NOTIFY			0xA1				//恢复出厂设置通知
 
+#define BT_HAND_UP	0xA5
 
 #ifdef TUYA_BCI_UART_COMMON_SEND_TIME_SYNC_TYPE 
 /* 自定义的时间结构体 */

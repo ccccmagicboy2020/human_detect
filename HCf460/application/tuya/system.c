@@ -62,6 +62,8 @@ unsigned char set_btmode_flag;                                                //
 unsigned char bt_work_state;                                                  //bt模块当前工作状态
 #endif
 
+void bt_hand_up(void);
+
 /*****************************************************************************
 函数名称 : set_bt_uart_byte
 功能描述 : 写bt_uart字节
@@ -292,7 +294,8 @@ void data_handle(unsigned short offset)
 
 
   //signed char bt_rssi;
-
+	unsigned char hand_up_status;
+	
 #ifdef TUYA_BCI_UART_COMMON_SEND_TIME_SYNC_TYPE 
   bt_time_struct_data_t bt_time;
   unsigned short time_zone_100;
@@ -302,6 +305,20 @@ void data_handle(unsigned short offset)
 
   switch(cmd_type)
   {
+		case BT_HAND_UP:
+			hand_up_status = bt_uart_rx_buf[offset + DATA_START];
+			if (hand_up_status)
+			{
+				//
+			}
+			else
+			{
+				//
+			}
+				
+		//0 sucess
+		//1 fail
+			break;
   case HEAT_BEAT_CMD:                                   //心跳包
     heat_beat_check();
     break;
@@ -324,6 +341,7 @@ void data_handle(unsigned short offset)
 	else if(BT_NOT_CONNECTED == bt_work_state)
 	{
 		upload_disable = 0;
+		bt_hand_up();
 	}
 	else if(BT_CONNECTED == bt_work_state)
 	{

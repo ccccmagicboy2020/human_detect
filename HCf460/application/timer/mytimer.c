@@ -8,6 +8,8 @@
 
 extern uint16_t m_au16Adc1SaValue[ADC1_CH_COUNT];
 volatile uint32_t Timer_Counter = 0;
+volatile uint32_t Hand_Up_Timer_Counter = 0;
+extern unsigned char bt_hand_up_flag;
 
 void Delay_ms(unsigned int t)
 {
@@ -111,5 +113,12 @@ static void Timer0B_CallBack(void)		// T === 500us
 static void Timer0A_CallBack(void)      //  T = 1ms
 {
 	Timer_Counter++;
+	Hand_Up_Timer_Counter++;
+	
+	if (Hand_Up_Timer_Counter >= 1000*60)
+	{
+		bt_hand_up_flag = 1;
+		Hand_Up_Timer_Counter = 0;
+	}
 }
 
