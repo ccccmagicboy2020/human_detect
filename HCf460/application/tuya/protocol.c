@@ -95,6 +95,7 @@ const DOWNLOAD_CMD_S download_cmd[] =
   {DPID_WORK_MODE, DP_TYPE_ENUM},
   {DPID_FREQ_TIMES, DP_TYPE_VALUE},
   {DPID_FREQ_TIMES_RT, DP_TYPE_VALUE},
+  {DPID_FACTORY_OP, DP_TYPE_ENUM},
   {DPID_FREQ_PARAMETER1, DP_TYPE_VALUE},
   {DPID_FREQ_PARAMETER1_RT, DP_TYPE_VALUE},
   {DPID_FREQ_PARAMETER2, DP_TYPE_VALUE},
@@ -344,6 +345,64 @@ static unsigned char dp_download_freq_times_handle(const unsigned char value[], 
         return ERROR;
 }
 /*****************************************************************************
+函数名称 : dp_download_factory_op_handle
+功能描述 : 针对DPID_FACTORY_OP的处理函数
+输入参数 : value:数据源数据
+        : length:数据长度
+返回参数 : 成功返回:SUCCESS/失败返回:ERROR
+使用说明 : 可下发可上报类型,需要在处理完数据后上报处理结果至app
+*****************************************************************************/
+static unsigned char dp_download_factory_op_handle(const unsigned char value[], unsigned short length)
+{
+    //示例:当前DP类型为ENUM
+    unsigned char ret;
+    unsigned char factory_op;
+    
+    factory_op = mcu_get_dp_download_enum(value,length);
+    switch(factory_op) {
+        case 0:// soft reset the mcu
+					soft_reset_mcu();
+        break;
+        
+        case 1:// go bootloader and fw ota
+					go_bootloader_ota();
+        break;
+        
+        case 2:// tuya re-config the network
+					tuya_re_config_network();
+        break;
+        
+        case 3:// tuya reset module
+					tuya_reset_module();
+        break;
+        
+        case 4:// tuya retry the ota (send fail)
+					tuya_retry_ota();
+        break;
+        
+        case 5:// reset_default_parameter
+					reset_default_parameter();				
+        break;
+        case 6:// do nothing
+					//
+        break;
+        case 7:// tuya 产测
+			//
+        break;
+        
+        default:
+    
+        break;
+    }
+    
+    //处理完DP数据后应有反馈
+    ret = mcu_dp_enum_update(DPID_FACTORY_OP, factory_op);
+    if(ret == SUCCESS)
+        return SUCCESS;
+    else
+        return ERROR;
+}
+/*****************************************************************************
 函数名称 : dp_download_freq_parameter1_handle
 功能描述 : 针对DPID_FREQ_PARAMETER1的处理函数
 输入参数 : value:数据源数据
@@ -447,6 +506,10 @@ unsigned char dp_download_handle(unsigned char dpid,const unsigned char value[],
         case DPID_FREQ_TIMES:
             //频域门限0处理函数
             ret = dp_download_freq_times_handle(value,length);
+        break;
+        case DPID_FACTORY_OP:
+            //工厂操作处理函数
+            ret = dp_download_factory_op_handle(value,length);
         break;
         case DPID_FREQ_PARAMETER1:
             //频域门限1处理函数
@@ -850,4 +913,38 @@ void bt_factor_reset_notify(void)
 	//#error "请自行完善该功能,完成后请删除该行"
 }
 #endif
+
+
+void soft_reset_mcu(void)
+{
+	NVIC_SystemReset();
+}
+	
+void go_bootloader_ota(void)
+{	
+	//goto bootloader
+	//
+}
+		
+void tuya_re_config_network(void)
+{
+	//
+	mcu_reset_bt();
+}
+			
+void tuya_reset_module(void)
+{
+	//
+	bt_unbound_req();
+}
+				
+void tuya_retry_ota(void)
+{
+	//
+}
+					
+void reset_default_parameter(void)
+{
+	//
+}
 

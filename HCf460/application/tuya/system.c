@@ -291,7 +291,7 @@ void data_handle(unsigned short offset)
   unsigned char cmd_type = bt_uart_rx_buf[offset + FRAME_TYPE];
 
 
-  signed char bt_rssi;
+  //signed char bt_rssi;
 
 #ifdef TUYA_BCI_UART_COMMON_SEND_TIME_SYNC_TYPE 
   bt_time_struct_data_t bt_time;

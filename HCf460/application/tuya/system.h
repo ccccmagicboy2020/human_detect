@@ -69,8 +69,8 @@
 //////////////////////////////////当前MCU SDK版本较上一版本新增支持协议接口////////////////////
 //如果不需要某一条命令接口，直接注释掉命令宏的定义，相关代码将不会被编译，以减小代码空间
 #define TUYA_BCI_UART_COMMON_UNBOUND_REQ					0x09				//模块解绑
-#define TUYA_BCI_UART_COMMON_RF_TEST	            	    0x0E				//rf射频测试
-#define TUYA_BCI_UART_COMMON_SEND_STORAGE_TYPE              0xE0				//记录型数据上报（离线缓存）
+//#define TUYA_BCI_UART_COMMON_RF_TEST	            	    0x0E				//rf射频测试
+//#define TUYA_BCI_UART_COMMON_SEND_STORAGE_TYPE              0xE0				//记录型数据上报（离线缓存）
 //#define TUYA_BCI_UART_COMMON_SEND_TIME_SYNC_TYPE            0xE1				//获取实时时间
 #define TUYA_BCI_UART_COMMON_MODIFY_ADV_INTERVAL		    0xE2				//修改休眠模式广播间隔
 #define TUYA_BCI_UART_COMMON_TURNOFF_SYSTEM_TIME		    0xE4				//关闭系统时钟功能

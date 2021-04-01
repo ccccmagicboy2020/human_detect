@@ -154,6 +154,9 @@ mcu在bt模块正确联网后可调用mcu_get_system_time()函数发起校时功
 //频域门限0实时值(只上报)
 //备注:频域乘限实时值
 #define DPID_FREQ_TIMES_RT 149
+//工厂操作(可下发可上报)
+//备注:枚举范围：aa,bb,cc,dd,ee,ff,gg,hh
+#define DPID_FACTORY_OP 150
 //频域门限1(可下发可上报)
 //备注:呼吸门限
 #define DPID_FREQ_PARAMETER1 160
@@ -346,6 +349,15 @@ void bt_factor_reset_notify(void);
 
 void clear_buffer(void);
 void Delayms(unsigned short ms);
+
+void soft_reset_mcu(void);
+void go_bootloader_ota(void);
+void tuya_re_config_network(void);
+void tuya_reset_module(void);
+void tuya_retry_ota(void);
+void reset_default_parameter(void);
+
+
 
 #endif
 
