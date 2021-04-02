@@ -1,38 +1,37 @@
 /****************************************Copyright (c)*************************
-**                               版权所有 (C), 2015-2020, 涂鸦科技
+**                               Copyright (C) 2014-2020, Tuya Inc., All Rights Reserved
 **
 **                                 http://www.tuya.com
 **
-
-**--------------版本修订记录---------------------------------------------------
-** 版  本: v1.0
-** 日　期: 2017年5月3日
-** 描　述: 1:创建涂鸦bluetooth对接MCU_SDK
+**--------------Revision record---------------------------------------------------
+** version: v1.0
+** date : may 3, 2017 
+description: Initial version
 **
 
-** 版  本:v2.0
-** 日　期: 2020年3月23日
-** 描　述: 
-1.	增加cmd 0x09模块解绑接口支持
-2.	增加cmd 0x0e rf射频测试接口支持
-3.	增加cmd 0xe0 记录型数据上报接口支持
-4.	增加cmd 0xE1 获取实时时间接口支持
-5.	增加 cmd 0xe2 修改休眠模式状态广播间隔支持
-6.	增加 cmd 0xe4 关闭系统时钟功能支持
-7.	增加 cmd 0xe5 低功耗使能支持
-8.	增加 cmd 0xe6 获取一次性动态密码支持
-9.	增加 cmd 0xe7断开蓝牙连接支持
-10.	增加 cmd 0xe8 查询MCU版本号支持
-11.	增加 cmd 0xe9 MCU主动发送版本号支持
-12.	增加 cmd 0xea OTA升级请求支持
-13.	增加 cmd 0xeb OTA升级文件信息支持
-14.	增加 cmd 0xec OTA升级文件偏移请求支持
-15.	增加 cmd 0xed OTA升级数据支持
-16.	增加 cmd 0xee OTA升级结束支持
-17.	增加 cmd 0xa0 MCU 获取模块版本信息支持
-18.	增加 cmd 0xa1 恢复出厂设置通知支持
-19.  增加MCU OTA demo
-20. 优化串口解析器
+**version::v2.0
+** date: March 23, 2020
+** description: 
+1. Added module unbinding interface support, command code 0x09.
+2.Add rf RF test interface support, command code 0x0e.
+3.Add record-based data reporting interface support,command code 0xe0.
+4. Added access to real-time time API support,command code 0xe1.
+5. Added support for modifying sleep mode state bluetooth broadcast interval,command code 0xe2.
+6. Added support for turning off system clock,command code 0xe4.
+7. Increase low power consumption to enable support,commadn code 0xe5.
+8. Add dynamic password authentication interface support,command code 0xe6.
+9. Added support for disconnecting Bluetooth connection,command code 0xe7.
+10. Added support for querying MCU version number,command code 0xe8.
+11. Added support for MCU to actively send version Numbers,command code 0xe9.
+12. Add OTA upgrade request support,command code 0xea.
+13. Add OTA update file information support,command 0xeb.
+14. Add OTA upgrade file migration request support,command code 0xec.
+15. Add OTA upgrade data support,command code 0xed.
+16. Add OTA upgrade end support,command code 0xee.
+17. Added support for MCU to acquire module version information,commadn code 0xa0.
+18. Added support for resuming factory Settings notifications,command code 0xa1.
+19. Add MCU OTA demo code.
+20. Optimized bt_uart_service.
 **
 **-----------------------------------------------------------------------------
 ******************************************************************************/
@@ -45,218 +44,230 @@
 #else
   #define MCU_API_EXTERN   extern
 #endif
-
 /*****************************************************************************
-函数名称 : hex_to_bcd
-功能描述 : hex转bcd
-输入参数 : Value_H:高字节/Value_L:低字节
-返回参数 : bcd_value:转换完成后数据
+Function name: hex_to_bcd
+Function description: hex to bcd
+Input parameters: 
+	Value_H: high byte / Value_L: low byte
+Return value:
+	bcd_value:Data after conversion is completed.
 *****************************************************************************/
 unsigned char hex_to_bcd(unsigned char Value_H,unsigned char Value_L);
 /*****************************************************************************
-函数名称 : my_strlen
-功能描述 : 求字符串长度
-输入参数 :
-返回参数 :
+Function name: my_strlen
+Function description: find the length of the string
+Input parameter:
+	src: source address
+Return parameter: 
+	len: data length
+
 *****************************************************************************/
 unsigned long my_strlen(unsigned char *str);
 
 /*****************************************************************************
-函数名称 : my_memset
-功能描述 : 把src所指内存区域的前count个字节设置成字符c
-输入参数 :
-返回参数 :
+Function name: my_memset
+Function description: set the first count bytes of the memory area referred to by src to the character ch
+Input parameter: src: source address
+		   ch: setting character
+           count:Operation data length
+Return parameters :
+	src:source address after data processing
 *****************************************************************************/
 void *my_memset(void *src,unsigned char ch,unsigned short count);
 
 /*****************************************************************************
-函数名称 : mymemcpy
-功能描述 : 内存拷贝
-输入参数 :
-返回参数 :
+Function name: my_memcpy
+Function description: memory copy
+Input parameter: dest: destination address
+           src:Source address
+           count:Number of data copies
+ Return parameters :
+ 	src:Source address after data processing
 *****************************************************************************/
 void *my_memcpy(void *dest, const void *src, unsigned short count);
 /*****************************************************************************
-函数名称 : memcmp
-功能描述 : 内存比较
-输入参数 : buffer1:内存1
-           buffer2:内存2
-           	count:比较长度
-返回参数 : 大小比较值，0:buffer1=buffer2; -1:buffer1<buffer2; 1:buffer1>buffer2
+Function name: my_memcmp
+Function description: memory comparison
+Input parameter: buffer1: memory 1
+           buffer2:memory 2
+           	count:Comparative length
+Return parameters :0:buffer1=buffer2; -1:buffer1<buffer2; 1:buffer1>buffer2
 *****************************************************************************/
 int my_memcmp(const void *buffer1,const void *buffer2,int count);
 /*****************************************************************************
-函数名称 : atoll
-功能描述 : 字符串转整数
-输入参数 : p 字符串
-返回参数 : 整数
+Function name: my_atoll
+Function description: string to integer
+Input parameter: P string
+Return parameter: integer
 *****************************************************************************/
 long long my_atoll(const char *p);
 /*****************************************************************************
-
-函数名称 : int_to_byte
-功能描述 : 将int类型拆分四个字节
-输入参数 : number:4字节原数据;value:处理完成后4字节数据
-返回参数 :无
+Function name: int_to_byte
+Function description: split the int type into four bytes
+Input parameter: 
+	number:Number to be processed
+	value:4 bytes of data after processing
+Return parameter: none
 ****************************************************************************/
 void int_to_byte(unsigned long number,unsigned char value[4]);
 
 /*****************************************************************************
-函数名称 : byte_to_int
-功能描述 : 将4字节合并为1个32bit变量
-输入参数 : value:4字节数组
-返回参数 : number:合并完成后的32bit变量
+Function name: byte_to_int
+Function description: merge 4 bytes into 1 32bit variable
+Input parameters: value:4 byte array
+Return parameter: 
+	number:32bit variables after merging
 ****************************************************************************/
 unsigned long byte_to_int(const unsigned char value[4]);
 
 #ifndef BT_CONTROL_SELF_MODE
 /*****************************************************************************
-函数名称 : mcu_get_reset_bt_flag
-功能描述 : MCU获取复位bt成功标志
-输入参数 : 无
-返回参数 : 复位标志:RESET_BT_ERROR:失败/RESET_BT_SUCCESS:成功
-使用说明 : 1:MCU主动调用mcu_reset_bt()后调用该函数获取复位状态
-           2:如果为模块自处理模式,MCU无须调用该函数
+Function name: mcu_get_reset_bt_flag
+Function description: MCU acquires reset bt success flag
+Input parameters: none
+Return parameter: RESET_BT_ERROR:failed/RESET_BT_SUCCESS:success
+Instructions for use: 1:MCU call this function after calling mcu_reset_bt () actively to get the reset state
+		   2: if it is in module self-processing mode, MCU does not need to call this function
 *****************************************************************************/
 unsigned char mcu_get_reset_bt_flag(void);
 /*****************************************************************************
-函数名称 : mcu_reset_bt
-功能描述 : MCU主动重置bt工作模式
-输入参数 : 无
-返回参数 : 无
-使用说明 : 1:MCU主动调用,通过mcu_get_reset_bt_flag()函数获取重置bt是否成功
-           2:如果为模块自处理模式,MCU无须调用该函数
+Function name: mcu_reset_bt
+Function description: MCU actively resets bt working mode
+Input parameters: none
+Return parameter: none
+Instructions for use: 1:MCU is called actively, and the mcu_get_reset_bt_flag () function is used to obtain whether the reset bt is successful or not.
+		   2: if it is in module self-processing mode, MCU does not need to call this function
 *****************************************************************************/
 void mcu_reset_bt(void);
 /*****************************************************************************
-函数名称 : mcu_get_bt_work_state
-功能描述 : MCU主动获取当前bt工作状态
-输入参数 : 无
-返回参数 : BT_WORK_SATE_E:
-          SMART_CONFIG_STATE:smartconfig配置状态
-          AP_STATE:AP 配置状态
-          BT_NOT_CONNECTED:BT 配置成功但未连上路由器
-          BT_CONNECTED:BT 配置成功且连上路由器
-使用说明 : 无
+Function name: mcu_get_bt_work_state
+Function description: MCU actively acquires the current bt working status
+Input parameters: none
+Return parameter: BT_WORK_SATE_E:
+            BT_UN_BIND:Unbound state
+            BT_UNCONNECT:Bound but not connected
+            BT_CONNECTED:Bound and connected
+Instructions for use: none
 *****************************************************************************/
 unsigned char mcu_get_bt_work_state(void);
 #endif
 
 /*****************************************************************************
-函数名称 : mcu_dp_raw_update
-功能描述 : raw型dp数据上传
-输入参数 : dpid:id号
-           value:当前dp值指针
-           len:数据长度
-返回参数 : 无
+Function name: mcu_dp_raw_update
+Function description: raw dp data upload
+Return parameter: dpid:id
+           value:dp date
+           len:length
+Return parameter: none
 *****************************************************************************/
 unsigned char mcu_dp_raw_update(unsigned char dpid,const unsigned char value[],unsigned short len);
 
 /*****************************************************************************
-函数名称 : mcu_dp_bool_update
-功能描述 : bool型dp数据上传
-输入参数 : dpid:id号
-           value:当前dp值
-返回参数 : 无
+Function name: mcu_dp_bool_update
+Function description: Bool dp data upload
+Input parameter: dpid:id number
+           value:
+Return parameter: none
 *****************************************************************************/
 unsigned char mcu_dp_bool_update(unsigned char dpid,unsigned char value);
 
 /*****************************************************************************
-函数名称 : mcu_dp_value_update
-功能描述 : value型dp数据上传
-输入参数 : dpid:id号
-           value:当前dp值
-返回参数 : 无
+Function name: mcu_dp_value_update
+Function description: value dp data upload
+Input parameter: dpid:id number
+           value:
+Return parameter: none
 *****************************************************************************/
 unsigned char mcu_dp_value_update(unsigned char dpid,unsigned long value);
 
 /*****************************************************************************
-函数名称 : mcu_dp_string_update
-功能描述 : rstring型dp数据上传
-输入参数 : dpid:id号
-           value:当前dp值指针
-           len:数据长度
-返回参数 : 无
+Function name: mcu_dp_string_update
+Function description: string dp data upload
+Input parameter: dpid:id number
+           value:current DP value pointer
+           len:data length
+Return parameter: none
 *****************************************************************************/
 unsigned char mcu_dp_string_update(unsigned char dpid,const unsigned char value[],unsigned short len);
 
 /*****************************************************************************
-函数名称 : mcu_dp_enum_update
-功能描述 : enum型dp数据上传
-输入参数 : dpid:id号
-           value:当前dp值
-返回参数 : 无
+Function name: mcu_dp_enum_update
+Function description: enum dp data upload
+Input parameter: dpid:id number
+           value:
+Return parameter: none
 *****************************************************************************/
 unsigned char mcu_dp_enum_update(unsigned char dpid,unsigned char value);
 
 /*****************************************************************************
-函数名称 : mcu_dp_fault_update
-功能描述 : fault型dp数据上传
-输入参数 : dpid:id号
-           value:当前dp值
-返回参数 : 无
+Function name: mcu_dp_fault_update
+Function description: bitmap dp data upload
+Input parameter: dpid:id number
+           value:current dp value
+Return parameter: none
 *****************************************************************************/
 unsigned char mcu_dp_fault_update(unsigned char dpid,unsigned long value);
 
 /*****************************************************************************
-函数名称 : mcu_get_dp_download_bool
-功能描述 : mcu获取bool型下发dp值
-输入参数 : value:dp数据缓冲区地址
-           length:dp数据长度
-返回参数 : bool:当前dp值
+Function name: mcu_get_dp_download_bool
+Function description: mcu acquires the DP value issued by Bool
+Input parameter: value:dp data buffer address
+           length:dp data length
+Return parameter: current DP value of bool
 *****************************************************************************/
 unsigned char mcu_get_dp_download_bool(const unsigned char value[],unsigned short len);
 
 /*****************************************************************************
-函数名称 : mcu_get_dp_download_value
-功能描述 : mcu获取value型下发dp值
-输入参数 : value:dp数据缓冲区地址
-           length:dp数据长度
-返回参数 : value:当前dp值
+Function name: mcu_get_dp_download_value
+Function description: mcu acquires the DP value issued by value
+Input parameter: value:dp data buffer address
+           length:dp data length
+Return parameter: current DP value
 *****************************************************************************/
 unsigned long mcu_get_dp_download_value(const unsigned char value[],unsigned short len);
 
 /*****************************************************************************
-函数名称 : mcu_get_dp_download_enum
-功能描述 : mcu获取enum型下发dp值
-输入参数 : value:dp数据缓冲区地址
-           length:dp数据长度
-返回参数 : enum:当前dp值
+Function name: mcu_get_dp_download_enum
+Function description: mcu acquires the DP value issued by enum
+Input parameter: value:dp data buffer address
+           length:dp data length
+Return parameter: current DP value of eunm
 *****************************************************************************/
 unsigned char mcu_get_dp_download_enum(const unsigned char value[],unsigned short len);
 
 /*****************************************************************************
-函数名称 : uart_receive_input
-功能描述 : 收数据处理
-输入参数 : value:串口收到字节数据
-返回参数 : 无
-使用说明 : 在MCU串口处理函数中调用该函数,并将接收到的数据作为参数传入
+Function name: uart_receive_input
+Function description: receiving data processing
+Input parameters: value: uart port receives byte data
+Return parameter: none
+Instructions for use: call this function in the MCU uart port receiving function and pass in the received data as parameters
 *****************************************************************************/
 void uart_receive_input(unsigned char value);
 
 /*****************************************************************************
-函数名称  : bt_uart_service
-功能描述  : bt串口处理服务
-输入参数 : 无
-返回参数 : 无
-使用说明 : 在MCU主函数while循环中调用该函数
+Function name: bt_uart_service
+Function description: bt serial port processing service
+Input parameters: none
+Return parameter: none
+Instructions: call this function in the while loop of the MCU main function
 *****************************************************************************/
 void bt_uart_service(void);
 
 /*****************************************************************************
-函数名称 :  bt_protocol_init
-功能描述 : 协议串口初始化函数
-输入参数 : 无
-返回参数 : 无
-使用说明 : 在MCU初始化代码中调用该函数
+Function name: bt_protocol_init
+Function description: protocol serial port initialization function
+Input parameters: none
+Return parameter: none
+Instructions for use: this function must be called in the MCU initialization code
 *****************************************************************************/
 void bt_protocol_init(void);
 /*****************************************************************************
-函数名称 : uart_transmit_output
-功能描述 : 发数据处理
-输入参数 : value:串口收到字节数据
-返回参数 : 无
-使用说明 : 请将MCU串口发送函数填入该函数内,并将接收到的数据作为参数传入串口发送函数
+Function name: uart_transmit_output
+Function description: send data processing
+Input parameters: 
+	value: uart port receives byte data
+Return parameter: none
+Instructions for use: please fill the MCU serial port sending function into this function, and pass the received data into the serial port sending function as parameters
 *****************************************************************************/
 void uart_transmit_output(unsigned char value);
 

@@ -1,41 +1,46 @@
 /****************************************Copyright (c)*************************
-**                               版权所有 (C), 2015-2020, 涂鸦科技
+**                               Copyright (C) 2014-2020, Tuya Inc., All Rights Reserved
 **
 **                                 http://www.tuya.com
 **
+**--------------Revision record---------------------------------------------------
+** version: v1.0
+** date : may 3, 2017 
+description: Initial version
 **
-**--------------版本修订记录---------------------------------------------------
 
-** 版  本:v2.0
-** 日　期: 2020年3月23日
-** 描　述: 
-1.	增加cmd 0x09模块解绑接口支持
-2.	增加cmd 0x0e rf射频测试接口支持
-3.	增加cmd 0xe0 记录型数据上报接口支持
-4.	增加cmd 0xE1 获取实时时间接口支持
-5.	增加 cmd 0xe2 修改休眠模式状态广播间隔支持
-6.	增加 cmd 0xe4 关闭系统时钟功能支持
-7.	增加 cmd 0xe5 低功耗使能支持
-8.	增加 cmd 0xe6 获取一次性动态密码支持
-9.	增加 cmd 0xe7断开蓝牙连接支持
-10.	增加 cmd 0xe8 查询MCU版本号支持
-11.	增加 cmd 0xe9 MCU主动发送版本号支持
-12.	增加 cmd 0xea OTA升级请求支持
-13.	增加 cmd 0xeb OTA升级文件信息支持
-14.	增加 cmd 0xec OTA升级文件偏移请求支持
-15.	增加 cmd 0xed OTA升级数据支持
-16.	增加 cmd 0xee OTA升级结束支持
-17.	增加 cmd 0xa0 MCU 获取模块版本信息支持
-18.	增加 cmd 0xa1 恢复出厂设置通知支持
-19.  增加MCU OTA demo
-20. 优化串口解析器
+**version::v2.0
+** date: March 23, 2020
+** description: 
+1. Added module unbinding interface support, command code 0x09.
+2.Add rf RF test interface support, command code 0x0e.
+3.Add record-based data reporting interface support,command code 0xe0.
+4. Added access to real-time time API support,command code 0xe1.
+5. Added support for modifying sleep mode state bluetooth broadcast interval,command code 0xe2.
+6. Added support for turning off system clock,command code 0xe4.
+7. Increase low power consumption to enable support,commadn code 0xe5.
+8. Add dynamic password authentication interface support,command code 0xe6.
+9. Added support for disconnecting Bluetooth connection,command code 0xe7.
+10. Added support for querying MCU version number,command code 0xe8.
+11. Added support for MCU to actively send version Numbers,command code 0xe9.
+12. Add OTA upgrade request support,command code 0xea.
+13. Add OTA update file information support,command 0xeb.
+14. Add OTA upgrade file migration request support,command code 0xec.
+15. Add OTA upgrade data support,command code 0xed.
+16. Add OTA upgrade end support,command code 0xee.
+17. Added support for MCU to acquire module version information,commadn code 0xa0.
+18. Added support for resuming factory Settings notifications,command code 0xa1.
+19. Add MCU OTA demo code.
+20. Optimized bt_uart_service.
 **
 **-----------------------------------------------------------------------------
 ******************************************************************************/
 
+
 /******************************************************************************
-                          特别注意！！！      
-MCU OTA的方式和芯片强相关，该MCU OTA程序demo不一定适用所有芯片平台，但大同小异，用户可根据自己芯片平台的升级方式对该demo进行修改或参考该demo自行编写完成MCU OTA功能
+						  Pay special attention!
+The way of MCU OTA is strongly related to the chip. The MCU OTA program demo is not necessarily suitable for all chip platforms, but it is more or less the same. 
+Users can modify the demo according to the upgrade mode of their chip platform or refer to the demo to complete the MCU OTA function.
 
 ******************************************************************************/
 
@@ -46,68 +51,72 @@ MCU OTA的方式和芯片强相关，该MCU OTA程序demo不一定适用所有�
 #ifdef SUPPORT_MCU_FIRM_UPDATE
 
 /*****************************************************************************
-函数名称 : mcu_flash_init
-功能描述 :flash初始化函数
-输入参数 :
-
-返回参数 : 无
-使用说明 : 用户需要将flash初始化函数在此完善，如果在其他处有flash初始化操作，该函数可以不被调用
+Function name: mcu_flash_init
+Function description: flash initialization function
+Input parameters: none
+Return parameter: none
+Instructions for use: users need to improve the flash initialization function here. If there is a flash initialization operation elsewhere, the function can not be called.
 *****************************************************************************/
 uint8_t mcu_flash_init(void)
 {
-	#error "请自行完善该功能,完成后请删除该行"
+	#error "Please improve this function by yourself, and delete the line when you are finished."
 }
 /*****************************************************************************
-函数名称 : mcu_flash_erase
-功能描述 :flash擦除函数
-输入参数 :addr 地址 size 大小
-
-返回参数 : 无
-使用说明 : 用户自行完善
+Function name: mcu_flash_erase
+Function description: flash erasure function
+Input parameter: 
+Return parameter: 
+Instructions for use: users improve themselves
 *****************************************************************************/
 uint8_t mcu_flash_erase(uint32_t addr,uint32_t size)
 {
-	#error "请自行完善该功能,完成后请删除该行"
+	#error "Please improve this function by yourself, and delete the line when you are finished."
 }
 /*****************************************************************************
-函数名称 : mcu_flash_write
-功能描述 :flash写函数
-输入参数 :addr 地址 size 大小 p_data待写入数据地址
+Function name: mcu_flash_write
+Function description: flash write function
+Input parameter: 
+	addr: address 
+	size:size
+	p_data: data address to be written
 
-返回参数 : 无
-使用说明 : 用户自行完善
+Return parameter: 
+Instructions for use: users improve themselves
 *****************************************************************************/
 
 uint8_t mcu_flash_write(uint32_t addr, const uint8_t *p_data, uint32_t size)
 {
-	#error "请自行完善该功能,完成后请删除该行"
+	#error "Please improve this function by yourself, and delete the line when you are finished."
 }
 
 /*****************************************************************************
-函数名称 : mcu_flash_read
-功能描述 :flash读函数
-输入参数 :addr 地址 size 大小 p_data待读出数据地址
+Function name: mcu_flash_read
+Function description: flash read function
+Input parameter: 
+	addr: address 
+	size:size
+	p_data: 
 
-返回参数 : 无
-使用说明 : 用户自行完善
+Return parameter: 
+Instructions for use: users improve themselves
 *****************************************************************************/
 
 uint8_t mcu_flash_read(uint32_t addr, uint8_t *p_data, uint32_t size)
 {
-	#error "请自行完善该功能,完成后请删除该行"
+	#error "Please improve this function by yourself, and delete the line when you are finished."
 }
 /*****************************************************************************
-函数名称 : mcu_device_delay_restart
-功能描述 :延迟重启函数，建议延迟500ms重启，以等待mcu完成一些必要的操作
-输入参数 : 
+Function name: mcu_device_delay_restart
+Function description: delay restart function. It is recommended to delay 500ms restart in order to wait for mcu to complete some necessary operations.
+Input parameter: 
 
-返回参数 : 无
-使用说明 : 用户自行完善
+Return parameter: 
+Instructions for use: users improve themselves
 *****************************************************************************/
 
 void mcu_device_delay_restart(void)
 {
-	error "请自行完善该功能,完成后请删除该行"
+	error "Please improve this function by yourself, and delete the line when you are finished."
 }
 
 
@@ -228,7 +237,7 @@ static void mcu_ota_file_info_req(uint8_t*recv_data,uint32_t recv_len)
     uint32_t file_version;
     uint32_t file_length;
     uint32_t file_crc;
-    bool file_md5;
+    uint8_t file_md5;
     // uint8_t file_md5[16];
     uint16_t length = 0;
     uint8_t state;
@@ -245,11 +254,11 @@ static void mcu_ota_file_info_req(uint8_t*recv_data,uint32_t recv_len)
 
     if(memcmp(s_dfu_settings.progress.firmware_file_md5,&recv_data[3+8],16)==0)
     {
-        file_md5 = true;
+        file_md5 = TRUE;
     }
     else
     {
-        file_md5 = false;
+        file_md5 = FALSE;
     }
 
     file_length = recv_data[27]<<24;
@@ -496,7 +505,7 @@ static void mcu_ota_data_req(uint8_t*recv_data,uint32_t recv_len)
 
 
 
-    if(state!=0)//�������ָ���ʼ״̬
+    if(state!=0)
     {
         TUYA_OTA_LOG("ota error so free!");
         mcu_ota_status_set(MCU_OTA_STATUS_NONE);

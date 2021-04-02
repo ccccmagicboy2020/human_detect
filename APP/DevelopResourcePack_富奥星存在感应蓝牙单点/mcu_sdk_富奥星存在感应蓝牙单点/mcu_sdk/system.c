@@ -1,46 +1,48 @@
 /****************************************Copyright (c)*************************
-**                               版权所有 (C), 2015-2020, 涂鸦科技
+**                               Copyright (C) 2014-2020, Tuya Inc., All Rights Reserved
 **
 **                                 http://www.tuya.com
 **
-**--------------文件信息-------------------------------------------------------
-**文   件   名: system.c
-**描        述: bluetooth数据处理函数
-**使 用 说 明 : 用户无需关心该文件实现内容
-**
-**
-**--------------历史版本修订---------------------------------------------------
-** 版  本: v1.0
-** 日　期: 2017年5月3日
-** 描　述: 1:创建涂鸦bluetooth对接MCU_SDK
-**
-**--------------版本修订记录---------------------------------------------------
+**--------------File Information-------------------------------------------------------
 
-** 版  本:v2.0
-** 日　期: 2020年3月23日
-** 描　述: 
-1.	增加cmd 0x09模块解绑接口支持
-2.	增加cmd 0x0e rf射频测试接口支持
-3.	增加cmd 0xe0 记录型数据上报接口支持
-4.	增加cmd 0xE1 获取实时时间接口支持
-5.	增加 cmd 0xe2 修改休眠模式状态广播间隔支持
-6.	增加 cmd 0xe4 关闭系统时钟功能支持
-7.	增加 cmd 0xe5 低功耗使能支持
-8.	增加 cmd 0xe6 获取一次性动态密码支持
-9.	增加 cmd 0xe7断开蓝牙连接支持
-10.	增加 cmd 0xe8 查询MCU版本号支持
-11.	增加 cmd 0xe9 MCU主动发送版本号支持
-12.	增加 cmd 0xea OTA升级请求支持
-13.	增加 cmd 0xeb OTA升级文件信息支持
-14.	增加 cmd 0xec OTA升级文件偏移请求支持
-15.	增加 cmd 0xed OTA升级数据支持
-16.	增加 cmd 0xee OTA升级结束支持
-17.	增加 cmd 0xa0 MCU 获取模块版本信息支持
-18.	增加 cmd 0xa1 恢复出厂设置通知支持
-19.  增加MCU OTA demo
-20. 优化串口解析器
+**file name :system.c
+**description:data processing function.
+**instructions for use : The user does not need to care about the content of the file.
+**
+**
+**--------------Revision record---------------------------------------------------
+** version: v1.0
+** date : may 3, 2017 
+description: Initial version
+**
 
+**version::v2.0
+** date: March 23, 2020
+** description: 
+1. Added module unbinding interface support, command code 0x09.
+2.Add rf RF test interface support, command code 0x0e.
+3.Add record-based data reporting interface support,command code 0xe0.
+4. Added access to real-time time API support,command code 0xe1.
+5. Added support for modifying sleep mode state bluetooth broadcast interval,command code 0xe2.
+6. Added support for turning off system clock,command code 0xe4.
+7. Increase low power consumption to enable support,commadn code 0xe5.
+8. Add dynamic password authentication interface support,command code 0xe6.
+9. Added support for disconnecting Bluetooth connection,command code 0xe7.
+10. Added support for querying MCU version number,command code 0xe8.
+11. Added support for MCU to actively send version Numbers,command code 0xe9.
+12. Add OTA upgrade request support,command code 0xea.
+13. Add OTA update file information support,command 0xeb.
+14. Add OTA upgrade file migration request support,command code 0xec.
+15. Add OTA upgrade data support,command code 0xed.
+16. Add OTA upgrade end support,command code 0xee.
+17. Added support for MCU to acquire module version information,commadn code 0xa0.
+18. Added support for resuming factory Settings notifications,command code 0xa1.
+19. Add MCU OTA demo code.
+20. Optimized bt_uart_service.
+**
+**-----------------------------------------------------------------------------
 ******************************************************************************/
+
 #define SYSTEM_GLOBAL
 
 #include "bluetooth.h"
@@ -49,11 +51,11 @@
 extern const DOWNLOAD_CMD_S download_cmd[];
 
 /*****************************************************************************
-函数名称 : set_bt_uart_byte
-功能描述 : 写bt_uart字节
-输入参数 : dest:缓存区其实地址;
-           byte:写入字节值
-返回参数 : 写入完成后的总长度
+Function name: set_bt_uart_byte
+Function description: Writes 1 byte to BT_UART
+Input parameters: dest: the actual address of the buffer area;
+           byte:Write byte value
+Return parameter: the total length after writing
 *****************************************************************************/
 unsigned short set_bt_uart_byte(unsigned short dest, unsigned char byte)
 {
@@ -65,12 +67,12 @@ unsigned short set_bt_uart_byte(unsigned short dest, unsigned char byte)
   return dest;
 }
 /*****************************************************************************
-函数名称 : set_bt_uart_buffer
-功能描述 : 写bt_uart_buffer
-输入参数 : dest:目标地址
-           src:源地址
-           len:数据长度
-返回参数 : 无
+Function name: set_bt_uart_buffer
+Function description: Writes a buffer to BT_UART
+Input parameter: dest: destination address
+           src:source address
+           len:Data length
+Return parameter: none
 *****************************************************************************/
 unsigned short set_bt_uart_buffer(unsigned short dest, unsigned char *src, unsigned short len)
 {
@@ -82,11 +84,11 @@ unsigned short set_bt_uart_buffer(unsigned short dest, unsigned char *src, unsig
   return dest;
 }
 /*****************************************************************************
-函数名称 : bt_uart_write_data
-功能描述 : 向bt uart写入连续数据
-输入参数 : in:发送缓存指针
-           len:数据发送长度
-返回参数 : 无
+Function name: bt_uart_write_data
+Function description: Writes continuous data to BT UART
+Input parameters: in:  buffer pointer
+		   len: data length
+Return parameter: none
 *****************************************************************************/
 static void bt_uart_write_data(unsigned char *in, unsigned short len)
 {
@@ -101,11 +103,11 @@ static void bt_uart_write_data(unsigned char *in, unsigned short len)
   }
 }
 /*****************************************************************************
-函数名称 : get_check_sum
-功能描述 : 计算校验和
-输入参数 : pack:数据源指针
-           pack_len:计算校验和长度
-返回参数 : 校验和
+Function name:get_check_sum
+Function description: calculate checksum
+Input parameter: pack: data source pointer
+           pack_len:data length
+Return parameter: checksum
 *****************************************************************************/
 unsigned char get_check_sum(unsigned char *pack, unsigned short pack_len)
 {
@@ -120,11 +122,11 @@ unsigned char get_check_sum(unsigned char *pack, unsigned short pack_len)
   return check_sum;
 }
 /*****************************************************************************
-函数名称 : bt_uart_write_frame
-功能描述 : 向bt串口发送一帧数据
-输入参数 : fr_type:帧类型
-           len:数据长度
-返回参数 : 无
+Function name: bt_uart_write_frame
+Function description: Send a frame of data to the bt uart port
+Input parameter: fr_type:frame type
+           len:data length
+Return parameter: none
 *****************************************************************************/
 void bt_uart_write_frame(unsigned char fr_type, unsigned short len)
 {
@@ -144,10 +146,10 @@ void bt_uart_write_frame(unsigned char fr_type, unsigned short len)
   bt_uart_write_data((unsigned char *)bt_uart_tx_buf, len);
 }
 /*****************************************************************************
-函数名称 : heat_beat_check
-功能描述 : 心跳包检测
-输入参数 : 无
-返回参数 : 无
+Function name: heat_beat_check
+Function description: Heartbeat packet detection
+Input parameters: none
+Return parameter: none
 *****************************************************************************/
 static void heat_beat_check(void)
 {
@@ -167,10 +169,10 @@ static void heat_beat_check(void)
   bt_uart_write_frame(HEAT_BEAT_CMD, length);
 }
 /*****************************************************************************
-函数名称  : product_info_update
-功能描述  : 产品信息上传
-输入参数 : 无
-返回参数 : 无
+Function name: product_info_update
+Function description: upload product information
+Input parameters: none
+Return parameter: none
 *****************************************************************************/
 static void product_info_update(void)
 {
@@ -182,29 +184,29 @@ static void product_info_update(void)
   bt_uart_write_frame(PRODUCT_INFO_CMD, length);
 }
 /*****************************************************************************
-函数名称 : get_mcu_bt_mode
-功能描述 : 查询mcu和bt的工作模式
-输入参数 : 无
-返回参数 : 无
+Function name: get_mcu_bt_mode
+Function description: query the working mode of mcu and bt
+Input parameters: none
+Return parameter: none
 *****************************************************************************/
 static void get_mcu_bt_mode(void)
 {
   unsigned char length = 0;
   
-#ifdef BT_CONTROL_SELF_MODE                                   //模块自处理
+#ifdef BT_CONTROL_SELF_MODE                                   //Module self-processing
   length = set_bt_uart_byte(length, BT_STATE_KEY);
   length = set_bt_uart_byte(length, BT_RESERT_KEY);
 #else                                                           
-  //无需处理数据
+  //No need to process data
 #endif
   
   bt_uart_write_frame(WORK_MODE_CMD, length);
 }
 /*****************************************************************************
-函数名称 : get_update_dpid_index
-功能描述 : 或许制定DPID在数组中的序号
-输入参数 : dpid:dpid
-返回参数 : index:dp序号
+Function name: get_update_dpid_index
+Function description: Get the serial number of DPID in the array
+Input parameters: dpid:dpid
+Return parameter: index: DP serial number
 *****************************************************************************/
 static unsigned char get_dowmload_dpid_index(unsigned char dpid)
 {
@@ -222,10 +224,12 @@ static unsigned char get_dowmload_dpid_index(unsigned char dpid)
   return index;
 }
 /*****************************************************************************
-函数名称 : data_point_handle
-功能描述 : 下发数据处理
-输入参数 : value:下发数据源指针
-返回参数 : ret:返回数据处理结果
+Function name: data_point_handle
+Function description: send data processing
+Input parameter: 
+	value: the pointer of the data source issued
+Return parameter: 
+	ret: return data processing result
 *****************************************************************************/
 static unsigned char data_point_handle(const unsigned char value[])
 {
@@ -243,7 +247,7 @@ static unsigned char data_point_handle(const unsigned char value[])
 
   if(dp_type != download_cmd[index].dp_type)
   {
-    //错误提示
+    //Error message
     return FALSE;
   }
   else
@@ -254,17 +258,18 @@ static unsigned char data_point_handle(const unsigned char value[])
   return ret;
 }
 /*****************************************************************************
-函数名称 : data_handle
-功能描述 : 数据帧处理
-输入参数 : offset:数据起始位
-返回参数 : 无
+Function name: data_handle
+Function description: data frame processing
+Input parameter: 
+	Offset: Data start bit
+Return parameter: none
 *****************************************************************************/
 void data_handle(unsigned short offset)
 {
 #ifdef SUPPORT_MCU_FIRM_UPDATE
   unsigned char *firmware_addr;
-  static unsigned long firm_length;                                             //MCU升级文件长度
-  static unsigned char firm_update_flag;                                        //MCU升级标志
+  static unsigned long firm_length;                                             //MCU upgrades file length
+  static unsigned char firm_update_flag;                                        //MCU upgrade flag
   unsigned long dp_len;
 #else
   unsigned short dp_len;
@@ -287,20 +292,20 @@ void data_handle(unsigned short offset)
 
   switch(cmd_type)
   {
-  case HEAT_BEAT_CMD:                                   //心跳包
+  case HEAT_BEAT_CMD:                                   //Heartbeat package
     heat_beat_check();
     break;
     
-  case PRODUCT_INFO_CMD:                                //产品信息
+  case PRODUCT_INFO_CMD:                                //product information
     product_info_update();
     break;
     
-  case WORK_MODE_CMD:                                   //查询MCU设定的模块工作模式
+  case WORK_MODE_CMD:                                   //Query module working mode set by MCU
     get_mcu_bt_mode();
     break;
     
 #ifndef BT_CONTROL_SELF_MODE
-  case BT_STATE_CMD:                                  //bt工作状态	
+  case BT_STATE_CMD:                                  //bt work state
     bt_work_state = bt_uart_rx_buf[offset + DATA_START];
     if(bt_work_state==0x01||bt_work_state==0x00)
     {
@@ -310,12 +315,12 @@ void data_handle(unsigned short offset)
     bt_uart_write_frame(BT_STATE_CMD,0);
     break;
 
-  case BT_RESET_CMD:                                  //重置bt(bt返回成功)
+  case BT_RESET_CMD:                                  //Reset BT (BT returns success)
     reset_bt_flag = RESET_BT_SUCCESS;
     break;
 #endif
     
-  case DATA_QUERT_CMD:                                  //命令下发
+  case DATA_QUERT_CMD:                                  //dp data handled
     total_len = bt_uart_rx_buf[offset + LENGTH_HIGH] * 0x100;
     total_len += bt_uart_rx_buf[offset + LENGTH_LOW];
     
@@ -328,11 +333,11 @@ void data_handle(unsigned short offset)
       
       if(SUCCESS == ret)
       {
-        //成功提示
+        //Success tips
       }
       else
       {
-        //错误提示
+        //Error message
       }
       
       i += (dp_len + 4);
@@ -340,7 +345,7 @@ void data_handle(unsigned short offset)
     
     break;
     
-  case STATE_QUERY_CMD:                                 //状态查询
+  case STATE_QUERY_CMD:                                 //Status query
     all_data_update();                               
     break;
     
@@ -368,9 +373,9 @@ void data_handle(unsigned short offset)
 #ifdef TUYA_BCI_UART_COMMON_SEND_TIME_SYNC_TYPE 
 	case TUYA_BCI_UART_COMMON_SEND_TIME_SYNC_TYPE:
 		ret = bt_uart_rx_buf[offset + DATA_START];
-		if(ret==0)//获取时间成功
+		if(ret==0)//Get time succeeded
 		{
-			if(bt_uart_rx_buf[offset + DATA_START+1]==0x00)//时间格式0   	获取7字节时间时间类型+2字节时区信息
+			if(bt_uart_rx_buf[offset + DATA_START+1]==0x00)//Time format 0 :Get 7 bytes of time and time type + 2 bytes of time zone information
 			{
 				bt_time.nYear = bt_uart_rx_buf[offset + DATA_START+2] + 2018;
 
@@ -382,13 +387,13 @@ void data_handle(unsigned short offset)
 				bt_time.DayIndex = bt_uart_rx_buf[offset + DATA_START+8];
 				time_zone_100 = ((unsigned short)bt_uart_rx_buf[offset + DATA_START+9]<<8)+bt_uart_rx_buf[offset + DATA_START+10];
 			}
-			else if(bt_uart_rx_buf[offset + DATA_START+1]==0x01)//时间格式1	获取13字节ms级unix时间+2字节时区信息
+			else if(bt_uart_rx_buf[offset + DATA_START+1]==0x01)//Time format 1: Get 13 bytes of ms-level unix time + 2 bytes of time zone information
 			{
 				my_memcpy(current_timems_string,&bt_uart_rx_buf[offset + DATA_START+2],13);
 				time_stamp_ms = my_atoll(current_timems_string);
 				time_zone_100 = ((unsigned short)bt_uart_rx_buf[offset + DATA_START+15]<8)+bt_uart_rx_buf[offset + DATA_START+16];
 			}
-			else if(bt_uart_rx_buf[offset + DATA_START+1]==0x02)//时间格式2	获取7字节时间时间类型+2字节时区信息
+			else if(bt_uart_rx_buf[offset + DATA_START+1]==0x02)//Time format 2: Get 7 bytes of time and time type + 2 bytes of time zone information
 			{
 				bt_time.nYear = bt_uart_rx_buf[offset + DATA_START+2] + 2000;
 				bt_time.nMonth = bt_uart_rx_buf[offset + DATA_START+3];
@@ -401,7 +406,7 @@ void data_handle(unsigned short offset)
 			}
 			bt_time_sync_result(0,bt_uart_rx_buf[offset + DATA_START+1],bt_time,time_zone_100,time_stamp_ms);
 		}
-		else//获取时间失败
+		else//Failed to get time
 		{
 			bt_time_sync_result(1,bt_uart_rx_buf[offset + DATA_START+1],bt_time,time_zone_100,time_stamp_ms);
 		}
@@ -462,10 +467,10 @@ void data_handle(unsigned short offset)
   }
 }
 /*****************************************************************************
-函数名称 : get_queue_total_data
-功能描述 : 读取队列内数据
-输入参数 : 无
-返回参数 : 无
+Function name:get_queue_total_data
+Function description: read data in the queue
+Input parameters: none
+Return parameter: none
 *****************************************************************************/
 unsigned char get_queue_total_data(void)
 {
@@ -475,10 +480,10 @@ unsigned char get_queue_total_data(void)
     return 0;
 }
 /*****************************************************************************
-函数名称 : Queue_Read_Byte
-功能描述 : 读取队列1字节数据
-输入参数 : 无
-返回参数 : 无
+Function name:Queue_Read_Byte
+Function description: Read 1 byte data of queue
+Input parameters: none
+Return parameter: none
 *****************************************************************************/
 unsigned char Queue_Read_Byte(void)
 {
@@ -486,10 +491,10 @@ unsigned char Queue_Read_Byte(void)
   
   if(queue_out != queue_in)
   {
-    //有数据
+    //Data is not empty
     if(queue_out >= (unsigned char *)(bt_queue_buf + sizeof(bt_queue_buf)))
     {
-      //数据已经到末尾
+      //Data has reached the end
       queue_out = (unsigned char *)(bt_queue_buf);
     }
     
