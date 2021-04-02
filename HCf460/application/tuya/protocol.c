@@ -328,23 +328,73 @@ static unsigned char dp_download_work_mode_handle(const unsigned char value[], u
         case 1:
 					run_mode = 1;//不进慢
           slow_only_flag = 0;//回快
-					if (check_status == TUYA_SLOW_CHECK)
+				
+					if (next_state == FAST_CHECK_DATA_PREPARE)
+					{
+						//
+					}
+					else if(next_state == FAST_CHECK)
+					{
+						//
+					}
+					else if(next_state == SLOW_CHECK_DATA_PREPARE_S0)
 					{
 						state = IDLE;
-						next_state = FAST_CHECK_DATA_PREPARE;		
+						next_state = FAST_CHECK_DATA_PREPARE;
 						clear_buffer();
-					}		
+					}
+					else if(next_state == SLOW_CHECK_DATA_PREPARE_S1)
+					{
+						state = IDLE;
+						next_state = FAST_CHECK_DATA_PREPARE;
+						clear_buffer();
+					}
+					else if(next_state == SLOW_CHECK_S0)
+					{
+						state = IDLE;
+						next_state = FAST_CHECK_DATA_PREPARE;
+						clear_buffer();
+					}	
+					else if(next_state == SLOW_CHECK_S1)
+					{
+						state = IDLE;
+						next_state = FAST_CHECK_DATA_PREPARE;
+						clear_buffer();
+					}
         break;
         
         case 2:
 					run_mode = 0;//进慢
           slow_only_flag = 1;//不回快
-					if (check_status == TUYA_FAST_CHECK)
+
+					if (next_state == FAST_CHECK_DATA_PREPARE)
 					{
 						state = IDLE;
 						next_state = SLOW_CHECK_DATA_PREPARE_S0;
 						clear_buffer();
-					}		
+					}
+					else if(next_state == FAST_CHECK)
+					{
+						state = IDLE;
+						next_state = SLOW_CHECK_DATA_PREPARE_S0;
+						clear_buffer();
+					}
+					else if(next_state == SLOW_CHECK_DATA_PREPARE_S0)
+					{
+						//
+					}
+					else if(next_state == SLOW_CHECK_DATA_PREPARE_S1)
+					{
+						//
+					}
+					else if(next_state == SLOW_CHECK_S0)
+					{
+						//
+					}	
+					else if(next_state == SLOW_CHECK_S1)
+					{
+						//
+					}					
         break;
         
         case 3:

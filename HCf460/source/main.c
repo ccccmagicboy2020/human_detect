@@ -64,6 +64,9 @@ int person_in_range_flag_last = TUYA_PERSON_STATUS_OTHER;
 int led_onboard_status = TUYA_LED_ONBOARD_OTHER;
 int led_onboard_status_last = TUYA_LED_ONBOARD_OTHER;
 
+int light_status_flag = 0;
+int light_status_flag_last = 0;
+
 ////////////////////////////////////////////////////////////
 float quick_time_times = 4;
 float quick_time_add = 32;
@@ -82,7 +85,8 @@ void check_status_upload(unsigned char aaaa);
 void person_in_range_upload(unsigned char aaaa);
 void led_onboard_status_upload(unsigned char aaaa);
 void clear_buffer(void);
-
+void light_status_upload(unsigned char aaaa);
+////////////////////////////////////////////////////////////
 unsigned char upload_disable = 1;
 unsigned char g_work_mode = ALL_CHECK;
 ////////////////////////////////////////////////////////////
@@ -99,11 +103,40 @@ unsigned short Light_threshold4 = 0;
 ////////////////////////////////////////////////////////////
 void get_mcu_bt_mode(void);
 void bt_hand_up(void);
+void clear_buffer(void);
+void gpio_output(unsigned char res);
 
 void clear_buffer(void)
 {
 	fast_retry_flag = 1;
 	slow_retry_flag = 1;
+}
+
+void gpio_output(unsigned char res)
+{
+	//
+	if (res)
+	{
+		PORT_SetBits(PortA, Pin07);
+		PORT_ResetBits(PortA, Pin08);
+		
+		if (light_sensor_adc_data < Light_threshold3)//门限3
+		{
+			PORT_SetBits(PortA, Pin00);
+		}
+		else
+		{
+			PORT_ResetBits(PortA, Pin00);
+		}
+		light_status_upload(0);
+	}
+	else
+	{
+		PORT_ResetBits(PortA, Pin07);
+		PORT_SetBits(PortA, Pin08);
+		PORT_ResetBits(PortA, Pin00);
+		light_status_upload(1);
+	}
 }
 
 void fast_output_result(char quick_detection_result)
@@ -116,7 +149,7 @@ void fast_output_result(char quick_detection_result)
 		led_onboard_status_upload(TUYA_LED_ONBOARD_RED_ON_GREEN_OFF);
 		person_in_range_upload(TUYA_PERSON_STATUS_HAVE_PERSON);
 		//add gpio output below
-		
+		gpio_output(1);
 	}
 	else						//无人
 	{
@@ -125,7 +158,7 @@ void fast_output_result(char quick_detection_result)
 		led_onboard_status_upload(TUYA_LED_ONBOARD_RED_OFF_GREEN_OFF);
 		person_in_range_upload(TUYA_PERSON_STATUS_NO_PERSON);
 		//add gpio output below
-		
+		gpio_output(0);
 	}
 }
 
@@ -597,11 +630,39 @@ void idle_process(void)
 			find_me_counter = 0;
 		}
 	}
+	//
 	if (light_sensor_upload_flag)
 	{
 		light_sensor_upload_flag = 0;//clear flag
 		//
 		mcu_dp_value_update(DPID_LIGHT_SENSOR_RAW, light_sensor_adc_data);
+
+		if (light_sensor_adc_data > Light_threshold1)//门限1
+		{
+			PORT_SetBits(PortB, Pin06);
+		}
+		else
+		{
+			PORT_ResetBits(PortB, Pin06);
+		}
+
+		if (light_sensor_adc_data < Light_threshold2)//门限2
+		{
+			PORT_SetBits(PortB, Pin05);
+		}
+		else
+		{
+			PORT_ResetBits(PortB, Pin05);
+		}		
+		
+		if (light_sensor_adc_data > Light_threshold4)//门限4
+		{
+			PORT_SetBits(PortA, Pin04);
+		}
+		else
+		{
+			PORT_ResetBits(PortA, Pin04);
+		}		
 	}
 	//
 	UsartRxErrProcess();
@@ -632,6 +693,20 @@ void person_in_range_upload(unsigned char aaaa)
 		{
 			mcu_dp_enum_update(DPID_PERSON_IN_RANGE, aaaa);
 			person_in_range_flag_last = person_in_range_flag;
+		}	
+	}
+}
+
+void light_status_upload(unsigned char aaaa)
+{
+	light_status_flag = aaaa;
+	
+	if (upload_disable == 0)
+	{
+		if (light_status_flag != light_status_flag_last)
+		{
+			mcu_dp_enum_update(DPID_LIGHT_STATUS, aaaa);
+			light_status_flag_last = light_status_flag;
 		}	
 	}
 }
@@ -713,13 +788,13 @@ void gpio_init(void)
 	stcPortInit.enPullUp = Enable;
 	/* LED0 Port/Pin initialization */
 
-	PORT_Init(PortA, Pin07, &stcPortInit);   //P1-4
-	PORT_Init(PortA, Pin08, &stcPortInit);   //P1-3
-	PORT_Init(PortB, Pin06, &stcPortInit);   //P5-1
-	PORT_Init(PortB, Pin05, &stcPortInit);   //P5-2
-	PORT_Init(PortA, Pin00, &stcPortInit);   //P5-3
-	PORT_Init(PortA, Pin04, &stcPortInit);   //P5-4				
-	PORT_Init(PortB, Pin00, &stcPortInit);   //P5-5
+	PORT_Init(PortA, Pin07, &stcPortInit);   //P1-4	//gpio0
+	PORT_Init(PortA, Pin08, &stcPortInit);   //P1-3	//gpio1
+	PORT_Init(PortB, Pin06, &stcPortInit);   //P5-1 //gpio2
+	PORT_Init(PortB, Pin05, &stcPortInit);   //P5-2	//gpio3
+	PORT_Init(PortA, Pin00, &stcPortInit);   //P5-3 //gpio4
+	PORT_Init(PortA, Pin04, &stcPortInit);   //P5-4	//gpio5		
+	PORT_Init(PortB, Pin00, &stcPortInit);   //P5-5 // not use
 		
 	PORT_ResetBits(PortA, Pin07);
 	PORT_ResetBits(PortA, Pin08);
