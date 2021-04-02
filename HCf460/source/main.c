@@ -109,13 +109,17 @@ void fast_output_result(char quick_detection_result)
 		led_green(0);
 		led_onboard_status_upload(TUYA_LED_ONBOARD_RED_ON_GREEN_OFF);
 		person_in_range_upload(TUYA_PERSON_STATUS_HAVE_PERSON);
+		//add gpio output below
+		
 	}
 	else						//Œﬁ»À
 	{
 		led_red(0);			
 		led_green(0);
 		led_onboard_status_upload(TUYA_LED_ONBOARD_RED_OFF_GREEN_OFF);
-		person_in_range_upload(TUYA_PERSON_STATUS_NO_PERSON);	
+		person_in_range_upload(TUYA_PERSON_STATUS_NO_PERSON);
+		//add gpio output below
+		
 	}
 }
 
@@ -123,51 +127,62 @@ void slow_output_result(char slow_s0_result)
 {
 	switch (slow_s0_result)
 	{
-	case BIG_MOTION:
-		//printf("big: 1 \r\n");
-		led_red(1);			
-		led_green(0);
-		led_onboard_status_upload(TUYA_LED_ONBOARD_RED_ON_GREEN_OFF);	
+	case BIG_MOTION:	
 		if (slow_only_flag == 1)
 		{
-			//fast_output_result(1);
+			fast_output_result(1);
+		}
+		else
+		{
+			led_red(1);			
+			led_green(0);
+			led_onboard_status_upload(TUYA_LED_ONBOARD_RED_ON_GREEN_OFF);
 		}
 		break;
 	case BREATHE:
-		//printf("micro: 1 \r\n");
-		led_red(0);			
-		led_green(1);
-		led_onboard_status_upload(TUYA_LED_ONBOARD_RED_OFF_GREEN_ON);
 		if (slow_only_flag == 1)
 		{
-			//fast_output_result(1);
+			fast_output_result(1);
+		}
+		else
+		{
+			led_red(0);			
+			led_green(1);
+			led_onboard_status_upload(TUYA_LED_ONBOARD_RED_OFF_GREEN_ON);
 		}
 		break;
 	case BREATHE_NOT_SURE:
-		//printf("micro: 0.3 \r\n");
-		led_red(0);			
-		led_green(1);
-		led_onboard_status_upload(TUYA_LED_ONBOARD_RED_OFF_GREEN_ON);
 		if (slow_only_flag == 1)
 		{
-			//fast_output_result(1);
-		}	
+			fast_output_result(1);
+		}
+		else
+		{
+			led_red(0);			
+			led_green(1);
+			led_onboard_status_upload(TUYA_LED_ONBOARD_RED_OFF_GREEN_ON);
+		}
 		break;
 	case NO_PERSON_NOT_SURE:
-		//printf("big: 0.5 \r\n");
-		led_red(1);			
-		led_green(1);
-		led_onboard_status_upload(TUYA_LED_ONBOARD_RED_ON_GREEN_ON);
 		if (slow_only_flag == 1)
 		{
-			//fast_output_result(1);
+			fast_output_result(1);
+		}
+		else
+		{
+			led_red(1);			
+			led_green(1);
+			led_onboard_status_upload(TUYA_LED_ONBOARD_RED_ON_GREEN_ON);
 		}
 		break;
 	case NO_PERSON:
-		//printf("slow check no person go fast check\r\n");
 		if (slow_only_flag == 1)
 		{
 			fast_output_result(0);
+		}
+		else
+		{
+			//printf("slow check no person go fast check\r\n");
 		}
 		break;
 	default:
