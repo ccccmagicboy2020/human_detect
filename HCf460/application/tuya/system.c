@@ -309,7 +309,7 @@ void data_handle(unsigned short offset)
 			hand_up_status = bt_uart_rx_buf[offset + DATA_START];
 			if (hand_up_status)
 			{
-				//
+				bt_hand_up();
 			}
 			else
 			{
@@ -340,7 +340,8 @@ void data_handle(unsigned short offset)
 	}
 	else if(BT_NOT_CONNECTED == bt_work_state)
 	{
-		upload_disable = 0;
+		upload_disable = 1;
+		get_mcu_bt_mode();
 		bt_hand_up();
 	}
 	else if(BT_CONNECTED == bt_work_state)

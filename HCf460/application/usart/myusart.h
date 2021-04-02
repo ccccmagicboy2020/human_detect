@@ -6,7 +6,11 @@
 #define USART_TUYA_CH                   (M4_USART1)
 
 /* USART baudrate definition */
-#define USART_BAUDRATE                  (115200ul)
+#ifdef BITRATE9600
+	#define USART_BAUDRATE                  (9600ul)
+#else
+	#define USART_BAUDRATE                  (115200ul)
+#endif
 
 /* USART RX Port/Pin definition */
 #define USART_RX_PORT                   (PortC)
@@ -30,6 +34,7 @@
 
 extern void usart_init(void);
 extern void UsartRxErrProcess(void);
+extern void tuya_UsartRxErrProcess(void);
 
 static void tuya_UsartRxIrqCallback(void);
 static void UsartRxIrqCallback(void);

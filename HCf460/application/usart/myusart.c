@@ -62,6 +62,24 @@ void UsartRxErrProcess(void)
     }
 }
 
+void tuya_UsartRxErrProcess(void)
+{
+    if (Set == USART_GetStatus(USART_TUYA_CH, UsartFrameErr))
+    {
+        USART_ClearStatus(USART_TUYA_CH, UsartFrameErr);
+    }
+
+    if (Set == USART_GetStatus(USART_TUYA_CH, UsartParityErr))
+    {
+        USART_ClearStatus(USART_TUYA_CH, UsartParityErr);
+    }
+
+    if (Set == USART_GetStatus(USART_TUYA_CH, UsartOverrunErr))
+    {
+        USART_ClearStatus(USART_TUYA_CH, UsartOverrunErr);
+    }
+}
+
 void usart_init(void)
 {
 	en_result_t enRet = Ok;

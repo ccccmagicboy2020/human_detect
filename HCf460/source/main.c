@@ -583,6 +583,9 @@ void idle_process(void)
 		mcu_dp_value_update(DPID_LIGHT_SENSOR_RAW, light_sensor_adc_data);
 	}
 	//
+	UsartRxErrProcess();
+	tuya_UsartRxErrProcess();
+	
 	state = UART_PROTOCOL;
 }
 
