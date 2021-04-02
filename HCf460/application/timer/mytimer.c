@@ -116,7 +116,7 @@ static void Timer0A_CallBack(void)      //  T = 1ms
 	Timer_Counter++;
 	light_sensor_Timer_Counter++;
 	
-	if (light_sensor_Timer_Counter >= 1000*2)
+	if (light_sensor_Timer_Counter >= 1000*10)
 	{
 		light_sensor_upload_flag = 1;
 		light_sensor_Timer_Counter = 0;

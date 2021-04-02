@@ -70,7 +70,6 @@ int freq_detection(FIFO_DataType data[], const float win[], int data_size, int w
 	
 	static int run_counter = 0;
 	float freq_times_rt = 0;
-	static float freq_times_last = -1;
 	
 	float minTEMP = 0;
 	float minTEMP_0 = 0;
@@ -211,7 +210,7 @@ int freq_detection(FIFO_DataType data[], const float win[], int data_size, int w
 		run_counter++;
 		if (check_status == TUYA_FAST_CHECK)
 		{
-			if(run_counter%8 == 0)
+			if(run_counter%64 == 40)//64*256ms~16s
 			{
 				//
 				if (freq_times_rt != (float)0)
@@ -219,37 +218,25 @@ int freq_detection(FIFO_DataType data[], const float win[], int data_size, int w
 					mcu_dp_value_update(DPID_FREQ_TIMES_RT, (int)((freq_times_rt*100)+0.5f));
 				}
 			}
-			else if (run_counter%8 == 4)
-			{
-				if (freq_times != freq_times_last)
-				{
-					mcu_dp_value_update(DPID_FREQ_TIMES, (int)((freq_times*100)+0.5f));	
-					freq_times_last = freq_times;
-				}
-			}
 		}
 		else if (check_status == TUYA_SLOW_CHECK)
 		{
-			//
-			if (freq_times_rt != (float)0)
+			if(run_counter%4 == 0)
 			{
-				mcu_dp_value_update(DPID_FREQ_TIMES_RT, (int)((freq_times_rt*100)+0.5f));
-				Delay_ms(ALL_UPLOAD_DELAY);
-			}
-			if (freq_times != freq_times_last)
-			{
-				mcu_dp_value_update(DPID_FREQ_TIMES, (int)((freq_times*100)+0.5f));	
-				freq_times_last = freq_times;
-				Delay_ms(ALL_UPLOAD_DELAY);
-			}	
-			if (0 == respirationfreq_vote[1])	//Âý¼ì²â
-			{
-				if (minTEMP != (float)0)
+				if (freq_times_rt != (float)0)
 				{
-					mcu_dp_value_update(DPID_FREQ_PARAMETER1_RT, (int)((minTEMP*100)+0.5f));
-					Delay_ms(ALL_UPLOAD_DELAY);
-				}		
-				mcu_dp_value_update(DPID_FREQ_PARAMETER1, (int)((respiration_times*100)+0.5f));	
+					mcu_dp_value_update(DPID_FREQ_TIMES_RT, (int)((freq_times_rt*100)+0.5f));
+				}			
+			}
+			else if(run_counter%4 == 2)
+			{
+				if (0 == respirationfreq_vote[1])	//Âý¼ì²â
+				{
+					if (minTEMP != (float)0)
+					{
+						mcu_dp_value_update(DPID_FREQ_PARAMETER1_RT, (int)((minTEMP*100)+0.5f));
+					}	
+				}
 			}
 		}
 	}

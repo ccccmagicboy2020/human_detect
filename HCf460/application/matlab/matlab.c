@@ -29,7 +29,7 @@ int power_freq = 50;
 void Delay_ms(unsigned int t);
 
 int quick_detection(FIFO_DataType  in_data[16384],int win_size_time,int stride_time,float time_times,float time_add,int win_size_freq,  
-								   int stride_freq,  int time_accum,int xhz1, int freq_times,	double respiration_times)											 	
+								   int stride_freq,  int time_accum,int xhz1, float freq_times,	float respiration_times)											 	
 {
 	u8 result = 0;
 	u16 time_vote = 0,freq_vote = 0,i =0; 
@@ -83,6 +83,7 @@ int Fretting_detection(FIFO_DataType in_data5[4096],double N, double pro_N, doub
 	
 	float diff = 0;
 	float diff_max = 0;
+	static int run_counter = 0;
 	  
 	//º”¥∞¥¶¿Ì		
 	for(b=0;b<4096;b++)
@@ -209,13 +210,15 @@ int Fretting_detection(FIFO_DataType in_data5[4096],double N, double pro_N, doub
 	
 	if (upload_disable == 0)
 	{
-		//upload offset and diff
-		if (diff_max != (float)0)
-		{
-			mcu_dp_value_update(DPID_FREQ_PARAMETER2_RT, (int)((diff_max*100)+0.5f));
-			Delay_ms(ALL_UPLOAD_DELAY);
+		run_counter++;
+		if(run_counter%4 == 1)//
+		{		
+			//upload offset and diff
+			if (diff_max != (float)0)
+			{
+				mcu_dp_value_update(DPID_FREQ_PARAMETER2_RT, (int)((diff_max*100)+0.5f));
+			}			
 		}
-		mcu_dp_value_update(DPID_FREQ_PARAMETER2, (int)((offset*100)+0.5f));
 	}	
 
     return flag_Fretting;			

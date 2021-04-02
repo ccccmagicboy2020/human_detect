@@ -67,11 +67,12 @@ int led_onboard_status_last = TUYA_LED_ONBOARD_OTHER;
 ////////////////////////////////////////////////////////////
 float quick_time_times = 4;
 float quick_time_add = 32;
+float quick_freq_times = 3;
 ////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////
-int		slow_time_times = 30;
-int 	slow_time_add = 600;
+float	slow_time_times = 30;
+float slow_time_add = 600;
 float	slow_freq_times = 1800;
 float	res_times = 50000;		//17.5
 float	offsetmax = 3;     		//√≈œﬁ∆´÷√  0.65
@@ -90,6 +91,11 @@ unsigned char find_me_counter = 0;
 ////////////////////////////////////////////////////////////
 unsigned char light_sensor_upload_flag = 0;
 extern unsigned short  light_sensor_adc_data;
+////////////////////////////////////////////////////////////
+unsigned short Light_threshold1 = 0;
+unsigned short Light_threshold2 = 0;
+unsigned short Light_threshold3 = 0;
+unsigned short Light_threshold4 = 0;
 ////////////////////////////////////////////////////////////
 void get_mcu_bt_mode(void);
 void bt_hand_up(void);
@@ -282,7 +288,7 @@ void fast_check_process(void)
 									        /* stride_freq =  */		102, 
 											/* time_accum =  */			8, 
 											/* xhz1 =  */				2, 
-											/* freq_times =  */			3, 
+											/* freq_times =  */			quick_freq_times, //3
 											/* respiration_times =  */	17.5
 											);
 

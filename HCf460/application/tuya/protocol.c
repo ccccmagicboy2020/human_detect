@@ -58,7 +58,25 @@ extern unsigned char g_work_mode;
 extern unsigned char find_me_flag;
 extern unsigned short  light_sensor_adc_data;
 
+extern unsigned short Light_threshold1;
+extern unsigned short Light_threshold2;
+extern unsigned short Light_threshold3;
+extern unsigned short Light_threshold4;
+
+extern float quick_time_times;
+extern float quick_time_add;
+extern float quick_freq_times;
+
+extern float	slow_time_times;
+extern float	slow_time_add;
+extern float	slow_freq_times;
+
+extern	float	res_times;
+extern	float	offsetmax;
+extern	float	offsetmin;
+
 void Delay_ms(unsigned int t);
+void update_check_parameter(void);
 
 /******************************************************************************
                                 移植须知:
@@ -101,6 +119,11 @@ const DOWNLOAD_CMD_S download_cmd[] =
   {DPID_FREQ_PARAMETER2, DP_TYPE_VALUE},
   {DPID_FREQ_PARAMETER2_RT, DP_TYPE_VALUE},
   {DPID_LIGHT_SENSOR_RAW, DP_TYPE_VALUE},
+  {DPID_LIGHT_THRESHOLD1, DP_TYPE_VALUE},
+  {DPID_LIGHT_THRESHOLD2, DP_TYPE_VALUE},
+  {DPID_LIGHT_THRESHOLD3, DP_TYPE_VALUE},
+  {DPID_LIGHT_THRESHOLD4, DP_TYPE_VALUE},
+  {DPID_COMMON_COMMAND, DP_TYPE_ENUM},
 };
 
 /******************************************************************************
@@ -171,8 +194,17 @@ void all_data_update(void)
     mcu_dp_enum_update(DPID_WORK_MODE, g_work_mode); //枚举型数据上报;
 		Delay_ms(ALL_UPLOAD_DELAY);
 		mcu_dp_bool_update(DPID_FIND_ME,1);
-    mcu_dp_value_update(DPID_LIGHT_SENSOR_RAW, light_sensor_adc_data); //VALUE型数据上报;
-	
+		Delay_ms(ALL_UPLOAD_DELAY);
+		mcu_dp_value_update(DPID_LIGHT_THRESHOLD1, Light_threshold1);
+		Delay_ms(ALL_UPLOAD_DELAY);
+		mcu_dp_value_update(DPID_LIGHT_THRESHOLD2, Light_threshold2);
+		Delay_ms(ALL_UPLOAD_DELAY);
+		mcu_dp_value_update(DPID_LIGHT_THRESHOLD3, Light_threshold3);
+		Delay_ms(ALL_UPLOAD_DELAY);
+		mcu_dp_value_update(DPID_LIGHT_THRESHOLD4, Light_threshold4);
+		Delay_ms(ALL_UPLOAD_DELAY);
+		update_check_parameter();
+		
 }
 
 
@@ -220,11 +252,17 @@ static unsigned char dp_download_time_times_handle(const unsigned char value[], 
     unsigned long time_times_x;
     
     time_times_x = mcu_get_dp_download_value(value,length);
-    /*
-    //VALUE类型数据处理
-    */
-   //
-   //
+
+		if (g_work_mode == FAST_CHECK_ONLY)
+		{
+			//
+			quick_time_times = time_times_x/100;
+		}
+		else if (g_work_mode == SLOW_CHECK_ONLY)
+		{
+			//
+			slow_time_times = time_times_x/100;
+		}
     
     //处理完DP数据后应有反馈
     ret = mcu_dp_value_update(DPID_TIME_TIMES, time_times_x);
@@ -248,10 +286,16 @@ static unsigned char dp_download_time_add_handle(const unsigned char value[], un
     unsigned long time_add_x;
     
     time_add_x = mcu_get_dp_download_value(value,length);
-    /*
-    //VALUE类型数据处理
-    
-    */
+	
+		if (g_work_mode == FAST_CHECK_ONLY)
+		{
+			//
+			quick_time_add = time_add_x/100;
+		}
+		else if (g_work_mode == SLOW_CHECK_ONLY)
+		{
+			slow_time_add = time_add_x/100;
+		}
     
     //处理完DP数据后应有反馈
     ret = mcu_dp_value_update(DPID_TIME_ADD,time_add_x);
@@ -278,12 +322,12 @@ static unsigned char dp_download_work_mode_handle(const unsigned char value[], u
     switch(work_mode) {
         case 0:
 					run_mode = 0;//进慢
-                    slow_only_flag = 0;	//回快	
+          slow_only_flag = 0;	//回快	
         break;
         
         case 1:
 					run_mode = 1;//不进慢
-                    slow_only_flag = 0;//回快
+          slow_only_flag = 0;//回快
 					if (check_status == TUYA_SLOW_CHECK)
 					{
 						state = IDLE;
@@ -294,7 +338,7 @@ static unsigned char dp_download_work_mode_handle(const unsigned char value[], u
         
         case 2:
 					run_mode = 0;//进慢
-                    slow_only_flag = 1;//不回快
+          slow_only_flag = 1;//不回快
 					if (check_status == TUYA_FAST_CHECK)
 					{
 						state = IDLE;
@@ -311,7 +355,7 @@ static unsigned char dp_download_work_mode_handle(const unsigned char value[], u
         break;
     }
     
-	g_work_mode = work_mode;
+		g_work_mode = work_mode;
     //处理完DP数据后应有反馈
     ret = mcu_dp_enum_update(DPID_WORK_MODE, g_work_mode);
     if(ret == SUCCESS)
@@ -334,10 +378,17 @@ static unsigned char dp_download_freq_times_handle(const unsigned char value[], 
     unsigned long freq_times_x;
     
     freq_times_x = mcu_get_dp_download_value(value,length);
-    /*
-    //VALUE类型数据处理
-    
-    */
+
+		if (g_work_mode == FAST_CHECK_ONLY)
+		{
+			//
+			quick_freq_times = freq_times_x/100;
+		}
+		else if (g_work_mode == SLOW_CHECK_ONLY)
+		{
+			//
+			slow_freq_times = freq_times_x/100;
+		}
     
     //处理完DP数据后应有反馈
     ret = mcu_dp_value_update(DPID_FREQ_TIMES,freq_times_x);
@@ -419,10 +470,12 @@ static unsigned char dp_download_freq_parameter1_handle(const unsigned char valu
     unsigned long freq_parameter1;
     
     freq_parameter1 = mcu_get_dp_download_value(value,length);
-    /*
-    //VALUE类型数据处理
-    
-    */
+
+		if (g_work_mode == SLOW_CHECK_ONLY)
+		{
+			//
+			res_times = freq_parameter1/100;
+		}
     
     //处理完DP数据后应有反馈
     ret = mcu_dp_value_update(DPID_FREQ_PARAMETER1,freq_parameter1);
@@ -446,13 +499,186 @@ static unsigned char dp_download_freq_parameter2_handle(const unsigned char valu
     unsigned long freq_parameter2;
     
     freq_parameter2 = mcu_get_dp_download_value(value,length);
-    /*
-    //VALUE类型数据处理
-    
-    */
+
+		if (g_work_mode == SLOW_CHECK_ONLY)
+		{
+			//
+			offsetmin = freq_parameter2/100;
+			offsetmax = freq_parameter2/100 + 0.2f;
+		}
     
     //处理完DP数据后应有反馈
     ret = mcu_dp_value_update(DPID_FREQ_PARAMETER2,freq_parameter2);
+    if(ret == SUCCESS)
+        return SUCCESS;
+    else
+        return ERROR;
+}
+/*****************************************************************************
+函数名称 : dp_download_light_threshold1_handle
+功能描述 : 针对DPID_LIGHT_THRESHOLD1的处理函数
+输入参数 : value:数据源数据
+        : length:数据长度
+返回参数 : 成功返回:SUCCESS/失败返回:ERROR
+使用说明 : 可下发可上报类型,需要在处理完数据后上报处理结果至app
+*****************************************************************************/
+static unsigned char dp_download_light_threshold1_handle(const unsigned char value[], unsigned short length)
+{
+    //示例:当前DP类型为VALUE
+    unsigned char ret;
+    
+    Light_threshold1 = mcu_get_dp_download_value(value,length);
+ 
+		
+    
+    //处理完DP数据后应有反馈
+    ret = mcu_dp_value_update(DPID_LIGHT_THRESHOLD1,Light_threshold1);
+    if(ret == SUCCESS)
+        return SUCCESS;
+    else
+        return ERROR;
+}
+/*****************************************************************************
+函数名称 : dp_download_light_threshold2_handle
+功能描述 : 针对DPID_LIGHT_THRESHOLD2的处理函数
+输入参数 : value:数据源数据
+        : length:数据长度
+返回参数 : 成功返回:SUCCESS/失败返回:ERROR
+使用说明 : 可下发可上报类型,需要在处理完数据后上报处理结果至app
+*****************************************************************************/
+static unsigned char dp_download_light_threshold2_handle(const unsigned char value[], unsigned short length)
+{
+    //示例:当前DP类型为VALUE
+    unsigned char ret;
+    
+    Light_threshold2 = mcu_get_dp_download_value(value,length);
+    
+    //处理完DP数据后应有反馈
+    ret = mcu_dp_value_update(DPID_LIGHT_THRESHOLD2,Light_threshold2);
+    if(ret == SUCCESS)
+        return SUCCESS;
+    else
+        return ERROR;
+}
+/*****************************************************************************
+函数名称 : dp_download_light_threshold3_handle
+功能描述 : 针对DPID_LIGHT_THRESHOLD3的处理函数
+输入参数 : value:数据源数据
+        : length:数据长度
+返回参数 : 成功返回:SUCCESS/失败返回:ERROR
+使用说明 : 可下发可上报类型,需要在处理完数据后上报处理结果至app
+*****************************************************************************/
+static unsigned char dp_download_light_threshold3_handle(const unsigned char value[], unsigned short length)
+{
+    //示例:当前DP类型为VALUE
+    unsigned char ret;
+    
+    Light_threshold3 = mcu_get_dp_download_value(value,length);
+    
+    //处理完DP数据后应有反馈
+    ret = mcu_dp_value_update(DPID_LIGHT_THRESHOLD3,Light_threshold3);
+    if(ret == SUCCESS)
+        return SUCCESS;
+    else
+        return ERROR;
+}
+/*****************************************************************************
+函数名称 : dp_download_light_threshold4_handle
+功能描述 : 针对DPID_LIGHT_THRESHOLD4的处理函数
+输入参数 : value:数据源数据
+        : length:数据长度
+返回参数 : 成功返回:SUCCESS/失败返回:ERROR
+使用说明 : 可下发可上报类型,需要在处理完数据后上报处理结果至app
+*****************************************************************************/
+static unsigned char dp_download_light_threshold4_handle(const unsigned char value[], unsigned short length)
+{
+    //示例:当前DP类型为VALUE
+    unsigned char ret;
+    
+    Light_threshold4 = mcu_get_dp_download_value(value,length);
+    
+    //处理完DP数据后应有反馈
+    ret = mcu_dp_value_update(DPID_LIGHT_THRESHOLD4,Light_threshold4);
+    if(ret == SUCCESS)
+        return SUCCESS;
+    else
+        return ERROR;
+}
+
+void update_check_parameter(void)
+{
+		if (g_work_mode == FAST_CHECK_ONLY)
+		{
+			//
+			mcu_dp_value_update(DPID_TIME_TIMES, (int)((quick_time_times*100)+0.5f));
+			Delay_ms(ALL_UPLOAD_DELAY);
+			mcu_dp_value_update(DPID_TIME_ADD, (int)((quick_time_add*100)+0.5f));
+			Delay_ms(ALL_UPLOAD_DELAY);
+			mcu_dp_value_update(DPID_FREQ_TIMES, (int)((quick_freq_times*100)+0.5f));
+			Delay_ms(ALL_UPLOAD_DELAY);
+			mcu_dp_value_update(DPID_FREQ_PARAMETER1, 0);
+			Delay_ms(ALL_UPLOAD_DELAY);
+			mcu_dp_value_update(DPID_FREQ_PARAMETER2, 0);			
+		}
+		else if (g_work_mode == SLOW_CHECK_ONLY)
+		{
+			//
+			mcu_dp_value_update(DPID_TIME_TIMES, (int)((slow_time_times*100)+0.5f));	
+			Delay_ms(ALL_UPLOAD_DELAY);
+			mcu_dp_value_update(DPID_TIME_ADD, (int)((slow_time_add*100)+0.5f)); 
+			Delay_ms(ALL_UPLOAD_DELAY);
+			mcu_dp_value_update(DPID_FREQ_TIMES, (int)((slow_freq_times*100)+0.5f));
+			Delay_ms(ALL_UPLOAD_DELAY);
+			mcu_dp_value_update(DPID_FREQ_PARAMETER1, (int)((res_times*100)+0.5f));
+			Delay_ms(ALL_UPLOAD_DELAY);
+			mcu_dp_value_update(DPID_FREQ_PARAMETER2, (int)((offsetmin*100)+0.5f));
+		}
+		else
+		{
+			mcu_dp_value_update(DPID_TIME_TIMES, 0);	
+			Delay_ms(ALL_UPLOAD_DELAY);
+			mcu_dp_value_update(DPID_TIME_ADD, 0); 
+			Delay_ms(ALL_UPLOAD_DELAY);
+			mcu_dp_value_update(DPID_FREQ_TIMES, 0);
+			Delay_ms(ALL_UPLOAD_DELAY);
+			mcu_dp_value_update(DPID_FREQ_PARAMETER1, 0);
+			Delay_ms(ALL_UPLOAD_DELAY);
+			mcu_dp_value_update(DPID_FREQ_PARAMETER2, 0);		
+		}
+}
+/*****************************************************************************
+函数名称 : dp_download_common_command_handle
+功能描述 : 针对DPID_COMMON_COMMAND的处理函数
+输入参数 : value:数据源数据
+        : length:数据长度
+返回参数 : 成功返回:SUCCESS/失败返回:ERROR
+使用说明 : 只下发类型,需要在处理完数据后上报处理结果至app
+*****************************************************************************/
+static unsigned char dp_download_common_command_handle(const unsigned char value[], unsigned short length)
+{
+    //示例:当前DP类型为ENUM
+    unsigned char ret;
+    unsigned char common_command;
+    
+    common_command = mcu_get_dp_download_enum(value,length);
+    switch(common_command) {
+        case 0://更新检测参数
+					update_check_parameter();
+        break;
+        
+        case 1:
+        break;
+        
+        case 2:
+        break;
+        
+        default:
+    
+        break;
+    }
+    
+    //处理完DP数据后应有反馈
+    ret = mcu_dp_enum_update(DPID_COMMON_COMMAND, common_command);
     if(ret == SUCCESS)
         return SUCCESS;
     else
@@ -520,6 +746,26 @@ unsigned char dp_download_handle(unsigned char dpid,const unsigned char value[],
         case DPID_FREQ_PARAMETER2:
             //频域门限2处理函数
             ret = dp_download_freq_parameter2_handle(value,length);
+        break;
+        case DPID_LIGHT_THRESHOLD1:
+            //光敏门限1处理函数
+            ret = dp_download_light_threshold1_handle(value,length);
+        break;
+        case DPID_LIGHT_THRESHOLD2:
+            //光敏门限2处理函数
+            ret = dp_download_light_threshold2_handle(value,length);
+        break;
+        case DPID_LIGHT_THRESHOLD3:
+            //光敏门限3处理函数
+            ret = dp_download_light_threshold3_handle(value,length);
+        break;
+        case DPID_LIGHT_THRESHOLD4:
+            //光敏门限4处理函数
+            ret = dp_download_light_threshold4_handle(value,length);
+        break;
+        case DPID_COMMON_COMMAND:
+            //一般命令处理函数
+            ret = dp_download_common_command_handle(value,length);
         break;
 
 

@@ -63,8 +63,6 @@ int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
 	float time_add_rt = 0;
 
 	static int run_counter = 0;
-	static float time_times_last = -1;
-	static float time_add_last = -1;
 	
 	std_size = (int)((data_size - win_size_time) / stride_time + 1);
 	
@@ -131,30 +129,14 @@ int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
 			run_counter++;
 			if (check_status == TUYA_FAST_CHECK)
 			{
-				if(run_counter%16 == 0)		//16*256ms=4.096s
-				{
-					if (time_times != time_times_last)
-					{
-						mcu_dp_value_update(DPID_TIME_TIMES, (int)((time_times*100)+0.5f));	
-						time_times_last = time_times;
-					}
-				}
-				else if (run_counter%16 == 4)
-				{
-					if (time_add != time_add_last)
-					{
-						mcu_dp_value_update(DPID_TIME_ADD, (int)((time_add*100)+0.5f)); 
-						time_add_last = time_add;
-					}	
-				}
-				else if (run_counter%16 == 8)
+				if(run_counter%64 == 0)		//64*256ms~16s
 				{
 					if (time_times_rt != (float)0)
 					{
 						mcu_dp_value_update(DPID_TIME_TIMES_RT, (int)((time_times_rt*100)+0.5f));
-					}		
+					}							
 				}
-				else if (run_counter%16 == 12)
+				else if (run_counter%64 == 32)
 				{
 					if (time_add_rt != (float)0)
 					{
@@ -164,26 +146,17 @@ int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
 			}
 			else if (check_status == TUYA_SLOW_CHECK)
 			{
-				if (time_times != time_times_last)
+				if(run_counter%2 == 0)
 				{
-					mcu_dp_value_update(DPID_TIME_TIMES, (int)((time_times*100)+0.5f));	
-					time_times_last = time_times;
-					Delay_ms(ALL_UPLOAD_DELAY);
-				}
-				if (time_add != time_add_last)
-				{
-					mcu_dp_value_update(DPID_TIME_ADD, (int)((time_add*100)+0.5f)); 
-					time_add_last = time_add;
-					Delay_ms(ALL_UPLOAD_DELAY);
-				}
-				if (time_times_rt != (float)0)
-				{
-					mcu_dp_value_update(DPID_TIME_TIMES_RT, (int)((time_times_rt*100)+0.5f));
-					Delay_ms(ALL_UPLOAD_DELAY);
-				}
-				if (time_add_rt != (float)0)
-				{
-					mcu_dp_value_update(DPID_TIME_ADD_RT, (int)((time_add_rt*100)+0.5f));
+					if (time_times_rt != (float)0)
+					{
+						mcu_dp_value_update(DPID_TIME_TIMES_RT, (int)((time_times_rt*100)+0.5f));
+						Delay_ms(ALL_UPLOAD_DELAY);
+					}
+					if (time_add_rt != (float)0)
+					{
+						mcu_dp_value_update(DPID_TIME_ADD_RT, (int)((time_add_rt*100)+0.5f));
+					}				
 				}
 			}		
 		}

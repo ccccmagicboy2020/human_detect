@@ -23,7 +23,7 @@ typedef const uint32_t uc32;
 typedef const uint16_t uc16;  
 typedef const uint8_t uc8;
 
-#define ALL_UPLOAD_DELAY 300
+#define ALL_UPLOAD_DELAY 100
 
 enum work_mode
 {

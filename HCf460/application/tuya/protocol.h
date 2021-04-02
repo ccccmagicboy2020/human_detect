@@ -172,6 +172,21 @@ mcu在bt模块正确联网后可调用mcu_get_system_time()函数发起校时功
 //光敏值(只上报)
 //备注:光敏值
 #define DPID_LIGHT_SENSOR_RAW 164
+//光敏门限1(可下发可上报)
+//备注:
+#define DPID_LIGHT_THRESHOLD1 165
+//光敏门限2(可下发可上报)
+//备注:
+#define DPID_LIGHT_THRESHOLD2 166
+//光敏门限3(可下发可上报)
+//备注:
+#define DPID_LIGHT_THRESHOLD3 167
+//光敏门限4(可下发可上报)
+//备注:
+#define DPID_LIGHT_THRESHOLD4 168
+//一般命令(只下发)
+//备注:
+#define DPID_COMMON_COMMAND 169
 
 
 
