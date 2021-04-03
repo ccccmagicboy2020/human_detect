@@ -2,7 +2,7 @@
   FileVersion = 2
 [GENERAL]
   ConnectMode = 0
-  CurrentFile = "D:\cccc2020\CODE\human_detect\HCf460\MDK\output\debug\adc_03_sa_interrupt.hex"
+  CurrentFile = ".\MDK\output\debug\adc_03_sa_interrupt.hex"
   DataFileSAddr = 0x00000000
   GUIMode = 0
   HostName = ""
