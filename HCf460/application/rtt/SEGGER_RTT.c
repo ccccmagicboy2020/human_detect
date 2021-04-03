@@ -1293,7 +1293,7 @@ unsigned SEGGER_RTT_HasData(unsigned BufferIndex) {
 *
 */
 unsigned SEGGER_RTT_HasDataUp(unsigned BufferIndex) {
-  SEGGER_RTT_BUFFER_DOWN* pRing;
+  SEGGER_RTT_BUFFER_UP* pRing;
   unsigned                v;
 
   pRing = &_SEGGER_RTT.aUp[BufferIndex];

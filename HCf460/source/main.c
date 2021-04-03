@@ -79,8 +79,7 @@ float	slow_time_times = 30;
 float slow_time_add = 600;
 float	slow_freq_times = 1800;
 float	res_times = 50000;		//17.5
-float	offsetmax = 3;     		//门限偏置  0.65
-float	offsetmin = 3;			//		0.6
+float	offsetmin = 2.95;			//		0.6
 ////////////////////////////////////////////////////////////
 void check_status_upload(unsigned char aaaa);
 void person_in_range_upload(unsigned char aaaa);
@@ -118,24 +117,29 @@ void gpio_output(unsigned char res)
 	//
 	if (res)
 	{
-		PORT_SetBits(PortA, Pin07);
-		PORT_ResetBits(PortA, Pin08);
+		led_red(1);			
+		led_green(0);
+		
+		GPIO0_HIGH();
+		GPIO1_LOW();
 		
 		if (light_sensor_adc_data < Light_threshold3)//门限3
 		{
-			PORT_SetBits(PortA, Pin00);
+			GPIO4_HIGH();
 		}
 		else
 		{
-			PORT_ResetBits(PortA, Pin00);
+			GPIO4_LOW();
 		}
 		light_status_upload(0);
 	}
 	else
 	{
-		PORT_ResetBits(PortA, Pin07);
-		PORT_SetBits(PortA, Pin08);
-		PORT_ResetBits(PortA, Pin00);
+		led_red(0);			
+		led_green(0);
+		GPIO0_LOW();
+		GPIO1_HIGH();
+		GPIO4_LOW();
 		light_status_upload(1);
 	}
 }
@@ -145,24 +149,15 @@ void fast_output_result(char quick_detection_result)
 	//printf("quick: %d \r\n", quick_detection_result);
 	if (quick_detection_result)//有人
 	{
-		led_red(1);			
-		led_green(0);
 		led_onboard_status_upload(TUYA_LED_ONBOARD_RED_ON_GREEN_OFF);
 		person_in_range_upload(TUYA_PERSON_STATUS_HAVE_PERSON);
-		//add gpio output below
-		gpio_output(1);
-		SEGGER_RTT_printf(0, "%s有人!\r\n", RTT_CTRL_TEXT_BRIGHT_RED);
-		
+		gpio_output(1);		
 	}
 	else						//无人
 	{
-		led_red(0);			
-		led_green(0);
 		led_onboard_status_upload(TUYA_LED_ONBOARD_RED_OFF_GREEN_OFF);
 		person_in_range_upload(TUYA_PERSON_STATUS_NO_PERSON);
-		//add gpio output below
 		gpio_output(0);
-		SEGGER_RTT_printf(0, "%s无人!\r\n", RTT_CTRL_TEXT_BRIGHT_GREEN);
 	}
 }
 
@@ -301,6 +296,18 @@ void fast_check_process(void)
 	int	adc_temp = 0;
 	int	adc_average= 0;
 	int quick_detection_result = 0;
+	
+	static uint32_t last_tick = 0;
+	uint32_t now_tick = 0;
+	uint32_t diff = 0;
+	
+	now_tick = SysTick_GetTick();
+	diff = now_tick - last_tick;
+	if ((0 != last_tick) && (0 != diff))
+	{
+		SEGGER_RTT_printf(0, "fast check duty: %dms\r\n", diff);
+	}
+	last_tick = now_tick;		
 
 	check_status_upload(TUYA_FAST_CHECK);
 
@@ -430,6 +437,18 @@ void slow_check_process_s0(void)
 	int respirationfreq_vote[2] = {0};
 	int	micromotion_detection_result = 0;
 	float offset = 0;
+	
+	static uint32_t last_tick = 0;
+	uint32_t now_tick = 0;
+	uint32_t diff = 0;
+	
+	now_tick = SysTick_GetTick();
+	diff = now_tick - last_tick;
+	if ((0 != last_tick) && (0 != diff))
+	{
+		SEGGER_RTT_printf(0, "slow check duty: %dms\r\n", diff);
+	}
+	last_tick = now_tick;	
 
 	check_status_upload(TUYA_SLOW_CHECK);
 	
@@ -470,7 +489,7 @@ void slow_check_process_s0(void)
 										
 	if( bigmotion_freq_vote == 1 )
 	{
-		offset = offsetmax;
+		offset = offsetmin + 0.05f;
 	}
 	else
 	{
@@ -486,15 +505,13 @@ void slow_check_process_s0(void)
 											rr_threshold
 											);
 	
-	//printf("result: %d - %d - %d - %d\r\n", bigmotion_time_vote, bigmotion_freq_vote, respirationfreq_vote[0], micromotion_detection_result);	
-
+	SEGGER_RTT_printf(0, "slow result: %d - %d - %d - %d\r\n", bigmotion_time_vote, bigmotion_freq_vote, respirationfreq_vote[0], micromotion_detection_result);
+	
 	for(i=0; i<SLOW_MAX_DATA_POOL; i++)
 	{
 		Fast_detection_data[i] += adc_average;
 	}
 	
-	///////////////////////////////////////////
-	//micromotion_detection_result = 0;
 	///////////////////////////////////////////
 
 	if (1 == bigmotion_time_vote)
@@ -618,6 +635,18 @@ void bt_hand_up(void)
 
 void idle_process(void)
 {
+	static uint32_t last_tick = 0;
+	uint32_t now_tick = 0;
+	uint32_t diff = 0;
+	
+	now_tick = SysTick_GetTick();
+	diff = now_tick - last_tick;
+	if ((0 != last_tick) && (0 != diff))
+	{
+		//SEGGER_RTT_printf(0, "idle tick max duty: %d\r\n", diff);
+	}
+	last_tick = now_tick;
+	
 	//do some thing here global
 	if (find_me_flag)
 	{
@@ -643,29 +672,29 @@ void idle_process(void)
 
 		if (light_sensor_adc_data > Light_threshold1)//门限1
 		{
-			PORT_SetBits(PortB, Pin06);
+			GPIO2_HIGH();
 		}
 		else
 		{
-			PORT_ResetBits(PortB, Pin06);
+			GPIO2_LOW();
 		}
 
 		if (light_sensor_adc_data < Light_threshold2)//门限2
 		{
-			PORT_SetBits(PortB, Pin05);
+			GPIO3_HIGH();
 		}
 		else
 		{
-			PORT_ResetBits(PortB, Pin05);
+			GPIO3_LOW();
 		}		
 		
 		if (light_sensor_adc_data > Light_threshold4)//门限4
 		{
-			PORT_SetBits(PortA, Pin04);
+			GPIO5_HIGH();
 		}
 		else
 		{
-			PORT_ResetBits(PortA, Pin04);
+			GPIO5_LOW();
 		}		
 	}
 	//
@@ -678,7 +707,7 @@ void idle_process(void)
 void error_process(void)
 {
 	//do some print
-	SEGGER_RTT_WriteString(0, "error!!!");
+	SEGGER_RTT_WriteString(0, "error!!!\r\n");
 }
 
 void uart_post_process()
@@ -697,6 +726,14 @@ void person_in_range_upload(unsigned char aaaa)
 		{
 			mcu_dp_enum_update(DPID_PERSON_IN_RANGE, aaaa);
 			person_in_range_flag_last = person_in_range_flag;
+			if (aaaa == 1)
+			{
+				SEGGER_RTT_printf(0, "%s有人!\r\n", RTT_CTRL_TEXT_BRIGHT_RED);
+			}
+			else
+			{
+				SEGGER_RTT_printf(0, "%s无人!\r\n", RTT_CTRL_TEXT_BRIGHT_GREEN);
+			}
 		}	
 	}
 }
@@ -745,13 +782,21 @@ void led_onboard_status_upload(unsigned char aaaa)
 
 void app(void)
 {
+	uint32_t finish_tick = 0;
+	uint32_t start_tick = 0;
+	uint32_t diff = 0;
+	
 	switch (state)
 	{
 		case	FAST_CHECK_DATA_PREPARE:
 			fast_check_data_prepare();
 			break;
 		case	FAST_CHECK:
+			start_tick = SysTick_GetTick();
 			fast_check_process();
+			finish_tick = SysTick_GetTick();
+			diff = finish_tick - start_tick;
+			SEGGER_RTT_printf(0, "fast check last: %dms\r\n", diff);
 			break;
 		case	SLOW_CHECK_DATA_PREPARE_S0:
 			slow_check_data_prepare_s0();
@@ -760,7 +805,11 @@ void app(void)
 			slow_check_data_prepare_s1();
 			break;			
 		case	SLOW_CHECK_S0:
+			start_tick = SysTick_GetTick();
 			slow_check_process_s0();
+			finish_tick = SysTick_GetTick();
+			diff = finish_tick - start_tick;
+			SEGGER_RTT_printf(0, "slow check last: %dms\r\n", diff);		
 			break;
 		case	SLOW_CHECK_S1:
 			slow_check_process_s1();
@@ -788,8 +837,8 @@ void gpio_init(void)
 	MEM_ZERO_STRUCT(stcPortInit);
 
 	stcPortInit.enPinMode = Pin_Mode_Out;
-	stcPortInit.enExInt = Enable;
-	stcPortInit.enPullUp = Enable;
+	stcPortInit.enExInt = Disable;
+	stcPortInit.enPullUp = Disable;
 	/* LED0 Port/Pin initialization */
 
 	PORT_Init(PortA, Pin07, &stcPortInit);   //P1-4	//gpio0
@@ -798,16 +847,15 @@ void gpio_init(void)
 	PORT_Init(PortB, Pin05, &stcPortInit);   //P5-2	//gpio3
 	PORT_Init(PortA, Pin00, &stcPortInit);   //P5-3 //gpio4
 	PORT_Init(PortA, Pin04, &stcPortInit);   //P5-4	//gpio5		
-	PORT_Init(PortB, Pin00, &stcPortInit);   //P5-5 // not use
+	PORT_Init(PortB, Pin00, &stcPortInit);   //P5-5 //gpio6
 		
-	PORT_ResetBits(PortA, Pin07);
-	PORT_ResetBits(PortA, Pin08);
-	
-	PORT_ResetBits(PortB, Pin06);
-	PORT_ResetBits(PortB, Pin05);
-	PORT_ResetBits(PortA, Pin00);
-	PORT_ResetBits(PortA, Pin04);
-	PORT_ResetBits(PortB, Pin00);
+	GPIO0_LOW();
+	GPIO1_LOW();
+	GPIO2_LOW();
+	GPIO3_LOW();
+	GPIO4_LOW();
+	GPIO5_LOW();
+	GPIO6_LOW();
 }
 
 void segger_init(void)
@@ -816,6 +864,30 @@ void segger_init(void)
 	SEGGER_RTT_ConfigUpBuffer(0, "DataOut", &abDataOut[0], sizeof(abDataOut), SEGGER_RTT_MODE_BLOCK_IF_FIFO_FULL);
 	SEGGER_RTT_Init();
 	SEGGER_RTT_WriteString(0, "phosense radar chip: XBR816C DEMO\r\n");	
+}
+
+void read_uid(void)
+{
+		char	i = 0;
+    char data[10] = {0};
+		
+		SEGGER_RTT_WriteString(0, "mcu chip uid: \r\n");
+		for(i = 0; i < 10; i++) 
+		{
+				data[i] = *((unsigned char *)(MCU_UID_ADDR_S + i));
+				SEGGER_RTT_printf(0, "%02X ", data[i]);
+		}
+		SEGGER_RTT_WriteString(0, "\r\n");
+}
+
+void SysTick_IrqHandler(void)
+{
+    SysTick_IncTick();
+}
+
+void tick_init(void)
+{
+	SysTick_Init(1000u);
 }
 
 int main(void)
@@ -833,6 +905,8 @@ int main(void)
   segger_init();		
 	get_mcu_bt_mode();
 	bt_hand_up();
+	read_uid();
+	tick_init();
 	
 	while(1)
 	{

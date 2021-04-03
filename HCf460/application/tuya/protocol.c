@@ -72,7 +72,6 @@ extern float	slow_time_add;
 extern float	slow_freq_times;
 
 extern	float	res_times;
-extern	float	offsetmax;
 extern	float	offsetmin;
 
 void Delay_ms(unsigned int t);
@@ -554,7 +553,6 @@ static unsigned char dp_download_freq_parameter2_handle(const unsigned char valu
 		{
 			//
 			offsetmin = freq_parameter2/100;
-			offsetmax = freq_parameter2/100 + 0.2f;
 		}
     
     //处理完DP数据后应有反馈

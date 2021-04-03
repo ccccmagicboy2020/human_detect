@@ -64,6 +64,8 @@ int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
 
 	static int run_counter = 0;
 	
+	char float_str[64];
+	
 	std_size = (int)((data_size - win_size_time) / stride_time + 1);
 	
 //	printf("time_detection: %d - %d - %d - %d - %d\r\n", data_size, win_size_time, stride_time, time_times, time_add);
@@ -109,10 +111,17 @@ int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
 		{
 			temp2 = temp1;
 		}
+		
+		time_times_rt = maxValue/minValue;
+		time_add_rt = maxValue - minValue;		
 
 		if (maxValue > temp2)
 		{
 			time_vote = 1;
+			sprintf(float_str, "time domain times trigger value: %.2lf-%.2lf\r\n", time_times_rt, time_times);
+			SEGGER_RTT_printf(0, "%s", float_str);
+			sprintf(float_str, "time domain add trigger value: %.2lf-%.2lf\r\n", time_add_rt, time_add);
+			SEGGER_RTT_printf(0, "%s", float_str);			
 		}
 		else
 		{
@@ -121,8 +130,7 @@ int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
 
 		//printf("time domain *: %.2lf - %.2lf\r\n", time_times, maxValue/minValue);
 		//printf("time domain +: %.2lf - %.2lf\r\n", time_add, maxValue - minValue);
-		time_times_rt = maxValue/minValue;
-		time_add_rt = maxValue - minValue;
+
 
 		if (upload_disable == 0)
 		{

@@ -25,6 +25,28 @@ typedef const uint8_t uc8;
 
 #define ALL_UPLOAD_DELAY 100
 #define SEGGER_RTT_IN_RAM 1
+#define MCU_UID_ADDR_S	0x00100E74
+
+#define GPIO0_HIGH()		(PORT_SetBits(PortA, Pin07))
+#define GPIO0_LOW()			(PORT_ResetBits(PortA, Pin07))
+
+#define GPIO1_HIGH()		(PORT_SetBits(PortA, Pin08))
+#define GPIO1_LOW()			(PORT_ResetBits(PortA, Pin08))
+
+#define GPIO2_HIGH()		(PORT_SetBits(PortB, Pin06))
+#define GPIO2_LOW()			(PORT_ResetBits(PortB, Pin06))
+
+#define GPIO3_HIGH()		(PORT_SetBits(PortB, Pin05))
+#define GPIO3_LOW()			(PORT_ResetBits(PortB, Pin05))
+
+#define GPIO4_HIGH()		(PORT_SetBits(PortA, Pin00))
+#define GPIO4_LOW()			(PORT_ResetBits(PortA, Pin00))
+
+#define GPIO5_HIGH()		(PORT_SetBits(PortA, Pin04))
+#define GPIO5_LOW()			(PORT_ResetBits(PortA, Pin04))
+
+#define GPIO6_HIGH()		(PORT_SetBits(PortB, Pin00))
+#define GPIO6_LOW()			(PORT_ResetBits(PortB, Pin00))
 
 enum work_mode
 {
