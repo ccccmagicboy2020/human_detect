@@ -72,7 +72,8 @@ float quick_time_times = 4;
 float quick_time_add = 32;
 float quick_freq_times = 3;
 ////////////////////////////////////////////////////////////
-
+unsigned char abDataIn[100];
+unsigned char abDataOut[100];
 ////////////////////////////////////////////////////////////
 float	slow_time_times = 30;
 float slow_time_add = 600;
@@ -150,6 +151,8 @@ void fast_output_result(char quick_detection_result)
 		person_in_range_upload(TUYA_PERSON_STATUS_HAVE_PERSON);
 		//add gpio output below
 		gpio_output(1);
+		SEGGER_RTT_printf(0, "%s有人!\r\n", RTT_CTRL_TEXT_BRIGHT_RED);
+		
 	}
 	else						//无人
 	{
@@ -159,6 +162,7 @@ void fast_output_result(char quick_detection_result)
 		person_in_range_upload(TUYA_PERSON_STATUS_NO_PERSON);
 		//add gpio output below
 		gpio_output(0);
+		SEGGER_RTT_printf(0, "%s无人!\r\n", RTT_CTRL_TEXT_BRIGHT_GREEN);
 	}
 }
 
@@ -667,14 +671,14 @@ void idle_process(void)
 	//
 	UsartRxErrProcess();
 	tuya_UsartRxErrProcess();
-	
+	//
 	state = UART_PROTOCOL;
 }
 
 void error_process(void)
 {
 	//do some print
-	printf("error!!! \r\n");
+	SEGGER_RTT_WriteString(0, "error!!!");
 }
 
 void uart_post_process()
@@ -806,6 +810,14 @@ void gpio_init(void)
 	PORT_ResetBits(PortB, Pin00);
 }
 
+void segger_init(void)
+{
+	SEGGER_RTT_ConfigDownBuffer(0, "DataIn", &abDataIn[0], sizeof(abDataIn), SEGGER_RTT_MODE_NO_BLOCK_SKIP);
+	SEGGER_RTT_ConfigUpBuffer(0, "DataOut", &abDataOut[0], sizeof(abDataOut), SEGGER_RTT_MODE_BLOCK_IF_FIFO_FULL);
+	SEGGER_RTT_Init();
+	SEGGER_RTT_WriteString(0, "phosense radar chip: XBR816C DEMO\r\n");	
+}
+
 int main(void)
 {
 	FIFO_Init(&FIFO_Data[0]);
@@ -818,9 +830,7 @@ int main(void)
 	ADC_StartConvert(M4_ADC1);
 	bt_protocol_init();
 	gpio_init();
-	SEGGER_RTT_Init();
-	SEGGER_RTT_ConfigUpBuffer(0, NULL, NULL, 0, SEGGER_RTT_MODE_NO_BLOCK_SKIP);
-	SEGGER_RTT_WriteString(0, "phosense");
+  segger_init();		
 	get_mcu_bt_mode();
 	bt_hand_up();
 	

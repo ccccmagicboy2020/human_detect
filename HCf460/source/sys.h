@@ -24,6 +24,7 @@ typedef const uint16_t uc16;
 typedef const uint8_t uc8;
 
 #define ALL_UPLOAD_DELAY 100
+#define SEGGER_RTT_IN_RAM 1
 
 enum work_mode
 {
