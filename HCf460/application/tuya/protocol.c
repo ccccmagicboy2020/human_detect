@@ -289,11 +289,11 @@ static unsigned char dp_download_time_add_handle(const unsigned char value[], un
 		if (g_work_mode == FAST_CHECK_ONLY)
 		{
 			//
-			quick_time_add = time_add_x/100;
+			quick_time_add = time_add_x/100.0f;
 		}
 		else if (g_work_mode == SLOW_CHECK_ONLY)
 		{
-			slow_time_add = time_add_x/100;
+			slow_time_add = time_add_x/100.0f;
 		}
     
     //处理完DP数据后应有反馈
@@ -425,20 +425,26 @@ static unsigned char dp_download_freq_times_handle(const unsigned char value[], 
     //示例:当前DP类型为VALUE
     unsigned char ret;
     unsigned long freq_times_x;
+		char float_str[64];		
     
     freq_times_x = mcu_get_dp_download_value(value,length);
 
 		if (g_work_mode == FAST_CHECK_ONLY)
 		{
 			//
-			quick_freq_times = freq_times_x/100;
+			quick_freq_times = freq_times_x/100.0f;
+			sprintf(float_str, "quick_freq_times value: %.2lf\r\n", quick_freq_times);
+			SEGGER_RTT_printf(0, "%s", float_str);			
 		}
 		else if (g_work_mode == SLOW_CHECK_ONLY)
 		{
 			//
-			slow_freq_times = freq_times_x/100;
+			slow_freq_times = freq_times_x/100.0f;
+			sprintf(float_str, "slow_freq_times value: %.2lf\r\n", slow_freq_times);
+			SEGGER_RTT_printf(0, "%s", float_str);			
 		}
     
+		
     //处理完DP数据后应有反馈
     ret = mcu_dp_value_update(DPID_FREQ_TIMES,freq_times_x);
     if(ret == SUCCESS)
@@ -517,13 +523,16 @@ static unsigned char dp_download_freq_parameter1_handle(const unsigned char valu
     //示例:当前DP类型为VALUE
     unsigned char ret;
     unsigned long freq_parameter1;
+		char float_str[64];		
     
     freq_parameter1 = mcu_get_dp_download_value(value,length);
 
 		if (g_work_mode == SLOW_CHECK_ONLY)
 		{
 			//
-			res_times = freq_parameter1/100;
+			res_times = freq_parameter1/100.0f;
+			sprintf(float_str, "res_times value: %.2lf\r\n", res_times);
+			SEGGER_RTT_printf(0, "%s", float_str);			
 		}
     
     //处理完DP数据后应有反馈
@@ -546,13 +555,16 @@ static unsigned char dp_download_freq_parameter2_handle(const unsigned char valu
     //示例:当前DP类型为VALUE
     unsigned char ret;
     unsigned long freq_parameter2;
+		char float_str[64];		
     
     freq_parameter2 = mcu_get_dp_download_value(value,length);
 
 		if (g_work_mode == SLOW_CHECK_ONLY)
 		{
 			//
-			offsetmin = freq_parameter2/100;
+			offsetmin = freq_parameter2/1000.0f;
+			sprintf(float_str, "offsetmin value: %.3lf\r\n", offsetmin);
+			SEGGER_RTT_printf(0, "%s", float_str);		
 		}
     
     //处理完DP数据后应有反馈
@@ -658,11 +670,11 @@ void update_check_parameter(void)
 		if (g_work_mode == FAST_CHECK_ONLY)
 		{
 			//
-			mcu_dp_value_update(DPID_TIME_TIMES, (int)((quick_time_times*100)+0.5f));
+			mcu_dp_value_update(DPID_TIME_TIMES, (int)((quick_time_times*100.0f)+0.5f));
 			Delay_ms(ALL_UPLOAD_DELAY);
-			mcu_dp_value_update(DPID_TIME_ADD, (int)((quick_time_add*100)+0.5f));
+			mcu_dp_value_update(DPID_TIME_ADD, (int)((quick_time_add*100.0f)+0.5f));
 			Delay_ms(ALL_UPLOAD_DELAY);
-			mcu_dp_value_update(DPID_FREQ_TIMES, (int)((quick_freq_times*100)+0.5f));
+			mcu_dp_value_update(DPID_FREQ_TIMES, (int)((quick_freq_times*100.0f)+0.5f));
 			Delay_ms(ALL_UPLOAD_DELAY);
 			mcu_dp_value_update(DPID_FREQ_PARAMETER1, 0);
 			Delay_ms(ALL_UPLOAD_DELAY);
@@ -671,15 +683,15 @@ void update_check_parameter(void)
 		else if (g_work_mode == SLOW_CHECK_ONLY)
 		{
 			//
-			mcu_dp_value_update(DPID_TIME_TIMES, (int)((slow_time_times*100)+0.5f));	
+			mcu_dp_value_update(DPID_TIME_TIMES, (int)((slow_time_times*100.0f)+0.5f));	
 			Delay_ms(ALL_UPLOAD_DELAY);
-			mcu_dp_value_update(DPID_TIME_ADD, (int)((slow_time_add*100)+0.5f)); 
+			mcu_dp_value_update(DPID_TIME_ADD, (int)((slow_time_add*100.0f)+0.5f)); 
 			Delay_ms(ALL_UPLOAD_DELAY);
-			mcu_dp_value_update(DPID_FREQ_TIMES, (int)((slow_freq_times*100)+0.5f));
+			mcu_dp_value_update(DPID_FREQ_TIMES, (int)((slow_freq_times*100.0f)+0.5f));
 			Delay_ms(ALL_UPLOAD_DELAY);
-			mcu_dp_value_update(DPID_FREQ_PARAMETER1, (int)((res_times*100)+0.5f));
+			mcu_dp_value_update(DPID_FREQ_PARAMETER1, (int)((res_times*100.0f)+0.5f));
 			Delay_ms(ALL_UPLOAD_DELAY);
-			mcu_dp_value_update(DPID_FREQ_PARAMETER2, (int)((offsetmin*100)+0.5f));
+			mcu_dp_value_update(DPID_FREQ_PARAMETER2, (int)((offsetmin*1000.0f)+0.5f));
 		}
 		else
 		{

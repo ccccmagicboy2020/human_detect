@@ -204,7 +204,7 @@ void slow_output_result(char slow_s0_result)
 	case NO_PERSON_NOT_SURE:
 		if (slow_only_flag == 1)
 		{
-			fast_output_result(1);
+			fast_output_result(0);
 		}
 		else
 		{
