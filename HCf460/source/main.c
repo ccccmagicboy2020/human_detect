@@ -101,6 +101,8 @@ unsigned short Light_threshold2 = 0;
 unsigned short Light_threshold3 = 0;
 unsigned short Light_threshold4 = 0;
 ////////////////////////////////////////////////////////////
+unsigned int delay_time_num = 0;
+
 void get_mcu_bt_mode(void);
 void bt_hand_up(void);
 void clear_buffer(void);
@@ -608,7 +610,7 @@ void slow_check_process_s1(void)
 			break;
 		case NO_PERSON_NOT_SURE:
 			no_person_timer++;
-			if (no_person_timer >= 2)		//delay_time_num
+			if (no_person_timer >= (2 + delay_time_num))		//delay_time_num
 			{
 				no_person_timer = 0;
 				state = IDLE;
@@ -911,7 +913,7 @@ void SysTick_IrqHandler(void)
 
 void tick_init(void)
 {
-	SysTick_Init(1000u);
+	SysTick_Init(1000u);//1ms
 }
 
 int main(void)

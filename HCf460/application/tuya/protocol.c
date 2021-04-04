@@ -75,6 +75,8 @@ extern float	slow_freq_times;
 extern	float	res_times;
 extern	float	offsetmin;
 
+extern unsigned int delay_time_num;
+
 void Delay_ms(unsigned int t);
 void update_check_parameter(void);
 
@@ -238,24 +240,31 @@ static unsigned char dp_download_pir_delay_handle(const unsigned char value[], u
     pir_delay = mcu_get_dp_download_enum(value,length);
     switch(pir_delay) {
         case 0:
+					delay_time_num = 0;
         break;
         
         case 1:
+					delay_time_num = 1;
         break;
         
         case 2:
+					delay_time_num = 2;
         break;
         
         case 3:
+					delay_time_num = 3;
         break;
         
         case 4:
+					delay_time_num = 5;
         break;
         
         case 5:
+					delay_time_num = 13;
         break;
         
         case 6:
+					delay_time_num = 21;
         break;
         
         default:
