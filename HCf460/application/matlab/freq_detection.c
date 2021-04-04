@@ -87,8 +87,8 @@ int freq_detection(FIFO_DataType data[], const float win[], int data_size, int w
 	for(i=0; i<data_size; i++)
 	{
 			testInput[i] = data[i] * win[i];
-			//testInput[i] = data[i];
-			//printf("%.3lf,", testInput[i]);
+			//sprintf(float_str, "%.3lf,", testInput[i]);
+			//SEGGER_RTT_printf(0, "%s", float_str);	
 	}
 	
 	arm_rfft_fast_f32(&S, testInput, testInput2, 0); 

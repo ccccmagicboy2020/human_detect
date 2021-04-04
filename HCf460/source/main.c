@@ -23,19 +23,19 @@
 #define		rr_threshold			0.6    //呼吸频率截取范围
 #define		secnum					16
 
-#define		FEEDRATE				2048			//采样率，单位为samples/s
+#define		FEEDRATE				2048u			//采样率，单位为samples/s
 
 #define		FAST_CHECK_SAMPLES		512				//快检测样本数
-#define		FAST_CHECK_DUTY			8				//快检测周期，单位为秒s
-#define		FAST_MAX_DATA_POOL		FEEDRATE	*	FAST_CHECK_DUTY
-#define		FAST_CHECK_TIMES		FAST_MAX_DATA_POOL	>> 9
+#define		FAST_CHECK_DUTY			8u				//快检测周期，单位为秒s
+#define		FAST_MAX_DATA_POOL		(FEEDRATE	*	FAST_CHECK_DUTY)
+#define		FAST_CHECK_TIMES		(FAST_MAX_DATA_POOL	>> 9)
 
 #define		SLOW_CHECK_SAMPLES		2048			//慢检测样本数
 #define		SLOW_CHECK_OVER_SAMPLE	3				//慢检测超采样冥
 #define		SLOW_CHECK_DUTY			16				//慢检测周期，单位为秒s
-#define		SLOW_CHECK_USE_SAMPLES	SLOW_CHECK_SAMPLES >> SLOW_CHECK_OVER_SAMPLE	//慢检测实际用的样本数
-#define		SLOW_MAX_DATA_POOL		(FEEDRATE >> SLOW_CHECK_OVER_SAMPLE)	*	SLOW_CHECK_DUTY
-#define		SLOW_CHECK_TIMES		SLOW_MAX_DATA_POOL	>>	11
+#define		SLOW_CHECK_USE_SAMPLES	(SLOW_CHECK_SAMPLES >> SLOW_CHECK_OVER_SAMPLE)	//慢检测实际用的样本数
+#define		SLOW_MAX_DATA_POOL		((FEEDRATE >> SLOW_CHECK_OVER_SAMPLE)	*	SLOW_CHECK_DUTY)
+#define		SLOW_CHECK_TIMES		(SLOW_MAX_DATA_POOL	>>	11)
 
 #define		MAX_DATA_POOL			FAST_MAX_DATA_POOL
 
@@ -301,6 +301,8 @@ void fast_check_process(void)
 	uint32_t now_tick = 0;
 	uint32_t diff = 0;
 	
+	char float_str[64];	
+	
 	now_tick = SysTick_GetTick();
 	diff = now_tick - last_tick;
 	if ((0 != last_tick) && (0 != diff))
@@ -314,10 +316,15 @@ void fast_check_process(void)
 	for(i=0; i<FAST_MAX_DATA_POOL; i++)
 	{
 		adc_temp = Fast_detection_data[i];
+		//SEGGER_RTT_printf(0, "%d, ", Fast_detection_data[i]);			
 		adc_sum += adc_temp;
 	}
-	adc_average = (int)(adc_sum/FAST_MAX_DATA_POOL + 0.5);
 
+	adc_average = adc_sum/FAST_MAX_DATA_POOL;
+	
+	sprintf(float_str, "\r\nfast check adc_avg: %d(%d) = %d / %d\r\n", adc_average, adc_sum/FAST_MAX_DATA_POOL, adc_sum, FAST_MAX_DATA_POOL);
+	SEGGER_RTT_printf(0, "%s", float_str);
+	
 	for(i=0; i<FAST_MAX_DATA_POOL; i++)
 	{
 		Fast_detection_data[i] -= adc_average;
@@ -329,7 +336,7 @@ void fast_check_process(void)
 											/* time_times =  */			quick_time_times,		//4
 											/* time_add =  */			quick_time_add, 		//32
 											/* win_size_freq =  */		256, 
-									        /* stride_freq =  */		102, 
+									    /* stride_freq =  */		102, 
 											/* time_accum =  */			8, 
 											/* xhz1 =  */				2, 
 											/* freq_times =  */			quick_freq_times, //3
@@ -442,6 +449,8 @@ void slow_check_process_s0(void)
 	uint32_t now_tick = 0;
 	uint32_t diff = 0;
 	
+	char float_str[64];		
+	
 	now_tick = SysTick_GetTick();
 	diff = now_tick - last_tick;
 	if ((0 != last_tick) && (0 != diff))
@@ -460,7 +469,11 @@ void slow_check_process_s0(void)
 		adc_temp = Fast_detection_data[i];
 		adc_sum += adc_temp;
 	}
-	adc_average = (int)(adc_sum/SLOW_MAX_DATA_POOL + 0.5);
+	
+	adc_average = adc_sum/SLOW_MAX_DATA_POOL;
+	
+	sprintf(float_str, "\r\nslow check adc_avg: %d(%d) = %d / %d\r\n", adc_average, adc_sum/SLOW_MAX_DATA_POOL, adc_sum, SLOW_MAX_DATA_POOL);
+	SEGGER_RTT_printf(0, "%s", float_str);	
 
 	for(i=0; i<SLOW_MAX_DATA_POOL; i++)
 	{
@@ -477,11 +490,11 @@ void slow_check_process_s0(void)
 									 
 	bigmotion_freq_vote  = freq_detection(	/*in_data_freq*/			Fast_detection_data,
 											/*hamming_TAB2*/			hamming_TAB2,
-											/*data_size*/				4096,
+											/*data_size*/					4096,
 											/*win_size_freq*/			128,
 											/*stride_freq*/				64,
 											/*time_accum*/				16,
-											/*xhz1*/					2,
+											/*xhz1*/							2,
 											/*freq_times*/				slow_freq_times,		//6
 											/*respiration_times*/		res_times,		//res_times
 											/*respirationfreq_vote*/	respirationfreq_vote
