@@ -308,9 +308,19 @@ static unsigned char dp_download_load_radar_parameter_handle(const unsigned char
         break;
         
         case 4:
+            SEGGER_RTT_printf(0, "user parameter%d loaded\r\n", 1);
         break;
         
         case 5:
+            SEGGER_RTT_printf(0, "user parameter%d loaded\r\n", 2);
+        break;
+        
+        case 6:
+            SEGGER_RTT_printf(0, "user parameter%d loaded\r\n", 3);
+        break;
+        
+        case 7:
+            SEGGER_RTT_printf(0, "user parameter%d loaded\r\n", 4);
         break;
         
         default:

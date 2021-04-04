@@ -276,6 +276,12 @@ static unsigned char dp_download_load_radar_parameter_handle(const unsigned char
         case 5:
         break;
         
+        case 6:
+        break;
+        
+        case 7:
+        break;
+        
         default:
     
         break;
