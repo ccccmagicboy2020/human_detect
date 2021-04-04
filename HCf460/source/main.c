@@ -102,7 +102,10 @@ unsigned short Light_threshold3 = 0;
 unsigned short Light_threshold4 = 0;
 ////////////////////////////////////////////////////////////
 unsigned int delay_time_num = 0;
-
+////////////////////////////////////////////////////////////
+unsigned int  person_meter = 0;
+unsigned int  person_meter_last = 0;
+////////////////////////////////////////////////////////////
 void get_mcu_bt_mode(void);
 void bt_hand_up(void);
 void clear_buffer(void);
@@ -663,6 +666,14 @@ void idle_process(void)
 	last_tick = now_tick;
 	
 	//do some thing here global
+	//人表状态更新
+	if (person_meter != person_meter_last)
+	{
+		mcu_dp_value_update(DPID_PERSON_METER,person_meter);
+		SEGGER_RTT_printf(0, "person meter: %d\r\n", person_meter);
+		person_meter_last = person_meter;
+	}	
+	//
 	if (find_me_flag)
 	{
 		led_red(1);			
@@ -722,6 +733,26 @@ void idle_process(void)
 										PORT_GetBit(PortA, Pin04),
 										PORT_GetBit(PortB, Pin00)
 										);
+                                        
+        switch (mcu_get_bt_work_state())
+        {
+            case	BT_UN_BIND:
+                SEGGER_RTT_printf(0,"bt unbind\r\n");
+                break;
+            case    BT_NOT_CONNECTED:
+                SEGGER_RTT_printf(0,"bt binded but not connect\r\n");
+                bt_hand_up();
+                break;
+            case    BT_CONNECTED:
+                SEGGER_RTT_printf(0,"bt binded and connected\r\n");
+                break;
+            case    BT_SATE_UNKNOW:
+                SEGGER_RTT_printf(0,"bt unknow status\r\n");
+								get_mcu_bt_mode();
+                break;
+            default:
+                break;
+        }
 	}
 	//
 	UsartRxErrProcess();
@@ -760,7 +791,12 @@ void person_in_range_upload(unsigned char aaaa)
 			{
 				SEGGER_RTT_printf(0, "%s无人!\r\n", RTT_CTRL_TEXT_BRIGHT_GREEN);
 			}
-		}	
+			
+			if (person_in_range_flag == TUYA_PERSON_STATUS_HAVE_PERSON)
+			{
+				person_meter++;
+			}			
+		}
 	}
 }
 

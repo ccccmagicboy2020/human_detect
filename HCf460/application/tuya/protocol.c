@@ -76,6 +76,7 @@ extern	float	res_times;
 extern	float	offsetmin;
 
 extern unsigned int delay_time_num;
+extern unsigned int  person_meter;
 
 void Delay_ms(unsigned int t);
 void update_check_parameter(void);
@@ -108,6 +109,7 @@ const DOWNLOAD_CMD_S download_cmd[] =
   {DPID_LIGHT_STATUS, DP_TYPE_ENUM},
   {DPID_PERSON_IN_RANGE, DP_TYPE_ENUM},
   {DPID_FIND_ME, DP_TYPE_BOOL},
+  {DPID_PERSON_METER, DP_TYPE_VALUE},
   {DPID_CHECK_PROCESS, DP_TYPE_ENUM},
   {DPID_LED_ON_BOARD_STATUS, DP_TYPE_ENUM},
   {DPID_TIME_TIMES, DP_TYPE_VALUE},
@@ -196,6 +198,8 @@ void all_data_update(void)
 		Delay_ms(ALL_UPLOAD_DELAY);
     mcu_dp_enum_update(DPID_PERSON_IN_RANGE, person_in_range_flag); //枚举型数据上报;
 		Delay_ms(ALL_UPLOAD_DELAY);
+    mcu_dp_value_update(DPID_PERSON_METER,person_meter); //VALUE型数据上报;
+	Delay_ms(ALL_UPLOAD_DELAY);
     mcu_dp_enum_update(DPID_CHECK_PROCESS, check_status); //枚举型数据上报;
 		Delay_ms(ALL_UPLOAD_DELAY);
     mcu_dp_enum_update(DPID_LED_ON_BOARD_STATUS, led_onboard_status); //枚举型数据上报;

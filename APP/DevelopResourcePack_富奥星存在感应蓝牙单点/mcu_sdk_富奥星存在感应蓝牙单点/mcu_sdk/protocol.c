@@ -81,6 +81,7 @@ const DOWNLOAD_CMD_S download_cmd[] =
   {DPID_LIGHT_STATUS, DP_TYPE_ENUM},
   {DPID_PERSON_IN_RANGE, DP_TYPE_ENUM},
   {DPID_FIND_ME, DP_TYPE_BOOL},
+  {DPID_PERSON_METER, DP_TYPE_VALUE},
   {DPID_CHECK_PROCESS, DP_TYPE_ENUM},
   {DPID_LED_ON_BOARD_STATUS, DP_TYPE_ENUM},
   {DPID_TIME_TIMES, DP_TYPE_VALUE},
@@ -162,6 +163,7 @@ void all_data_update(void)
     mcu_dp_enum_update(DPID_LIGHT_STATUS,当前灯状态); //枚举型数据上报;
     mcu_dp_enum_update(DPID_PERSON_IN_RANGE,当前人状态); //枚举型数据上报;
     mcu_dp_bool_update(DPID_FIND_ME,当前找我); //BOOL型数据上报;
+    mcu_dp_value_update(DPID_PERSON_METER,当前人次计数); //VALUE型数据上报;
     mcu_dp_enum_update(DPID_CHECK_PROCESS,当前检测状态); //枚举型数据上报;
     mcu_dp_enum_update(DPID_LED_ON_BOARD_STATUS,当前板载灯状态); //枚举型数据上报;
     mcu_dp_value_update(DPID_TIME_TIMES,当前时域门限0); //VALUE型数据上报;
@@ -280,6 +282,9 @@ static unsigned char dp_download_load_radar_parameter_handle(const unsigned char
         break;
         
         case 7:
+        break;
+        
+        case 8:
         break;
         
         default:

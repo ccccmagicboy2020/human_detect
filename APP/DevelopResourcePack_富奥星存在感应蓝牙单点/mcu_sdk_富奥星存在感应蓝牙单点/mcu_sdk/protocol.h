@@ -130,6 +130,9 @@ MCU self-processing:
 //找我(可下发可上报)
 //备注:这个是找灯的功能
 #define DPID_FIND_ME 122
+//人次计数(只上报)
+//备注:
+#define DPID_PERSON_METER 124
 //检测状态(只上报)
 //备注:向APP上报当前的工作新状态
 #define DPID_CHECK_PROCESS 140
