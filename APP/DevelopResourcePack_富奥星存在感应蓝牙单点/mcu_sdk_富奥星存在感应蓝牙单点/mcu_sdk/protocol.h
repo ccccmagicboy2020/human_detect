@@ -115,6 +115,12 @@ MCU self-processing:
 						1:dp data point serial number redefinition
 		  * * this is automatically generated code. If there are any changes on the development platform, please download MCU_SDK again.**
 ******************************************************************************/
+//感应延时(可下发可上报)
+//备注:
+#define DPID_PIR_DELAY 102
+//加载预设参数(可下发可上报)
+//备注:
+#define DPID_LOAD_RADAR_PARAMETER 105
 //灯状态(只上报)
 //备注:上报APP关于灯的实时状态
 #define DPID_LIGHT_STATUS 118

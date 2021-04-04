@@ -76,6 +76,8 @@ description: Initial version
 ******************************************************************************/
 const DOWNLOAD_CMD_S download_cmd[] =
 {
+  {DPID_PIR_DELAY, DP_TYPE_ENUM},
+  {DPID_LOAD_RADAR_PARAMETER, DP_TYPE_ENUM},
   {DPID_LIGHT_STATUS, DP_TYPE_ENUM},
   {DPID_PERSON_IN_RANGE, DP_TYPE_ENUM},
   {DPID_FIND_ME, DP_TYPE_BOOL},
@@ -155,6 +157,8 @@ void all_data_update(void)
 {
   #error "Please process all DP data here and delete the row when the processing is complete"
   // This code is automatically generated for the platform. Please modify each function according to the actual data
+    mcu_dp_enum_update(DPID_PIR_DELAY,当前感应延时); //枚举型数据上报;
+    mcu_dp_enum_update(DPID_LOAD_RADAR_PARAMETER,当前加载预设参数); //枚举型数据上报;
     mcu_dp_enum_update(DPID_LIGHT_STATUS,当前灯状态); //枚举型数据上报;
     mcu_dp_enum_update(DPID_PERSON_IN_RANGE,当前人状态); //枚举型数据上报;
     mcu_dp_bool_update(DPID_FIND_ME,当前找我); //BOOL型数据上报;
@@ -189,6 +193,101 @@ void all_data_update(void)
 Automatic code template function, the specific user to realize the data processing
 ******************************************************************************/
 
+/*****************************************************************************
+函数名称 : dp_download_pir_delay_handle
+功能描述 : 针对DPID_PIR_DELAY的处理函数
+输入参数 : value:数据源数据
+        : length:数据长度
+返回参数 : 成功返回:SUCCESS/失败返回:ERROR
+使用说明 : 可下发可上报类型,需要在处理完数据后上报处理结果至app
+*****************************************************************************/
+static unsigned char dp_download_pir_delay_handle(const unsigned char value[], unsigned short length)
+{
+    //示例:当前DP类型为ENUM
+    unsigned char ret;
+    unsigned char pir_delay;
+    
+    pir_delay = mcu_get_dp_download_enum(value,length);
+    switch(pir_delay) {
+        case 0:
+        break;
+        
+        case 1:
+        break;
+        
+        case 2:
+        break;
+        
+        case 3:
+        break;
+        
+        case 4:
+        break;
+        
+        case 5:
+        break;
+        
+        case 6:
+        break;
+        
+        default:
+    
+        break;
+    }
+    
+    //处理完DP数据后应有反馈
+    ret = mcu_dp_enum_update(DPID_PIR_DELAY, pir_delay);
+    if(ret == SUCCESS)
+        return SUCCESS;
+    else
+        return ERROR;
+}
+/*****************************************************************************
+函数名称 : dp_download_load_radar_parameter_handle
+功能描述 : 针对DPID_LOAD_RADAR_PARAMETER的处理函数
+输入参数 : value:数据源数据
+        : length:数据长度
+返回参数 : 成功返回:SUCCESS/失败返回:ERROR
+使用说明 : 可下发可上报类型,需要在处理完数据后上报处理结果至app
+*****************************************************************************/
+static unsigned char dp_download_load_radar_parameter_handle(const unsigned char value[], unsigned short length)
+{
+    //示例:当前DP类型为ENUM
+    unsigned char ret;
+    unsigned char load_radar_parameter;
+    
+    load_radar_parameter = mcu_get_dp_download_enum(value,length);
+    switch(load_radar_parameter) {
+        case 0:
+        break;
+        
+        case 1:
+        break;
+        
+        case 2:
+        break;
+        
+        case 3:
+        break;
+        
+        case 4:
+        break;
+        
+        case 5:
+        break;
+        
+        default:
+    
+        break;
+    }
+    
+    //处理完DP数据后应有反馈
+    ret = mcu_dp_enum_update(DPID_LOAD_RADAR_PARAMETER, load_radar_parameter);
+    if(ret == SUCCESS)
+        return SUCCESS;
+    else
+        return ERROR;
+}
 /*****************************************************************************
 函数名称 : dp_download_find_me_handle
 功能描述 : 针对DPID_FIND_ME的处理函数
@@ -621,6 +720,14 @@ unsigned char dp_download_handle(unsigned char dpid,const unsigned char value[],
   unsigned char ret;
   switch(dpid)
   {
+        case DPID_PIR_DELAY:
+            //感应延时处理函数
+            ret = dp_download_pir_delay_handle(value,length);
+        break;
+        case DPID_LOAD_RADAR_PARAMETER:
+            //加载预设参数处理函数
+            ret = dp_download_load_radar_parameter_handle(value,length);
+        break;
         case DPID_FIND_ME:
             //找我处理函数
             ret = dp_download_find_me_handle(value,length);
