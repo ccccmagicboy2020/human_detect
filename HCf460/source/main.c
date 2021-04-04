@@ -708,7 +708,18 @@ void idle_process(void)
 		else
 		{
 			GPIO5_LOW();
-		}		
+		}
+		
+		SEGGER_RTT_printf(0, 
+										"\r\ngpio0~gpio6 read bit:%d-%d-%d-%d-%d-%d-%d\r\n", 
+										PORT_GetBit(PortA, Pin07),
+										PORT_GetBit(PortA, Pin08),
+										PORT_GetBit(PortB, Pin06),
+										PORT_GetBit(PortB, Pin05),
+										PORT_GetBit(PortA, Pin00),
+										PORT_GetBit(PortA, Pin04),
+										PORT_GetBit(PortB, Pin00)
+										);
 	}
 	//
 	UsartRxErrProcess();

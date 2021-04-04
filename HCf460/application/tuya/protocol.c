@@ -45,6 +45,7 @@
 #include "bluetooth.h"
 #include "myusart.h"
 #include "hc32f46x_usart.h"
+#include "hc32_ddl.h"
 
 extern int check_status;
 extern int person_in_range_flag;
@@ -100,6 +101,8 @@ void update_check_parameter(void);
 ******************************************************************************/
 const DOWNLOAD_CMD_S download_cmd[] =
 {
+  {DPID_PIR_DELAY, DP_TYPE_ENUM},
+  {DPID_LOAD_RADAR_PARAMETER, DP_TYPE_ENUM},
   {DPID_LIGHT_STATUS, DP_TYPE_ENUM},
   {DPID_PERSON_IN_RANGE, DP_TYPE_ENUM},
   {DPID_FIND_ME, DP_TYPE_BOOL},
@@ -182,7 +185,12 @@ void uart_transmit_output(unsigned char value)
 void all_data_update(void)
 {
   //此代码为平台自动生成，请按照实际数据修改每个可下发可上报函数和只上报函数
+    mcu_dp_enum_update(DPID_PIR_DELAY, 0); //枚举型数据上报;
+		Delay_ms(ALL_UPLOAD_DELAY);
+    mcu_dp_enum_update(DPID_LOAD_RADAR_PARAMETER, 0); //枚举型数据上报;
+		Delay_ms(ALL_UPLOAD_DELAY);
     mcu_dp_enum_update(DPID_LIGHT_STATUS, 0); //枚举型数据上报;
+	//////////////////////////////////////////////////////////////////////////
 		Delay_ms(ALL_UPLOAD_DELAY);
     mcu_dp_enum_update(DPID_PERSON_IN_RANGE, person_in_range_flag); //枚举型数据上报;
 		Delay_ms(ALL_UPLOAD_DELAY);
@@ -213,6 +221,101 @@ void all_data_update(void)
 自动化代码模板函数,具体请用户自行实现数据处理
 ******************************************************************************/
 
+/*****************************************************************************
+函数名称 : dp_download_pir_delay_handle
+功能描述 : 针对DPID_PIR_DELAY的处理函数
+输入参数 : value:数据源数据
+        : length:数据长度
+返回参数 : 成功返回:SUCCESS/失败返回:ERROR
+使用说明 : 可下发可上报类型,需要在处理完数据后上报处理结果至app
+*****************************************************************************/
+static unsigned char dp_download_pir_delay_handle(const unsigned char value[], unsigned short length)
+{
+    //示例:当前DP类型为ENUM
+    unsigned char ret;
+    unsigned char pir_delay;
+    
+    pir_delay = mcu_get_dp_download_enum(value,length);
+    switch(pir_delay) {
+        case 0:
+        break;
+        
+        case 1:
+        break;
+        
+        case 2:
+        break;
+        
+        case 3:
+        break;
+        
+        case 4:
+        break;
+        
+        case 5:
+        break;
+        
+        case 6:
+        break;
+        
+        default:
+    
+        break;
+    }
+    
+    //处理完DP数据后应有反馈
+    ret = mcu_dp_enum_update(DPID_PIR_DELAY, pir_delay);
+    if(ret == SUCCESS)
+        return SUCCESS;
+    else
+        return ERROR;
+}
+/*****************************************************************************
+函数名称 : dp_download_load_radar_parameter_handle
+功能描述 : 针对DPID_LOAD_RADAR_PARAMETER的处理函数
+输入参数 : value:数据源数据
+        : length:数据长度
+返回参数 : 成功返回:SUCCESS/失败返回:ERROR
+使用说明 : 可下发可上报类型,需要在处理完数据后上报处理结果至app
+*****************************************************************************/
+static unsigned char dp_download_load_radar_parameter_handle(const unsigned char value[], unsigned short length)
+{
+    //示例:当前DP类型为ENUM
+    unsigned char ret;
+    unsigned char load_radar_parameter;
+    
+    load_radar_parameter = mcu_get_dp_download_enum(value,length);
+    switch(load_radar_parameter) {
+        case 0:
+        break;
+        
+        case 1:
+        break;
+        
+        case 2:
+        break;
+        
+        case 3:
+        break;
+        
+        case 4:
+        break;
+        
+        case 5:
+        break;
+        
+        default:
+    
+        break;
+    }
+    
+    //处理完DP数据后应有反馈
+    ret = mcu_dp_enum_update(DPID_LOAD_RADAR_PARAMETER, load_radar_parameter);
+    if(ret == SUCCESS)
+        return SUCCESS;
+    else
+        return ERROR;
+}
 /*****************************************************************************
 函数名称 : dp_download_find_me_handle
 功能描述 : 针对DPID_FIND_ME的处理函数
@@ -634,6 +737,22 @@ static unsigned char dp_download_light_threshold3_handle(const unsigned char val
     unsigned char ret;
     
     Light_threshold3 = mcu_get_dp_download_value(value,length);
+	
+		if (person_in_range_flag == TUYA_PERSON_STATUS_HAVE_PERSON)
+		{
+			if (light_sensor_adc_data < Light_threshold3)//门限3
+			{
+				GPIO4_HIGH();
+			}
+			else
+			{
+				GPIO4_LOW();
+			}
+		}
+		else if (person_in_range_flag == TUYA_PERSON_STATUS_NO_PERSON)
+		{
+			GPIO4_LOW();
+		}
     
     //处理完DP数据后应有反馈
     ret = mcu_dp_value_update(DPID_LIGHT_THRESHOLD3,Light_threshold3);
@@ -775,6 +894,14 @@ unsigned char dp_download_handle(unsigned char dpid,const unsigned char value[],
   unsigned char ret;
   switch(dpid)
   {
+        case DPID_PIR_DELAY:
+            //感应延时处理函数
+            ret = dp_download_pir_delay_handle(value,length);
+        break;
+        case DPID_LOAD_RADAR_PARAMETER:
+            //加载预设参数处理函数
+            ret = dp_download_load_radar_parameter_handle(value,length);
+        break;
         case DPID_FIND_ME:
             //找我处理函数
             ret = dp_download_find_me_handle(value,length);
