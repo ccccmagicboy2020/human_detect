@@ -75,11 +75,11 @@ float quick_freq_times = 3;
 unsigned char abDataIn[100];
 unsigned char abDataOut[100];
 ////////////////////////////////////////////////////////////
-float	slow_time_times = 30;
-float slow_time_add = 600;
-float	slow_freq_times = 1800;
-float	res_times = 50000;		//17.5
-float	offsetmin = 2.95;			//		0.6
+float	slow_time_times = 5;
+float slow_time_add = 40;
+float	slow_freq_times = 6;
+float	res_times = 17.5;		//17.5
+float	offsetmin = 0.6;			//		0.6
 ////////////////////////////////////////////////////////////
 void check_status_upload(unsigned char aaaa);
 void person_in_range_upload(unsigned char aaaa);
