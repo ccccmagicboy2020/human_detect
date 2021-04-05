@@ -78,6 +78,8 @@ extern	float	offsetmin;
 extern unsigned int delay_time_num;
 extern unsigned int  person_meter;
 
+extern float breathe_freq;
+
 void Delay_ms(unsigned int t);
 void update_check_parameter(void);
 
@@ -130,6 +132,7 @@ const DOWNLOAD_CMD_S download_cmd[] =
   {DPID_LIGHT_THRESHOLD3, DP_TYPE_VALUE},
   {DPID_LIGHT_THRESHOLD4, DP_TYPE_VALUE},
   {DPID_COMMON_COMMAND, DP_TYPE_ENUM},
+  {DPID_BREATHE_FREQ, DP_TYPE_VALUE},
 };
 
 /******************************************************************************
@@ -215,6 +218,8 @@ void all_data_update(void)
 		mcu_dp_value_update(DPID_LIGHT_THRESHOLD3, Light_threshold3);
 		Delay_ms(ALL_UPLOAD_DELAY);
 		mcu_dp_value_update(DPID_LIGHT_THRESHOLD4, Light_threshold4);
+		Delay_ms(ALL_UPLOAD_DELAY);
+    mcu_dp_value_update(DPID_BREATHE_FREQ, breathe_freq); //VALUE型数据上报;
 		Delay_ms(ALL_UPLOAD_DELAY);
 		update_check_parameter();
 		

@@ -105,6 +105,8 @@ unsigned int delay_time_num = 0;
 ////////////////////////////////////////////////////////////
 unsigned int  person_meter = 0;
 unsigned int  person_meter_last = 0;
+
+float breathe_freq = 0;
 ////////////////////////////////////////////////////////////
 void get_mcu_bt_mode(void);
 void bt_hand_up(void);

@@ -18,6 +18,7 @@ extern float testInput[4096];
 extern float testInput2[4096];
 extern float testInput3[4096];//FFT输入数组//FFT输出数组
 extern unsigned char upload_disable;
+extern float breathe_freq;
 
 //float in_data1[4096] = {0}; 
 float out[2048] = {0};
@@ -208,6 +209,13 @@ int Fretting_detection(FIFO_DataType in_data5[4096],double N, double pro_N, doub
 			flag_Fretting = 1;
 			sprintf(float_str, "freq domain cfar trigger value: %.3lf-%.3lf\r\n", diff, offset);
 			SEGGER_RTT_printf(0, "%s", float_str);
+			
+			if (upload_disable == 0)
+			{		
+				breathe_freq = diff;
+				mcu_dp_value_update(DPID_BREATHE_FREQ, (int)((breathe_freq*1000.0f)+0.5f));
+			}
+			
 			break;			
 		}
 	}

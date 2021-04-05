@@ -193,6 +193,9 @@ MCU self-processing:
 //一般命令(只下发)
 //备注:
 #define DPID_COMMON_COMMAND 169
+//呼吸频率(只上报)
+//备注:
+#define DPID_BREATHE_FREQ 170
 
 
 
