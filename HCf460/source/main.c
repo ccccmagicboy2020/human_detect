@@ -514,6 +514,21 @@ void slow_check_process_s0(void)
 		offset = offsetmin;
 	}
 	
+  switch (mcu_get_bt_work_state())
+  {
+      case	BT_UN_BIND:
+          break;
+      case    BT_NOT_CONNECTED:
+          break;
+      case    BT_CONNECTED:
+          offset = 1.0;
+          break;
+      case    BT_SATE_UNKNOW:
+          break;
+      default:
+          break;
+  }	
+	
 	micromotion_detection_result = Fretting_detection(
 											Fast_detection_data, 
 											N, 
@@ -647,8 +662,8 @@ void slow_check_process_s1(void)
 
 void bt_hand_up(void)
 {
-	//
-	bt_uart_write_frame(BT_HAND_UP, 0);
+	//有干扰cfar
+	//bt_uart_write_frame(BT_HAND_UP, 0);
 }
 
 void idle_process(void)
@@ -669,7 +684,10 @@ void idle_process(void)
 	//人表状态更新
 	if (person_meter != person_meter_last)
 	{
-		mcu_dp_value_update(DPID_PERSON_METER,person_meter);
+		if (upload_disable == 0)
+		{		
+			mcu_dp_value_update(DPID_PERSON_METER,person_meter);
+		}
 		SEGGER_RTT_printf(0, "person meter: %d\r\n", person_meter);
 		person_meter_last = person_meter;
 	}	
@@ -694,8 +712,11 @@ void idle_process(void)
 	{
 		light_sensor_upload_flag = 0;//clear flag
 		//
-		mcu_dp_value_update(DPID_LIGHT_SENSOR_RAW, light_sensor_adc_data);
-
+		if (upload_disable == 0)
+		{
+			mcu_dp_value_update(DPID_LIGHT_SENSOR_RAW, light_sensor_adc_data);
+		}
+			
 		if (light_sensor_adc_data > Light_threshold1)//门限1
 		{
 			GPIO2_HIGH();
@@ -781,7 +802,10 @@ void person_in_range_upload(unsigned char aaaa)
 	{
 		if (person_in_range_flag != person_in_range_flag_last)
 		{
-			mcu_dp_enum_update(DPID_PERSON_IN_RANGE, aaaa);
+			if (upload_disable == 0)
+			{
+				mcu_dp_enum_update(DPID_PERSON_IN_RANGE, aaaa);
+			}
 			person_in_range_flag_last = person_in_range_flag;
 			if (aaaa == 1)
 			{
