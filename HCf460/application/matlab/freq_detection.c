@@ -70,8 +70,10 @@ int freq_detection(FIFO_DataType data[], const float win[], int data_size, int w
 	
 	static int run_counter = 0;
 	float freq_times_rt = 0;
+    static float freq_times_rt_last = 0;
 	
 	float minTEMP = 0;
+    float minTEMP_last = 0;
 	float minTEMP_0 = 0;
 	float minTEMP_1 = 0;
 	
@@ -204,6 +206,39 @@ int freq_detection(FIFO_DataType data[], const float win[], int data_size, int w
 			respirationfreq_vote[0] = 1;
 			sprintf(float_str, "freq domain res trigger value: %.2lf-%.2lf\r\n", minTEMP, respiration_times);
 			SEGGER_RTT_printf(0, "%s", float_str);
+						if (0)
+            //if (upload_disable == 0)
+            {
+                run_counter++;
+                if (check_status == TUYA_FAST_CHECK)
+                {
+                    if(run_counter%64 == 40)//64*256ms~16s
+                    {
+                        //
+                        if (freq_times_rt != freq_times_rt_last)
+                        {
+                            mcu_dp_value_update(DPID_FREQ_TIMES_RT, (int)((freq_times_rt*100.0f)+0.5f));
+                            freq_times_rt_last = freq_times_rt;
+                        }
+                    }
+                }
+                else if (check_status == TUYA_SLOW_CHECK)
+                {
+                    if (freq_times_rt != freq_times_rt_last)
+                    {
+                        mcu_dp_value_update(DPID_FREQ_TIMES_RT, (int)((freq_times_rt*100.0f)+0.5f));
+                        freq_times_rt_last = freq_times_rt;
+                    }			
+                    if (0 == respirationfreq_vote[1])	//Âý¼ì²â
+                    {
+                        if (minTEMP != minTEMP_last)
+                        {
+                            mcu_dp_value_update(DPID_FREQ_PARAMETER1_RT, (int)((minTEMP*100.0f)+0.5f));
+                            minTEMP_last = minTEMP;
+                        }	
+                    }
+                }
+            }
 		}
 		else
 		{
@@ -211,7 +246,8 @@ int freq_detection(FIFO_DataType data[], const float win[], int data_size, int w
 		}	
 	}
   
-	if (upload_disable == 0)
+    if (0)
+	//if (upload_disable == 0)
 	{
 		run_counter++;
 		if (check_status == TUYA_FAST_CHECK)

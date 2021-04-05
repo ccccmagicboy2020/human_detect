@@ -673,6 +673,8 @@ void idle_process(void)
 	static uint32_t last_tick = 0;
 	uint32_t now_tick = 0;
 	uint32_t diff = 0;
+    
+    static unsigned short light_sensor_adc_data_last = 0;
 	
 	now_tick = SysTick_GetTick();
 	diff = now_tick - last_tick;
@@ -693,7 +695,7 @@ void idle_process(void)
 		SEGGER_RTT_printf(0, "person meter: %d\r\n", person_meter);
 		person_meter_last = person_meter;
 	}	
-	//
+	//找我闪动
 	if (find_me_flag)
 	{
 		led_red(1);			
@@ -709,14 +711,21 @@ void idle_process(void)
 			find_me_counter = 0;
 		}
 	}
-	//
+	//光敏控制及上报，gpio状态上报，bt连接情况上报
 	if (light_sensor_upload_flag)
 	{
 		light_sensor_upload_flag = 0;//clear flag
 		//
 		if (upload_disable == 0)
 		{
-			mcu_dp_value_update(DPID_LIGHT_SENSOR_RAW, light_sensor_adc_data);
+			if (0)
+			{
+				if (light_sensor_adc_data != light_sensor_adc_data_last)
+				{
+					mcu_dp_value_update(DPID_LIGHT_SENSOR_RAW, light_sensor_adc_data);
+					light_sensor_adc_data_last = light_sensor_adc_data;						
+				}			
+			}
 		}
 			
 		if (light_sensor_adc_data > Light_threshold1)//门限1
@@ -771,13 +780,13 @@ void idle_process(void)
                 break;
             case    BT_SATE_UNKNOW:
                 SEGGER_RTT_printf(0,"bt unknow status\r\n");
-								get_mcu_bt_mode();
+                //get_mcu_bt_mode();
                 break;
             default:
                 break;
         }
 	}
-	//
+	//串口错误处理
 	UsartRxErrProcess();
 	tuya_UsartRxErrProcess();
 	//
