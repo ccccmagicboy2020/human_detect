@@ -125,13 +125,13 @@ int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
 			SEGGER_RTT_printf(0, "%s", float_str);
 			sprintf(float_str, "time domain add trigger value: %.2lf-%.2lf\r\n", time_add_rt, time_add);
 			SEGGER_RTT_printf(0, "%s", float_str);
-						if (0)
-            //if (upload_disable == 0)
+						//if (0)
+            if (upload_disable == 0)
             {
                 run_counter++;
                 if (check_status == TUYA_FAST_CHECK)
                 {
-                    if(run_counter%64 == 0)		//64*256ms~16s
+                    if(run_counter%32 == 0)		//
                     {
                         if (time_times_rt != time_times_rt_last)
                         {
@@ -139,7 +139,7 @@ int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
                             time_times_rt_last = time_times_rt;
                         }							
                     }
-                    else if (run_counter%64 == 32)
+                    else if (run_counter%32 == 16)
                     {
                         if (time_add_rt != time_add_rt_last)
                         {
@@ -172,7 +172,7 @@ int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
 		//printf("time domain *: %.2lf - %.2lf\r\n", time_times, maxValue/minValue);
 		//printf("time domain +: %.2lf - %.2lf\r\n", time_add, maxValue - minValue);
 
-        if (0)
+		if (0)
 		//if (upload_disable == 0)
 		{
 			run_counter++;

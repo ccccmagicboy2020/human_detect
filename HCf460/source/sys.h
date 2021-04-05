@@ -85,15 +85,6 @@ enum tuya_upload_person_in_range_status
 	TUYA_PERSON_STATUS_OTHER=3
 };
 
-enum tuya_upload_led_onboard_status
-{
-	TUYA_LED_ONBOARD_RED_OFF_GREEN_OFF=0,
-	TUYA_LED_ONBOARD_RED_ON_GREEN_OFF=1,
-	TUYA_LED_ONBOARD_RED_OFF_GREEN_ON=2,
-	TUYA_LED_ONBOARD_RED_ON_GREEN_ON=3,
-	TUYA_LED_ONBOARD_OTHER=4
-};
-
 enum slow_s0_result
 {
 	NO_PERSON_NOT_SURE=0,			//no person but not sure

@@ -42,6 +42,7 @@
 
 ******************************************************************************/
 #include "bluetooth.h"
+#include "myled.h"
 //
 //
 extern const DOWNLOAD_CMD_S download_cmd[];
@@ -295,7 +296,7 @@ void data_handle(unsigned short offset)
 
   //signed char bt_rssi;
 	unsigned char hand_up_status;
-	
+	static 	unsigned char hand_up_status_last;
 #ifdef TUYA_BCI_UART_COMMON_SEND_TIME_SYNC_TYPE 
   bt_time_struct_data_t bt_time;
   unsigned short time_zone_100;
@@ -307,17 +308,20 @@ void data_handle(unsigned short offset)
   {
 		case BT_HAND_UP:
 			hand_up_status = bt_uart_rx_buf[offset + DATA_START];
-			if (hand_up_status)
+			if (hand_up_status != hand_up_status_last)
 			{
-				bt_hand_up();
+				hand_up_status_last = hand_up_status;
+				//0 sucess, 1 fail
+				if (hand_up_status)
+				{
+					SEGGER_RTT_printf(0, "hand up ERROR!!!\r\n");
+				}
+				else
+				{
+					//
+					SEGGER_RTT_printf(0, "hand up OK!!!\r\n");
+				}			
 			}
-			else
-			{
-				//
-			}
-				
-		//0 sucess
-		//1 fail
 			break;
   case HEAT_BEAT_CMD:                                   //心跳包
     heat_beat_check();
@@ -337,17 +341,24 @@ void data_handle(unsigned short offset)
 	if(BT_UN_BIND == bt_work_state)
 	{
 		upload_disable = 1;
+		led_green(0);
 	}
 	else if(BT_NOT_CONNECTED == bt_work_state)
 	{
 		upload_disable = 1;
 		get_mcu_bt_mode();
 		bt_hand_up();
+		led_green(0);
 	}
 	else if(BT_CONNECTED == bt_work_state)
 	{
 		all_data_update();
 		upload_disable = 0;
+		led_green(1);
+	}
+	else
+	{
+		led_green(0);
 	}
     bt_uart_write_frame(BT_STATE_CMD,0);
     break;

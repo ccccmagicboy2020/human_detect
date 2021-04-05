@@ -139,9 +139,9 @@ mcu在bt模块正确联网后可调用mcu_get_system_time()函数发起校时功
 //检测状态(只上报)
 //备注:向APP上报当前的工作新状态
 #define DPID_CHECK_PROCESS 140
-//板载灯状态(只上报)
-//备注:板子上两个LED的状态
-#define DPID_LED_ON_BOARD_STATUS 141
+//慢检测结果(只上报)
+//备注:大动作，微动，呼吸，没人等
+#define DPID_SLOW_CHECK_RESULT 141
 //时域门限0(可下发可上报)
 //备注:时域乘法限
 #define DPID_TIME_TIMES 143

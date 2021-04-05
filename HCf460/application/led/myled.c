@@ -17,9 +17,8 @@ void led_init(void)
       PORT_Init(PortA, Pin01, &stcPortInit);   //Red
 	  PORT_Init(PortA, Pin05, &stcPortInit);   //Green
 	  	 
-		led_red(1);
-		led_green(1);	//初始时是亮的
-		led_onboard_status_upload(TUYA_LED_ONBOARD_RED_ON_GREEN_ON);
+		led_red(0);
+		led_green(0);
 		check_status_upload(TUYA_INIT);
 }
 

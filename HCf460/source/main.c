@@ -58,11 +58,8 @@ int slow_only_flag = 0;
 int check_status = TUYA_OTHER;
 int check_status_last = TUYA_OTHER;
 
-int person_in_range_flag = TUYA_PERSON_STATUS_OTHER;
-int person_in_range_flag_last = TUYA_PERSON_STATUS_OTHER;
-
-int led_onboard_status = TUYA_LED_ONBOARD_OTHER;
-int led_onboard_status_last = TUYA_LED_ONBOARD_OTHER;
+int person_in_range_flag = 0;
+int person_in_range_flag_last = 0;
 
 int light_status_flag = 0;
 int light_status_flag_last = 0;
@@ -83,7 +80,7 @@ float	offsetmin = 0.6;			//		0.6
 ////////////////////////////////////////////////////////////
 void check_status_upload(unsigned char aaaa);
 void person_in_range_upload(unsigned char aaaa);
-void led_onboard_status_upload(unsigned char aaaa);
+void slow_check_result_upload(unsigned char aaaa);
 void clear_buffer(void);
 void light_status_upload(unsigned char aaaa);
 ////////////////////////////////////////////////////////////
@@ -107,6 +104,9 @@ unsigned int  person_meter = 0;
 unsigned int  person_meter_last = 0;
 
 float breathe_freq = 0;
+
+unsigned int slow_check_result = 1;
+unsigned int slow_check_result_last = 1;
 ////////////////////////////////////////////////////////////
 void get_mcu_bt_mode(void);
 void bt_hand_up(void);
@@ -124,9 +124,7 @@ void gpio_output(unsigned char res)
 	//
 	if (res)
 	{
-		led_red(1);			
-		led_green(0);
-		
+		led_red(1);
 		GPIO0_HIGH();
 		GPIO1_LOW();
 		
@@ -138,38 +136,40 @@ void gpio_output(unsigned char res)
 		{
 			GPIO4_LOW();
 		}
-		light_status_upload(0);
+		light_status_upload(1);
 	}
 	else
 	{
-		led_red(0);			
-		led_green(0);
+		led_red(0);
 		GPIO0_LOW();
 		GPIO1_HIGH();
 		GPIO4_LOW();
-		light_status_upload(1);
+		light_status_upload(0);
 	}
 }
 
 void fast_output_result(char quick_detection_result)
 {
-	//printf("quick: %d \r\n", quick_detection_result);
+	SEGGER_RTT_printf(0, "quick: %d \r\n", quick_detection_result);
+	
 	if (quick_detection_result)//有人
 	{
-		led_onboard_status_upload(TUYA_LED_ONBOARD_RED_ON_GREEN_OFF);
 		person_in_range_upload(TUYA_PERSON_STATUS_HAVE_PERSON);
-		gpio_output(1);		
+		gpio_output(1);
+		slow_check_result_upload(BIG_MOTION);
 	}
 	else						//无人
 	{
-		led_onboard_status_upload(TUYA_LED_ONBOARD_RED_OFF_GREEN_OFF);
 		person_in_range_upload(TUYA_PERSON_STATUS_NO_PERSON);
 		gpio_output(0);
+		slow_check_result_upload(NO_PERSON);
 	}
 }
 
 void slow_output_result(char slow_s0_result)
 {
+	//
+	
 	switch (slow_s0_result)
 	{
 	case BIG_MOTION:	
@@ -179,9 +179,7 @@ void slow_output_result(char slow_s0_result)
 		}
 		else
 		{
-			led_red(1);			
-			led_green(0);
-			led_onboard_status_upload(TUYA_LED_ONBOARD_RED_ON_GREEN_OFF);
+			slow_check_result_upload(slow_s0_result);
 		}
 		break;
 	case BREATHE:
@@ -191,9 +189,7 @@ void slow_output_result(char slow_s0_result)
 		}
 		else
 		{
-			led_red(0);			
-			led_green(1);
-			led_onboard_status_upload(TUYA_LED_ONBOARD_RED_OFF_GREEN_ON);
+			slow_check_result_upload(slow_s0_result);
 		}
 		break;
 	case BREATHE_NOT_SURE:
@@ -203,9 +199,7 @@ void slow_output_result(char slow_s0_result)
 		}
 		else
 		{
-			led_red(0);			
-			led_green(1);
-			led_onboard_status_upload(TUYA_LED_ONBOARD_RED_OFF_GREEN_ON);
+			slow_check_result_upload(slow_s0_result);
 		}
 		break;
 	case NO_PERSON_NOT_SURE:
@@ -215,9 +209,7 @@ void slow_output_result(char slow_s0_result)
 		}
 		else
 		{
-			led_red(1);			
-			led_green(1);
-			led_onboard_status_upload(TUYA_LED_ONBOARD_RED_ON_GREEN_ON);
+			slow_check_result_upload(slow_s0_result);
 		}
 		break;
 	case NO_PERSON:
@@ -227,7 +219,7 @@ void slow_output_result(char slow_s0_result)
 		}
 		else
 		{
-			//printf("slow check no person go fast check\r\n");
+			SEGGER_RTT_printf(0, "slow check no person go fast check\r\n");
 		}
 		break;
 	default:
@@ -248,13 +240,6 @@ void fast_check_data_prepare(void)
 	
 	if (FAST_CHECK_TIMES > i)
 	{
-		//led_red(1);
-		//led_green(0);
-		//led_onboard_status_upload(TUYA_LED_ONBOARD_RED_ON_GREEN_OFF);
-		//person_in_range_upload(TUYA_PERSON_STATUS_HAVE_PERSON);
-
-		//gpio output 
-		//
 		//
 	}
 	
@@ -266,17 +251,17 @@ void fast_check_data_prepare(void)
 			{
 				Fast_detection_data[k] =Fast_detection_data[k + FAST_CHECK_SAMPLES];		
 			}			
-			//printf("fifo0 number: %d - %d\r\n", i, FIFO_GetDataCount(&FIFO_Data[0]));
+			SEGGER_RTT_printf(0, "fifo0 number: %d - %d\r\n", i, FIFO_GetDataCount(&FIFO_Data[0]));
 			FIFO_ReadData(&FIFO_Data[0], &Fast_detection_data[FAST_CHECK_SAMPLES*(i-1)], FAST_CHECK_SAMPLES);
-			//printf("fifo0 number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[0]));
+			SEGGER_RTT_printf(0, "fifo0 number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[0]));
 			state = IDLE;
 			next_state = FAST_CHECK;			//bingo to check
 		}
 		else		// fullfill the tank
 		{
-			//printf("fifo0 number: %d - %d\r\n", i, FIFO_GetDataCount(&FIFO_Data[0]));
+			SEGGER_RTT_printf(0, "fifo0 number: %d - %d\r\n", i, FIFO_GetDataCount(&FIFO_Data[0]));
 			FIFO_ReadData(&FIFO_Data[0], &Fast_detection_data[FAST_CHECK_SAMPLES*i], FAST_CHECK_SAMPLES);
-			//printf("fifo0 number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[0]));
+			SEGGER_RTT_printf(0, "fifo0 number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[0]));
 			i++;
 
 			if (i == FAST_CHECK_TIMES)
@@ -374,9 +359,9 @@ void slow_check_data_prepare_s0(void)
 	
 	if (SLOW_CHECK_SAMPLES < FIFO_GetDataCount(&FIFO_Data[0]))
 	{
-		//printf("fifo0 number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[0]));
+		SEGGER_RTT_printf(0, "fifo0 number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[0]));
 		FIFO_ReadData(&FIFO_Data[0], temp, SLOW_CHECK_SAMPLES);
-		//printf("fifo0 number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[0]));
+		SEGGER_RTT_printf(0, "fifo0 number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[0]));
 
 		for(i=0;i<SLOW_CHECK_USE_SAMPLES;i++)
 		{
@@ -410,16 +395,16 @@ void slow_check_data_prepare_s1(void)
 			{
 				Fast_detection_data[k] =Fast_detection_data[k + SLOW_CHECK_SAMPLES];		
 			}			
-			//printf("fifo1 number: %d - %d\r\n", i, FIFO_GetDataCount(&FIFO_Data[1]));
+			SEGGER_RTT_printf(0, "fifo1 number: %d - %d\r\n", i, FIFO_GetDataCount(&FIFO_Data[1]));
 			FIFO_ReadData(&FIFO_Data[1], &Fast_detection_data[SLOW_CHECK_SAMPLES*(i-1)], SLOW_CHECK_SAMPLES);
-			//printf("fifo1 number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[1]));
+			SEGGER_RTT_printf(0, "fifo1 number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[1]));
 			state = SLOW_CHECK_S0;		//bingo to check
 		}
 		else		//the tank is not full
 		{
-			//printf("fifo1 number: %d - %d\r\n", i, FIFO_GetDataCount(&FIFO_Data[1]));
+			SEGGER_RTT_printf(0, "fifo1 number: %d - %d\r\n", i, FIFO_GetDataCount(&FIFO_Data[1]));
 			FIFO_ReadData(&FIFO_Data[1], &Fast_detection_data[SLOW_CHECK_SAMPLES*i], SLOW_CHECK_SAMPLES);
-			//printf("fifo1 number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[1]));
+			SEGGER_RTT_printf(0, "fifo1 number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[1]));
 			i++;
 
 			if (i == SLOW_CHECK_TIMES)
@@ -519,13 +504,16 @@ void slow_check_process_s0(void)
   switch (mcu_get_bt_work_state())
   {
       case	BT_UN_BIND:
+					led_green(0);
           break;
       case    BT_NOT_CONNECTED:
+					led_green(0);
           break;
       case    BT_CONNECTED:
-          offset = 1.0;
+					led_green(1);
           break;
       case    BT_SATE_UNKNOW:
+					led_green(0);
           break;
       default:
           break;
@@ -665,7 +653,7 @@ void slow_check_process_s1(void)
 void bt_hand_up(void)
 {
 	//有干扰cfar
-	//bt_uart_write_frame(BT_HAND_UP, 0);
+	bt_uart_write_frame(BT_HAND_UP, 0);
 }
 
 void idle_process(void)
@@ -674,7 +662,7 @@ void idle_process(void)
 	uint32_t now_tick = 0;
 	uint32_t diff = 0;
     
-    static unsigned short light_sensor_adc_data_last = 0;
+	static unsigned short light_sensor_adc_data_last = 0;
 	
 	now_tick = SysTick_GetTick();
 	diff = now_tick - last_tick;
@@ -697,11 +685,9 @@ void idle_process(void)
 	}	
 	//找我闪动
 	if (find_me_flag)
-	{
-		led_red(1);			
+	{		
 		led_green(1);
 		Delay_ms(100);
-		led_red(0);
 		led_green(0);
 		Delay_ms(100);
 		find_me_counter++;
@@ -709,6 +695,14 @@ void idle_process(void)
 		{
 			find_me_flag = 0;
 			find_me_counter = 0;
+			if (BT_CONNECTED == mcu_get_bt_work_state())
+			{
+				led_green(1);
+			}
+			else
+			{
+				led_green(0);
+			}
 		}
 	}
 	//光敏控制及上报，gpio状态上报，bt连接情况上报
@@ -716,16 +710,14 @@ void idle_process(void)
 	{
 		light_sensor_upload_flag = 0;//clear flag
 		//
-		if (upload_disable == 0)
+		//light sensor as bt heartbeat
+		if (1)
 		{
-			if (0)
+			if (light_sensor_adc_data != light_sensor_adc_data_last)
 			{
-				if (light_sensor_adc_data != light_sensor_adc_data_last)
-				{
-					mcu_dp_value_update(DPID_LIGHT_SENSOR_RAW, light_sensor_adc_data);
-					light_sensor_adc_data_last = light_sensor_adc_data;						
-				}			
-			}
+				mcu_dp_value_update(DPID_LIGHT_SENSOR_RAW, light_sensor_adc_data);
+				light_sensor_adc_data_last = light_sensor_adc_data;						
+			}			
 		}
 			
 		if (light_sensor_adc_data > Light_threshold1)//门限1
@@ -773,6 +765,7 @@ void idle_process(void)
                 break;
             case    BT_NOT_CONNECTED:
                 SEGGER_RTT_printf(0,"bt binded but not connect\r\n");
+								get_mcu_bt_mode();
                 bt_hand_up();
                 break;
             case    BT_CONNECTED:
@@ -863,16 +856,16 @@ void check_status_upload(unsigned char aaaa)
 	}
 }
 
-void led_onboard_status_upload(unsigned char aaaa)
+void slow_check_result_upload(unsigned char aaaa)
 {
-	led_onboard_status = aaaa;
+	slow_check_result = aaaa;
 	
 	if (upload_disable == 0)
 	{
-		if (led_onboard_status != led_onboard_status_last)
+		if (slow_check_result != slow_check_result_last)
 		{
-			mcu_dp_enum_update(DPID_LED_ON_BOARD_STATUS, aaaa);
-			led_onboard_status_last = led_onboard_status;
+			mcu_dp_enum_update(DPID_SLOW_CHECK_RESULT, aaaa);
+			slow_check_result_last = slow_check_result;
 		}	
 	}
 }
@@ -1001,7 +994,6 @@ int main(void)
 	gpio_init();
   segger_init();		
 	get_mcu_bt_mode();
-	bt_hand_up();
 	read_uid();
 	tick_init();
 	

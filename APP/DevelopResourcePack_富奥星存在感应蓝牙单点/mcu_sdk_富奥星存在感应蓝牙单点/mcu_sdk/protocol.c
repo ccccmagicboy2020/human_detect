@@ -83,7 +83,7 @@ const DOWNLOAD_CMD_S download_cmd[] =
   {DPID_FIND_ME, DP_TYPE_BOOL},
   {DPID_PERSON_METER, DP_TYPE_VALUE},
   {DPID_CHECK_PROCESS, DP_TYPE_ENUM},
-  {DPID_LED_ON_BOARD_STATUS, DP_TYPE_ENUM},
+  {DPID_SLOW_CHECK_RESULT, DP_TYPE_ENUM},
   {DPID_TIME_TIMES, DP_TYPE_VALUE},
   {DPID_TIME_TIMES_RT, DP_TYPE_VALUE},
   {DPID_TIME_ADD, DP_TYPE_VALUE},
@@ -166,7 +166,7 @@ void all_data_update(void)
     mcu_dp_bool_update(DPID_FIND_ME,当前找我); //BOOL型数据上报;
     mcu_dp_value_update(DPID_PERSON_METER,当前人次计数); //VALUE型数据上报;
     mcu_dp_enum_update(DPID_CHECK_PROCESS,当前检测状态); //枚举型数据上报;
-    mcu_dp_enum_update(DPID_LED_ON_BOARD_STATUS,当前板载灯状态); //枚举型数据上报;
+    mcu_dp_enum_update(DPID_SLOW_CHECK_RESULT,当前慢检测结果); //枚举型数据上报;
     mcu_dp_value_update(DPID_TIME_TIMES,当前时域门限0); //VALUE型数据上报;
     mcu_dp_value_update(DPID_TIME_TIMES_RT,当前时域门限0实时值); //VALUE型数据上报;
     mcu_dp_value_update(DPID_TIME_ADD,当前时域门限1); //VALUE型数据上报;
