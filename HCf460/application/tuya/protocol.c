@@ -201,9 +201,14 @@ void all_data_update(void)
 		Delay_ms(ALL_UPLOAD_DELAY);
     mcu_dp_enum_update(DPID_PERSON_IN_RANGE, person_in_range_flag); //枚举型数据上报;
 		Delay_ms(ALL_UPLOAD_DELAY);
-    mcu_dp_value_update(DPID_PERSON_METER,person_meter); //VALUE型数据上报;
-		Delay_ms(ALL_UPLOAD_DELAY);
-    mcu_dp_enum_update(DPID_CHECK_PROCESS, check_status); //枚举型数据上报;
+
+		if (person_meter != 0)
+		{
+			mcu_dp_value_update(DPID_PERSON_METER,person_meter); //VALUE型数据上报;
+			Delay_ms(ALL_UPLOAD_DELAY);
+		}
+    
+	mcu_dp_enum_update(DPID_CHECK_PROCESS, check_status); //枚举型数据上报;
     Delay_ms(ALL_UPLOAD_DELAY);
 	mcu_dp_enum_update(DPID_SLOW_CHECK_RESULT, slow_check_result);
 	Delay_ms(ALL_UPLOAD_DELAY);
@@ -219,8 +224,13 @@ void all_data_update(void)
 		Delay_ms(ALL_UPLOAD_DELAY);
 		mcu_dp_value_update(DPID_LIGHT_THRESHOLD4, Light_threshold4);
 		Delay_ms(ALL_UPLOAD_DELAY);
-    mcu_dp_value_update(DPID_BREATHE_FREQ, breathe_freq); //VALUE型数据上报;
-		Delay_ms(ALL_UPLOAD_DELAY);
+		
+		if (breathe_freq != 0)
+		{
+			mcu_dp_value_update(DPID_BREATHE_FREQ, (int)((breathe_freq*10.0f)+0.5f));
+			Delay_ms(ALL_UPLOAD_DELAY);		
+		}
+		
 		update_check_parameter();
 		
 }

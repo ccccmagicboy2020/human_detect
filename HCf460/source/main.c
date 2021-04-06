@@ -169,7 +169,8 @@ void fast_output_result(char quick_detection_result)
 void slow_output_result(char slow_s0_result)
 {
 	//
-	
+	Delay_ms(ALL_UPLOAD_DELAY);
+	//
 	switch (slow_s0_result)
 	{
 	case BIG_MOTION:	
@@ -674,7 +675,7 @@ void idle_process(void)
 	
 	//do some thing here global
 	//人表状态更新
-	if (person_meter != person_meter_last)
+	if ((person_meter != person_meter_last) && (person_meter != 0))
 	{
 		if (upload_disable == 0)
 		{		
