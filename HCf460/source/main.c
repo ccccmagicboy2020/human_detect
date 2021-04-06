@@ -505,16 +505,13 @@ void slow_check_process_s0(void)
   switch (mcu_get_bt_work_state())
   {
       case	BT_UN_BIND:
-					led_green(0);
-          break;
       case    BT_NOT_CONNECTED:
-					led_green(0);
+      case    BT_SATE_UNKNOW:
           break;
       case    BT_CONNECTED:
-					led_green(1);
-          break;
-      case    BT_SATE_UNKNOW:
-					led_green(0);
+					//
+					//
+					offset = 1.2f;
           break;
       default:
           break;

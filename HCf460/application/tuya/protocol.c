@@ -196,9 +196,11 @@ void all_data_update(void)
     mcu_dp_enum_update(DPID_PIR_DELAY, 0); //枚举型数据上报;
 		Delay_ms(ALL_UPLOAD_DELAY);
     mcu_dp_enum_update(DPID_LOAD_RADAR_PARAMETER, 0); //枚举型数据上报;
+	Delay_ms(ALL_UPLOAD_DELAY);
 	mcu_dp_enum_update(DPID_LIGHT_STATUS, light_status_flag);
+	Delay_ms(ALL_UPLOAD_DELAY);
 	//////////////////////////////////////////////////////////////////////////
-		Delay_ms(ALL_UPLOAD_DELAY);
+
     mcu_dp_enum_update(DPID_PERSON_IN_RANGE, person_in_range_flag); //枚举型数据上报;
 		Delay_ms(ALL_UPLOAD_DELAY);
 
