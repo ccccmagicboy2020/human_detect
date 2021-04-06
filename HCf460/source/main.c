@@ -69,8 +69,8 @@ float quick_time_times = 4;
 float quick_time_add = 32;
 float quick_freq_times = 3;
 ////////////////////////////////////////////////////////////
-unsigned char abDataIn[100];
-unsigned char abDataOut[100];
+char JS_RTT_UpBuffer[1024];
+Val_t adc_value;
 ////////////////////////////////////////////////////////////
 float	slow_time_times = 5;
 float slow_time_add = 40;
@@ -511,7 +511,7 @@ void slow_check_process_s0(void)
       case    BT_CONNECTED:
 					//
 					//
-					offset = 1.2f;
+					//offset = 1.2f;
           break;
       default:
           break;
@@ -564,6 +564,7 @@ void slow_check_process_s0(void)
 	case BREATHE:
 		state = IDLE;
 		next_state = SLOW_CHECK_DATA_PREPARE_S0;
+		slow_s0_result_last = slow_s0_result;
 		break;
 	case BREATHE_NOT_SURE:
 	case NO_PERSON_NOT_SURE:
@@ -948,8 +949,9 @@ void gpio_init(void)
 
 void segger_init(void)
 {
-	SEGGER_RTT_ConfigDownBuffer(0, "DataIn", &abDataIn[0], sizeof(abDataIn), SEGGER_RTT_MODE_NO_BLOCK_SKIP);
-	SEGGER_RTT_ConfigUpBuffer(0, "DataOut", &abDataOut[0], sizeof(abDataOut), SEGGER_RTT_MODE_BLOCK_IF_FIFO_FULL);
+	//
+	SEGGER_RTT_ConfigUpBuffer(1, "JScope_U2U2", &JS_RTT_UpBuffer[0], sizeof(JS_RTT_UpBuffer), SEGGER_RTT_MODE_BLOCK_IF_FIFO_FULL);
+	
 	SEGGER_RTT_Init();
 	SEGGER_RTT_WriteString(0, "phosense radar chip: XBR816C DEMO\r\n");	
 }

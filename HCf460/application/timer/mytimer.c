@@ -13,6 +13,8 @@ extern unsigned char light_sensor_upload_flag;
 
 unsigned short  light_sensor_adc_data = 0;	//π‚√Ù ˝æ›
 
+extern Val_t adc_value;
+
 void Delay_ms(unsigned int t)
 {
 	Timer_Counter = 0;
@@ -107,7 +109,12 @@ static void Timer0B_CallBack(void)		// T === 500us
 		if_adc_data =  m_au16Adc1SaValue[6u];
 		light_sensor_adc_data =  m_au16Adc1SaValue[9u];
 		
-		FIFO_WriteOneData(&FIFO_Data[0], if_adc_data);		
+		FIFO_WriteOneData(&FIFO_Data[0], if_adc_data);
+		
+		adc_value.Val1 = if_adc_data;
+		adc_value.Val2 = light_sensor_adc_data;
+		
+		SEGGER_RTT_Write(1, &adc_value, sizeof(adc_value));
 	}
 }
 

@@ -48,6 +48,12 @@ typedef const uint8_t uc8;
 #define GPIO6_HIGH()		(PORT_SetBits(PortB, Pin00))
 #define GPIO6_LOW()			(PORT_ResetBits(PortB, Pin00))
 
+typedef struct Val
+{
+	unsigned short Val1;
+	unsigned short Val2;
+} Val_t;
+
 enum work_mode
 {
 	ALL_CHECK=0,			//default
