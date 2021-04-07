@@ -215,7 +215,7 @@ int Fretting_detection(FIFO_DataType in_data5[4096],double N, double pro_N, doub
 			
 			if (upload_disable == 0)
 			{		
-				breathe_freq = 60*diff/3;
+				breathe_freq = 60*diff/4;
                 if (breathe_freq != breathe_freq_last)
                 {
                     mcu_dp_value_update(DPID_BREATHE_FREQ, (int)((breathe_freq*10.0f)+0.5f));
