@@ -176,7 +176,9 @@ void slow_output_result(char slow_s0_result)
 	case BIG_MOTION:	
 		if (slow_only_flag == 1)
 		{
-			fast_output_result(1);
+			person_in_range_upload(TUYA_PERSON_STATUS_HAVE_PERSON);
+			gpio_output(1);
+			slow_check_result_upload(slow_s0_result);
 		}
 		else
 		{
@@ -186,7 +188,9 @@ void slow_output_result(char slow_s0_result)
 	case BREATHE:
 		if (slow_only_flag == 1)
 		{
-			fast_output_result(1);
+			person_in_range_upload(TUYA_PERSON_STATUS_HAVE_PERSON);
+			gpio_output(1);
+			slow_check_result_upload(slow_s0_result);
 		}
 		else
 		{
@@ -196,7 +200,9 @@ void slow_output_result(char slow_s0_result)
 	case BREATHE_NOT_SURE:
 		if (slow_only_flag == 1)
 		{
-			fast_output_result(1);
+			person_in_range_upload(TUYA_PERSON_STATUS_HAVE_PERSON);
+			gpio_output(1);
+			slow_check_result_upload(slow_s0_result);
 		}
 		else
 		{
@@ -206,7 +212,7 @@ void slow_output_result(char slow_s0_result)
 	case NO_PERSON_NOT_SURE:
 		if (slow_only_flag == 1)
 		{
-			fast_output_result(0);
+			slow_check_result_upload(slow_s0_result);
 		}
 		else
 		{
@@ -216,7 +222,9 @@ void slow_output_result(char slow_s0_result)
 	case NO_PERSON:
 		if (slow_only_flag == 1)
 		{
-			fast_output_result(0);
+			person_in_range_upload(TUYA_PERSON_STATUS_NO_PERSON);
+			gpio_output(0);
+			//slow_check_result_upload(slow_s0_result);
 		}
 		else
 		{
@@ -557,13 +565,13 @@ void slow_check_process_s0(void)
 	}
 
 	slow_output_result(slow_s0_result);
-
+	
 	switch (slow_s0_result)
 	{
 	case BIG_MOTION:
 	case BREATHE:
 		state = IDLE;
-		next_state = SLOW_CHECK_DATA_PREPARE_S0;
+		next_state = SLOW_CHECK_S1;
 		slow_s0_result_last = slow_s0_result;
 		break;
 	case BREATHE_NOT_SURE:
@@ -595,7 +603,6 @@ void slow_check_process_s1(void)
 			no_person_timer = 1;
 			break;
 		default:
-			state = ERROR_ERROR;
 			break;
 		}
 	}
@@ -643,7 +650,8 @@ void slow_check_process_s1(void)
 			}
 			break;
 		default:
-			state = ERROR_ERROR;
+			state = IDLE;
+			next_state = SLOW_CHECK_DATA_PREPARE_S0;			
 			break;
 		}
 	}
@@ -651,7 +659,6 @@ void slow_check_process_s1(void)
 
 void bt_hand_up(void)
 {
-	//有干扰cfar
 	bt_uart_write_frame(BT_HAND_UP, 0);
 }
 
@@ -805,24 +812,18 @@ void person_in_range_upload(unsigned char aaaa)
 	{
 		if (person_in_range_flag != person_in_range_flag_last)
 		{
-			if (upload_disable == 0)
-			{
-				mcu_dp_enum_update(DPID_PERSON_IN_RANGE, aaaa);
-			}
+			mcu_dp_enum_update(DPID_PERSON_IN_RANGE, aaaa);
+			
 			person_in_range_flag_last = person_in_range_flag;
 			if (aaaa == 1)
 			{
 				SEGGER_RTT_printf(0, "%s有人!\r\n", RTT_CTRL_TEXT_BRIGHT_RED);
+				person_meter++;
 			}
 			else
 			{
 				SEGGER_RTT_printf(0, "%s无人!\r\n", RTT_CTRL_TEXT_BRIGHT_GREEN);
 			}
-			
-			if (person_in_range_flag == TUYA_PERSON_STATUS_HAVE_PERSON)
-			{
-				person_meter++;
-			}			
 		}
 	}
 }
@@ -950,7 +951,7 @@ void gpio_init(void)
 void segger_init(void)
 {
 	//
-	SEGGER_RTT_ConfigUpBuffer(1, "JScope_U2U2", &JS_RTT_UpBuffer[0], sizeof(JS_RTT_UpBuffer), SEGGER_RTT_MODE_BLOCK_IF_FIFO_FULL);
+	SEGGER_RTT_ConfigUpBuffer(1, "JScope_U2U2", &JS_RTT_UpBuffer[0], sizeof(JS_RTT_UpBuffer), SEGGER_RTT_MODE_NO_BLOCK_SKIP);
 	
 	SEGGER_RTT_Init();
 	SEGGER_RTT_WriteString(0, "phosense radar chip: XBR816C DEMO\r\n");	
@@ -996,6 +997,12 @@ int main(void)
 	get_mcu_bt_mode();
 	read_uid();
 	tick_init();
+	
+	GPIO0_HIGH();
+	GPIO1_LOW();	
+	Delay_ms(ALL_UPLOAD_DELAY);
+	GPIO0_LOW();
+	GPIO1_LOW();
 	
 	while(1)
 	{

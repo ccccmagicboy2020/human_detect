@@ -75,6 +75,10 @@ void timer0_init(void)
     stcTimerCfg.Tim0_SyncClockSource = Tim0_Pclk1;//50MHz
     stcTimerCfg.Tim0_ClockDivision = Tim0_ClkDiv0;
     stcTimerCfg.Tim0_CmpValue = (uint16_t)(25000 - 1);//500us
+		//stcTimerCfg.Tim0_CmpValue = (uint16_t)(12800 - 1);//256us
+		//stcTimerCfg.Tim0_CmpValue = (uint16_t)(12500 - 1);//250us
+		//stcTimerCfg.Tim0_CmpValue = (uint16_t)(7500 - 1);//150us	
+		//stcTimerCfg.Tim0_CmpValue = (uint16_t)(5000 - 1);//100us
     TIMER0_BaseInit(TMR_UNIT,Tim0_ChannelB,&stcTimerCfg);
 
     /* Enable channel B interrupt */

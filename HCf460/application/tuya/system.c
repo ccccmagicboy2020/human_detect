@@ -346,8 +346,8 @@ void data_handle(unsigned short offset)
 	else if(BT_NOT_CONNECTED == bt_work_state)
 	{
 		upload_disable = 1;
-		get_mcu_bt_mode();
-		bt_hand_up();
+		//get_mcu_bt_mode();
+		//bt_hand_up();
 		led_green(0);
 	}
 	else if(BT_CONNECTED == bt_work_state)

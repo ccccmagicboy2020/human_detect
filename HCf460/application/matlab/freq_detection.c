@@ -172,7 +172,7 @@ int freq_detection(FIFO_DataType data[], const float win[], int data_size, int w
 		run_counter++;
 		if (check_status == TUYA_FAST_CHECK)
 		{
-			if(run_counter%16 == 0)//
+			if(run_counter%64 == 0)//0.25hz
 			{
 				//
 				if (freq_times_rt != freq_times_rt_last)
@@ -249,7 +249,7 @@ int freq_detection(FIFO_DataType data[], const float win[], int data_size, int w
 		run_counter++;
 		if (check_status == TUYA_FAST_CHECK)
 		{
-			if(run_counter%64 == 40)//64*256ms~16s
+			if(run_counter%64 == 0)//0.25hz
 			{
 				//
 				if (freq_times_rt != (float)0)

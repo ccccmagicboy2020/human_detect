@@ -131,7 +131,7 @@ int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
                 run_counter++;
                 if (check_status == TUYA_FAST_CHECK)
                 {
-                    if(run_counter%32 == 0)		//
+                    if(run_counter%64 == 0)		//0.25hz
                     {
                         if (time_times_rt != time_times_rt_last)
                         {
@@ -139,7 +139,7 @@ int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
                             time_times_rt_last = time_times_rt;
                         }							
                     }
-                    else if (run_counter%32 == 16)
+                    else if (run_counter%64 == 32)
                     {
                         if (time_add_rt != time_add_rt_last)
                         {
@@ -178,7 +178,7 @@ int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
 			run_counter++;
 			if (check_status == TUYA_FAST_CHECK)
 			{
-				if(run_counter%64 == 0)		//64*256ms~16s
+				if(run_counter%64 == 0)		//0.25hz
 				{
 					if (time_times_rt != (float)0)
 					{
