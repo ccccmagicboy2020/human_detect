@@ -100,6 +100,13 @@ volatile unsigned int  person_meter_last = 0;
 
 float breathe_freq = 0;
 volatile unsigned int slow_check_result = 1;//no person
+int study_flag = 0;
+int study_mode = 0;
+
+float max_pp1_rt = 0;
+float max_pp1_rt_last = 0;
+float max_pp2_rt = 0;
+float max_pp2_rt_last = 0;
 ////////////////////////////////////////////////////////////
 void get_mcu_bt_mode(void);
 void bt_hand_up(void);
@@ -663,8 +670,13 @@ void idle_process(void)
 	static uint32_t last_tick = 0;
 	uint32_t now_tick = 0;
 	uint32_t diff = 0;
+	static uint32_t study_start = 0;
+	static uint32_t study_counter = 0;
+	uint32_t study_diff = 0;
+	static uint32_t study_time_ms = 0;
     
 	static unsigned short light_sensor_adc_data_last = 0;
+	char float_str[64];	
 	
 	now_tick = SysTick_GetTick();
 	diff = now_tick - last_tick;
@@ -675,6 +687,107 @@ void idle_process(void)
 	last_tick = now_tick;
 	
 	//do some thing here global
+	//study process
+	if (study_flag == 1)
+	{
+		if (study_counter == 0)
+		{
+			study_start = SysTick_GetTick();
+			SEGGER_RTT_printf(0, "study mode%d begin:\r\n", study_mode);
+			study_time_ms = 60u*1000u + study_mode*60u*1000u;
+			if (upload_disable == 0)
+			{
+				mcu_dp_enum_update(DPID_STUDY_PROCESS_UPLOAD, 0);	//start
+			}
+			study_counter++;
+			//change to slow only
+			run_mode = 0;//进慢
+      slow_only_flag = 1;//不回快
+			
+			if (upload_disable == 0)
+			{
+				mcu_dp_enum_update(DPID_WORK_MODE, 2);
+			}			
+
+			if (next_state == FAST_CHECK_DATA_PREPARE)
+			{
+				state = IDLE;
+				next_state = SLOW_CHECK_DATA_PREPARE_S0;
+				clear_buffer();
+			}
+			else if(next_state == FAST_CHECK)
+			{
+				state = IDLE;
+				next_state = SLOW_CHECK_DATA_PREPARE_S0;
+				clear_buffer();
+			}
+			//load a low pp1 pp2 value
+			res_times = 10.f;
+			offsetmin = 0.5f;
+			if (upload_disable == 0)
+			{
+				mcu_dp_value_update(DPID_FREQ_PARAMETER1, (int)((res_times*100.0f)+0.5f));
+				Delay_ms(ALL_UPLOAD_DELAY);
+				mcu_dp_value_update(DPID_FREQ_PARAMETER2, (int)((offsetmin*1000.0f)+0.5f));
+			}
+		}
+		
+		//make sure in the slow check process
+		if (TUYA_SLOW_CHECK == check_status)
+		{
+			if ((max_pp1_rt != max_pp1_rt_last)  &&  (max_pp1_rt != 0))
+			{
+				res_times = max_pp1_rt*1.1f;
+				//res_times = max_pp1_rt*1.0f;
+				//res_times = max_pp1_rt*0.8f;
+				
+				sprintf(float_str, "study new pp1 values: %.3lf\r\n", res_times);
+				SEGGER_RTT_printf(0, "%s", float_str);
+				
+				if (upload_disable == 0)
+				{			
+					mcu_dp_value_update(DPID_FREQ_PARAMETER1, (int)((res_times*100.0f)+0.5f));
+				}
+				
+				max_pp1_rt_last = max_pp1_rt;
+			}			
+			if ((max_pp2_rt != max_pp2_rt_last)  &&  (max_pp2_rt != 0))
+			{
+				offsetmin = max_pp2_rt*1.1f;
+				//offsetmin = max_pp2_rt*1.0f;
+				//offsetmin = max_pp2_rt*0.8f;
+				
+				sprintf(float_str, "study new pp2 values: %.3lf\r\n", offsetmin);
+				SEGGER_RTT_printf(0, "%s", float_str);
+				
+				if (upload_disable == 0)
+				{
+					mcu_dp_value_update(DPID_FREQ_PARAMETER2, (int)((offsetmin*1000.0f)+0.5f));
+				}				
+				
+				max_pp2_rt_last = max_pp2_rt;
+			}
+			study_diff = SysTick_GetTick() - study_start;
+			if (study_diff > study_time_ms)
+			{
+				study_flag = 0;
+				SEGGER_RTT_printf(0, "study mode%d finished in %dms\r\n", study_mode, study_diff);
+				if (upload_disable == 0)
+				{			
+					mcu_dp_enum_update(DPID_STUDY_PROCESS_UPLOAD, 1);	//end
+				}
+				//change to auto-check-mode
+				run_mode = 0;//进慢
+        slow_only_flag = 0;	//回快
+				if (upload_disable == 0)
+				{
+					mcu_dp_enum_update(DPID_WORK_MODE, 0);
+				}
+				//counter to 0
+				study_counter = 0;
+			}
+		}
+	}
 	//人表状态更新
 	if ((person_meter != person_meter_last) && (person_meter != 0))
 	{

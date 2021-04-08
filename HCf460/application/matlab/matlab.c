@@ -19,6 +19,8 @@ extern float testInput2[4096];
 extern float testInput3[4096];//FFT输入数组//FFT输出数组
 extern unsigned char upload_disable;
 extern float breathe_freq;
+extern float max_pp2_rt;
+extern int study_flag;
 
 //float in_data1[4096] = {0}; 
 float out[2048] = {0};
@@ -89,6 +91,7 @@ int Fretting_detection(FIFO_DataType in_data5[4096],double N, double pro_N, doub
 	char float_str[64];
     
     static float diff_last = 0;
+		static float diff_max2 = 0;
     static float breathe_freq_last = 0;
 	  
 	//加窗处理		
@@ -216,24 +219,37 @@ int Fretting_detection(FIFO_DataType in_data5[4096],double N, double pro_N, doub
 			if (upload_disable == 0)
 			{		
 				breathe_freq = 60*diff/4;
-                if (breathe_freq != breathe_freq_last)
-                {
-                    mcu_dp_value_update(DPID_BREATHE_FREQ, (int)((breathe_freq*10.0f)+0.5f));
-                    breathe_freq_last = breathe_freq;
-                }
-								Delay_ms(ALL_UPLOAD_DELAY);
-                if (diff != diff_last)
-                {
-                    mcu_dp_value_update(DPID_FREQ_PARAMETER2_RT, (int)((diff*1000.0f)+0.5f));
-                    diff_last = diff;
-                }                
+        if (breathe_freq != breathe_freq_last)
+        {
+            mcu_dp_value_update(DPID_BREATHE_FREQ, (int)((breathe_freq*10.0f)+0.5f));
+            breathe_freq_last = breathe_freq;
+        }
+				Delay_ms(ALL_UPLOAD_DELAY);
+        if (diff != diff_last)
+        {
+            mcu_dp_value_update(DPID_FREQ_PARAMETER2_RT, (int)((diff*1000.0f)+0.5f));
+            diff_last = diff;
+					
+						if (study_flag == 1)
+						{									
+							if (diff_max2 < diff)
+							{
+								diff_max2 = diff;
+							}
+							max_pp2_rt = diff_max2;
+						}
+						else
+						{
+							diff_max2 = 0;
+						}
+        }                
 			}
 			
 			break;			
 		}
 	}
 	
-    if (0)
+  if (0)
 	//if (upload_disable == 0)
 	{
 		run_counter++;

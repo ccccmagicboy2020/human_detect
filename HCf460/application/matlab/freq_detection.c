@@ -20,6 +20,8 @@
 extern int power_freq;
 extern int check_status;
 extern unsigned char upload_disable;
+extern float max_pp1_rt;
+extern int study_flag;
 
 float testInput[TEST_LENGTH_SAMPLES];
 float testInput2[TEST_LENGTH_SAMPLES];
@@ -73,7 +75,8 @@ int freq_detection(FIFO_DataType data[], const float win[], int data_size, int w
     static float freq_times_rt_last = 0;
 	
 	float minTEMP = 0;
-    float minTEMP_last = 0;
+  static float minTEMP_last = 0;
+	static float minTEMP_max = 0;
 	float minTEMP_0 = 0;
 	float minTEMP_1 = 0;
 	
@@ -234,6 +237,19 @@ int freq_detection(FIFO_DataType data[], const float win[], int data_size, int w
 				{
 						mcu_dp_value_update(DPID_FREQ_PARAMETER1_RT, (int)((minTEMP*100.0f)+0.5f));
 						minTEMP_last = minTEMP;
+					
+						if (study_flag == 1)
+						{
+							if ((minTEMP_max < minTEMP))
+							{
+								minTEMP_max = minTEMP;
+							}
+							max_pp1_rt = minTEMP_max;							
+						}
+						else
+						{
+							minTEMP_max = 0;
+						}
 				}	
 			}
 		}

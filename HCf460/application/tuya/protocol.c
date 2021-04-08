@@ -81,6 +81,9 @@ extern float breathe_freq;
 extern int light_status_flag;
 extern unsigned int slow_check_result;
 
+extern int study_flag;
+extern int study_mode;
+
 void Delay_ms(unsigned int t);
 void update_check_parameter(void);
 
@@ -135,6 +138,7 @@ const DOWNLOAD_CMD_S download_cmd[] =
   {DPID_COMMON_COMMAND, DP_TYPE_ENUM},
   {DPID_BREATHE_FREQ, DP_TYPE_VALUE},
   {DPID_STUDY_CMD, DP_TYPE_ENUM},
+  {DPID_STUDY_PROCESS_UPLOAD, DP_TYPE_ENUM},
 };
 
 /******************************************************************************
@@ -521,23 +525,7 @@ static unsigned char dp_download_work_mode_handle(const unsigned char value[], u
 						state = IDLE;
 						next_state = SLOW_CHECK_DATA_PREPARE_S0;
 						clear_buffer();
-					}
-					else if(next_state == SLOW_CHECK_DATA_PREPARE_S0)
-					{
-						//
-					}
-					else if(next_state == SLOW_CHECK_DATA_PREPARE_S1)
-					{
-						//
-					}
-					else if(next_state == SLOW_CHECK_S0)
-					{
-						//
-					}	
-					else if(next_state == SLOW_CHECK_S1)
-					{
-						//
-					}					
+					}		
         break;
         
         case 3:
@@ -930,15 +918,23 @@ static unsigned char dp_download_study_cmd_handle(const unsigned char value[], u
     study_cmd = mcu_get_dp_download_enum(value,length);
     switch(study_cmd) {
         case 0:
+					study_flag = 1;
+					study_mode = 0;
         break;
         
         case 1:
+					study_flag = 1;
+					study_mode = 1;					
         break;
         
         case 2:
+					study_flag = 1;
+					study_mode = 2;					
         break;
         
         case 3:
+					study_flag = 1;
+					study_mode = 3;					
         break;
         
         default:
