@@ -18,9 +18,9 @@
 
 #define		N						300         //CFAR窗口大小
 #define		pro_N					200         //CFAR保护单元大小
-#define		PAD						0.00000001  //虚警概率
+#define		PAD						0.00000001f  //虚警概率
   
-#define		rr_threshold			0.6    //呼吸频率截取范围
+#define		rr_threshold			0.6f    //呼吸频率截取范围
 #define		secnum					16
 
 #define		FEEDRATE				2048u			//采样率，单位为samples/s
