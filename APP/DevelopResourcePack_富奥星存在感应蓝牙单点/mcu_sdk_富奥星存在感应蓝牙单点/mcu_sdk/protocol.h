@@ -196,6 +196,9 @@ MCU self-processing:
 //呼吸频率(只上报)
 //备注:
 #define DPID_BREATHE_FREQ 170
+//学习命令(可下发可上报)
+//备注:设置不同的学习策略
+#define DPID_STUDY_CMD 171
 
 
 

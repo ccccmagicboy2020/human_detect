@@ -103,6 +103,7 @@ const DOWNLOAD_CMD_S download_cmd[] =
   {DPID_LIGHT_THRESHOLD4, DP_TYPE_VALUE},
   {DPID_COMMON_COMMAND, DP_TYPE_ENUM},
   {DPID_BREATHE_FREQ, DP_TYPE_VALUE},
+  {DPID_STUDY_CMD, DP_TYPE_ENUM},
 };
 
 
@@ -185,6 +186,7 @@ void all_data_update(void)
     mcu_dp_value_update(DPID_LIGHT_THRESHOLD3,当前光敏门限3); //VALUE型数据上报;
     mcu_dp_value_update(DPID_LIGHT_THRESHOLD4,当前光敏门限4); //VALUE型数据上报;
     mcu_dp_value_update(DPID_BREATHE_FREQ,当前呼吸频率); //VALUE型数据上报;
+    mcu_dp_enum_update(DPID_STUDY_CMD,当前学习命令); //枚举型数据上报;
 
 
 
@@ -690,6 +692,15 @@ static unsigned char dp_download_common_command_handle(const unsigned char value
         case 2:
         break;
         
+        case 3:
+        break;
+        
+        case 4:
+        break;
+        
+        case 5:
+        break;
+        
         default:
     
         break;
@@ -697,6 +708,46 @@ static unsigned char dp_download_common_command_handle(const unsigned char value
     
     //处理完DP数据后应有反馈
     ret = mcu_dp_enum_update(DPID_COMMON_COMMAND, common_command);
+    if(ret == SUCCESS)
+        return SUCCESS;
+    else
+        return ERROR;
+}
+/*****************************************************************************
+函数名称 : dp_download_study_cmd_handle
+功能描述 : 针对DPID_STUDY_CMD的处理函数
+输入参数 : value:数据源数据
+        : length:数据长度
+返回参数 : 成功返回:SUCCESS/失败返回:ERROR
+使用说明 : 可下发可上报类型,需要在处理完数据后上报处理结果至app
+*****************************************************************************/
+static unsigned char dp_download_study_cmd_handle(const unsigned char value[], unsigned short length)
+{
+    //示例:当前DP类型为ENUM
+    unsigned char ret;
+    unsigned char study_cmd;
+    
+    study_cmd = mcu_get_dp_download_enum(value,length);
+    switch(study_cmd) {
+        case 0:
+        break;
+        
+        case 1:
+        break;
+        
+        case 2:
+        break;
+        
+        case 3:
+        break;
+        
+        default:
+    
+        break;
+    }
+    
+    //处理完DP数据后应有反馈
+    ret = mcu_dp_enum_update(DPID_STUDY_CMD, study_cmd);
     if(ret == SUCCESS)
         return SUCCESS;
     else
@@ -792,6 +843,10 @@ unsigned char dp_download_handle(unsigned char dpid,const unsigned char value[],
         case DPID_COMMON_COMMAND:
             //一般命令处理函数
             ret = dp_download_common_command_handle(value,length);
+        break;
+        case DPID_STUDY_CMD:
+            //学习命令处理函数
+            ret = dp_download_study_cmd_handle(value,length);
         break;
 
 
