@@ -149,14 +149,24 @@ void fast_output_result(char quick_detection_result)
 	{
 		person_in_range_upload(TUYA_PERSON_STATUS_HAVE_PERSON);
 		gpio_output(1);
-		slow_check_result_upload(BIG_MOTION);
 	}
 	else						//Œﬁ»À
 	{
 		person_in_range_upload(TUYA_PERSON_STATUS_NO_PERSON);
 		gpio_output(0);
-		slow_check_result_upload(NO_PERSON);
 	}
+}
+
+static void enable_flash_cache(en_functional_state_t state)
+{
+	EFM_Unlock();
+	EFM_FlashCmd(Enable);
+	while(Set !=EFM_GetFlagStatus(EFM_FLAG_RDY))
+	{
+		;
+	}
+	EFM_InstructionCacheCmd(state);
+	EFM_Lock();
 }
 
 void slow_output_result(char slow_s0_result)
@@ -203,14 +213,7 @@ void slow_output_result(char slow_s0_result)
 		}
 		break;
 	case NO_PERSON_NOT_SURE:
-		if (slow_only_flag == 1)
-		{
-			slow_check_result_upload(slow_s0_result);
-		}
-		else
-		{
-			slow_check_result_upload(slow_s0_result);
-		}
+		slow_check_result_upload(slow_s0_result);
 		break;
 	case NO_PERSON:
 		if (slow_only_flag == 1)
@@ -995,6 +998,7 @@ int main(void)
 	get_mcu_bt_mode();
 	read_uid();
 	tick_init();
+	enable_flash_cache(Enable);
 	
 	GPIO0_HIGH();
 	GPIO1_LOW();	
