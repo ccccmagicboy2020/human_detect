@@ -104,6 +104,7 @@ const DOWNLOAD_CMD_S download_cmd[] =
   {DPID_COMMON_COMMAND, DP_TYPE_ENUM},
   {DPID_BREATHE_FREQ, DP_TYPE_VALUE},
   {DPID_STUDY_CMD, DP_TYPE_ENUM},
+  {DPID_STUDY_PROCESS_UPLOAD, DP_TYPE_ENUM},
 };
 
 
@@ -187,6 +188,7 @@ void all_data_update(void)
     mcu_dp_value_update(DPID_LIGHT_THRESHOLD4,当前光敏门限4); //VALUE型数据上报;
     mcu_dp_value_update(DPID_BREATHE_FREQ,当前呼吸频率); //VALUE型数据上报;
     mcu_dp_enum_update(DPID_STUDY_CMD,当前学习命令); //枚举型数据上报;
+    mcu_dp_enum_update(DPID_STUDY_PROCESS_UPLOAD,当前学习进度上报); //枚举型数据上报;
 
 
 

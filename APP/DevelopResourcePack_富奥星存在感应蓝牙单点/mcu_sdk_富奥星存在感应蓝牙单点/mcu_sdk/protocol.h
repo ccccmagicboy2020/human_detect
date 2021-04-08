@@ -199,6 +199,9 @@ MCU self-processing:
 //学习命令(可下发可上报)
 //备注:设置不同的学习策略
 #define DPID_STUDY_CMD 171
+//学习进度上报(只上报)
+//备注:学习状态上报
+#define DPID_STUDY_PROCESS_UPLOAD 172
 
 
 
