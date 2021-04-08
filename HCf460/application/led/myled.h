@@ -7,7 +7,7 @@ extern void SysClkIni(void);
 extern void led_red(char onoff);
 extern void led_green(char onoff);
 
-extern void check_status_upload(unsigned char aaaa);
+extern void check_status_upload(unsigned int aaaa);
 
 #endif
 

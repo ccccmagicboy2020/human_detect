@@ -43,11 +43,11 @@ extern const float hamming_TAB2[4096];
 
 FIFO_DataType Fast_detection_data[MAX_DATA_POOL] = {0};//big raw data pool
 
-int state = FAST_CHECK_DATA_PREPARE;	//状态机变量
-int next_state = FAST_CHECK_DATA_PREPARE;	//状态机变量的下一个状态
+volatile int state = FAST_CHECK_DATA_PREPARE;	//状态机变量
+volatile int next_state = FAST_CHECK_DATA_PREPARE;	//状态机变量的下一个状态
 
-int slow_s0_result = NO_PERSON_NOT_SURE;
-int slow_s0_result_last = NO_PERSON_NOT_SURE;
+volatile int slow_s0_result = NO_PERSON_NOT_SURE;
+volatile int slow_s0_result_last = NO_PERSON_NOT_SURE;
 
 char fast_retry_flag = 0;
 char slow_retry_flag = 0;
@@ -55,14 +55,9 @@ char slow_retry_flag = 0;
 int run_mode = 0;
 int slow_only_flag = 0;
 
-int check_status = TUYA_OTHER;
-int check_status_last = TUYA_OTHER;
-
-int person_in_range_flag = 0;
-int person_in_range_flag_last = 0;
-
-int light_status_flag = 0;
-int light_status_flag_last = 0;
+volatile int check_status = TUYA_OTHER;
+volatile int person_in_range_flag = 0;
+volatile int light_status_flag = 0;
 
 ////////////////////////////////////////////////////////////
 float quick_time_times = 4;
@@ -75,14 +70,14 @@ Val_t adc_value;
 float	slow_time_times = 5;
 float slow_time_add = 40;
 float	slow_freq_times = 6;
-float	res_times = 17.5;		//17.5
-float	offsetmin = 0.6;			//		0.6
+float	res_times = 17.5f;		//17.5
+float	offsetmin = 0.6f;			//		0.6
 ////////////////////////////////////////////////////////////
-void check_status_upload(unsigned char aaaa);
-void person_in_range_upload(unsigned char aaaa);
-void slow_check_result_upload(unsigned char aaaa);
+void check_status_upload(unsigned int aaaa);
+void person_in_range_upload(unsigned int aaaa);
+void slow_check_result_upload(unsigned int aaaa);
 void clear_buffer(void);
-void light_status_upload(unsigned char aaaa);
+void light_status_upload(unsigned int aaaa);
 ////////////////////////////////////////////////////////////
 unsigned char upload_disable = 1;
 unsigned char g_work_mode = ALL_CHECK;
@@ -100,13 +95,11 @@ unsigned short Light_threshold4 = 0;
 ////////////////////////////////////////////////////////////
 unsigned int delay_time_num = 0;
 ////////////////////////////////////////////////////////////
-unsigned int  person_meter = 0;
-unsigned int  person_meter_last = 0;
+volatile unsigned int  person_meter = 0;
+volatile unsigned int  person_meter_last = 0;
 
 float breathe_freq = 0;
-
-unsigned int slow_check_result = 1;
-unsigned int slow_check_result_last = 1;
+volatile unsigned int slow_check_result = 1;//no person
 ////////////////////////////////////////////////////////////
 void get_mcu_bt_mode(void);
 void bt_hand_up(void);
@@ -804,9 +797,10 @@ void uart_post_process()
 	state = next_state;
 }
 
-void person_in_range_upload(unsigned char aaaa)
+void person_in_range_upload(unsigned int aaaa)
 {
 	person_in_range_flag = aaaa;
+	static int person_in_range_flag_last = 0;	
 	
 	if (upload_disable == 0)
 	{
@@ -828,9 +822,10 @@ void person_in_range_upload(unsigned char aaaa)
 	}
 }
 
-void light_status_upload(unsigned char aaaa)
+void light_status_upload(unsigned int aaaa)
 {
 	light_status_flag = aaaa;
+	static int light_status_flag_last = 0;
 	
 	if (upload_disable == 0)
 	{
@@ -842,9 +837,10 @@ void light_status_upload(unsigned char aaaa)
 	}
 }
 
-void check_status_upload(unsigned char aaaa)
+void check_status_upload(unsigned int aaaa)
 {
 	check_status = aaaa;
+	static unsigned int check_status_last = TUYA_OTHER;
 	
 	if (upload_disable == 0)
 	{
@@ -856,8 +852,10 @@ void check_status_upload(unsigned char aaaa)
 	}
 }
 
-void slow_check_result_upload(unsigned char aaaa)
+void slow_check_result_upload(unsigned int aaaa)
 {
+	static unsigned int slow_check_result_last = 1;//no person
+	
 	slow_check_result = aaaa;
 	
 	if (upload_disable == 0)
