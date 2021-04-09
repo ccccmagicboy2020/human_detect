@@ -326,7 +326,7 @@ void fast_check_process(void)
 
 	adc_average = adc_sum/FAST_MAX_DATA_POOL;
 	
-	sprintf(float_str, "\r\nfast check adc_avg: %d(%d) = %d / %d\r\n", adc_average, adc_sum/FAST_MAX_DATA_POOL, adc_sum, FAST_MAX_DATA_POOL);
+	sprintf(float_str, "\r\nfast check adc_avg: %d(%.3lfV) = %d / %d\r\n", adc_average, adc_average*3.3f/4096, adc_sum, FAST_MAX_DATA_POOL);
 	SEGGER_RTT_printf(0, "%s", float_str);
 	
 	for(i=0; i<FAST_MAX_DATA_POOL; i++)
@@ -476,7 +476,7 @@ void slow_check_process_s0(void)
 	
 	adc_average = adc_sum/SLOW_MAX_DATA_POOL;
 	
-	sprintf(float_str, "\r\nslow check adc_avg: %d(%d) = %d / %d\r\n", adc_average, adc_sum/SLOW_MAX_DATA_POOL, adc_sum, SLOW_MAX_DATA_POOL);
+	sprintf(float_str, "\r\nslow check adc_avg: %d(%.3lf) = %d / %d\r\n", adc_average, adc_average*3.3f/4096, adc_sum, SLOW_MAX_DATA_POOL);
 	SEGGER_RTT_printf(0, "%s", float_str);	
 
 	for(i=0; i<SLOW_MAX_DATA_POOL; i++)
@@ -1074,12 +1074,12 @@ void segger_init(void)
 void read_uid(void)
 {
 		char	i = 0;
-    char data[10] = {0};
+    char data[12] = {0};
 		
 		SEGGER_RTT_WriteString(0, "mcu chip uid: \r\n");
-		for(i = 0; i < 10; i++) 
+		for(i = 0; i < 12; i++) 
 		{
-				data[i] = *((unsigned char *)(MCU_UID_ADDR_S + i));
+				data[i] = *((unsigned char *)(FEM_UQID1 + i));
 				SEGGER_RTT_printf(0, "%02X ", data[i]);
 		}
 		SEGGER_RTT_WriteString(0, "\r\n");

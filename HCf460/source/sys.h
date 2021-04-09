@@ -25,7 +25,11 @@ typedef const uint8_t uc8;
 
 #define ALL_UPLOAD_DELAY 100
 #define SEGGER_RTT_IN_RAM 1
-#define MCU_UID_ADDR_S	0x00100E74
+
+#define EFM_BASE_ADDR		0x40010400
+#define FEM_UQID1				(0x40010400 + 0x50)
+#define FEM_UQID2				(0x40010400 + 0x54)
+#define FEM_UQID3				(0x40010400 + 0x58)
 
 #define GPIO0_HIGH()		(PORT_SetBits(PortA, Pin07))
 #define GPIO0_LOW()			(PORT_ResetBits(PortA, Pin07))

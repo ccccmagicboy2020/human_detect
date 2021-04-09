@@ -358,6 +358,7 @@ void data_handle(unsigned short offset)
 	}
 	else
 	{
+		upload_disable = 1;//不焊接蓝牙模块时
 		led_green(0);
 	}
     bt_uart_write_frame(BT_STATE_CMD,0);
