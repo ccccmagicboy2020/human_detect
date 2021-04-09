@@ -107,6 +107,8 @@ static void Timer0B_CallBack(void)		// T === 500us
 {
   u16  if_adc_data = 0;		//IF adcÊý¾Ý
 
+	SEGGER_SYSVIEW_RecordEnterISR();
+	
 	if (Set == DMA_GetIrqFlag(ADC1_SA_DMA_UNIT, ADC1_SA_DMA_CH, BlkTrnCpltIrq))
 	{
 		DMA_ClearIrqFlag(ADC1_SA_DMA_UNIT, ADC1_SA_DMA_CH, BlkTrnCpltIrq);
@@ -120,10 +122,13 @@ static void Timer0B_CallBack(void)		// T === 500us
 		
 		SEGGER_RTT_Write(1, &adc_value, sizeof(adc_value));
 	}
+	
+	SEGGER_SYSVIEW_RecordExitISR();
 }
 
 static void Timer0A_CallBack(void)      //  T = 1ms
 {
+	SEGGER_SYSVIEW_RecordEnterISR();
 	Timer_Counter++;
 	light_sensor_Timer_Counter++;
 	
@@ -132,5 +137,7 @@ static void Timer0A_CallBack(void)      //  T = 1ms
 		light_sensor_upload_flag = 1;
 		light_sensor_Timer_Counter = 0;
 	}
+	
+	SEGGER_SYSVIEW_RecordExitISR();
 }
 

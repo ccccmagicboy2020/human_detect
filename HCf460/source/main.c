@@ -1068,7 +1068,9 @@ void segger_init(void)
 	SEGGER_RTT_ConfigUpBuffer(1, "JScope_U2U2", &JS_RTT_UpBuffer[0], sizeof(JS_RTT_UpBuffer), SEGGER_RTT_MODE_NO_BLOCK_SKIP);
 	
 	SEGGER_RTT_Init();
-	SEGGER_RTT_WriteString(0, "phosense radar chip: XBR816C DEMO\r\n");	
+	SEGGER_RTT_WriteString(0, "phosense radar chip: XBR816C DEMO\r\n");
+	
+	SEGGER_SYSVIEW_Conf();
 }
 
 void read_uid(void)
