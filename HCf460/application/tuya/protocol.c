@@ -822,11 +822,7 @@ void update_check_parameter(void)
 			Delay_ms(ALL_UPLOAD_DELAY);
 			mcu_dp_value_update(DPID_TIME_ADD, (int)((quick_time_add*100.0f)+0.5f));
 			Delay_ms(ALL_UPLOAD_DELAY);
-			mcu_dp_value_update(DPID_FREQ_TIMES, (int)((quick_freq_times*100.0f)+0.5f));
-			Delay_ms(ALL_UPLOAD_DELAY);
-			mcu_dp_value_update(DPID_FREQ_PARAMETER1, 0);
-			Delay_ms(ALL_UPLOAD_DELAY);
-			mcu_dp_value_update(DPID_FREQ_PARAMETER2, 0);			
+			mcu_dp_value_update(DPID_FREQ_TIMES, (int)((quick_freq_times*100.0f)+0.5f));			
 		}
 		else if (g_work_mode == SLOW_CHECK_ONLY)
 		{
@@ -843,15 +839,7 @@ void update_check_parameter(void)
 		}
 		else
 		{
-			mcu_dp_value_update(DPID_TIME_TIMES, 0);	
-			Delay_ms(ALL_UPLOAD_DELAY);
-			mcu_dp_value_update(DPID_TIME_ADD, 0); 
-			Delay_ms(ALL_UPLOAD_DELAY);
-			mcu_dp_value_update(DPID_FREQ_TIMES, 0);
-			Delay_ms(ALL_UPLOAD_DELAY);
-			mcu_dp_value_update(DPID_FREQ_PARAMETER1, 0);
-			Delay_ms(ALL_UPLOAD_DELAY);
-			mcu_dp_value_update(DPID_FREQ_PARAMETER2, 0);		
+			//
 		}
 }
 /*****************************************************************************
