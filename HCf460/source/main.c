@@ -150,7 +150,7 @@ void gpio_output(unsigned char res)
 
 void fast_output_result(char quick_detection_result)
 {
-	SEGGER_RTT_printf(0, "quick: %d \r\n", quick_detection_result);
+	SEGGER_RTT_printf(0, "%squick: %d%s\r\n", RTT_CTRL_BG_GREEN, quick_detection_result, RTT_CTRL_RESET);
 	
 	if (quick_detection_result)//有人
 	{
@@ -263,7 +263,7 @@ void fast_check_data_prepare(void)
 			{
 				Fast_detection_data[k] =Fast_detection_data[k + FAST_CHECK_SAMPLES];		
 			}			
-			SEGGER_RTT_printf(0, "fifo0 number: %d - %d\r\n", i, FIFO_GetDataCount(&FIFO_Data[0]));
+			SEGGER_RTT_printf(0, "fifo0 number: (i=%d) - %d\r\n", i, FIFO_GetDataCount(&FIFO_Data[0]));
 			FIFO_ReadData(&FIFO_Data[0], &Fast_detection_data[FAST_CHECK_SAMPLES*(i-1)], FAST_CHECK_SAMPLES);
 			SEGGER_RTT_printf(0, "fifo0 number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[0]));
 			state = IDLE;
@@ -271,7 +271,7 @@ void fast_check_data_prepare(void)
 		}
 		else		// fullfill the tank
 		{
-			SEGGER_RTT_printf(0, "fifo0 number: %d - %d\r\n", i, FIFO_GetDataCount(&FIFO_Data[0]));
+			SEGGER_RTT_printf(0, "fifo0 number: (i=%d) - %d\r\n", i, FIFO_GetDataCount(&FIFO_Data[0]));
 			FIFO_ReadData(&FIFO_Data[0], &Fast_detection_data[FAST_CHECK_SAMPLES*i], FAST_CHECK_SAMPLES);
 			SEGGER_RTT_printf(0, "fifo0 number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[0]));
 			i++;
@@ -326,7 +326,7 @@ void fast_check_process(void)
 
 	adc_average = adc_sum/FAST_MAX_DATA_POOL;
 	
-	sprintf(float_str, "\r\nfast check adc_avg: %d(%.3lfV) = %d / %d\r\n", adc_average, adc_average*3.3f/4096, adc_sum, FAST_MAX_DATA_POOL);
+	sprintf(float_str, "\r\n%s%sfast check adc_avg: %d(%.3lfV) = %d / %d%s\r\n", RTT_CTRL_BG_BRIGHT_GREEN, RTT_CTRL_TEXT_BLACK, adc_average, adc_average*3.3f/4096, adc_sum, FAST_MAX_DATA_POOL, RTT_CTRL_RESET);
 	SEGGER_RTT_printf(0, "%s", float_str);
 	
 	for(i=0; i<FAST_MAX_DATA_POOL; i++)
@@ -407,14 +407,14 @@ void slow_check_data_prepare_s1(void)
 			{
 				Fast_detection_data[k] =Fast_detection_data[k + SLOW_CHECK_SAMPLES];		
 			}			
-			SEGGER_RTT_printf(0, "fifo1 number: %d - %d\r\n", i, FIFO_GetDataCount(&FIFO_Data[1]));
+			SEGGER_RTT_printf(0, "fifo1 number: (i=%d) - %d\r\n", i, FIFO_GetDataCount(&FIFO_Data[1]));
 			FIFO_ReadData(&FIFO_Data[1], &Fast_detection_data[SLOW_CHECK_SAMPLES*(i-1)], SLOW_CHECK_SAMPLES);
 			SEGGER_RTT_printf(0, "fifo1 number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[1]));
 			state = SLOW_CHECK_S0;		//bingo to check
 		}
 		else		//the tank is not full
 		{
-			SEGGER_RTT_printf(0, "fifo1 number: %d - %d\r\n", i, FIFO_GetDataCount(&FIFO_Data[1]));
+			SEGGER_RTT_printf(0, "fifo1 number: (i=%d) - %d\r\n", i, FIFO_GetDataCount(&FIFO_Data[1]));
 			FIFO_ReadData(&FIFO_Data[1], &Fast_detection_data[SLOW_CHECK_SAMPLES*i], SLOW_CHECK_SAMPLES);
 			SEGGER_RTT_printf(0, "fifo1 number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[1]));
 			i++;
@@ -476,7 +476,7 @@ void slow_check_process_s0(void)
 	
 	adc_average = adc_sum/SLOW_MAX_DATA_POOL;
 	
-	sprintf(float_str, "\r\nslow check adc_avg: %d(%.3lf) = %d / %d\r\n", adc_average, adc_average*3.3f/4096, adc_sum, SLOW_MAX_DATA_POOL);
+	sprintf(float_str, "\r\n%s%sslow check adc_avg: %d(%.3lfV) = %d / %d%s\r\n", RTT_CTRL_BG_BRIGHT_GREEN, RTT_CTRL_TEXT_BLACK, adc_average, adc_average*3.3f/4096, adc_sum, SLOW_MAX_DATA_POOL, RTT_CTRL_RESET);
 	SEGGER_RTT_printf(0, "%s", float_str);	
 
 	for(i=0; i<SLOW_MAX_DATA_POOL; i++)
@@ -893,6 +893,7 @@ void idle_process(void)
             default:
                 break;
         }
+				SEGGER_RTT_printf(0,"\r\n");
 	}
 	//串口错误处理
 	UsartRxErrProcess();
@@ -927,12 +928,12 @@ void person_in_range_upload(unsigned int aaaa)
 			person_in_range_flag_last = person_in_range_flag;
 			if (aaaa == 1)
 			{
-				SEGGER_RTT_printf(0, "%s有人!\r\n", RTT_CTRL_TEXT_BRIGHT_RED);
+				SEGGER_RTT_printf(0, "%s有人!%s\r\n", RTT_CTRL_TEXT_BRIGHT_RED, RTT_CTRL_RESET);
 				person_meter++;
 			}
 			else
 			{
-				SEGGER_RTT_printf(0, "%s无人!\r\n", RTT_CTRL_TEXT_BRIGHT_GREEN);
+				SEGGER_RTT_printf(0, "%s无人!%s\r\n", RTT_CTRL_TEXT_BRIGHT_GREEN, RTT_CTRL_RESET);
 			}
 		}
 	}
@@ -986,8 +987,8 @@ void slow_check_result_upload(unsigned int aaaa)
 
 void app(void)
 {
-	uint32_t finish_tick = 0;
-	uint32_t start_tick = 0;
+	static uint32_t finish_tick = 0;
+	static uint32_t start_tick = 0;
 	uint32_t diff = 0;
 	
 	switch (state)
@@ -1068,7 +1069,7 @@ void segger_init(void)
 	SEGGER_RTT_ConfigUpBuffer(1, "JScope_U2U2", &JS_RTT_UpBuffer[0], sizeof(JS_RTT_UpBuffer), SEGGER_RTT_MODE_NO_BLOCK_SKIP);
 	
 	SEGGER_RTT_Init();
-	SEGGER_RTT_WriteString(0, "phosense radar chip: XBR816C DEMO\r\n");
+	SEGGER_RTT_printf(0, "%sphosense radar chip: XBR816C DEMO%s\r\n", RTT_CTRL_BG_BRIGHT_RED, RTT_CTRL_RESET);
 	
 	SEGGER_SYSVIEW_Conf();
 }
@@ -1078,13 +1079,13 @@ void read_uid(void)
 		char	i = 0;
     char data[12] = {0};
 		
-		SEGGER_RTT_WriteString(0, "mcu chip uid: \r\n");
+		SEGGER_RTT_printf(0, "%smcu chip uid: \r\n", RTT_CTRL_TEXT_BRIGHT_GREEN);
 		for(i = 0; i < 12; i++) 
 		{
 				data[i] = *((unsigned char *)(FEM_UQID1 + i));
 				SEGGER_RTT_printf(0, "%02X ", data[i]);
 		}
-		SEGGER_RTT_WriteString(0, "\r\n");
+		SEGGER_RTT_printf(0, "%s\r\n", RTT_CTRL_RESET);
 }
 
 void SysTick_IrqHandler(void)
@@ -1115,11 +1116,13 @@ int main(void)
 	tick_init();
 	enable_flash_cache(Enable);
 	
+	SysTick_GetTick();
 	GPIO0_HIGH();
 	GPIO1_LOW();	
 	Delay_ms(ALL_UPLOAD_DELAY);
 	GPIO0_LOW();
 	GPIO1_LOW();
+	SysTick_GetTick();
 	
 	while(1)
 	{

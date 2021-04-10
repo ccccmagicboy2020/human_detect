@@ -71,9 +71,9 @@ void AdcChannelConfig(void)
     ADC_AddAdcChannel(M4_ADC1, &stcChCfg);
 
     /* 3. Configure the average channel if you need. */
-    //ADC_ConfigAvg(M4_ADC1, AdcAvcnt_128);
 		//ADC_ConfigAvg(M4_ADC1, AdcAvcnt_64);
-		ADC_ConfigAvg(M4_ADC1, AdcAvcnt_256);
+    ADC_ConfigAvg(M4_ADC1, AdcAvcnt_128);
+		//ADC_ConfigAvg(M4_ADC1, AdcAvcnt_256);
     /* 4. Add average channel if you need. */
     ADC_AddAvgChannel(M4_ADC1, ADC1_CHANNEL);    
 	
