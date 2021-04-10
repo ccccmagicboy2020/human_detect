@@ -737,9 +737,24 @@ void idle_process(void)
 		{
 			if ((max_pp1_rt != max_pp1_rt_last)  &&  (max_pp1_rt != 0))
 			{
-				res_times = max_pp1_rt*1.1f;
-				//res_times = max_pp1_rt*1.0f;
-				//res_times = max_pp1_rt*0.8f;
+				switch (study_mode)
+				{
+					case 0:
+						res_times = max_pp1_rt*1.1f;
+						break;
+					case 1:
+						res_times = max_pp1_rt*1.07f;
+						break;
+					case 2:
+						res_times = max_pp1_rt*1.03f;
+						break;
+					case 3:
+						res_times = max_pp1_rt*1.0f;
+						break;
+					default:
+						res_times = max_pp1_rt*1.0f;
+						break;
+				}
 				
 				sprintf(float_str, "study new pp1 values: %.3lf\r\n", res_times);
 				SEGGER_RTT_printf(0, "%s", float_str);
@@ -753,9 +768,24 @@ void idle_process(void)
 			}			
 			if ((max_pp2_rt != max_pp2_rt_last)  &&  (max_pp2_rt != 0))
 			{
-				offsetmin = max_pp2_rt*1.1f;
-				//offsetmin = max_pp2_rt*1.0f;
-				//offsetmin = max_pp2_rt*0.8f;
+				switch (study_mode)
+				{
+					case 0:
+						offsetmin = max_pp2_rt*1.1f;
+						break;
+					case 1:
+						offsetmin = max_pp2_rt*1.07f;
+						break;
+					case 2:
+						offsetmin = max_pp2_rt*1.03f;
+						break;
+					case 3:
+						offsetmin = max_pp2_rt*1.0f;
+						break;
+					default:
+						offsetmin = max_pp2_rt*1.0f;
+						break;
+				}
 				
 				sprintf(float_str, "study new pp2 values: %.3lf\r\n", offsetmin);
 				SEGGER_RTT_printf(0, "%s", float_str);
