@@ -29,7 +29,7 @@ typedef struct
 } FIFO_Struct;
 
 #define FIFO_DATA_NUM		2					//两支fifo
-#define FIFO_DATA_SIZE		4000		//fifo的大小, 10K
+#define FIFO_DATA_SIZE		4800		//fifo的大小, 10K
 
 extern FIFO_Struct FIFO_Data[FIFO_DATA_NUM];
 

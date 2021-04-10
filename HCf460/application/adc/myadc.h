@@ -9,6 +9,7 @@
 
 /* ADC1 channel definition for this example. */
 #define ADC1_SA_NORMAL_CHANNEL      (ADC1_CH6|ADC1_CH9)
+#define ADC1_AVG_CHANNEL   				  (ADC1_CH6)
 #define ADC1_PGA_CHANNEL   				  (ADC1_CH6)
 #define ADC1_SA_CHANNEL             (ADC1_SA_NORMAL_CHANNEL)
 #define ADC1_SA_CHANNEL_COUNT       (2u)
