@@ -1120,7 +1120,9 @@ void read_uid(void)
 
 void SysTick_IrqHandler(void)
 {
+		SEGGER_SYSVIEW_RecordEnterISR();	
     SysTick_IncTick();
+		SEGGER_SYSVIEW_RecordExitISR();	
 }
 
 void tick_init(void)
