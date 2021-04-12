@@ -771,16 +771,16 @@ static unsigned char dp_download_light_threshold3_handle(const unsigned char val
 		{
 			if (light_sensor_adc_data < Light_threshold3)//门限3
 			{
-				GPIO4_HIGH();
+				GPIO1_HIGH();
 			}
 			else
 			{
-				GPIO4_LOW();
+				GPIO1_LOW();
 			}
 		}
 		else if (person_in_range_flag == TUYA_PERSON_STATUS_NO_PERSON)
 		{
-			GPIO4_LOW();
+			GPIO1_LOW();
 		}
     
     //处理完DP数据后应有反馈

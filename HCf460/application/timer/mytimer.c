@@ -7,11 +7,17 @@
 #include "fifo.h"
 
 extern uint16_t m_au16Adc1SaValue[ADC1_CH_COUNT];
+extern uint16_t m_au16Adc2SaValue[ADC2_CH_COUNT];
+
 volatile uint32_t Timer_Counter = 0;
 volatile uint32_t light_sensor_Timer_Counter = 0;
 extern unsigned char light_sensor_upload_flag;
 
 unsigned short  light_sensor_adc_data = 0;	//光敏数据
+unsigned short  light_sensor2_adc_data = 0;	//光敏数据 底板上
+unsigned short  switch_dist = 0;	// 距离设置
+unsigned short  switch_delay = 0;	// 延时设置
+unsigned short  switch_light = 0;	// 光敏门限3
 
 extern Val_t adc_value;
 
@@ -112,16 +118,32 @@ static void Timer0B_CallBack(void)		// T === 500us
 	if (Set == DMA_GetIrqFlag(ADC1_SA_DMA_UNIT, ADC1_SA_DMA_CH, BlkTrnCpltIrq))
 	{
 		DMA_ClearIrqFlag(ADC1_SA_DMA_UNIT, ADC1_SA_DMA_CH, BlkTrnCpltIrq);
+		
 		if_adc_data =  m_au16Adc1SaValue[6u];
-		light_sensor_adc_data =  m_au16Adc1SaValue[9u];
+		switch_light = m_au16Adc1SaValue[0u];		
 		
 		FIFO_WriteOneData(&FIFO_Data[0], if_adc_data);
 		
 		adc_value.Val1 = if_adc_data;
 		adc_value.Val2 = light_sensor_adc_data;
+		adc_value.Val3 = light_sensor2_adc_data;
+		adc_value.Val4 = switch_dist;
+		adc_value.Val5 = switch_delay;
+		adc_value.Val6 = switch_light;
 		
 		SEGGER_RTT_Write(1, &adc_value, sizeof(adc_value));
+
 	}
+	
+	if (Set == DMA_GetIrqFlag(ADC2_SA_DMA_UNIT, ADC2_SA_DMA_CH, BlkTrnCpltIrq))
+	{
+		DMA_ClearIrqFlag(ADC2_SA_DMA_UNIT, ADC2_SA_DMA_CH, BlkTrnCpltIrq);	
+
+		switch_delay = m_au16Adc1SaValue[0u];
+		light_sensor2_adc_data = m_au16Adc2SaValue[3u];		
+		switch_dist = m_au16Adc2SaValue[4u];
+		light_sensor_adc_data =  m_au16Adc2SaValue[5u];
+	}	
 	
 	SEGGER_SYSVIEW_RecordExitISR();
 }

@@ -32,31 +32,35 @@ typedef const uint8_t uc8;
 #define FEM_UQID2				(0x40010400 + 0x54)
 #define FEM_UQID3				(0x40010400 + 0x58)
 
-#define GPIO0_HIGH()		(PORT_SetBits(PortA, Pin07))
-#define GPIO0_LOW()			(PORT_ResetBits(PortA, Pin07))
+//#define GPIO0_HIGH()		(PORT_SetBits(PortA, Pin07))
+//#define GPIO0_LOW()			(PORT_ResetBits(PortA, Pin07))
 
-#define GPIO1_HIGH()		(PORT_SetBits(PortA, Pin08))
+#define GPIO1_HIGH()		(PORT_SetBits(PortA, Pin08))			//relay
 #define GPIO1_LOW()			(PORT_ResetBits(PortA, Pin08))
 
-#define GPIO2_HIGH()		(PORT_SetBits(PortB, Pin06))
+#define GPIO2_HIGH()		(PORT_SetBits(PortB, Pin06))			//not use
 #define GPIO2_LOW()			(PORT_ResetBits(PortB, Pin06))
 
-#define GPIO3_HIGH()		(PORT_SetBits(PortB, Pin05))
+#define GPIO3_HIGH()		(PORT_SetBits(PortB, Pin05))			//not use
 #define GPIO3_LOW()			(PORT_ResetBits(PortB, Pin05))
 
-#define GPIO4_HIGH()		(PORT_SetBits(PortA, Pin00))
-#define GPIO4_LOW()			(PORT_ResetBits(PortA, Pin00))
+//#define GPIO4_HIGH()		(PORT_SetBits(PortA, Pin00))
+//#define GPIO4_LOW()			(PORT_ResetBits(PortA, Pin00))
 
-#define GPIO5_HIGH()		(PORT_SetBits(PortA, Pin04))
-#define GPIO5_LOW()			(PORT_ResetBits(PortA, Pin04))
+//#define GPIO5_HIGH()		(PORT_SetBits(PortA, Pin04))
+//#define GPIO5_LOW()			(PORT_ResetBits(PortA, Pin04))
 
-#define GPIO6_HIGH()		(PORT_SetBits(PortB, Pin00))
-#define GPIO6_LOW()			(PORT_ResetBits(PortB, Pin00))
+//#define GPIO6_HIGH()		(PORT_SetBits(PortB, Pin00))
+//#define GPIO6_LOW()			(PORT_ResetBits(PortB, Pin00))
 
 typedef struct Val
 {
-	unsigned short Val1;
-	unsigned short Val2;
+	unsigned short Val1;		//radar if
+	unsigned short Val2;		//light sensor on board
+	unsigned short Val3;		//light sensor on base board
+	unsigned short Val4;		//switch dist
+	unsigned short Val5;		//switch delay
+	unsigned short Val6;		//switch light
 } Val_t;
 
 enum work_mode

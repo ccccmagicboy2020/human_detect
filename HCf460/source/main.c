@@ -90,6 +90,10 @@ unsigned char find_me_counter = 0;
 ////////////////////////////////////////////////////////////
 unsigned char light_sensor_upload_flag = 0;
 extern unsigned short  light_sensor_adc_data;
+extern unsigned short  light_sensor2_adc_data;
+extern unsigned short  switch_dist;	// 距离设置
+extern unsigned short  switch_delay;	// 延时设置
+extern unsigned short  switch_light;	// 光敏门限3
 ////////////////////////////////////////////////////////////
 unsigned short Light_threshold1 = 0;
 unsigned short Light_threshold2 = 0;
@@ -128,25 +132,22 @@ void gpio_output(unsigned char res)
 	if (res)
 	{
 		led_red(1);
-		GPIO0_HIGH();
-		GPIO1_LOW();
 		
-		if (light_sensor_adc_data < Light_threshold3)//门限3
+		if (light_sensor2_adc_data < Light_threshold3)//门限3
+		//if (light_sensor_adc_data < Light_threshold3)//门限3
 		{
-			GPIO4_HIGH();
+			GPIO1_HIGH();
 		}
 		else
 		{
-			GPIO4_LOW();
+			GPIO1_LOW();
 		}
 		light_status_upload(1);
 	}
 	else
 	{
 		led_red(0);
-		GPIO0_LOW();
-		GPIO1_HIGH();
-		GPIO4_LOW();
+		GPIO1_LOW();
 		light_status_upload(0);
 	}
 }
@@ -881,36 +882,61 @@ void idle_process(void)
 			{
 				mcu_dp_value_update(DPID_LIGHT_SENSOR_RAW, light_sensor_adc_data);
 				light_sensor_adc_data_last = light_sensor_adc_data;
+	
+				sprintf(float_str, "%slight sensor: %d(%.3lfV)%s\r\n", RTT_CTRL_TEXT_BRIGHT_MAGENTA, light_sensor_adc_data, light_sensor_adc_data*3.3f/4096, RTT_CTRL_RESET);
+				SEGGER_RTT_printf(0, "%s", float_str);				
+			}
+			
+			if (1)
+			{
+				sprintf(float_str, "%slight sensor2: %d(%.3lfV)%s\r\n", RTT_CTRL_TEXT_BRIGHT_MAGENTA, light_sensor2_adc_data, light_sensor2_adc_data*3.3f/4096, RTT_CTRL_RESET);
+				SEGGER_RTT_printf(0, "%s", float_str);				
+			}
+			
+			if (1)
+			{
+				sprintf(float_str, "%sswitch distance: %d(%.3lfV)%s\r\n", RTT_CTRL_TEXT_BRIGHT_MAGENTA, switch_dist, switch_dist*3.3f/4096, RTT_CTRL_RESET);
+				SEGGER_RTT_printf(0, "%s", float_str);				
+			}
+			
+			if (1)
+			{
+				sprintf(float_str, "%sswitch delay: %d(%.3lfV)%s\r\n", RTT_CTRL_TEXT_BRIGHT_MAGENTA, switch_delay, switch_delay*3.3f/4096, RTT_CTRL_RESET);
+				SEGGER_RTT_printf(0, "%s", float_str);				
+			}
 
-				SEGGER_RTT_printf(0, "%slight sensor: %d%s\r\n", RTT_CTRL_TEXT_BRIGHT_MAGENTA, light_sensor_adc_data, RTT_CTRL_RESET);
+			if (1)
+			{
+				sprintf(float_str, "%sswitch light: %d(%.3lfV)%s\r\n", RTT_CTRL_TEXT_BRIGHT_MAGENTA, switch_light, switch_light*3.3f/4096, RTT_CTRL_RESET);
+				SEGGER_RTT_printf(0, "%s", float_str);				
 			}			
 		}
 			
 		if (light_sensor_adc_data > Light_threshold1)//门限1
 		{
-			GPIO2_HIGH();
+//			GPIO2_HIGH();
 		}
 		else
 		{
-			GPIO2_LOW();
+//			GPIO2_LOW();
 		}
 
 		if (light_sensor_adc_data < Light_threshold2)//门限2
 		{
-			GPIO3_HIGH();
+//			GPIO3_HIGH();
 		}
 		else
 		{
-			GPIO3_LOW();
+//			GPIO3_LOW();
 		}		
 		
 		if (light_sensor_adc_data > Light_threshold4)//门限4
 		{
-			GPIO5_HIGH();
+//			GPIO5_HIGH();
 		}
 		else
 		{
-			GPIO5_LOW();
+//			GPIO5_LOW();
 		}
 		
 		SEGGER_RTT_printf(0, 
@@ -1099,27 +1125,27 @@ void gpio_init(void)
 	stcPortInit.enPullUp = Disable;
 	/* LED0 Port/Pin initialization */
 
-	PORT_Init(PortA, Pin07, &stcPortInit);   //P1-4	//gpio0
+	//PORT_Init(PortA, Pin07, &stcPortInit);   //P1-4	//gpio0
 	PORT_Init(PortA, Pin08, &stcPortInit);   //P1-3	//gpio1
-	PORT_Init(PortB, Pin06, &stcPortInit);   //P5-1 //gpio2
-	PORT_Init(PortB, Pin05, &stcPortInit);   //P5-2	//gpio3
-	PORT_Init(PortA, Pin00, &stcPortInit);   //P5-3 //gpio4
-	PORT_Init(PortA, Pin04, &stcPortInit);   //P5-4	//gpio5		
-	PORT_Init(PortB, Pin00, &stcPortInit);   //P5-5 //gpio6
+	//PORT_Init(PortB, Pin06, &stcPortInit);   //P5-1 //gpio2
+	//PORT_Init(PortB, Pin05, &stcPortInit);   //P5-2	//gpio3
+	//PORT_Init(PortA, Pin00, &stcPortInit);   //P5-3 //gpio4
+	//PORT_Init(PortA, Pin04, &stcPortInit);   //P5-4	//gpio5		
+	//PORT_Init(PortB, Pin00, &stcPortInit);   //P5-5 //gpio6
 		
-	GPIO0_LOW();
+//	GPIO0_LOW();
 	GPIO1_LOW();
-	GPIO2_LOW();
-	GPIO3_LOW();
-	GPIO4_LOW();
-	GPIO5_LOW();
-	GPIO6_LOW();
+//	GPIO2_LOW();
+//	GPIO3_LOW();
+//	GPIO4_LOW();
+//	GPIO5_LOW();
+//	GPIO6_LOW();
 }
 
 void segger_init(void)
 {
 	//
-	SEGGER_RTT_ConfigUpBuffer(1, "JScope_U2U2", &JS_RTT_UpBuffer[0], sizeof(JS_RTT_UpBuffer), SEGGER_RTT_MODE_NO_BLOCK_SKIP);
+	SEGGER_RTT_ConfigUpBuffer(1, "JScope_U2U2U2U2U2U2", &JS_RTT_UpBuffer[0], sizeof(JS_RTT_UpBuffer), SEGGER_RTT_MODE_NO_BLOCK_SKIP);
 	
 	SEGGER_RTT_Init();
 	SEGGER_RTT_printf(0, "%sphosense radar chip: XBR816C DEMO%s\r\n", RTT_CTRL_BG_BRIGHT_RED, RTT_CTRL_RESET);
@@ -1163,6 +1189,7 @@ int main(void)
 	AdcConfig();
 	timer0_init();
 	ADC_StartConvert(M4_ADC1);
+	ADC_StartConvert(M4_ADC2);
 	bt_protocol_init();
 	gpio_init();
   segger_init();		
@@ -1172,10 +1199,8 @@ int main(void)
 	enable_flash_cache(Enable);
 	
 	SysTick_GetTick();
-	GPIO0_HIGH();
-	GPIO1_LOW();	
+	GPIO1_HIGH();
 	Delay_ms(ALL_UPLOAD_DELAY);
-	GPIO0_LOW();
 	GPIO1_LOW();
 	SysTick_GetTick();
 	
