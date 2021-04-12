@@ -97,7 +97,7 @@ extern unsigned short  switch_light;	// π‚√Ù√≈œﬁ3
 ////////////////////////////////////////////////////////////
 unsigned short Light_threshold1 = 0;
 unsigned short Light_threshold2 = 0;
-unsigned short Light_threshold3 = 0;
+unsigned short Light_threshold3 = 4096;
 unsigned short Light_threshold4 = 0;
 ////////////////////////////////////////////////////////////
 unsigned int delay_time_num = 0;
