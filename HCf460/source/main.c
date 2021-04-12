@@ -46,8 +46,8 @@ FIFO_DataType Fast_detection_data[MAX_DATA_POOL] = {0};//big raw data pool
 volatile int state = FAST_CHECK_DATA_PREPARE;	//状态机变量
 volatile int next_state = FAST_CHECK_DATA_PREPARE;	//状态机变量的下一个状态
 
-volatile int slow_s0_result = NO_PERSON_NOT_SURE;
-volatile int slow_s0_result_last = NO_PERSON_NOT_SURE;
+volatile int slow_s0_result = SLOW_OTHERS;
+volatile int slow_s0_result_last = SLOW_OTHERS;
 
 char fast_retry_flag = 0;
 char slow_retry_flag = 0;
@@ -70,8 +70,11 @@ Val_t adc_value;
 float	slow_time_times = 5;
 float slow_time_add = 40;
 float	slow_freq_times = 6;
-float	res_times = 17.5f;		//17.5
-float	offsetmin = 0.6f;			//		0.6
+float	res_times = 500.0f;		//17.5
+float	offsetmin = 2.5f;			//		0.6
+
+//float	res_times = 17.5f;		//17.5
+//float	offsetmin = 0.6f;			//		0.6
 ////////////////////////////////////////////////////////////
 void check_status_upload(unsigned int aaaa);
 void person_in_range_upload(unsigned int aaaa);
@@ -350,6 +353,7 @@ void fast_check_process(void)
 	if (quick_detection_result && (run_mode == 0))
 	{
 		state = SLOW_CHECK_DATA_PREPARE_S0;	//bingo to next
+		slow_s0_result_last = SLOW_OTHERS;	//reset the slow check result
 	}
 	else
 	{
@@ -591,6 +595,9 @@ void slow_check_process_s1(void)
 {
 	static int breathe_timer = 0;
 	static int no_person_timer = 0;
+	static int no_person_start_tick = 0;
+	int no_person_diff = 0;
+	int no_person_check_tick = 0;
 
 	if (slow_s0_result_last != slow_s0_result)
 	{
@@ -604,6 +611,7 @@ void slow_check_process_s1(void)
 			break;
 		case NO_PERSON_NOT_SURE:
 			no_person_timer = 1;
+			no_person_start_tick = SysTick_GetTick();
 			break;
 		default:
 			break;
@@ -627,24 +635,35 @@ void slow_check_process_s1(void)
 			break;
 		case NO_PERSON_NOT_SURE:
 			no_person_timer++;
-			if (no_person_timer >= (2 + delay_time_num))		//delay_time_num
+			if (no_person_timer >= (2 + 0))		//delay_time_num
 			{
-				no_person_timer = 0;
-				state = IDLE;
-
-				if (slow_only_flag == 0)
+				no_person_check_tick = SysTick_GetTick();
+				no_person_diff = no_person_check_tick - no_person_start_tick;
+				if (no_person_diff > 1000u*8u*delay_time_num)
 				{
-					next_state = FAST_CHECK_DATA_PREPARE;	//no person so all loopback	to fast check
-					//do some thing
-					clear_buffer();
+					SEGGER_RTT_printf(0, "%sno person status: timer=%d, diff=%d%s\r\n", RTT_CTRL_TEXT_BRIGHT_YELLOW, no_person_timer, no_person_diff, RTT_CTRL_RESET);
+					no_person_timer = 0;
+					state = IDLE;
+
+					if (slow_only_flag == 0)
+					{
+						next_state = FAST_CHECK_DATA_PREPARE;	//no person so all loopback	to fast check
+						//do some thing
+						clear_buffer();
+					}
+					else
+					{
+						next_state = SLOW_CHECK_DATA_PREPARE_S0;
+					}				
+
+					slow_s0_result = NO_PERSON;
+					slow_output_result(slow_s0_result);
 				}
 				else
 				{
-					next_state = SLOW_CHECK_DATA_PREPARE_S0;
-				}				
-
-				slow_s0_result = NO_PERSON;
-				slow_output_result(slow_s0_result);
+					state = IDLE;
+					next_state = SLOW_CHECK_DATA_PREPARE_S0;	//keep slow check again
+				}
 			}
 			else
 			{
@@ -861,7 +880,9 @@ void idle_process(void)
 			if (light_sensor_adc_data != light_sensor_adc_data_last)
 			{
 				mcu_dp_value_update(DPID_LIGHT_SENSOR_RAW, light_sensor_adc_data);
-				light_sensor_adc_data_last = light_sensor_adc_data;						
+				light_sensor_adc_data_last = light_sensor_adc_data;
+
+				SEGGER_RTT_printf(0, "%slight sensor: %d%s\r\n", RTT_CTRL_TEXT_BRIGHT_MAGENTA, light_sensor_adc_data, RTT_CTRL_RESET);
 			}			
 		}
 			
@@ -893,14 +914,16 @@ void idle_process(void)
 		}
 		
 		SEGGER_RTT_printf(0, 
-										"\r\ngpio0~gpio6 read bit:%d-%d-%d-%d-%d-%d-%d\r\n", 
+										"\r\n%sgpio0~gpio6 read bit:%d-%d-%d-%d-%d-%d-%d%s\r\n", 
+										RTT_CTRL_TEXT_BRIGHT_MAGENTA,
 										PORT_GetBit(PortA, Pin07),
 										PORT_GetBit(PortA, Pin08),
 										PORT_GetBit(PortB, Pin06),
 										PORT_GetBit(PortB, Pin05),
 										PORT_GetBit(PortA, Pin00),
 										PORT_GetBit(PortA, Pin04),
-										PORT_GetBit(PortB, Pin00)
+										PORT_GetBit(PortB, Pin00),
+										RTT_CTRL_RESET
 										);
                                         
         switch (mcu_get_bt_work_state())

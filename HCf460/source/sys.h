@@ -103,6 +103,7 @@ enum slow_s0_result
 	BIG_MOTION,
 	BREATHE,
 	BREATHE_NOT_SURE,				//breathe but not sure
+	SLOW_OTHERS,
 };
 
 #endif
