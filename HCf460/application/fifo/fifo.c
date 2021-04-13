@@ -6,7 +6,7 @@
  */
 #include "fifo.h"
 
-static FIFO_DataType FIFO_DataBuffer[FIFO_DATA_NUM][FIFO_DATA_SIZE];
+FIFO_DataType FIFO_DataBuffer[FIFO_DATA_NUM][FIFO_DATA_SIZE];
 
 FIFO_Struct FIFO_Data[FIFO_DATA_NUM] =
 {

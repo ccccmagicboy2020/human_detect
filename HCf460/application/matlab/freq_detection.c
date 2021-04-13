@@ -50,6 +50,7 @@ void Delay_ms(unsigned int t);
  *                int time_add
  * Return Type  : bool
  */
+#pragma arm section code = "RAMCODE"
 int freq_detection(FIFO_DataType data[], const float win[], int data_size, int win_size_freq, int
   stride_freq, int time_accum, int xhz1, float freq_times, float respiration_times, int respirationfreq_vote[2])
 {
@@ -298,6 +299,7 @@ int freq_detection(FIFO_DataType data[], const float win[], int data_size, int w
 	
 	return freq_vote;
 }
+#pragma arm section
 
 /*
  * File trailer for freq_detection.c

@@ -42,6 +42,7 @@ extern unsigned char upload_disable;
  *                int time_add
  * Return Type  : bool
  */
+#pragma arm section code = "RAMCODE"
 int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
   stride_time, float time_times, float time_add)
 {
@@ -167,6 +168,10 @@ int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
 		else
 		{
 			time_vote = 0;
+			sprintf(float_str, "time domain times trigger value: %.2lf-%.2lf\r\n", time_times_rt, time_times);
+			SEGGER_RTT_printf(0, "%s", float_str);
+			sprintf(float_str, "time domain add trigger value: %.2lf-%.2lf\r\n", time_add_rt, time_add);
+			SEGGER_RTT_printf(0, "%s", float_str);			
 		}
 
 		//printf("time domain *: %.2lf - %.2lf\r\n", time_times, maxValue/minValue);
@@ -213,6 +218,7 @@ int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
   /*  根据滑窗数据的最大最小标准差进行时域判定 */
   return time_vote;
 }
+#pragma arm section
 
 /*
  * File trailer for time_detection.c

@@ -104,9 +104,9 @@ void timer0_init(void)
     /* Enable NVIC */
     NVIC_EnableIRQ(stcIrqRegiConf.enIRQn);
 
-    /*start timer0*/
+    /*start timer0 a not b*/
     TIMER0_Cmd(TMR_UNIT,Tim0_ChannelA,Enable);
-    TIMER0_Cmd(TMR_UNIT,Tim0_ChannelB,Enable);
+    TIMER0_Cmd(TMR_UNIT,Tim0_ChannelB,Disable);
 }
 
 static void Timer0B_CallBack(void)		// T === 500us
@@ -120,7 +120,6 @@ static void Timer0B_CallBack(void)		// T === 500us
 		DMA_ClearIrqFlag(ADC1_SA_DMA_UNIT, ADC1_SA_DMA_CH, BlkTrnCpltIrq);
 		
 		if_adc_data =  m_au16Adc1SaValue[6u];
-		switch_light = m_au16Adc1SaValue[0u];		
 		
 		FIFO_WriteOneData(&FIFO_Data[0], if_adc_data);
 		
@@ -140,6 +139,7 @@ static void Timer0B_CallBack(void)		// T === 500us
 		DMA_ClearIrqFlag(ADC2_SA_DMA_UNIT, ADC2_SA_DMA_CH, BlkTrnCpltIrq);	
 
 		switch_delay = m_au16Adc2SaValue[0u];
+		switch_light = m_au16Adc2SaValue[1u];
 		light_sensor2_adc_data = m_au16Adc2SaValue[3u];		
 		switch_dist = m_au16Adc2SaValue[4u];
 		light_sensor_adc_data =  m_au16Adc2SaValue[5u];

@@ -40,9 +40,10 @@
 #define		MAX_DATA_POOL			FAST_MAX_DATA_POOL
 
 extern const float hamming_TAB2[4096];
+extern FIFO_DataType FIFO_DataBuffer[FIFO_DATA_NUM][FIFO_DATA_SIZE];
 
-FIFO_DataType Fast_detection_data[MAX_DATA_POOL] __attribute__((section(".SRAMH.__at_0x1FFF8000"))) = {0};//big raw data pool
-//FIFO_DataType Fast_detection_data[MAX_DATA_POOL] = {0};//big raw data pool
+//FIFO_DataType Fast_detection_data[MAX_DATA_POOL] __attribute__((section(".ARM.__at_0x1FFF8000"))) = {0};//big raw data pool
+FIFO_DataType Fast_detection_data[MAX_DATA_POOL] = {0};//big raw data pool
 
 volatile int state = FAST_CHECK_DATA_PREPARE;	//状态机变量
 volatile int next_state = FAST_CHECK_DATA_PREPARE;	//状态机变量的下一个状态
@@ -50,8 +51,8 @@ volatile int next_state = FAST_CHECK_DATA_PREPARE;	//状态机变量的下一个状态
 volatile int slow_s0_result = SLOW_OTHERS;
 volatile int slow_s0_result_last = SLOW_OTHERS;
 
-char fast_retry_flag = 0;
-char slow_retry_flag = 0;
+char fast_retry_flag = 1;
+char slow_retry_flag = 1;
 
 int run_mode = 0;
 int slow_only_flag = 0;
@@ -61,18 +62,18 @@ volatile int person_in_range_flag = 0;
 volatile int light_status_flag = 0;
 
 ////////////////////////////////////////////////////////////
-float quick_time_times = 4;
-float quick_time_add = 32;
-float quick_freq_times = 3;
+float quick_time_times = 4;			//4
+float quick_time_add = 32;			//32
+float quick_freq_times = 3;			//3
 ////////////////////////////////////////////////////////////
 char JS_RTT_UpBuffer[1024];
 Val_t adc_value;
 ////////////////////////////////////////////////////////////
-float	slow_time_times = 5;
-float slow_time_add = 40;
-float	slow_freq_times = 6;
-float	res_times = 500.0f;		//17.5
-float	offsetmin = 2.5f;			//		0.6
+float	slow_time_times = 5;			//5
+float slow_time_add = 40;				//40
+float	slow_freq_times = 6;			//6
+float	res_times = 50.0f;		//17.5
+float	offsetmin = 1.0f;			//		0.6
 
 //float	res_times = 17.5f;		//17.5
 //float	offsetmin = 0.6f;			//		0.6
@@ -82,6 +83,12 @@ void person_in_range_upload(unsigned int aaaa);
 void slow_check_result_upload(unsigned int aaaa);
 void clear_buffer(void);
 void light_status_upload(unsigned int aaaa);
+void stop_sample(unsigned char flag);
+void memory_init(void);
+void get_mcu_bt_mode(void);
+void bt_hand_up(void);
+void gpio_output(unsigned char res);
+void set_samplerate(unsigned int speed);
 ////////////////////////////////////////////////////////////
 unsigned char upload_disable = 1;
 unsigned char g_work_mode = ALL_CHECK;
@@ -116,16 +123,18 @@ float max_pp1_rt_last = 0;
 float max_pp2_rt = 0;
 float max_pp2_rt_last = 0;
 
+//unsigned int fast_samplerate = 12499;	//4K
+//unsigned int fast_samplerate = 9999;	//5K
 //unsigned int fast_samplerate = 4999;	//10K
-unsigned int fast_samplerate = 1349;	//37K
-unsigned int slow_samplerate = 12499;	//4K
+unsigned int fast_samplerate = 2999;	//15K
+//unsigned int fast_samplerate = 2499;	//20K
+//unsigned int fast_samplerate = 1349;	//37K
+////////////////////////////////////////////////////////////
+//unsigned int slow_samplerate = 12499;	//4K
+unsigned int slow_samplerate = 9999;	//5K
 //unsigned int slow_samplerate = 7499;	//6.7K
 ////////////////////////////////////////////////////////////
-void get_mcu_bt_mode(void);
-void bt_hand_up(void);
-void clear_buffer(void);
-void gpio_output(unsigned char res);
-void set_samplerate(unsigned int speed);
+
 ////////////////////////////////////////////////////////////
 void clear_buffer(void)
 {
@@ -161,17 +170,51 @@ void gpio_output(unsigned char res)
 
 void fast_output_result(char quick_detection_result)
 {
+	static char quick_detection_result_last = 0;
 	SEGGER_RTT_printf(0, "%squick: %d%s\r\n", RTT_CTRL_BG_GREEN, quick_detection_result, RTT_CTRL_RESET);
 	
-	if (quick_detection_result)//有人
+	if (quick_detection_result != quick_detection_result_last)
 	{
-		person_in_range_upload(TUYA_PERSON_STATUS_HAVE_PERSON);
-		gpio_output(1);
-	}
-	else						//无人
-	{
-		person_in_range_upload(TUYA_PERSON_STATUS_NO_PERSON);
-		gpio_output(0);
+		quick_detection_result_last = quick_detection_result;
+		
+		if (quick_detection_result)//有人
+		{
+			person_in_range_upload(TUYA_PERSON_STATUS_HAVE_PERSON);
+			gpio_output(1);
+		}
+		else						//无人
+		{
+			person_in_range_upload(TUYA_PERSON_STATUS_NO_PERSON);
+			if (1)		//有继电器
+			{
+				stop_sample(1);
+				gpio_output(0);
+				Delay_ms(ALL_UPLOAD_DELAY);
+				Delay_ms(ALL_UPLOAD_DELAY);
+				Delay_ms(ALL_UPLOAD_DELAY);
+				Delay_ms(ALL_UPLOAD_DELAY);
+				Delay_ms(ALL_UPLOAD_DELAY);		
+
+				Delay_ms(ALL_UPLOAD_DELAY);
+				Delay_ms(ALL_UPLOAD_DELAY);
+				Delay_ms(ALL_UPLOAD_DELAY);
+				Delay_ms(ALL_UPLOAD_DELAY);
+				Delay_ms(ALL_UPLOAD_DELAY);		
+
+				Delay_ms(ALL_UPLOAD_DELAY);
+				Delay_ms(ALL_UPLOAD_DELAY);
+				Delay_ms(ALL_UPLOAD_DELAY);
+				Delay_ms(ALL_UPLOAD_DELAY);
+				Delay_ms(ALL_UPLOAD_DELAY);		
+				
+				stop_sample(0);
+				clear_buffer();
+			}
+			else
+			{
+				gpio_output(0);
+			}
+		}
 	}
 }
 
@@ -249,19 +292,19 @@ void slow_output_result(char slow_s0_result)
 		break;
 	}	
 }
-
+#pragma arm section code = "RAMCODE"
 void fast_check_data_prepare(void)
 {
 	static	int i = 0;	//index, fullfill the tank first
 	int k = 0;	//index
 	
-	set_samplerate(fast_samplerate);
-	slow_samplerate = 12499;
-	
 	if (fast_retry_flag)
 	{
-		fast_retry_flag = 0;
+		fast_retry_flag = 0;		
+		set_samplerate(fast_samplerate);
+		slow_samplerate = 12499;
 		i = 0;
+		memory_init();
 	}
 	
 	if (FAST_CHECK_TIMES > i)
@@ -307,6 +350,7 @@ void fast_check_data_prepare(void)
 		next_state = FAST_CHECK_DATA_PREPARE;
 	}
 }
+#pragma arm section
 void fast_check_process(void)
 {
 	int i = 0;	//index
@@ -365,6 +409,7 @@ void fast_check_process(void)
 	{
 		state = SLOW_CHECK_DATA_PREPARE_S0;	//bingo to next
 		slow_s0_result_last = SLOW_OTHERS;	//reset the slow check result
+		memory_init();
 	}
 	else
 	{
@@ -379,6 +424,7 @@ void fast_check_process(void)
 	fast_output_result(quick_detection_result);
 }
 
+#pragma arm section code = "RAMCODE"
 void slow_check_data_prepare_s0(void)
 {
 	int i = 0;	//index
@@ -404,7 +450,9 @@ void slow_check_data_prepare_s0(void)
 		next_state = SLOW_CHECK_DATA_PREPARE_S0;	//not enough so loopback
 	}
 }
+#pragma arm section
 
+#pragma arm section code = "RAMCODE"
 void slow_check_data_prepare_s1(void)
 {
 	static	int i = 0;	//index for fullfill the tank
@@ -453,6 +501,7 @@ void slow_check_data_prepare_s1(void)
 		next_state = SLOW_CHECK_DATA_PREPARE_S0;	//not enough so loopback
 	}
 }
+#pragma arm section
 
 void slow_check_process_s0(void)
 {
@@ -1206,10 +1255,47 @@ void set_samplerate(unsigned int speed)
 	*((unsigned int *)(TMR02_CMPBR)) = speed;
 }
 
+void memory_init(void)
+{
+	stop_sample(1);
+	
+	while (1 != FIFO_IsDataEmpty(&FIFO_Data[0]))
+	{
+		SEGGER_RTT_printf(0, "fifo0 number useless: %d\r\n", FIFO_GetDataCount(&FIFO_Data[0]));	
+		FIFO_ReadData(&FIFO_Data[0], &Fast_detection_data[0], 2000);
+		SEGGER_RTT_printf(0, "fifo0 number useless: %d\r\n", FIFO_GetDataCount(&FIFO_Data[0]));
+	}
+		
+	while (1 != FIFO_IsDataEmpty(&FIFO_Data[1]))
+	{
+		SEGGER_RTT_printf(0, "fifo1 number useless: %d\r\n", FIFO_GetDataCount(&FIFO_Data[1]));	
+		FIFO_ReadData(&FIFO_Data[1], &Fast_detection_data[0], 2000);
+		SEGGER_RTT_printf(0, "fifo1 number useless: %d\r\n", FIFO_GetDataCount(&FIFO_Data[1]));
+	}	
+	
+	FIFO_Init(&FIFO_Data[0]);
+	FIFO_Init(&FIFO_Data[1]);	
+	memset(&Fast_detection_data[0], 0, MAX_DATA_POOL * 2);
+	memset(&FIFO_DataBuffer[0], 0, FIFO_DATA_NUM * FIFO_DATA_SIZE * 2);
+	stop_sample(0);	
+}
+
+void stop_sample(unsigned char flag)
+{
+	if (flag)
+	{
+		TIMER0_Cmd(TMR_UNIT,Tim0_ChannelB,Disable);
+	}
+	else
+	{
+		TIMER0_Cmd(TMR_UNIT,Tim0_ChannelB,Enable);
+	}
+}
+
 int main(void)
 {
-	FIFO_Init(&FIFO_Data[0]);
-	FIFO_Init(&FIFO_Data[1]);
+
+	memory_init();
 	SysClkIni();
 	usart_init();//both debug and tuya
 	led_init();	
