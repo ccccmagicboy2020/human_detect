@@ -41,7 +41,8 @@
 
 extern const float hamming_TAB2[4096];
 
-FIFO_DataType Fast_detection_data[MAX_DATA_POOL] = {0};//big raw data pool
+FIFO_DataType Fast_detection_data[MAX_DATA_POOL] __attribute__((section(".SRAMH.__at_0x1FFF8000"))) = {0};//big raw data pool
+//FIFO_DataType Fast_detection_data[MAX_DATA_POOL] = {0};//big raw data pool
 
 volatile int state = FAST_CHECK_DATA_PREPARE;	//状态机变量
 volatile int next_state = FAST_CHECK_DATA_PREPARE;	//状态机变量的下一个状态
@@ -114,12 +115,18 @@ float max_pp1_rt = 0;
 float max_pp1_rt_last = 0;
 float max_pp2_rt = 0;
 float max_pp2_rt_last = 0;
+
+//unsigned int fast_samplerate = 4999;	//10K
+unsigned int fast_samplerate = 1349;	//37K
+unsigned int slow_samplerate = 12499;	//4K
+//unsigned int slow_samplerate = 7499;	//6.7K
 ////////////////////////////////////////////////////////////
 void get_mcu_bt_mode(void);
 void bt_hand_up(void);
 void clear_buffer(void);
 void gpio_output(unsigned char res);
-
+void set_samplerate(unsigned int speed);
+////////////////////////////////////////////////////////////
 void clear_buffer(void)
 {
 	fast_retry_flag = 1;
@@ -248,6 +255,9 @@ void fast_check_data_prepare(void)
 	static	int i = 0;	//index, fullfill the tank first
 	int k = 0;	//index
 	
+	set_samplerate(fast_samplerate);
+	slow_samplerate = 12499;
+	
 	if (fast_retry_flag)
 	{
 		fast_retry_flag = 0;
@@ -374,6 +384,8 @@ void slow_check_data_prepare_s0(void)
 	int i = 0;	//index
 	FIFO_DataType  temp[2048] = {0};//temp data
 	
+	set_samplerate(slow_samplerate);
+	
 	if (SLOW_CHECK_SAMPLES < FIFO_GetDataCount(&FIFO_Data[0]))
 	{
 		SEGGER_RTT_printf(0, "fifo0 number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[0]));
@@ -465,6 +477,16 @@ void slow_check_process_s0(void)
 	if ((0 != last_tick) && (0 != diff))
 	{
 		SEGGER_RTT_printf(0, "slow check duty: %dms\r\n", diff);
+		
+		if (diff > 4800)
+		{
+			slow_samplerate -= 50;
+		}
+		else
+		{
+			slow_samplerate += 50;
+		}
+		//
 	}
 	last_tick = now_tick;	
 
@@ -1177,6 +1199,11 @@ void SysTick_IrqHandler(void)
 void tick_init(void)
 {
 	SysTick_Init(1000u);//1ms
+}
+
+void set_samplerate(unsigned int speed)
+{
+	*((unsigned int *)(TMR02_CMPBR)) = speed;
 }
 
 int main(void)

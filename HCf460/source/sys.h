@@ -28,9 +28,12 @@ typedef const uint8_t uc8;
 #define SEGGER_RTT_IN_RAM 1
 
 #define EFM_BASE_ADDR		0x40010400
-#define FEM_UQID1				(0x40010400 + 0x50)
-#define FEM_UQID2				(0x40010400 + 0x54)
-#define FEM_UQID3				(0x40010400 + 0x58)
+#define FEM_UQID1				(EFM_BASE_ADDR + 0x50)
+#define FEM_UQID2				(EFM_BASE_ADDR + 0x54)
+#define FEM_UQID3				(EFM_BASE_ADDR + 0x58)
+
+#define TMR02_BASE				0x40024400
+#define TMR02_CMPBR			(TMR02_BASE + 0x0C)
 
 //#define GPIO0_HIGH()		(PORT_SetBits(PortA, Pin07))
 //#define GPIO0_LOW()			(PORT_ResetBits(PortA, Pin07))
