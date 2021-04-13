@@ -916,7 +916,7 @@ void idle_process(void)
 		{		
 			mcu_dp_value_update(DPID_PERSON_METER,person_meter);
 		}
-		SEGGER_RTT_printf(0, "person meter: %d\r\n", person_meter);
+		SEGGER_RTT_printf(0, "%sperson meter: %d%s\r\n", RTT_CTRL_TEXT_BRIGHT_RED, person_meter, RTT_CTRL_RESET);
 		person_meter_last = person_meter;
 	}	
 	//找我闪动
@@ -1085,6 +1085,18 @@ void person_in_range_upload(unsigned int aaaa)
 			{
 				SEGGER_RTT_printf(0, "%s无人!%s\r\n", RTT_CTRL_TEXT_BRIGHT_GREEN, RTT_CTRL_RESET);
 			}
+		}
+	}
+	else
+	{
+		if (aaaa == 1)
+		{
+			SEGGER_RTT_printf(0, "%s有人!%s\r\n", RTT_CTRL_TEXT_BRIGHT_RED, RTT_CTRL_RESET);
+			person_meter++;
+		}
+		else
+		{
+			SEGGER_RTT_printf(0, "%s无人!%s\r\n", RTT_CTRL_TEXT_BRIGHT_GREEN, RTT_CTRL_RESET);
 		}
 	}
 }
