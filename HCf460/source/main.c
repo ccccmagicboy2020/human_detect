@@ -62,21 +62,21 @@ volatile int person_in_range_flag = 0;
 volatile int light_status_flag = 0;
 
 ////////////////////////////////////////////////////////////
+char JS_RTT_UpBuffer[1024];
+Val_t adc_value;
+////////////////////////////////////////////////////////////
 float quick_time_times = 4;			//4
 float quick_time_add = 32;			//32
 float quick_freq_times = 3;			//3
 ////////////////////////////////////////////////////////////
-char JS_RTT_UpBuffer[1024];
-Val_t adc_value;
-////////////////////////////////////////////////////////////
 float	slow_time_times = 5;			//5
 float slow_time_add = 40;				//40
 float	slow_freq_times = 6;			//6
-float	res_times = 50.0f;		//17.5
-float	offsetmin = 1.0f;			//		0.6
+float	res_times = 17.5f;				//17.5
+float	offsetmin = 0.6f;					//0.6
 
-//float	res_times = 17.5f;		//17.5
-//float	offsetmin = 0.6f;			//		0.6
+//float	res_times = 17.5f;			//17.5
+//float	offsetmin = 0.6f;				//0.6
 ////////////////////////////////////////////////////////////
 void check_status_upload(unsigned int aaaa);
 void person_in_range_upload(unsigned int aaaa);
@@ -123,15 +123,16 @@ float max_pp1_rt_last = 0;
 float max_pp2_rt = 0;
 float max_pp2_rt_last = 0;
 
-//unsigned int fast_samplerate = 12499;	//4K
+//unsigned int fast_samplerate = 12499;	//4K-250us-128ms
 //unsigned int fast_samplerate = 9999;	//5K
+unsigned int fast_samplerate = 7499;		//6.7K-150us-76.8ms
 //unsigned int fast_samplerate = 4999;	//10K
-unsigned int fast_samplerate = 2999;	//15K
+//unsigned int fast_samplerate = 2999;	//15K
 //unsigned int fast_samplerate = 2499;	//20K
 //unsigned int fast_samplerate = 1349;	//37K
 ////////////////////////////////////////////////////////////
 //unsigned int slow_samplerate = 12499;	//4K
-unsigned int slow_samplerate = 9999;	//5K
+unsigned int slow_samplerate = 9999;		//5K
 //unsigned int slow_samplerate = 7499;	//6.7K
 ////////////////////////////////////////////////////////////
 

@@ -91,7 +91,7 @@ void AdcChannelConfig(void)
     /* 4. Add average channel if you need. */
     ADC_AddAvgChannel(M4_ADC1, ADC1_AVG_CHANNEL);
 /////////////////////////////////////////////////////////////////////////////////
-    /* 1. Remap channels and pins */
+    /* 0. Remap channels and pins */
     //ADC_ChannleRemap(M4_ADC2, ADC2_CH1, ADC1_IN0);
     /* 1. Set the ADC pin to analog mode. */
     AdcSetChannelPinMode(M4_ADC2, ADC2_CHANNEL, Pin_Mode_Ana);  // Pin_Mode_Ana = 2  GPIO Analog mode	
