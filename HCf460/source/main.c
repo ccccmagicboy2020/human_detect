@@ -102,8 +102,8 @@ extern unsigned short  switch_light;	// 光敏门限3
 ////////////////////////////////////////////////////////////
 unsigned short Light_threshold1 = 0;
 unsigned short Light_threshold2 = 0;
-unsigned short Light_threshold3 = 4096;
-unsigned short Light_threshold4 = 0;
+unsigned short Light_threshold3 = 4000;		//up limit
+unsigned short Light_threshold4 = 3800;		//down limit
 ////////////////////////////////////////////////////////////
 unsigned int delay_time_num = 0;
 unsigned int delay_s_num = 24;
@@ -148,14 +148,18 @@ void gpio_output(unsigned char res)
 	{
 		led_red(1);
 		
-		if (light_sensor2_adc_data < Light_threshold3)//门限3
+		if (light_sensor2_adc_data < Light_threshold4)//门限3
 		//if (light_sensor_adc_data < Light_threshold3)//门限3
 		{
 			GPIO1_HIGH();
 		}
-		else
+		else if (light_sensor2_adc_data > Light_threshold3)
 		{
 			GPIO1_LOW();
+		}
+		else
+		{
+			//do nothing
 		}
 		light_status_upload(1);
 	}
@@ -772,6 +776,10 @@ void idle_process(void)
 	float switch_delay_f = 0;
 	float switch_light_f = 0;
 	
+	static unsigned int free_runner = 0;
+	
+	free_runner++;
+	
 	now_tick = SysTick_GetTick();
 	diff = now_tick - last_tick;
 	if ((0 != last_tick) && (0 != diff))
@@ -944,23 +952,32 @@ void idle_process(void)
 			}
 		}
 	}
-	//光敏一直控制继电器
-	if (light_sensor2_adc_data < Light_threshold3)//门限3
-	//if (light_sensor_adc_data < Light_threshold3)//门限3
+	
+	if (free_runner%30 == 0)
 	{
-		if (person_in_range_flag == 1)
+		//光敏一直控制继电器
+		if (light_sensor2_adc_data < Light_threshold4)//门限3
+		//if (light_sensor_adc_data < Light_threshold3)//门限3
 		{
-			GPIO1_HIGH();
+			if (person_in_range_flag == 1)
+			{
+				GPIO1_HIGH();
+			}
+			else
+			{
+				GPIO1_LOW();
+			}
 		}
-		else
+		else if (light_sensor2_adc_data > Light_threshold3)
 		{
 			GPIO1_LOW();
 		}
+		else
+		{
+			//do nothing
+		}	
 	}
-	else
-	{
-		GPIO1_LOW();
-	}
+	
 	//光敏控制及上报，gpio状态上报，bt连接情况上报
 	if (light_sensor_upload_flag)
 	{
@@ -1107,43 +1124,51 @@ void idle_process(void)
 				{
 					//6: on 7: on 8: on 
 					Light_threshold3 = 500;
+					Light_threshold4 = Light_threshold3 - 200;
 				}
 				else if (switch_light_f > 1.6f)
 				{
 					//6: off 7: on 8: on 
 					Light_threshold3 = 1000;
+					Light_threshold4 = Light_threshold3 - 200;
 				}
 				else if (switch_light_f > 1.4f)
 				{
 					//6: on 7: off 8: on 
 					Light_threshold3 = 1500;
+					Light_threshold4 = Light_threshold3 - 200;
 				}
 				else if (switch_light_f > 1.2f)
 				{
 					//6: off 7: off 8: on 
 					Light_threshold3 = 2000;
+					Light_threshold4 = Light_threshold3 - 200;
 				}
 				else if (switch_light_f > 1.0f)
 				{
 					//6: on 7: on 8: off
 					Light_threshold3 = 2500;
+					Light_threshold4 = Light_threshold3 - 200;
 				}
 				else if (switch_light_f > 0.7f)
 				{
 					//6: off 7: on 8: off
 					Light_threshold3 = 3000;
+					Light_threshold4 = Light_threshold3 - 200;
 				}	
 				else if (switch_light_f > 0.4f)
 				{
 					//6: on 7: off 8: off
 					Light_threshold3 = 3500;
+					Light_threshold4 = Light_threshold3 - 200;
 				}
 				else
 				{
 					//6: off 7: off 8: off 
 					Light_threshold3 = 4000;
+					Light_threshold4 = Light_threshold3 - 200;
 				}
-				sprintf(float_str, "%sswitch light: %d(%.3lfV)-%d%s\r\n", RTT_CTRL_TEXT_BRIGHT_MAGENTA, switch_light, switch_light_f, Light_threshold3, RTT_CTRL_RESET);
+				sprintf(float_str, "%sswitch light: %d(%.3lfV)-(u%d)(d%d)%s\r\n", RTT_CTRL_TEXT_BRIGHT_MAGENTA, switch_light, switch_light_f, Light_threshold3, Light_threshold4, RTT_CTRL_RESET);
 				SEGGER_RTT_printf(0, "%s", float_str);				
 			}			
 		}
