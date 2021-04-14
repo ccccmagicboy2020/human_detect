@@ -953,7 +953,7 @@ void idle_process(void)
 		}
 	}
 	
-	if (free_runner%30 == 0)
+	if (free_runner%3000 == 0)
 	{
 		//光敏一直控制继电器
 		if (light_sensor2_adc_data < Light_threshold4)//门限3
