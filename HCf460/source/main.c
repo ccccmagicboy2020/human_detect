@@ -72,11 +72,8 @@ float quick_freq_times = 3;			//3
 float	slow_time_times = 5;			//5
 float slow_time_add = 40;				//40
 float	slow_freq_times = 6;			//6
-float	res_times = 17.5f;				//17.5
+float	res_times = 60.0f;				//17.5
 float	offsetmin = 0.6f;					//0.6
-
-//float	res_times = 17.5f;			//17.5
-//float	offsetmin = 0.6f;				//0.6
 ////////////////////////////////////////////////////////////
 void check_status_upload(unsigned int aaaa);
 void person_in_range_upload(unsigned int aaaa);
@@ -109,6 +106,7 @@ unsigned short Light_threshold3 = 4096;
 unsigned short Light_threshold4 = 0;
 ////////////////////////////////////////////////////////////
 unsigned int delay_time_num = 0;
+unsigned int delay_s_num = 24;
 ////////////////////////////////////////////////////////////
 volatile unsigned int  person_meter = 0;
 volatile unsigned int  person_meter_last = 0;
@@ -708,13 +706,13 @@ void slow_check_process_s1(void)
 			break;
 		case NO_PERSON_NOT_SURE:
 			no_person_timer++;
-			if (no_person_timer >= (2 + 0))		//delay_time_num
+			if (no_person_timer >= (2 + delay_time_num))		//delay_time_num
 			{
 				no_person_check_tick = SysTick_GetTick();
 				no_person_diff = no_person_check_tick - no_person_start_tick;
-				if (no_person_diff > 1000u*8u*delay_time_num)
+				if (no_person_diff > (1000u*delay_s_num - 2*4096))
 				{
-					SEGGER_RTT_printf(0, "%sno person status: timer=%d, diff=%d%s\r\n", RTT_CTRL_TEXT_BRIGHT_YELLOW, no_person_timer, no_person_diff, RTT_CTRL_RESET);
+					SEGGER_RTT_printf(0, "%sno person status: delay_timer=%d, diff=%d%s\r\n", RTT_CTRL_TEXT_BRIGHT_YELLOW, no_person_timer, no_person_diff, RTT_CTRL_RESET);
 					no_person_timer = 0;
 					state = IDLE;
 
@@ -950,7 +948,14 @@ void idle_process(void)
 	if (light_sensor2_adc_data < Light_threshold3)//门限3
 	//if (light_sensor_adc_data < Light_threshold3)//门限3
 	{
-		//
+		if (person_in_range_flag == 1)
+		{
+			GPIO1_HIGH();
+		}
+		else
+		{
+			GPIO1_LOW();
+		}
 	}
 	else
 	{
@@ -967,8 +972,11 @@ void idle_process(void)
 			if (light_sensor_adc_data != light_sensor_adc_data_last)
 			{
 				mcu_dp_value_update(DPID_LIGHT_SENSOR_RAW, light_sensor_adc_data);
-				light_sensor_adc_data_last = light_sensor_adc_data;
-	
+				light_sensor_adc_data_last = light_sensor_adc_data;			
+			}
+			
+			if (1)
+			{
 				sprintf(float_str, "%slight sensor: %d(%.3lfV)%s\r\n", RTT_CTRL_TEXT_BRIGHT_MAGENTA, light_sensor_adc_data, light_sensor_adc_data*3.3f/4096, RTT_CTRL_RESET);
 				SEGGER_RTT_printf(0, "%s", float_str);				
 			}
@@ -988,99 +996,155 @@ void idle_process(void)
 				if (switch_dist_f > 1.5f)
 				{
 					//1: on 2: on
+					//2米
+					quick_time_times = 4;			//4
+					quick_time_add = 180;			//32
+					quick_freq_times = 3;			//3
+					//////////////////////////////////////////////////////
+					slow_time_times = 5;			//5
+					slow_time_add = 150;				//40
+					slow_freq_times = 6;			//6
+					res_times = 90.0f;				//17.5
+					offsetmin = 1.8f;					//0.6					
 				}
 				else if (switch_dist_f > 1.1f)
 				{
 					//1: off 2: on
+					//3米
+					quick_time_times = 4;			//4
+					quick_time_add = 140;			//32
+					quick_freq_times = 3;			//3
+					//////////////////////////////////////////////////////
+					slow_time_times = 5;			//5
+					slow_time_add = 120;				//40
+					slow_freq_times = 6;			//6
+					res_times = 70.0f;				//17.5
+					offsetmin = 1.5f;					//0.6							
 				}
 				else if (switch_dist_f > 0.5f)
 				{
 					//1: on 2: off
+					//4米
+					quick_time_times = 4;			//4
+					quick_time_add = 70;			//32
+					quick_freq_times = 3;			//3
+					//////////////////////////////////////////////////////
+					slow_time_times = 5;			//5
+					slow_time_add = 80;				//40
+					slow_freq_times = 6;			//6
+					res_times = 50.0f;				//17.5
+					offsetmin = 1.0f;					//0.6		
 				}
 				else
 				{
 					//1: off 2: off
+					//最远
+					quick_time_times = 4;			//4
+					quick_time_add = 32;			//32
+					quick_freq_times = 3;			//3
+					//////////////////////////////////////////////////////
+					slow_time_times = 5;			//5
+					slow_time_add = 40;				//40
+					slow_freq_times = 6;			//6
+					res_times = 17.5f;				//17.5
+					offsetmin = 0.6f;					//0.6
 				}
 			}
 			
 			if (1)
 			{
 				switch_delay_f = switch_delay*3.3f/4096;
-				sprintf(float_str, "%sswitch delay: %d(%.3lfV)%s\r\n", RTT_CTRL_TEXT_BRIGHT_MAGENTA, switch_delay, switch_delay_f, RTT_CTRL_RESET);
-				SEGGER_RTT_printf(0, "%s", float_str);
 					
 				if (switch_delay_f > 1.7f)
 				{
 					//3: on 4: on 5: on 
+					delay_s_num = 240;
 				}
 				else if (switch_delay_f > 1.6f)
 				{
 					//3: off 4: on 5: on 
+					delay_s_num = 180;
 				}
 				else if (switch_delay_f > 1.4f)
 				{
 					//3: on 4: off 5: on 
+					delay_s_num = 120;
 				}
 				else if (switch_delay_f > 1.2f)
 				{
-					//3: off 4: off 5: on 
+					//3: off 4: off 5: on
+					delay_s_num = 60;
 				}
 				else if (switch_delay_f > 1.0f)
 				{
-					//3: on 4: on 5: off 
+					//3: on 4: on 5: off
+					delay_s_num = 50;
 				}
 				else if (switch_delay_f > 0.7f)
 				{
-					//3: off 4: on 5: off 
+					//3: off 4: on 5: off
+					delay_s_num = 40;
 				}	
 				else if (switch_delay_f > 0.4f)
 				{
-					//3: on 4: off 5: off 
+					//3: on 4: off 5: off
+					delay_s_num = 30;
 				}
 				else
 				{
-					//3: off 4: off 5: off 
+					//3: off 4: off 5: off
+					delay_s_num = 24;
 				}
+				sprintf(float_str, "%sswitch delay: %d(%.3lfV)-%ds%s\r\n", RTT_CTRL_TEXT_BRIGHT_MAGENTA, switch_delay, switch_delay_f, delay_s_num, RTT_CTRL_RESET);
+				SEGGER_RTT_printf(0, "%s", float_str);				
 			}
 
 			if (1)
 			{
 				switch_light_f = switch_light*3.3f/4096;
-				sprintf(float_str, "%sswitch light: %d(%.3lfV)%s\r\n", RTT_CTRL_TEXT_BRIGHT_MAGENTA, switch_light, switch_light_f, RTT_CTRL_RESET);
-				SEGGER_RTT_printf(0, "%s", float_str);
 				
 				if (switch_light_f > 1.7f)
 				{
 					//6: on 7: on 8: on 
+					Light_threshold3 = 500;
 				}
 				else if (switch_light_f > 1.6f)
 				{
 					//6: off 7: on 8: on 
+					Light_threshold3 = 1000;
 				}
 				else if (switch_light_f > 1.4f)
 				{
 					//6: on 7: off 8: on 
+					Light_threshold3 = 1500;
 				}
 				else if (switch_light_f > 1.2f)
 				{
 					//6: off 7: off 8: on 
+					Light_threshold3 = 2000;
 				}
 				else if (switch_light_f > 1.0f)
 				{
-					//6: on 7: on 8: off 
+					//6: on 7: on 8: off
+					Light_threshold3 = 2500;
 				}
 				else if (switch_light_f > 0.7f)
 				{
-					//6: off 7: on 8: off 
+					//6: off 7: on 8: off
+					Light_threshold3 = 3000;
 				}	
 				else if (switch_light_f > 0.4f)
 				{
-					//6: on 7: off 8: off 
+					//6: on 7: off 8: off
+					Light_threshold3 = 3500;
 				}
 				else
 				{
 					//6: off 7: off 8: off 
-				}				
+					Light_threshold3 = 4000;
+				}
+				sprintf(float_str, "%sswitch light: %d(%.3lfV)-%d%s\r\n", RTT_CTRL_TEXT_BRIGHT_MAGENTA, switch_light, switch_light_f, Light_threshold3, RTT_CTRL_RESET);
+				SEGGER_RTT_printf(0, "%s", float_str);				
 			}			
 		}
 			
