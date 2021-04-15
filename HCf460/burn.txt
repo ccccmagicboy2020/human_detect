@@ -1,9 +1,11 @@
 usb
+si 1
 speed 10000
 device HC32F46x
 r
 h
-loadbin .\MDK\bin\adc_03_sa_interrupt.bin 0x00000000
+erase
+loadbin .\MDK\bin\adc_03_sa_interrupt.bin 0
 r
 g
 qc
