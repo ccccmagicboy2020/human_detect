@@ -4,7 +4,6 @@ speed 4000
 device HC32F46x
 r
 h
-erase
 loadbin .\MDK\bin\adc_03_sa_interrupt.bin 0
 r
 g

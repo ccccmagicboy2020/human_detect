@@ -20,7 +20,7 @@
 #define		pro_N					200         //CFAR保护单元大小
 #define		PAD						0.00000001f  //虚警概率
   
-#define		rr_threshold			0.6f    //呼吸频率截取范围
+#define		rr_threshold			0.5f    //呼吸频率截取范围
 #define		secnum					16
 
 #define		FEEDRATE				2048u			//采样率，单位为samples/s
@@ -1014,43 +1014,43 @@ void idle_process(void)
 				{
 					//1: on 2: on
 					//2米
-					quick_time_times = 4;			//4
-					quick_time_add = 180;			//32
-					quick_freq_times = 3;			//3
+					quick_time_times = 2048;			//4
+					quick_time_add = 135;			//32
+					quick_freq_times = 12;			//3
 					//////////////////////////////////////////////////////
-					slow_time_times = 5;			//5
-					slow_time_add = 150;				//40
+					slow_time_times = 2048;			//5
+					slow_time_add = 135;				//40
 					slow_freq_times = 6;			//6
-					res_times = 90.0f;				//17.5
-					offsetmin = 1.8f;					//0.6					
+					res_times = 78.0f;				//17.5
+					offsetmin = 1.23f;					//0.6					
 				}
 				else if (switch_dist_f > 1.1f)
 				{
 					//1: off 2: on
 					//3米
-					quick_time_times = 4;			//4
-					quick_time_add = 140;			//32
-					quick_freq_times = 3;			//3
+					quick_time_times = 400;			//4
+					quick_time_add = 120;			//32
+					quick_freq_times = 10;			//3
 					//////////////////////////////////////////////////////
-					slow_time_times = 5;			//5
+					slow_time_times = 400;			//5
 					slow_time_add = 120;				//40
-					slow_freq_times = 6;			//6
-					res_times = 70.0f;				//17.5
-					offsetmin = 1.5f;					//0.6							
+					slow_freq_times = 10;			//6
+					res_times = 65.0f;				//17.5
+					offsetmin = 1.1f;					//0.6							
 				}
 				else if (switch_dist_f > 0.5f)
 				{
 					//1: on 2: off
 					//4米
-					quick_time_times = 4;			//4
-					quick_time_add = 70;			//32
-					quick_freq_times = 3;			//3
+					quick_time_times = 30;			//4
+					quick_time_add = 80;			//32
+					quick_freq_times = 6;			//3
 					//////////////////////////////////////////////////////
-					slow_time_times = 5;			//5
+					slow_time_times = 30;			//5
 					slow_time_add = 80;				//40
 					slow_freq_times = 6;			//6
 					res_times = 50.0f;				//17.5
-					offsetmin = 1.0f;					//0.6		
+					offsetmin = 0.8f;					//0.6		
 				}
 				else
 				{
