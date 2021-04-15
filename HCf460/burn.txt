@@ -1,6 +1,6 @@
 usb
 si 1
-speed 10000
+speed 4000
 device HC32F46x
 r
 h
