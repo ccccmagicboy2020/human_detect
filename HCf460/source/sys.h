@@ -27,13 +27,19 @@ typedef const uint8_t uc8;
 #define ALL_UPLOAD_DELAY 100
 #define SEGGER_RTT_IN_RAM 1
 
-#define EFM_BASE_ADDR		0x40010400
+#define EFM_BASE_ADDR		0x40010400u
 #define FEM_UQID1				(EFM_BASE_ADDR + 0x50)
 #define FEM_UQID2				(EFM_BASE_ADDR + 0x54)
 #define FEM_UQID3				(EFM_BASE_ADDR + 0x58)
 
-#define TMR02_BASE				0x40024400
+#define TMR02_BASE				0x40024400u
 #define TMR02_CMPBR			(TMR02_BASE + 0x0C)
+
+/////////////////////////////////////////////////////////////////////
+#define	USER_PARAMETER_START_SECTOR_ADDRESS0	0x0007A000u
+#define	USER_PARAMETER_START_SECTOR_ADDRESS1	0x0007C000u
+#define	MAGIC_SECTOR_ADDRESS0					0x0007E000u
+/////////////////////////////////////////////////////////////////////
 
 //#define GPIO0_HIGH()		(PORT_SetBits(PortA, Pin07))
 //#define GPIO0_LOW()			(PORT_ResetBits(PortA, Pin07))

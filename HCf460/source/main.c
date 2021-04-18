@@ -15,6 +15,7 @@
 #include "stdio.h"
 #include "fifo.h"
 #include "bluetooth.h"
+#include "flash_def.h"
 
 #define		N						300         //CFAR窗口大小
 #define		pro_N					200         //CFAR保护单元大小
@@ -1494,6 +1495,156 @@ void stop_sample(unsigned char flag)
 	}
 }
 
+void set_var_from_flash(void)
+{
+	char float_str[64];
+	int temp_int = 0;
+	//read global var
+	//quick_time_times
+	temp_int = QUICK_TIME_TIMES_FLASH_INT;
+	
+	if (temp_int == -1)
+	{
+		quick_time_times = 4.0f;
+	}
+	else
+	{
+		quick_time_times = QUICK_TIME_TIMES_FLASH;
+	}	
+	
+	sprintf(float_str, "%s%sload quick_time_times: %.3lf%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, quick_time_times, RTT_CTRL_RESET);
+	SEGGER_RTT_printf(0, "%s", float_str);
+	
+//////////////////////////////////////////////////////////////////////////////////////////////////
+	//quick_time_add
+	temp_int = QUICK_TIME_ADD_FLASH_INT;
+	
+	if (temp_int == -1)
+	{
+		quick_time_add = 32.0f;
+	}
+	else
+	{
+		quick_time_add = QUICK_TIME_ADD_FLASH;
+	}	
+	
+	sprintf(float_str, "%s%sload quick_time_add: %.3lf%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, quick_time_add, RTT_CTRL_RESET);
+	SEGGER_RTT_printf(0, "%s", float_str);
+//////////////////////////////////////////////////////////////////////////////////////////////////
+	//quick_freq_times
+	temp_int = QUICK_FREQ_TIMES_FLASH_INT;
+	
+	if (temp_int == -1)
+	{
+		quick_freq_times = 3.0f;
+	}
+	else
+	{
+		quick_freq_times = QUICK_FREQ_TIMES_FLASH;
+	}	
+	
+	sprintf(float_str, "%s%sload quick_freq_times: %.3lf%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, quick_freq_times, RTT_CTRL_RESET);
+	SEGGER_RTT_printf(0, "%s", float_str);	
+//////////////////////////////////////////////////////////////////////////////////////////////////
+	//slow_time_times
+	temp_int = SLOW_TIME_TIMES_FLASH_INT;
+	
+	if (temp_int == -1)
+	{
+		slow_time_times = 4.0f;
+	}
+	else
+	{
+		slow_time_times = SLOW_TIME_TIMES_FLASH;
+	}
+	
+	sprintf(float_str, "%s%sload slow_time_times: %.3lf%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, slow_time_times, RTT_CTRL_RESET);
+	SEGGER_RTT_printf(0, "%s", float_str);
+	
+//////////////////////////////////////////////////////////////////////////////////////////////////
+	//slow_time_add
+	temp_int = SLOW_TIME_ADD_FLASH_INT;
+	
+	if (temp_int == -1)
+	{
+		slow_time_add = 40.0f;
+	}
+	else
+	{
+		slow_time_add = SLOW_TIME_ADD_FLASH;
+	}	
+	
+	sprintf(float_str, "%s%sload slow_time_add: %.3lf%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, slow_time_add, RTT_CTRL_RESET);
+	SEGGER_RTT_printf(0, "%s", float_str);
+//////////////////////////////////////////////////////////////////////////////////////////////////
+	//slow_freq_times
+	temp_int = SLOW_FREQ_TIMES_FLASH_INT;
+	
+	if (temp_int == -1)
+	{
+		slow_freq_times = 6.0f;
+	}
+	else
+	{
+		slow_freq_times = SLOW_FREQ_TIMES_FLASH;
+	}	
+	
+	sprintf(float_str, "%s%sload slow_freq_times: %.3lf%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, slow_freq_times, RTT_CTRL_RESET);
+	SEGGER_RTT_printf(0, "%s", float_str);	
+//////////////////////////////////////////////////////////////////////////////////////////////////
+	//res_times
+	temp_int = RES_TIMES_FLASH_INT;
+	
+	if (temp_int == -1)
+	{
+		res_times = 60.0f;
+	}
+	else
+	{
+		res_times = RES_TIMES_FLASH;
+	}	
+	
+	sprintf(float_str, "%s%sload res_times: %.3lf%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, res_times, RTT_CTRL_RESET);
+	SEGGER_RTT_printf(0, "%s", float_str);	
+//////////////////////////////////////////////////////////////////////////////////////////////////
+	//offsetmin
+	temp_int = OFFSETMIN_FLASH_INT;
+	
+	if (temp_int == -1)
+	{
+		offsetmin = 0.6f;
+	}
+	else
+	{
+		offsetmin = OFFSETMIN_FLASH;
+	}	
+	
+	sprintf(float_str, "%s%sload offsetmin: %.3lf%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, offsetmin, RTT_CTRL_RESET);
+	SEGGER_RTT_printf(0, "%s", float_str);	
+//////////////////////////////////////////////////////////////////////////////////////////////////
+
+}
+
+void	set_iot_network_from_flash(void)
+{
+	static int resetbtcnt = 0;
+	int bt_join_cnt = 0;
+	//read & write flash
+	resetbtcnt = RESETBTCNT_FLASH;
+	SEGGER_RTT_printf(0, "%s%sload resetbtcnt: %d%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, resetbtcnt, RTT_CTRL_RESET);
+	bt_join_cnt = BT_JOIN_CNT_FLASH;
+	SEGGER_RTT_printf(0, "%s%sload bt_join_cnt: %d%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, bt_join_cnt, RTT_CTRL_RESET);
+	//
+	if (resetbtcnt == -1 && bt_join_cnt == -1)
+	{
+		//
+	}
+	else
+	{
+		resetbtcnt++;
+	}
+}
+
 int main(void)
 {
 
@@ -1518,6 +1669,9 @@ int main(void)
 	Delay_ms(ALL_UPLOAD_DELAY);
 	GPIO1_LOW();
 	SysTick_GetTick();
+	
+	set_var_from_flash();
+	set_iot_network_from_flash();
 	
 	while(1)
 	{
