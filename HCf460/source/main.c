@@ -1308,9 +1308,9 @@ void save_upssa0(void)
     for(int i = 0u; i < 13u; i++)
     {
         EFM_SingleProgram(u32Addr, upssa0.int_value[i]);
-        u32Addr += 4u;
 				SEGGER_RTT_printf(0, "%s%ssave flash address: 0x%x with 0x%x%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, u32Addr, upssa0.int_value[i], RTT_CTRL_RESET);
-    }
+				u32Addr += 4u;
+		}
 	
 	EFM_Lock();
 }

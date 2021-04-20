@@ -6,9 +6,9 @@ Memory Map of the image
 
   Image Entry point : 0x00000281
 
-  Load Region LR_IROM1 (Base: 0x00000000, Size: 0x00034878, Max: 0x00080000, ABSOLUTE, COMPRESSED[0x00034730])
+  Load Region LR_IROM1 (Base: 0x00000000, Size: 0x000349e8, Max: 0x00080000, ABSOLUTE, COMPRESSED[0x000348a0])
 
-    Execution Region ER_IROM1 (Exec base: 0x00000000, Load base: 0x00000000, Size: 0x000339d0, Max: 0x00080000, ABSOLUTE)
+    Execution Region ER_IROM1 (Exec base: 0x00000000, Load base: 0x00000000, Size: 0x00033b40, Max: 0x00080000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -441,172 +441,172 @@ Memory Map of the image
     0x0000ce9c   0x0000ce9c   0x00000118   Code   RO         4062    i.dp_download_handle  protocol.o
     0x0000cfb4   0x0000cfb4   0x0000002c   Code   RO         4063    i.dp_download_light_threshold1_handle  protocol.o
     0x0000cfe0   0x0000cfe0   0x0000002c   Code   RO         4064    i.dp_download_light_threshold2_handle  protocol.o
-    0x0000d00c   0x0000d00c   0x0000002c   Code   RO         4065    i.dp_download_light_threshold3_handle  protocol.o
-    0x0000d038   0x0000d038   0x0000002c   Code   RO         4066    i.dp_download_light_threshold4_handle  protocol.o
-    0x0000d064   0x0000d064   0x000000fc   Code   RO         4067    i.dp_download_load_radar_parameter_handle  protocol.o
-    0x0000d160   0x0000d160   0x00000088   Code   RO         4068    i.dp_download_pir_delay_handle  protocol.o
-    0x0000d1e8   0x0000d1e8   0x0000007c   Code   RO         4069    i.dp_download_study_cmd_handle  protocol.o
-    0x0000d264   0x0000d264   0x00000074   Code   RO         4070    i.dp_download_time_add_handle  protocol.o
-    0x0000d2d8   0x0000d2d8   0x00000074   Code   RO         4071    i.dp_download_time_times_handle  protocol.o
-    0x0000d34c   0x0000d34c   0x00000124   Code   RO         4072    i.dp_download_work_mode_handle  protocol.o
-    0x0000d470   0x0000d470   0x00000076   Code   RO         3619    i.emxEnsureCapacity_real_T  cfar_ca_emxutil.o
-    0x0000d4e6   0x0000d4e6   0x00000030   Code   RO         3620    i.emxFree_real_T    cfar_ca_emxutil.o
-    0x0000d516   0x0000d516   0x0000003e   Code   RO         3621    i.emxInit_real_T    cfar_ca_emxutil.o
-    0x0000d554   0x0000d554   0x000000c0   Code   RO         1465    i.enIrqRegistration  hc32f46x_interrupts.o
-    0x0000d614   0x0000d614   0x00000028   Code   RO           94    i.enable_flash_cache  main.o
-    0x0000d63c   0x0000d63c   0x00000018   Code   RO           95    i.error_process     main.o
-    0x0000d654   0x0000d654   0x00000018   Code   RO         5393    i.fabs              m_wm.l(fabs.o)
-    0x0000d66c   0x0000d66c   0x000001e4   Code   RO           96    i.fast_check_process  main.o
-    0x0000d850   0x0000d850   0x000000d0   Code   RO           97    i.fast_output_result  main.o
-    0x0000d920   0x0000d920   0x00000010   Code   RO          472    i.fputc             hc32f46x_utility.o
-    0x0000d930   0x0000d930   0x00000050   Code   RO         5753    i.free              mc_w.l(malloc.o)
-    0x0000d980   0x0000d980   0x0000001c   Code   RO         3951    i.get_check_sum     system.o
-    0x0000d99c   0x0000d99c   0x0000002c   Code   RO         3952    i.get_dowmload_dpid_index  system.o
-    0x0000d9c8   0x0000d9c8   0x00000004   Code   RO         4073    i.get_download_cmd_total  protocol.o
-    0x0000d9cc   0x0000d9cc   0x0000000e   Code   RO         3953    i.get_mcu_bt_mode   system.o
-    0x0000d9da   0x0000d9da   0x00000002   PAD
-    0x0000d9dc   0x0000d9dc   0x0000001c   Code   RO         3954    i.get_queue_total_data  system.o
-    0x0000d9f8   0x0000d9f8   0x00000002   Code   RO         4074    i.go_bootloader_ota  protocol.o
-    0x0000d9fa   0x0000d9fa   0x00000032   Code   RO           98    i.gpio_init         main.o
-    0x0000da2c   0x0000da2c   0x00000064   Code   RO           99    i.gpio_output       main.o
-    0x0000da90   0x0000da90   0x00000038   Code   RO         3955    i.heat_beat_check   system.o
-    0x0000dac8   0x0000dac8   0x000007c0   Code   RO          100    i.idle_process      main.o
-    0x0000e288   0x0000e288   0x0000001a   Code   RO         3197    i.led_green         myled.o
-    0x0000e2a2   0x0000e2a2   0x00000042   Code   RO         3198    i.led_init          myled.o
-    0x0000e2e4   0x0000e2e4   0x0000001a   Code   RO         3199    i.led_red           myled.o
-    0x0000e2fe   0x0000e2fe   0x00000002   PAD
-    0x0000e300   0x0000e300   0x00000038   Code   RO          101    i.light_status_upload  main.o
-    0x0000e338   0x0000e338   0x000000b0   Code   RO         4075    i.load_ceiling_setup  protocol.o
-    0x0000e3e8   0x0000e3e8   0x000000b0   Code   RO         4076    i.load_wall_setup   protocol.o
-    0x0000e498   0x0000e498   0x0000007c   Code   RO          102    i.main              main.o
-    0x0000e514   0x0000e514   0x0000006c   Code   RO         5754    i.malloc            mc_w.l(malloc.o)
-    0x0000e580   0x0000e580   0x0000018c   Code   RO         3794    i.mcu_common_uart_data_unpack  mcu_api.o
-    0x0000e70c   0x0000e70c   0x00000064   Code   RO         3795    i.mcu_dp_bool_update  mcu_api.o
-    0x0000e770   0x0000e770   0x00000054   Code   RO         3796    i.mcu_dp_enum_update  mcu_api.o
-    0x0000e7c4   0x0000e7c4   0x00000078   Code   RO         3800    i.mcu_dp_value_update  mcu_api.o
-    0x0000e83c   0x0000e83c   0x0000000c   Code   RO         3801    i.mcu_get_bt_work_state  mcu_api.o
-    0x0000e848   0x0000e848   0x00000006   Code   RO         3803    i.mcu_get_dp_download_enum  mcu_api.o
-    0x0000e84e   0x0000e84e   0x0000000e   Code   RO         3804    i.mcu_get_dp_download_value  mcu_api.o
-    0x0000e85c   0x0000e85c   0x00000018   Code   RO         3806    i.mcu_reset_bt      mcu_api.o
-    0x0000e874   0x0000e874   0x000000f8   Code   RO          103    i.memory_init       main.o
-    0x0000e96c   0x0000e96c   0x00000044   Code   RO         3809    i.my_memcpy         mcu_api.o
-    0x0000e9b0   0x0000e9b0   0x00000022   Code   RO         3810    i.my_memset         mcu_api.o
-    0x0000e9d2   0x0000e9d2   0x0000001c   Code   RO         3811    i.my_strlen         mcu_api.o
-    0x0000e9ee   0x0000e9ee   0x00000002   PAD
-    0x0000e9f0   0x0000e9f0   0x000000c0   Code   RO          104    i.person_in_range_upload  main.o
-    0x0000eab0   0x0000eab0   0x0000004c   Code   RO         3956    i.product_info_update  system.o
-    0x0000eafc   0x0000eafc   0x000000e4   Code   RO         3364    i.quick_detection   matlab.o
-    0x0000ebe0   0x0000ebe0   0x0000007c   Code   RO          105    i.read_uid          main.o
-    0x0000ec5c   0x0000ec5c   0x00000400   Code   RO         3600    i.remove_pf_cui     remove_pf_cui.o
-    0x0000f05c   0x0000f05c   0x00000002   Code   RO         4077    i.reset_default_parameter  protocol.o
-    0x0000f05e   0x0000f05e   0x00000002   PAD
-    0x0000f060   0x0000f060   0x000000a8   Code   RO          106    i.save_upssa0       main.o
-    0x0000f108   0x0000f108   0x0000007c   Code   RO          107    i.segger_init       main.o
-    0x0000f184   0x0000f184   0x00000028   Code   RO         3957    i.set_bt_uart_buffer  system.o
-    0x0000f1ac   0x0000f1ac   0x00000010   Code   RO         3958    i.set_bt_uart_byte  system.o
-    0x0000f1bc   0x0000f1bc   0x000000ac   Code   RO          108    i.set_iot_network_from_flash  main.o
-    0x0000f268   0x0000f268   0x0000000c   Code   RO          109    i.set_samplerate    main.o
-    0x0000f274   0x0000f274   0x000005f8   Code   RO          110    i.set_var_from_flash  main.o
-    0x0000f86c   0x0000f86c   0x00000364   Code   RO          111    i.slow_check_process_s0  main.o
-    0x0000fbd0   0x0000fbd0   0x00000194   Code   RO          112    i.slow_check_process_s1  main.o
-    0x0000fd64   0x0000fd64   0x00000038   Code   RO          113    i.slow_check_result_upload  main.o
-    0x0000fd9c   0x0000fd9c   0x000000d8   Code   RO          114    i.slow_output_result  main.o
-    0x0000fe74   0x0000fe74   0x0000002c   Code   RO         4078    i.soft_reset_mcu    protocol.o
-    0x0000fea0   0x0000fea0   0x0000006e   Code   RO         5826    i.sqrt              m_wm.l(sqrt.o)
-    0x0000ff0e   0x0000ff0e   0x00000002   PAD
-    0x0000ff10   0x0000ff10   0x00000024   Code   RO          115    i.stop_sample       main.o
-    0x0000ff34   0x0000ff34   0x0000000c   Code   RO          116    i.tick_init         main.o
-    0x0000ff40   0x0000ff40   0x0000010c   Code   RO         3310    i.timer0_init       mytimer.o
-    0x0001004c   0x0001004c   0x0000004c   Code   RO         3243    i.tuya_UsartRxErrProcess  myusart.o
-    0x00010098   0x00010098   0x00000024   Code   RO         3244    i.tuya_UsartRxIrqCallback  myusart.o
-    0x000100bc   0x000100bc   0x00000008   Code   RO         4079    i.tuya_re_config_network  protocol.o
-    0x000100c4   0x000100c4   0x00000008   Code   RO         4080    i.tuya_reset_module  protocol.o
-    0x000100cc   0x000100cc   0x00000002   Code   RO         4081    i.tuya_retry_ota    protocol.o
-    0x000100ce   0x000100ce   0x00000002   PAD
-    0x000100d0   0x000100d0   0x00000014   Code   RO          117    i.uart_post_process  main.o
-    0x000100e4   0x000100e4   0x00000068   Code   RO         3812    i.uart_receive_input  mcu_api.o
-    0x0001014c   0x0001014c   0x00000018   Code   RO         4082    i.uart_transmit_output  protocol.o
-    0x00010164   0x00010164   0x0000014c   Code   RO         4083    i.update_check_parameter  protocol.o
-    0x000102b0   0x000102b0   0x00000140   Code   RO         3245    i.usart_init        myusart.o
-    0x000103f0   0x000103f0   0x00006000   Data   RO          119    .constdata          main.o
-    0x000163f0   0x000163f0   0x00000010   Data   RO         2753    .constdata          hc32f46x_usart.o
-    0x00016400   0x00016400   0x00000009   Data   RO         3246    .constdata          myusart.o
-    0x00016409   0x00016409   0x0000003a   Data   RO         4084    .constdata          protocol.o
-    0x00016443   0x00016443   0x00000010   Data   RO         4536    .constdata          segger_rtt_printf.o
-    0x00016453   0x00016453   0x0000001a   Data   RO         4643    .constdata          segger_sysview.o
-    0x0001646d   0x0001646d   0x00000003   PAD
-    0x00016470   0x00016470   0x00000038   Data   RO         5400    .constdata          m_wm.l(log.o)
-    0x000164a8   0x000164a8   0x00000088   Data   RO         5418    .constdata          m_wm.l(pow.o)
-    0x00016530   0x00016530   0x00000008   Data   RO         5823    .constdata          m_wm.l(qnan.o)
-    0x00016538   0x00016538   0x00000e10   Data   RO         5220    .rodata.armBitRevIndexTable1024  arm_cortexM4lf_math.lib(arm_common_tables.o)
-    0x00017348   0x00017348   0x000001a0   Data   RO         5217    .rodata.armBitRevIndexTable128  arm_cortexM4lf_math.lib(arm_common_tables.o)
-    0x000174e8   0x000174e8   0x00000028   Data   RO         5214    .rodata.armBitRevIndexTable16  arm_cortexM4lf_math.lib(arm_common_tables.o)
-    0x00017510   0x00017510   0x00001dc0   Data   RO         5221    .rodata.armBitRevIndexTable2048  arm_cortexM4lf_math.lib(arm_common_tables.o)
-    0x000192d0   0x000192d0   0x00000370   Data   RO         5218    .rodata.armBitRevIndexTable256  arm_cortexM4lf_math.lib(arm_common_tables.o)
-    0x00019640   0x00019640   0x00000060   Data   RO         5215    .rodata.armBitRevIndexTable32  arm_cortexM4lf_math.lib(arm_common_tables.o)
-    0x000196a0   0x000196a0   0x00001f80   Data   RO         5222    .rodata.armBitRevIndexTable4096  arm_cortexM4lf_math.lib(arm_common_tables.o)
-    0x0001b620   0x0001b620   0x00000380   Data   RO         5219    .rodata.armBitRevIndexTable512  arm_cortexM4lf_math.lib(arm_common_tables.o)
-    0x0001b9a0   0x0001b9a0   0x00000070   Data   RO         5216    .rodata.armBitRevIndexTable64  arm_cortexM4lf_math.lib(arm_common_tables.o)
-    0x0001ba10   0x0001ba10   0x00000010   Data   RO         5326    .rodata.arm_cfft_sR_f32_len1024  arm_cortexM4lf_math.lib(arm_const_structs.o)
-    0x0001ba20   0x0001ba20   0x00000010   Data   RO         5323    .rodata.arm_cfft_sR_f32_len128  arm_cortexM4lf_math.lib(arm_const_structs.o)
-    0x0001ba30   0x0001ba30   0x00000010   Data   RO         5320    .rodata.arm_cfft_sR_f32_len16  arm_cortexM4lf_math.lib(arm_const_structs.o)
-    0x0001ba40   0x0001ba40   0x00000010   Data   RO         5327    .rodata.arm_cfft_sR_f32_len2048  arm_cortexM4lf_math.lib(arm_const_structs.o)
-    0x0001ba50   0x0001ba50   0x00000010   Data   RO         5324    .rodata.arm_cfft_sR_f32_len256  arm_cortexM4lf_math.lib(arm_const_structs.o)
-    0x0001ba60   0x0001ba60   0x00000010   Data   RO         5321    .rodata.arm_cfft_sR_f32_len32  arm_cortexM4lf_math.lib(arm_const_structs.o)
-    0x0001ba70   0x0001ba70   0x00000010   Data   RO         5328    .rodata.arm_cfft_sR_f32_len4096  arm_cortexM4lf_math.lib(arm_const_structs.o)
-    0x0001ba80   0x0001ba80   0x00000010   Data   RO         5325    .rodata.arm_cfft_sR_f32_len512  arm_cortexM4lf_math.lib(arm_const_structs.o)
-    0x0001ba90   0x0001ba90   0x00000010   Data   RO         5322    .rodata.arm_cfft_sR_f32_len64  arm_cortexM4lf_math.lib(arm_const_structs.o)
-    0x0001baa0   0x0001baa0   0x00002000   Data   RO         5184    .rodata.twiddleCoef_1024  arm_cortexM4lf_math.lib(arm_common_tables.o)
-    0x0001daa0   0x0001daa0   0x00000400   Data   RO         5181    .rodata.twiddleCoef_128  arm_cortexM4lf_math.lib(arm_common_tables.o)
-    0x0001dea0   0x0001dea0   0x00000080   Data   RO         5178    .rodata.twiddleCoef_16  arm_cortexM4lf_math.lib(arm_common_tables.o)
-    0x0001df20   0x0001df20   0x00004000   Data   RO         5185    .rodata.twiddleCoef_2048  arm_cortexM4lf_math.lib(arm_common_tables.o)
-    0x00021f20   0x00021f20   0x00000800   Data   RO         5182    .rodata.twiddleCoef_256  arm_cortexM4lf_math.lib(arm_common_tables.o)
-    0x00022720   0x00022720   0x00000100   Data   RO         5179    .rodata.twiddleCoef_32  arm_cortexM4lf_math.lib(arm_common_tables.o)
-    0x00022820   0x00022820   0x00008000   Data   RO         5186    .rodata.twiddleCoef_4096  arm_cortexM4lf_math.lib(arm_common_tables.o)
-    0x0002a820   0x0002a820   0x00001000   Data   RO         5183    .rodata.twiddleCoef_512  arm_cortexM4lf_math.lib(arm_common_tables.o)
-    0x0002b820   0x0002b820   0x00000200   Data   RO         5180    .rodata.twiddleCoef_64  arm_cortexM4lf_math.lib(arm_common_tables.o)
-    0x0002ba20   0x0002ba20   0x00001000   Data   RO         5245    .rodata.twiddleCoef_rfft_1024  arm_cortexM4lf_math.lib(arm_common_tables.o)
-    0x0002ca20   0x0002ca20   0x00000200   Data   RO         5242    .rodata.twiddleCoef_rfft_128  arm_cortexM4lf_math.lib(arm_common_tables.o)
-    0x0002cc20   0x0002cc20   0x00002000   Data   RO         5246    .rodata.twiddleCoef_rfft_2048  arm_cortexM4lf_math.lib(arm_common_tables.o)
-    0x0002ec20   0x0002ec20   0x00000400   Data   RO         5243    .rodata.twiddleCoef_rfft_256  arm_cortexM4lf_math.lib(arm_common_tables.o)
-    0x0002f020   0x0002f020   0x00000080   Data   RO         5240    .rodata.twiddleCoef_rfft_32  arm_cortexM4lf_math.lib(arm_common_tables.o)
-    0x0002f0a0   0x0002f0a0   0x00004000   Data   RO         5247    .rodata.twiddleCoef_rfft_4096  arm_cortexM4lf_math.lib(arm_common_tables.o)
-    0x000330a0   0x000330a0   0x00000800   Data   RO         5244    .rodata.twiddleCoef_rfft_512  arm_cortexM4lf_math.lib(arm_common_tables.o)
-    0x000338a0   0x000338a0   0x00000100   Data   RO         5241    .rodata.twiddleCoef_rfft_64  arm_cortexM4lf_math.lib(arm_common_tables.o)
-    0x000339a0   0x000339a0   0x00000030   Data   RO         5887    Region$$Table       anon$$obj.o
+    0x0000d00c   0x0000d00c   0x00000088   Code   RO         4065    i.dp_download_light_threshold3_handle  protocol.o
+    0x0000d094   0x0000d094   0x00000088   Code   RO         4066    i.dp_download_light_threshold4_handle  protocol.o
+    0x0000d11c   0x0000d11c   0x00000148   Code   RO         4067    i.dp_download_load_radar_parameter_handle  protocol.o
+    0x0000d264   0x0000d264   0x000000f0   Code   RO         4068    i.dp_download_pir_delay_handle  protocol.o
+    0x0000d354   0x0000d354   0x0000007c   Code   RO         4069    i.dp_download_study_cmd_handle  protocol.o
+    0x0000d3d0   0x0000d3d0   0x00000074   Code   RO         4070    i.dp_download_time_add_handle  protocol.o
+    0x0000d444   0x0000d444   0x00000074   Code   RO         4071    i.dp_download_time_times_handle  protocol.o
+    0x0000d4b8   0x0000d4b8   0x00000124   Code   RO         4072    i.dp_download_work_mode_handle  protocol.o
+    0x0000d5dc   0x0000d5dc   0x00000076   Code   RO         3619    i.emxEnsureCapacity_real_T  cfar_ca_emxutil.o
+    0x0000d652   0x0000d652   0x00000030   Code   RO         3620    i.emxFree_real_T    cfar_ca_emxutil.o
+    0x0000d682   0x0000d682   0x0000003e   Code   RO         3621    i.emxInit_real_T    cfar_ca_emxutil.o
+    0x0000d6c0   0x0000d6c0   0x000000c0   Code   RO         1465    i.enIrqRegistration  hc32f46x_interrupts.o
+    0x0000d780   0x0000d780   0x00000028   Code   RO           94    i.enable_flash_cache  main.o
+    0x0000d7a8   0x0000d7a8   0x00000018   Code   RO           95    i.error_process     main.o
+    0x0000d7c0   0x0000d7c0   0x00000018   Code   RO         5393    i.fabs              m_wm.l(fabs.o)
+    0x0000d7d8   0x0000d7d8   0x000001e4   Code   RO           96    i.fast_check_process  main.o
+    0x0000d9bc   0x0000d9bc   0x000000d0   Code   RO           97    i.fast_output_result  main.o
+    0x0000da8c   0x0000da8c   0x00000010   Code   RO          472    i.fputc             hc32f46x_utility.o
+    0x0000da9c   0x0000da9c   0x00000050   Code   RO         5753    i.free              mc_w.l(malloc.o)
+    0x0000daec   0x0000daec   0x0000001c   Code   RO         3951    i.get_check_sum     system.o
+    0x0000db08   0x0000db08   0x0000002c   Code   RO         3952    i.get_dowmload_dpid_index  system.o
+    0x0000db34   0x0000db34   0x00000004   Code   RO         4073    i.get_download_cmd_total  protocol.o
+    0x0000db38   0x0000db38   0x0000000e   Code   RO         3953    i.get_mcu_bt_mode   system.o
+    0x0000db46   0x0000db46   0x00000002   PAD
+    0x0000db48   0x0000db48   0x0000001c   Code   RO         3954    i.get_queue_total_data  system.o
+    0x0000db64   0x0000db64   0x00000002   Code   RO         4074    i.go_bootloader_ota  protocol.o
+    0x0000db66   0x0000db66   0x00000032   Code   RO           98    i.gpio_init         main.o
+    0x0000db98   0x0000db98   0x00000064   Code   RO           99    i.gpio_output       main.o
+    0x0000dbfc   0x0000dbfc   0x00000038   Code   RO         3955    i.heat_beat_check   system.o
+    0x0000dc34   0x0000dc34   0x000007c0   Code   RO          100    i.idle_process      main.o
+    0x0000e3f4   0x0000e3f4   0x0000001a   Code   RO         3197    i.led_green         myled.o
+    0x0000e40e   0x0000e40e   0x00000042   Code   RO         3198    i.led_init          myled.o
+    0x0000e450   0x0000e450   0x0000001a   Code   RO         3199    i.led_red           myled.o
+    0x0000e46a   0x0000e46a   0x00000002   PAD
+    0x0000e46c   0x0000e46c   0x00000038   Code   RO          101    i.light_status_upload  main.o
+    0x0000e4a4   0x0000e4a4   0x000000b0   Code   RO         4075    i.load_ceiling_setup  protocol.o
+    0x0000e554   0x0000e554   0x000000b0   Code   RO         4076    i.load_wall_setup   protocol.o
+    0x0000e604   0x0000e604   0x0000007c   Code   RO          102    i.main              main.o
+    0x0000e680   0x0000e680   0x0000006c   Code   RO         5754    i.malloc            mc_w.l(malloc.o)
+    0x0000e6ec   0x0000e6ec   0x0000018c   Code   RO         3794    i.mcu_common_uart_data_unpack  mcu_api.o
+    0x0000e878   0x0000e878   0x00000064   Code   RO         3795    i.mcu_dp_bool_update  mcu_api.o
+    0x0000e8dc   0x0000e8dc   0x00000054   Code   RO         3796    i.mcu_dp_enum_update  mcu_api.o
+    0x0000e930   0x0000e930   0x00000078   Code   RO         3800    i.mcu_dp_value_update  mcu_api.o
+    0x0000e9a8   0x0000e9a8   0x0000000c   Code   RO         3801    i.mcu_get_bt_work_state  mcu_api.o
+    0x0000e9b4   0x0000e9b4   0x00000006   Code   RO         3803    i.mcu_get_dp_download_enum  mcu_api.o
+    0x0000e9ba   0x0000e9ba   0x0000000e   Code   RO         3804    i.mcu_get_dp_download_value  mcu_api.o
+    0x0000e9c8   0x0000e9c8   0x00000018   Code   RO         3806    i.mcu_reset_bt      mcu_api.o
+    0x0000e9e0   0x0000e9e0   0x000000f8   Code   RO          103    i.memory_init       main.o
+    0x0000ead8   0x0000ead8   0x00000044   Code   RO         3809    i.my_memcpy         mcu_api.o
+    0x0000eb1c   0x0000eb1c   0x00000022   Code   RO         3810    i.my_memset         mcu_api.o
+    0x0000eb3e   0x0000eb3e   0x0000001c   Code   RO         3811    i.my_strlen         mcu_api.o
+    0x0000eb5a   0x0000eb5a   0x00000002   PAD
+    0x0000eb5c   0x0000eb5c   0x000000c0   Code   RO          104    i.person_in_range_upload  main.o
+    0x0000ec1c   0x0000ec1c   0x0000004c   Code   RO         3956    i.product_info_update  system.o
+    0x0000ec68   0x0000ec68   0x000000e4   Code   RO         3364    i.quick_detection   matlab.o
+    0x0000ed4c   0x0000ed4c   0x0000007c   Code   RO          105    i.read_uid          main.o
+    0x0000edc8   0x0000edc8   0x00000400   Code   RO         3600    i.remove_pf_cui     remove_pf_cui.o
+    0x0000f1c8   0x0000f1c8   0x00000002   Code   RO         4077    i.reset_default_parameter  protocol.o
+    0x0000f1ca   0x0000f1ca   0x00000002   PAD
+    0x0000f1cc   0x0000f1cc   0x000000a8   Code   RO          106    i.save_upssa0       main.o
+    0x0000f274   0x0000f274   0x0000007c   Code   RO          107    i.segger_init       main.o
+    0x0000f2f0   0x0000f2f0   0x00000028   Code   RO         3957    i.set_bt_uart_buffer  system.o
+    0x0000f318   0x0000f318   0x00000010   Code   RO         3958    i.set_bt_uart_byte  system.o
+    0x0000f328   0x0000f328   0x000000ac   Code   RO          108    i.set_iot_network_from_flash  main.o
+    0x0000f3d4   0x0000f3d4   0x0000000c   Code   RO          109    i.set_samplerate    main.o
+    0x0000f3e0   0x0000f3e0   0x000005f8   Code   RO          110    i.set_var_from_flash  main.o
+    0x0000f9d8   0x0000f9d8   0x00000364   Code   RO          111    i.slow_check_process_s0  main.o
+    0x0000fd3c   0x0000fd3c   0x00000194   Code   RO          112    i.slow_check_process_s1  main.o
+    0x0000fed0   0x0000fed0   0x00000038   Code   RO          113    i.slow_check_result_upload  main.o
+    0x0000ff08   0x0000ff08   0x000000d8   Code   RO          114    i.slow_output_result  main.o
+    0x0000ffe0   0x0000ffe0   0x0000002c   Code   RO         4078    i.soft_reset_mcu    protocol.o
+    0x0001000c   0x0001000c   0x0000006e   Code   RO         5826    i.sqrt              m_wm.l(sqrt.o)
+    0x0001007a   0x0001007a   0x00000002   PAD
+    0x0001007c   0x0001007c   0x00000024   Code   RO          115    i.stop_sample       main.o
+    0x000100a0   0x000100a0   0x0000000c   Code   RO          116    i.tick_init         main.o
+    0x000100ac   0x000100ac   0x0000010c   Code   RO         3310    i.timer0_init       mytimer.o
+    0x000101b8   0x000101b8   0x0000004c   Code   RO         3243    i.tuya_UsartRxErrProcess  myusart.o
+    0x00010204   0x00010204   0x00000024   Code   RO         3244    i.tuya_UsartRxIrqCallback  myusart.o
+    0x00010228   0x00010228   0x00000008   Code   RO         4079    i.tuya_re_config_network  protocol.o
+    0x00010230   0x00010230   0x00000008   Code   RO         4080    i.tuya_reset_module  protocol.o
+    0x00010238   0x00010238   0x00000002   Code   RO         4081    i.tuya_retry_ota    protocol.o
+    0x0001023a   0x0001023a   0x00000002   PAD
+    0x0001023c   0x0001023c   0x00000014   Code   RO          117    i.uart_post_process  main.o
+    0x00010250   0x00010250   0x00000068   Code   RO         3812    i.uart_receive_input  mcu_api.o
+    0x000102b8   0x000102b8   0x00000018   Code   RO         4082    i.uart_transmit_output  protocol.o
+    0x000102d0   0x000102d0   0x0000014c   Code   RO         4083    i.update_check_parameter  protocol.o
+    0x0001041c   0x0001041c   0x00000140   Code   RO         3245    i.usart_init        myusart.o
+    0x0001055c   0x0001055c   0x00006000   Data   RO          119    .constdata          main.o
+    0x0001655c   0x0001655c   0x00000010   Data   RO         2753    .constdata          hc32f46x_usart.o
+    0x0001656c   0x0001656c   0x00000009   Data   RO         3246    .constdata          myusart.o
+    0x00016575   0x00016575   0x0000003a   Data   RO         4084    .constdata          protocol.o
+    0x000165af   0x000165af   0x00000010   Data   RO         4536    .constdata          segger_rtt_printf.o
+    0x000165bf   0x000165bf   0x0000001a   Data   RO         4643    .constdata          segger_sysview.o
+    0x000165d9   0x000165d9   0x00000007   PAD
+    0x000165e0   0x000165e0   0x00000038   Data   RO         5400    .constdata          m_wm.l(log.o)
+    0x00016618   0x00016618   0x00000088   Data   RO         5418    .constdata          m_wm.l(pow.o)
+    0x000166a0   0x000166a0   0x00000008   Data   RO         5823    .constdata          m_wm.l(qnan.o)
+    0x000166a8   0x000166a8   0x00000e10   Data   RO         5220    .rodata.armBitRevIndexTable1024  arm_cortexM4lf_math.lib(arm_common_tables.o)
+    0x000174b8   0x000174b8   0x000001a0   Data   RO         5217    .rodata.armBitRevIndexTable128  arm_cortexM4lf_math.lib(arm_common_tables.o)
+    0x00017658   0x00017658   0x00000028   Data   RO         5214    .rodata.armBitRevIndexTable16  arm_cortexM4lf_math.lib(arm_common_tables.o)
+    0x00017680   0x00017680   0x00001dc0   Data   RO         5221    .rodata.armBitRevIndexTable2048  arm_cortexM4lf_math.lib(arm_common_tables.o)
+    0x00019440   0x00019440   0x00000370   Data   RO         5218    .rodata.armBitRevIndexTable256  arm_cortexM4lf_math.lib(arm_common_tables.o)
+    0x000197b0   0x000197b0   0x00000060   Data   RO         5215    .rodata.armBitRevIndexTable32  arm_cortexM4lf_math.lib(arm_common_tables.o)
+    0x00019810   0x00019810   0x00001f80   Data   RO         5222    .rodata.armBitRevIndexTable4096  arm_cortexM4lf_math.lib(arm_common_tables.o)
+    0x0001b790   0x0001b790   0x00000380   Data   RO         5219    .rodata.armBitRevIndexTable512  arm_cortexM4lf_math.lib(arm_common_tables.o)
+    0x0001bb10   0x0001bb10   0x00000070   Data   RO         5216    .rodata.armBitRevIndexTable64  arm_cortexM4lf_math.lib(arm_common_tables.o)
+    0x0001bb80   0x0001bb80   0x00000010   Data   RO         5326    .rodata.arm_cfft_sR_f32_len1024  arm_cortexM4lf_math.lib(arm_const_structs.o)
+    0x0001bb90   0x0001bb90   0x00000010   Data   RO         5323    .rodata.arm_cfft_sR_f32_len128  arm_cortexM4lf_math.lib(arm_const_structs.o)
+    0x0001bba0   0x0001bba0   0x00000010   Data   RO         5320    .rodata.arm_cfft_sR_f32_len16  arm_cortexM4lf_math.lib(arm_const_structs.o)
+    0x0001bbb0   0x0001bbb0   0x00000010   Data   RO         5327    .rodata.arm_cfft_sR_f32_len2048  arm_cortexM4lf_math.lib(arm_const_structs.o)
+    0x0001bbc0   0x0001bbc0   0x00000010   Data   RO         5324    .rodata.arm_cfft_sR_f32_len256  arm_cortexM4lf_math.lib(arm_const_structs.o)
+    0x0001bbd0   0x0001bbd0   0x00000010   Data   RO         5321    .rodata.arm_cfft_sR_f32_len32  arm_cortexM4lf_math.lib(arm_const_structs.o)
+    0x0001bbe0   0x0001bbe0   0x00000010   Data   RO         5328    .rodata.arm_cfft_sR_f32_len4096  arm_cortexM4lf_math.lib(arm_const_structs.o)
+    0x0001bbf0   0x0001bbf0   0x00000010   Data   RO         5325    .rodata.arm_cfft_sR_f32_len512  arm_cortexM4lf_math.lib(arm_const_structs.o)
+    0x0001bc00   0x0001bc00   0x00000010   Data   RO         5322    .rodata.arm_cfft_sR_f32_len64  arm_cortexM4lf_math.lib(arm_const_structs.o)
+    0x0001bc10   0x0001bc10   0x00002000   Data   RO         5184    .rodata.twiddleCoef_1024  arm_cortexM4lf_math.lib(arm_common_tables.o)
+    0x0001dc10   0x0001dc10   0x00000400   Data   RO         5181    .rodata.twiddleCoef_128  arm_cortexM4lf_math.lib(arm_common_tables.o)
+    0x0001e010   0x0001e010   0x00000080   Data   RO         5178    .rodata.twiddleCoef_16  arm_cortexM4lf_math.lib(arm_common_tables.o)
+    0x0001e090   0x0001e090   0x00004000   Data   RO         5185    .rodata.twiddleCoef_2048  arm_cortexM4lf_math.lib(arm_common_tables.o)
+    0x00022090   0x00022090   0x00000800   Data   RO         5182    .rodata.twiddleCoef_256  arm_cortexM4lf_math.lib(arm_common_tables.o)
+    0x00022890   0x00022890   0x00000100   Data   RO         5179    .rodata.twiddleCoef_32  arm_cortexM4lf_math.lib(arm_common_tables.o)
+    0x00022990   0x00022990   0x00008000   Data   RO         5186    .rodata.twiddleCoef_4096  arm_cortexM4lf_math.lib(arm_common_tables.o)
+    0x0002a990   0x0002a990   0x00001000   Data   RO         5183    .rodata.twiddleCoef_512  arm_cortexM4lf_math.lib(arm_common_tables.o)
+    0x0002b990   0x0002b990   0x00000200   Data   RO         5180    .rodata.twiddleCoef_64  arm_cortexM4lf_math.lib(arm_common_tables.o)
+    0x0002bb90   0x0002bb90   0x00001000   Data   RO         5245    .rodata.twiddleCoef_rfft_1024  arm_cortexM4lf_math.lib(arm_common_tables.o)
+    0x0002cb90   0x0002cb90   0x00000200   Data   RO         5242    .rodata.twiddleCoef_rfft_128  arm_cortexM4lf_math.lib(arm_common_tables.o)
+    0x0002cd90   0x0002cd90   0x00002000   Data   RO         5246    .rodata.twiddleCoef_rfft_2048  arm_cortexM4lf_math.lib(arm_common_tables.o)
+    0x0002ed90   0x0002ed90   0x00000400   Data   RO         5243    .rodata.twiddleCoef_rfft_256  arm_cortexM4lf_math.lib(arm_common_tables.o)
+    0x0002f190   0x0002f190   0x00000080   Data   RO         5240    .rodata.twiddleCoef_rfft_32  arm_cortexM4lf_math.lib(arm_common_tables.o)
+    0x0002f210   0x0002f210   0x00004000   Data   RO         5247    .rodata.twiddleCoef_rfft_4096  arm_cortexM4lf_math.lib(arm_common_tables.o)
+    0x00033210   0x00033210   0x00000800   Data   RO         5244    .rodata.twiddleCoef_rfft_512  arm_cortexM4lf_math.lib(arm_common_tables.o)
+    0x00033a10   0x00033a10   0x00000100   Data   RO         5241    .rodata.twiddleCoef_rfft_64  arm_cortexM4lf_math.lib(arm_common_tables.o)
+    0x00033b10   0x00033b10   0x00000030   Data   RO         5887    Region$$Table       anon$$obj.o
 
 
-    Execution Region RW_IRAM1 (Exec base: 0x1fff8000, Load base: 0x000339d0, Size: 0x0002efb8, Max: 0x0002f000, ABSOLUTE, COMPRESSED[0x00000038])
+    Execution Region RW_IRAM1 (Exec base: 0x1fff8000, Load base: 0x00033b40, Size: 0x0002efb8, Max: 0x0002f000, ABSOLUTE, COMPRESSED[0x00000038])
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x1fff8000   0x000339d0   0x00000338   Code   RO           88    RAMCODE             main.o
-    0x1fff8338   0x00033d08   0x00000514   Code   RO         3568    RAMCODE             freq_detection.o
-    0x1fff884c   0x0003421c   0x000003ec   Code   RO         3702    RAMCODE             time_detection.o
-    0x1fff8c38   0x00034608   0x0000000a   Ven    RO         5902    Veneer$$Code        anon$$obj.o
-    0x1fff8c42   0x00034612   0x0000000a   Ven    RO         5903    Veneer$$Code        anon$$obj.o
-    0x1fff8c4c   0x0003461c   0x0000000a   Ven    RO         5904    Veneer$$Code        anon$$obj.o
-    0x1fff8c56   0x00034626   0x0000000a   Ven    RO         5905    Veneer$$Code        anon$$obj.o
-    0x1fff8c60   0x00034630   0x0000000a   Ven    RO         5906    Veneer$$Code        anon$$obj.o
-    0x1fff8c6a   0x0003463a   0x0000000a   Ven    RO         5907    Veneer$$Code        anon$$obj.o
-    0x1fff8c74   0x00034644   0x0000000a   Ven    RO         5908    Veneer$$Code        anon$$obj.o
-    0x1fff8c7e   0x0003464e   0x0000000a   Ven    RO         5909    Veneer$$Code        anon$$obj.o
-    0x1fff8c88   0x00034658   0x0000000a   Ven    RO         5910    Veneer$$Code        anon$$obj.o
-    0x1fff8c92   0x00034662   0x0000000a   Ven    RO         5911    Veneer$$Code        anon$$obj.o
-    0x1fff8c9c   0x0003466c   0x0000000a   Ven    RO         5912    Veneer$$Code        anon$$obj.o
-    0x1fff8ca6   0x00034676   0x0000000a   Ven    RO         5913    Veneer$$Code        anon$$obj.o
-    0x1fff8cb0   0x00034680   0x0000000a   Ven    RO         5914    Veneer$$Code        anon$$obj.o
-    0x1fff8cba   0x0003468a   0x0000000a   Ven    RO         5915    Veneer$$Code        anon$$obj.o
-    0x1fff8cc4   0x00034694   0x0000000a   Ven    RO         5916    Veneer$$Code        anon$$obj.o
-    0x1fff8cce   0x0003469e   0x0000000a   Ven    RO         5917    Veneer$$Code        anon$$obj.o
-    0x1fff8cd8   0x000346a8   0x0000000a   Ven    RO         5918    Veneer$$Code        anon$$obj.o
-    0x1fff8ce2   0x000346b2   0x0000000a   Ven    RO         5919    Veneer$$Code        anon$$obj.o
-    0x1fff8cec   0x000346bc   0x0000000a   Ven    RO         5920    Veneer$$Code        anon$$obj.o
-    0x1fff8cf6   0x000346c6   0x0000000a   Ven    RO         5921    Veneer$$Code        anon$$obj.o
-    0x1fff8d00   0x000346d0   0x0000000a   Ven    RO         5922    Veneer$$Code        anon$$obj.o
-    0x1fff8d0a   0x000346da   0x0000000a   Ven    RO         5923    Veneer$$Code        anon$$obj.o
-    0x1fff8d14   0x000346e4   0x0000000a   Ven    RO         5924    Veneer$$Code        anon$$obj.o
-    0x1fff8d1e   0x000346ee   0x0000000a   Ven    RO         5925    Veneer$$Code        anon$$obj.o
+    0x1fff8000   0x00033b40   0x00000338   Code   RO           88    RAMCODE             main.o
+    0x1fff8338   0x00033e78   0x00000514   Code   RO         3568    RAMCODE             freq_detection.o
+    0x1fff884c   0x0003438c   0x000003ec   Code   RO         3702    RAMCODE             time_detection.o
+    0x1fff8c38   0x00034778   0x0000000a   Ven    RO         5902    Veneer$$Code        anon$$obj.o
+    0x1fff8c42   0x00034782   0x0000000a   Ven    RO         5903    Veneer$$Code        anon$$obj.o
+    0x1fff8c4c   0x0003478c   0x0000000a   Ven    RO         5904    Veneer$$Code        anon$$obj.o
+    0x1fff8c56   0x00034796   0x0000000a   Ven    RO         5905    Veneer$$Code        anon$$obj.o
+    0x1fff8c60   0x000347a0   0x0000000a   Ven    RO         5906    Veneer$$Code        anon$$obj.o
+    0x1fff8c6a   0x000347aa   0x0000000a   Ven    RO         5907    Veneer$$Code        anon$$obj.o
+    0x1fff8c74   0x000347b4   0x0000000a   Ven    RO         5908    Veneer$$Code        anon$$obj.o
+    0x1fff8c7e   0x000347be   0x0000000a   Ven    RO         5909    Veneer$$Code        anon$$obj.o
+    0x1fff8c88   0x000347c8   0x0000000a   Ven    RO         5910    Veneer$$Code        anon$$obj.o
+    0x1fff8c92   0x000347d2   0x0000000a   Ven    RO         5911    Veneer$$Code        anon$$obj.o
+    0x1fff8c9c   0x000347dc   0x0000000a   Ven    RO         5912    Veneer$$Code        anon$$obj.o
+    0x1fff8ca6   0x000347e6   0x0000000a   Ven    RO         5913    Veneer$$Code        anon$$obj.o
+    0x1fff8cb0   0x000347f0   0x0000000a   Ven    RO         5914    Veneer$$Code        anon$$obj.o
+    0x1fff8cba   0x000347fa   0x0000000a   Ven    RO         5915    Veneer$$Code        anon$$obj.o
+    0x1fff8cc4   0x00034804   0x0000000a   Ven    RO         5916    Veneer$$Code        anon$$obj.o
+    0x1fff8cce   0x0003480e   0x0000000a   Ven    RO         5917    Veneer$$Code        anon$$obj.o
+    0x1fff8cd8   0x00034818   0x0000000a   Ven    RO         5918    Veneer$$Code        anon$$obj.o
+    0x1fff8ce2   0x00034822   0x0000000a   Ven    RO         5919    Veneer$$Code        anon$$obj.o
+    0x1fff8cec   0x0003482c   0x0000000a   Ven    RO         5920    Veneer$$Code        anon$$obj.o
+    0x1fff8cf6   0x00034836   0x0000000a   Ven    RO         5921    Veneer$$Code        anon$$obj.o
+    0x1fff8d00   0x00034840   0x0000000a   Ven    RO         5922    Veneer$$Code        anon$$obj.o
+    0x1fff8d0a   0x0003484a   0x0000000a   Ven    RO         5923    Veneer$$Code        anon$$obj.o
+    0x1fff8d14   0x00034854   0x0000000a   Ven    RO         5924    Veneer$$Code        anon$$obj.o
+    0x1fff8d1e   0x0003485e   0x0000000a   Ven    RO         5925    Veneer$$Code        anon$$obj.o
     0x1fff8d28   COMPRESSED   0x00000008   Data   RW           15    .data               system_hc32f46x.o
     0x1fff8d30   COMPRESSED   0x000000b8   Data   RW          120    .data               main.o
     0x1fff8de8   COMPRESSED   0x00000008   Data   RW          473    .data               hc32f46x_utility.o

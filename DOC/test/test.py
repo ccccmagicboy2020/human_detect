@@ -5,11 +5,9 @@ import csv
 import time
 
 async def main_co():
-    global packet1
-    global ser
     
     task1 = asyncio.create_task(
-        send_command0(0.5))
+        send_command0(3))   # 3s
 
     task2 = asyncio.create_task(
         rev_command0(0.01))
@@ -19,9 +17,26 @@ async def main_co():
 
 async def send_command0(delay):
     global ser
-    global packet
+    global packet_pir_delay
+    global packet_load_radar_parameter
+    global packet_Light_threshold3
+    global packet_Light_threshold4    
+    global packet_save_upssa0
+    
     while True:
-        result = ser.write(packet)
+        print('this message is from send function')
+        result = ser.write(packet_pir_delay)
+        ser.flush()
+        result = ser.write(packet_load_radar_parameter)
+        ser.flush()
+        result = ser.write(packet_Light_threshold3)
+        ser.flush()
+        result = ser.write(packet_Light_threshold4)
+        ser.flush()        
+        
+        result = ser.write(packet_save_upssa0)
+        ser.flush() 
+        
         await asyncio.sleep(delay)  # 阻塞直到协程sleep(2)返回结果
         
 async def rev_command0(delay):
@@ -65,49 +80,103 @@ async def rev_command0(delay):
 def main():
     print('this message is from main function')
     global ser
-    global packet
-    global packet1
-    global packet2
+    global packet_pir_delay
+    global packet_load_radar_parameter
+    global packet_Light_threshold3
+    global packet_Light_threshold4
+    global packet_save_upssa0
     
-    ser=serial.Serial("com6", 9600, timeout=0.5)
+    ser=serial.Serial("com6", 115200, timeout=0.5)
     print(ser.port)
 
     ser.close()
     ser.open()
-    # 55 AA 00 C0 00 00 BF      //trigger the command0
-    packet = bytearray()
-    packet.append(0x55)
-    packet.append(0xAA)
-    packet.append(0x00)
-    packet.append(0xC0)
-    packet.append(0x00)
-    packet.append(0x00)
-    packet.append(0xBF)
-
-    # 31 80 25 00 00            //open the usb-uart function of the hclink
-    packet1 = bytearray()
-    packet1.append(0x31)
-    packet1.append(0x80)
-    packet1.append(0x25)
-    packet1.append(0x00)
-    packet1.append(0x00)
-
-    # 32 53 54 4F 50            //close the usb-uart function of the hclink
-    packet2 = bytearray()
-    packet2.append(0x32)
-    packet2.append(0x53)
-    packet2.append(0x54)
-    packet2.append(0x4F)
-    packet2.append(0x50)
-    
     ser.set_buffer_size(rx_size = 1024, tx_size = 1024)
-    ser.write(packet1)
-    ser.flush()    
-
+    
+    # packet_pir_delay
+    packet_pir_delay = bytearray()
+    packet_pir_delay.append(0x55)
+    packet_pir_delay.append(0xAA)
+    packet_pir_delay.append(0x00)
+    packet_pir_delay.append(0x06)
+    packet_pir_delay.append(0x00)
+    packet_pir_delay.append(0x05)
+    packet_pir_delay.append(0x66)
+    packet_pir_delay.append(0x04)
+    packet_pir_delay.append(0x00)
+    packet_pir_delay.append(0x01)
+    packet_pir_delay.append(0x01)   # 32s
+    packet_pir_delay.append(0x76)
+    
+    # packet_load_radar_parameter
+    packet_load_radar_parameter = bytearray()
+    packet_load_radar_parameter.append(0x55)
+    packet_load_radar_parameter.append(0xAA)
+    packet_load_radar_parameter.append(0x00)
+    packet_load_radar_parameter.append(0x06)
+    packet_load_radar_parameter.append(0x00)
+    packet_load_radar_parameter.append(0x05)
+    packet_load_radar_parameter.append(0x69)
+    packet_load_radar_parameter.append(0x04)
+    packet_load_radar_parameter.append(0x00)
+    packet_load_radar_parameter.append(0x01)
+    packet_load_radar_parameter.append(0x00)   # 2.5m
+    packet_load_radar_parameter.append(0x78)
+    
+    # Light_threshold3
+    packet_Light_threshold3 = bytearray()
+    packet_Light_threshold3.append(0x55)
+    packet_Light_threshold3.append(0xAA)
+    packet_Light_threshold3.append(0x00)
+    packet_Light_threshold3.append(0x06)
+    packet_Light_threshold3.append(0x00)
+    packet_Light_threshold3.append(0x08)
+    packet_Light_threshold3.append(0xA7)
+    packet_Light_threshold3.append(0x02)
+    packet_Light_threshold3.append(0x00)
+    packet_Light_threshold3.append(0x04)
+    packet_Light_threshold3.append(0x00)        #4000
+    packet_Light_threshold3.append(0x00)
+    packet_Light_threshold3.append(0x0F)
+    packet_Light_threshold3.append(0xA0)    
+    packet_Light_threshold3.append(0x69)
+    
+    # Light_threshold4
+    packet_Light_threshold4 = bytearray()
+    packet_Light_threshold4.append(0x55)
+    packet_Light_threshold4.append(0xAA)
+    packet_Light_threshold4.append(0x00)
+    packet_Light_threshold4.append(0x06)
+    packet_Light_threshold4.append(0x00)
+    packet_Light_threshold4.append(0x08)
+    packet_Light_threshold4.append(0xA8)
+    packet_Light_threshold4.append(0x02)
+    packet_Light_threshold4.append(0x00)
+    packet_Light_threshold4.append(0x04)
+    packet_Light_threshold4.append(0x00)        #3800
+    packet_Light_threshold4.append(0x00)
+    packet_Light_threshold4.append(0x0E)
+    packet_Light_threshold4.append(0xD8)    
+    packet_Light_threshold4.append(0xA1)
+    
+    # packet_save_upssa0
+    packet_save_upssa0 = bytearray()
+    packet_save_upssa0.append(0x55)
+    packet_save_upssa0.append(0xAA)
+    packet_save_upssa0.append(0x00)
+    packet_save_upssa0.append(0x06)
+    packet_save_upssa0.append(0x00)
+    packet_save_upssa0.append(0x05)
+    packet_save_upssa0.append(0xA9)
+    packet_save_upssa0.append(0x04)
+    packet_save_upssa0.append(0x00)
+    packet_save_upssa0.append(0x01)
+    packet_save_upssa0.append(0x01)   # save
+    packet_save_upssa0.append(0xB9)    
+    
     try:
         asyncio.run(main_co())
     except KeyboardInterrupt:
-        ser.write(packet2)
         ser.close()
         print('Bye-Bye!!!')
 

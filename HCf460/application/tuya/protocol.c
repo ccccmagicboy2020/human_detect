@@ -288,6 +288,8 @@ static unsigned char dp_download_pir_delay_handle(const unsigned char value[], u
         break;
     }
     
+		SEGGER_RTT_printf(0, "%s%snew delay_time_num: %d, and delay_s_num = %d%s\r\n", RTT_CTRL_BG_BRIGHT_YELLOW, RTT_CTRL_TEXT_BLACK, upssa0.ppp.delay_time_num, delay_s_num, RTT_CTRL_RESET);
+
     //处理完DP数据后应有反馈
     ret = mcu_dp_enum_update(DPID_PIR_DELAY, upssa0.ppp.delay_time_num);
     if(ret == SUCCESS)
@@ -365,22 +367,22 @@ static unsigned char dp_download_load_radar_parameter_handle(const unsigned char
     switch(load_radar_parameter) {
         case 0:
 					load_ceiling_setup(0);
-					SEGGER_RTT_printf(0, "load ceiling setup %d\r\n", 0);
+					SEGGER_RTT_printf(0, "%s%sload ceiling setup %d%s\r\n", RTT_CTRL_BG_BRIGHT_YELLOW, RTT_CTRL_TEXT_BLACK, 0, RTT_CTRL_RESET);
         break;
      
         case 1:
 					load_ceiling_setup(1);
-					SEGGER_RTT_printf(0, "load ceiling setup %d\r\n", 1);   
+					SEGGER_RTT_printf(0, "%s%sload ceiling setup %d%s\r\n", RTT_CTRL_BG_BRIGHT_YELLOW, RTT_CTRL_TEXT_BLACK, 1, RTT_CTRL_RESET);   
         break;
         
         case 2:
 					load_wall_setup(0);
-					SEGGER_RTT_printf(0, "load wall setup %d\r\n", 0);
+					SEGGER_RTT_printf(0, "%s%sload wall setup %d%s\r\n", RTT_CTRL_BG_BRIGHT_YELLOW, RTT_CTRL_TEXT_BLACK, 0, RTT_CTRL_RESET);
         break;
         
         case 3:
 					load_wall_setup(1);
-					SEGGER_RTT_printf(0, "load wall setup %d\r\n", 1);					
+					SEGGER_RTT_printf(0, "%s%sload wall setup %d%s\r\n", RTT_CTRL_BG_BRIGHT_YELLOW, RTT_CTRL_TEXT_BLACK, 1, RTT_CTRL_RESET);					
         break;
         
         case 4:
@@ -817,6 +819,7 @@ static unsigned char dp_download_light_threshold3_handle(const unsigned char val
     
     upssa0.ppp.Light_threshold3 = mcu_get_dp_download_value(value,length);
     
+		SEGGER_RTT_printf(0, "%s%sload light sensor threshold3: %d%s\r\n", RTT_CTRL_BG_BRIGHT_YELLOW, RTT_CTRL_TEXT_BLACK, upssa0.ppp.Light_threshold3, RTT_CTRL_RESET);
     //处理完DP数据后应有反馈
     ret = mcu_dp_value_update(DPID_LIGHT_THRESHOLD3, upssa0.ppp.Light_threshold3);
     if(ret == SUCCESS)
@@ -839,6 +842,7 @@ static unsigned char dp_download_light_threshold4_handle(const unsigned char val
     
     upssa0.ppp.Light_threshold4 = mcu_get_dp_download_value(value,length);
     
+		SEGGER_RTT_printf(0, "%s%sload light sensor threshold4: %d%s\r\n", RTT_CTRL_BG_BRIGHT_YELLOW, RTT_CTRL_TEXT_BLACK, upssa0.ppp.Light_threshold4, RTT_CTRL_RESET);	
     //处理完DP数据后应有反馈
     ret = mcu_dp_value_update(DPID_LIGHT_THRESHOLD4, upssa0.ppp.Light_threshold4);
     if(ret == SUCCESS)
