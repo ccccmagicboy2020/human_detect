@@ -58,23 +58,7 @@ extern unsigned char g_work_mode;
 extern unsigned char find_me_flag;
 extern unsigned short  light_sensor_adc_data;
 
-extern unsigned short Light_threshold1;
-extern unsigned short Light_threshold2;
-extern unsigned short Light_threshold3;
-extern unsigned short Light_threshold4;
-
-extern float quick_time_times;
-extern float quick_time_add;
-extern float quick_freq_times;
-
-extern float	slow_time_times;
-extern float	slow_time_add;
-extern float	slow_freq_times;
-
-extern	float	res_times;
-extern	float	offsetmin;
-
-extern unsigned int delay_time_num;
+extern int delay_s_num;
 extern unsigned int  person_meter;
 
 extern float breathe_freq;
@@ -84,8 +68,11 @@ extern unsigned int slow_check_result;
 extern int study_flag;
 extern int study_mode;
 
+extern	union KKK upssa0;
+///////////////////////////////////////////////////////////////////////////////
 void Delay_ms(unsigned int t);
 void update_check_parameter(void);
+void save_upssa0(void);
 
 /******************************************************************************
                                 移植须知:
@@ -223,13 +210,13 @@ void all_data_update(void)
 		Delay_ms(ALL_UPLOAD_DELAY);
 		mcu_dp_bool_update(DPID_FIND_ME,1);
 		Delay_ms(ALL_UPLOAD_DELAY);
-		mcu_dp_value_update(DPID_LIGHT_THRESHOLD1, Light_threshold1);
+		mcu_dp_value_update(DPID_LIGHT_THRESHOLD1, upssa0.ppp.Light_threshold1);
 		Delay_ms(ALL_UPLOAD_DELAY);
-		mcu_dp_value_update(DPID_LIGHT_THRESHOLD2, Light_threshold2);
+		mcu_dp_value_update(DPID_LIGHT_THRESHOLD2, upssa0.ppp.Light_threshold2);
 		Delay_ms(ALL_UPLOAD_DELAY);
-		mcu_dp_value_update(DPID_LIGHT_THRESHOLD3, Light_threshold3);
+		mcu_dp_value_update(DPID_LIGHT_THRESHOLD3, upssa0.ppp.Light_threshold3);
 		Delay_ms(ALL_UPLOAD_DELAY);
-		mcu_dp_value_update(DPID_LIGHT_THRESHOLD4, Light_threshold4);
+		mcu_dp_value_update(DPID_LIGHT_THRESHOLD4, upssa0.ppp.Light_threshold4);
 		Delay_ms(ALL_UPLOAD_DELAY);
 		
 		if (breathe_freq != 0)
@@ -264,33 +251,36 @@ static unsigned char dp_download_pir_delay_handle(const unsigned char value[], u
     unsigned char pir_delay;
     
     pir_delay = mcu_get_dp_download_enum(value,length);
-    switch(pir_delay) {
+	
+		upssa0.ppp.delay_time_num = pir_delay;
+	
+    switch(upssa0.ppp.delay_time_num) {
         case 0:
-					delay_time_num = 0;
+					delay_s_num = 24;
         break;
         
         case 1:
-					delay_time_num = 1;
+					delay_s_num = 32;
         break;
         
         case 2:
-					delay_time_num = 2;
+					delay_s_num = 40;
         break;
         
         case 3:
-					delay_time_num = 3;
+					delay_s_num = 48;
         break;
         
         case 4:
-					delay_time_num = 5;
+					delay_s_num = 64;
         break;
         
         case 5:
-					delay_time_num = 13;
+					delay_s_num = 128;
         break;
         
         case 6:
-					delay_time_num = 21;
+					delay_s_num = 192;
         break;
         
         default:
@@ -299,7 +289,7 @@ static unsigned char dp_download_pir_delay_handle(const unsigned char value[], u
     }
     
     //处理完DP数据后应有反馈
-    ret = mcu_dp_enum_update(DPID_PIR_DELAY, pir_delay);
+    ret = mcu_dp_enum_update(DPID_PIR_DELAY, upssa0.ppp.delay_time_num);
     if(ret == SUCCESS)
         return SUCCESS;
     else
@@ -313,6 +303,58 @@ static unsigned char dp_download_pir_delay_handle(const unsigned char value[], u
 返回参数 : 成功返回:SUCCESS/失败返回:ERROR
 使用说明 : 可下发可上报类型,需要在处理完数据后上报处理结果至app
 *****************************************************************************/
+void load_ceiling_setup(int mode)
+{
+	if (mode == 0)
+	{
+		upssa0.ppp.quick_time_times = 2048.0f;
+		upssa0.ppp.quick_time_add = 135.0f;
+		upssa0.ppp.quick_freq_times = 12.0f;
+		upssa0.ppp.slow_time_times = 2048.0f;
+		upssa0.ppp.slow_time_add = 135.0f;
+		upssa0.ppp.slow_freq_times = 12.0f;
+		upssa0.ppp.res_times = 78.0f;
+		upssa0.ppp.offsetmin = 1.23f;
+	}
+	else if (mode == 1)
+	{
+		upssa0.ppp.quick_time_times = 4.0f;
+		upssa0.ppp.quick_time_add = 32.0f;
+		upssa0.ppp.quick_freq_times = 3.0f;
+		upssa0.ppp.slow_time_times = 4.0f;
+		upssa0.ppp.slow_time_add = 32.0f;
+		upssa0.ppp.slow_freq_times = 3.0f;
+		upssa0.ppp.res_times = 50.0f;
+		upssa0.ppp.offsetmin = 0.6f;
+	}
+}
+
+void load_wall_setup(int mode)
+{
+	if (mode == 0)
+	{
+		upssa0.ppp.quick_time_times = 2048.0f;
+		upssa0.ppp.quick_time_add = 135.0f;
+		upssa0.ppp.quick_freq_times = 12.0f;
+		upssa0.ppp.slow_time_times = 2048.0f;
+		upssa0.ppp.slow_time_add = 135.0f;
+		upssa0.ppp.slow_freq_times = 12.0f;
+		upssa0.ppp.res_times = 78.0f;
+		upssa0.ppp.offsetmin = 1.23f;
+	}
+	else if (mode == 1)
+	{
+		upssa0.ppp.quick_time_times = 4.0f;
+		upssa0.ppp.quick_time_add = 32.0f;
+		upssa0.ppp.quick_freq_times = 3.0f;
+		upssa0.ppp.slow_time_times = 4.0f;
+		upssa0.ppp.slow_time_add = 32.0f;
+		upssa0.ppp.slow_freq_times = 3.0f;
+		upssa0.ppp.res_times = 50.0f;
+		upssa0.ppp.offsetmin = 0.6f;
+	}
+}
+
 static unsigned char dp_download_load_radar_parameter_handle(const unsigned char value[], unsigned short length)
 {
     //示例:当前DP类型为ENUM
@@ -322,31 +364,39 @@ static unsigned char dp_download_load_radar_parameter_handle(const unsigned char
     load_radar_parameter = mcu_get_dp_download_enum(value,length);
     switch(load_radar_parameter) {
         case 0:
+					load_ceiling_setup(0);
+					SEGGER_RTT_printf(0, "load ceiling setup %d\r\n", 0);
         break;
-        
+     
         case 1:
+					load_ceiling_setup(1);
+					SEGGER_RTT_printf(0, "load ceiling setup %d\r\n", 1);   
         break;
         
         case 2:
+					load_wall_setup(0);
+					SEGGER_RTT_printf(0, "load wall setup %d\r\n", 0);
         break;
         
         case 3:
+					load_wall_setup(1);
+					SEGGER_RTT_printf(0, "load wall setup %d\r\n", 1);					
         break;
         
         case 4:
-            SEGGER_RTT_printf(0, "user parameter%d loaded\r\n", 1);
+            SEGGER_RTT_printf(0, "load user parameter%d\r\n", 1);
         break;
         
         case 5:
-            SEGGER_RTT_printf(0, "user parameter%d loaded\r\n", 2);
+            SEGGER_RTT_printf(0, "load user parameter%d\r\n", 2);
         break;
         
         case 6:
-            SEGGER_RTT_printf(0, "user parameter%d loaded\r\n", 3);
+            SEGGER_RTT_printf(0, "load user parameter%d\r\n", 3);
         break;
         
         case 7:
-            SEGGER_RTT_printf(0, "user parameter%d loaded\r\n", 4);
+            SEGGER_RTT_printf(0, "load user parameter%d\r\n", 4);
         break;
         
         default:
@@ -403,12 +453,12 @@ static unsigned char dp_download_time_times_handle(const unsigned char value[], 
 		if (g_work_mode == FAST_CHECK_ONLY)
 		{
 			//
-			quick_time_times = time_times_x/100;
+			upssa0.ppp.quick_time_times = time_times_x/100.0f;
 		}
 		else if (g_work_mode == SLOW_CHECK_ONLY)
 		{
 			//
-			slow_time_times = time_times_x/100;
+			upssa0.ppp.slow_time_times = time_times_x/100.0f;
 		}
     
     //处理完DP数据后应有反馈
@@ -437,11 +487,11 @@ static unsigned char dp_download_time_add_handle(const unsigned char value[], un
 		if (g_work_mode == FAST_CHECK_ONLY)
 		{
 			//
-			quick_time_add = time_add_x/100.0f;
+			upssa0.ppp.quick_time_add = time_add_x/100.0f;
 		}
 		else if (g_work_mode == SLOW_CHECK_ONLY)
 		{
-			slow_time_add = time_add_x/100.0f;
+			upssa0.ppp.slow_time_add = time_add_x/100.0f;
 		}
     
     //处理完DP数据后应有反馈
@@ -564,15 +614,15 @@ static unsigned char dp_download_freq_times_handle(const unsigned char value[], 
 		if (g_work_mode == FAST_CHECK_ONLY)
 		{
 			//
-			quick_freq_times = freq_times_x/100.0f;
-			sprintf(float_str, "quick_freq_times value: %.2lf\r\n", quick_freq_times);
+			upssa0.ppp.quick_freq_times = freq_times_x/100.0f;
+			sprintf(float_str, "quick_freq_times value: %.2lf\r\n", upssa0.ppp.quick_freq_times);
 			SEGGER_RTT_printf(0, "%s", float_str);			
 		}
 		else if (g_work_mode == SLOW_CHECK_ONLY)
 		{
 			//
-			slow_freq_times = freq_times_x/100.0f;
-			sprintf(float_str, "slow_freq_times value: %.2lf\r\n", slow_freq_times);
+			upssa0.ppp.slow_freq_times = freq_times_x/100.0f;
+			sprintf(float_str, "slow_freq_times value: %.2lf\r\n", upssa0.ppp.slow_freq_times);
 			SEGGER_RTT_printf(0, "%s", float_str);			
 		}
     
@@ -662,8 +712,8 @@ static unsigned char dp_download_freq_parameter1_handle(const unsigned char valu
 		if (g_work_mode == SLOW_CHECK_ONLY)
 		{
 			//
-			res_times = freq_parameter1/100.0f;
-			sprintf(float_str, "res_times value: %.2lf\r\n", res_times);
+			upssa0.ppp.res_times = freq_parameter1/100.0f;
+			sprintf(float_str, "res_times value: %.2lf\r\n", upssa0.ppp.res_times);
 			SEGGER_RTT_printf(0, "%s", float_str);			
 		}
     
@@ -694,8 +744,8 @@ static unsigned char dp_download_freq_parameter2_handle(const unsigned char valu
 		if (g_work_mode == SLOW_CHECK_ONLY)
 		{
 			//
-			offsetmin = freq_parameter2/1000.0f;
-			sprintf(float_str, "offsetmin value: %.3lf\r\n", offsetmin);
+			upssa0.ppp.offsetmin = freq_parameter2/1000.0f;
+			sprintf(float_str, "offsetmin value: %.3lf\r\n", upssa0.ppp.offsetmin);
 			SEGGER_RTT_printf(0, "%s", float_str);		
 		}
     
@@ -719,12 +769,12 @@ static unsigned char dp_download_light_threshold1_handle(const unsigned char val
     //示例:当前DP类型为VALUE
     unsigned char ret;
     
-    Light_threshold1 = mcu_get_dp_download_value(value,length);
+    upssa0.ppp.Light_threshold1 = mcu_get_dp_download_value(value,length);
  
 		
     
     //处理完DP数据后应有反馈
-    ret = mcu_dp_value_update(DPID_LIGHT_THRESHOLD1,Light_threshold1);
+    ret = mcu_dp_value_update(DPID_LIGHT_THRESHOLD1, upssa0.ppp.Light_threshold1);
     if(ret == SUCCESS)
         return SUCCESS;
     else
@@ -743,10 +793,10 @@ static unsigned char dp_download_light_threshold2_handle(const unsigned char val
     //示例:当前DP类型为VALUE
     unsigned char ret;
     
-    Light_threshold2 = mcu_get_dp_download_value(value,length);
+    upssa0.ppp.Light_threshold2 = mcu_get_dp_download_value(value,length);
     
     //处理完DP数据后应有反馈
-    ret = mcu_dp_value_update(DPID_LIGHT_THRESHOLD2,Light_threshold2);
+    ret = mcu_dp_value_update(DPID_LIGHT_THRESHOLD2, upssa0.ppp.Light_threshold2);
     if(ret == SUCCESS)
         return SUCCESS;
     else
@@ -765,26 +815,10 @@ static unsigned char dp_download_light_threshold3_handle(const unsigned char val
     //示例:当前DP类型为VALUE
     unsigned char ret;
     
-    Light_threshold3 = mcu_get_dp_download_value(value,length);
-	
-		if (person_in_range_flag == TUYA_PERSON_STATUS_HAVE_PERSON)
-		{
-			if (light_sensor_adc_data < Light_threshold3)//门限3
-			{
-				GPIO1_HIGH();
-			}
-			else
-			{
-				GPIO1_LOW();
-			}
-		}
-		else if (person_in_range_flag == TUYA_PERSON_STATUS_NO_PERSON)
-		{
-			GPIO1_LOW();
-		}
+    upssa0.ppp.Light_threshold3 = mcu_get_dp_download_value(value,length);
     
     //处理完DP数据后应有反馈
-    ret = mcu_dp_value_update(DPID_LIGHT_THRESHOLD3,Light_threshold3);
+    ret = mcu_dp_value_update(DPID_LIGHT_THRESHOLD3, upssa0.ppp.Light_threshold3);
     if(ret == SUCCESS)
         return SUCCESS;
     else
@@ -803,10 +837,10 @@ static unsigned char dp_download_light_threshold4_handle(const unsigned char val
     //示例:当前DP类型为VALUE
     unsigned char ret;
     
-    Light_threshold4 = mcu_get_dp_download_value(value,length);
+    upssa0.ppp.Light_threshold4 = mcu_get_dp_download_value(value,length);
     
     //处理完DP数据后应有反馈
-    ret = mcu_dp_value_update(DPID_LIGHT_THRESHOLD4,Light_threshold4);
+    ret = mcu_dp_value_update(DPID_LIGHT_THRESHOLD4, upssa0.ppp.Light_threshold4);
     if(ret == SUCCESS)
         return SUCCESS;
     else
@@ -818,24 +852,24 @@ void update_check_parameter(void)
 		if (g_work_mode == FAST_CHECK_ONLY)
 		{
 			//
-			mcu_dp_value_update(DPID_TIME_TIMES, (int)((quick_time_times*100.0f)+0.5f));
+			mcu_dp_value_update(DPID_TIME_TIMES, (int)((upssa0.ppp.quick_time_times*100.0f)+0.5f));
 			Delay_ms(ALL_UPLOAD_DELAY);
-			mcu_dp_value_update(DPID_TIME_ADD, (int)((quick_time_add*100.0f)+0.5f));
+			mcu_dp_value_update(DPID_TIME_ADD, (int)((upssa0.ppp.quick_time_add*100.0f)+0.5f));
 			Delay_ms(ALL_UPLOAD_DELAY);
-			mcu_dp_value_update(DPID_FREQ_TIMES, (int)((quick_freq_times*100.0f)+0.5f));			
+			mcu_dp_value_update(DPID_FREQ_TIMES, (int)((upssa0.ppp.quick_freq_times*100.0f)+0.5f));			
 		}
 		else if (g_work_mode == SLOW_CHECK_ONLY)
 		{
 			//
-			mcu_dp_value_update(DPID_TIME_TIMES, (int)((slow_time_times*100.0f)+0.5f));	
+			mcu_dp_value_update(DPID_TIME_TIMES, (int)((upssa0.ppp.slow_time_times*100.0f)+0.5f));	
 			Delay_ms(ALL_UPLOAD_DELAY);
-			mcu_dp_value_update(DPID_TIME_ADD, (int)((slow_time_add*100.0f)+0.5f)); 
+			mcu_dp_value_update(DPID_TIME_ADD, (int)((upssa0.ppp.slow_time_add*100.0f)+0.5f)); 
 			Delay_ms(ALL_UPLOAD_DELAY);
-			mcu_dp_value_update(DPID_FREQ_TIMES, (int)((slow_freq_times*100.0f)+0.5f));
+			mcu_dp_value_update(DPID_FREQ_TIMES, (int)((upssa0.ppp.slow_freq_times*100.0f)+0.5f));
 			Delay_ms(ALL_UPLOAD_DELAY);
-			mcu_dp_value_update(DPID_FREQ_PARAMETER1, (int)((res_times*100.0f)+0.5f));
+			mcu_dp_value_update(DPID_FREQ_PARAMETER1, (int)((upssa0.ppp.res_times*100.0f)+0.5f));
 			Delay_ms(ALL_UPLOAD_DELAY);
-			mcu_dp_value_update(DPID_FREQ_PARAMETER2, (int)((offsetmin*1000.0f)+0.5f));
+			mcu_dp_value_update(DPID_FREQ_PARAMETER2, (int)((upssa0.ppp.offsetmin*1000.0f)+0.5f));
 		}
 		else
 		{
@@ -859,10 +893,11 @@ static unsigned char dp_download_common_command_handle(const unsigned char value
     common_command = mcu_get_dp_download_enum(value,length);
     switch(common_command) {
         case 0://更新检测参数
-					update_check_parameter();
+			update_check_parameter();
         break;
         
         case 1:
+			save_upssa0();
         break;
         
         case 2:

@@ -7,6 +7,7 @@
 #include "SEGGER_RTT.h"
 #include "SEGGER_RTT_Conf.h"
 #include "SEGGER_SYSVIEW.h"
+#include "flash_def.h"
 
 typedef int32_t  s32;
 typedef int16_t s16;

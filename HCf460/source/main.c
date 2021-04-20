@@ -66,15 +66,7 @@ volatile int light_status_flag = 0;
 char JS_RTT_UpBuffer[1024];
 Val_t adc_value;
 ////////////////////////////////////////////////////////////
-float quick_time_times = 4;			//4
-float quick_time_add = 32;			//32
-float quick_freq_times = 3;			//3
 ////////////////////////////////////////////////////////////
-float	slow_time_times = 5;			//5
-float slow_time_add = 40;				//40
-float	slow_freq_times = 6;			//6
-float	res_times = 60.0f;				//17.5
-float	offsetmin = 0.6f;					//0.6
 ////////////////////////////////////////////////////////////
 void check_status_upload(unsigned int aaaa);
 void person_in_range_upload(unsigned int aaaa);
@@ -87,6 +79,7 @@ void get_mcu_bt_mode(void);
 void bt_hand_up(void);
 void gpio_output(unsigned char res);
 void set_samplerate(unsigned int speed);
+void save_upssa0(void);
 ////////////////////////////////////////////////////////////
 unsigned char upload_disable = 1;
 unsigned char g_work_mode = ALL_CHECK;
@@ -96,18 +89,9 @@ unsigned char find_me_counter = 0;
 ////////////////////////////////////////////////////////////
 unsigned char light_sensor_upload_flag = 0;
 extern unsigned short  light_sensor_adc_data;
-extern unsigned short  light_sensor2_adc_data;
-extern unsigned short  switch_dist;	// 距离设置
-extern unsigned short  switch_delay;	// 延时设置
-extern unsigned short  switch_light;	// 光敏门限3
 ////////////////////////////////////////////////////////////
-unsigned short Light_threshold1 = 0;
-unsigned short Light_threshold2 = 0;
-unsigned short Light_threshold3 = 4000;		//up limit
-unsigned short Light_threshold4 = 3800;		//down limit
 ////////////////////////////////////////////////////////////
-unsigned int delay_time_num = 0;
-unsigned int delay_s_num = 24;
+int delay_s_num = 24;
 ////////////////////////////////////////////////////////////
 volatile unsigned int  person_meter = 0;
 volatile unsigned int  person_meter_last = 0;
@@ -134,7 +118,7 @@ unsigned int fast_samplerate = 7499;		//6.7K-150us-76.8ms
 unsigned int slow_samplerate = 9999;		//5K
 //unsigned int slow_samplerate = 7499;	//6.7K
 ////////////////////////////////////////////////////////////
-
+union KKK upssa0;
 ////////////////////////////////////////////////////////////
 void clear_buffer(void)
 {
@@ -149,12 +133,12 @@ void gpio_output(unsigned char res)
 	{
 		led_red(1);
 		
-		if (light_sensor2_adc_data < Light_threshold4)//门限3
+		if (light_sensor_adc_data < upssa0.ppp.Light_threshold4)//门限3
 		//if (light_sensor_adc_data < Light_threshold3)//门限3
 		{
 			GPIO1_HIGH();
 		}
-		else if (light_sensor2_adc_data > Light_threshold3)
+		else if (light_sensor_adc_data > upssa0.ppp.Light_threshold3)
 		{
 			GPIO1_LOW();
 		}
@@ -399,13 +383,13 @@ void fast_check_process(void)
 	quick_detection_result = quick_detection(							Fast_detection_data, 
 											/* win_size_time =  */		2048, 
 											/* stride_time =  */		1024, 
-											/* time_times =  */			quick_time_times,		//4
-											/* time_add =  */			quick_time_add, 		//32
+											/* time_times =  */			upssa0.ppp.quick_time_times,		//4
+											/* time_add =  */			upssa0.ppp.quick_time_add, 		//32
 											/* win_size_freq =  */		256, 
 									    /* stride_freq =  */		102, 
 											/* time_accum =  */			8, 
 											/* xhz1 =  */				2, 
-											/* freq_times =  */			quick_freq_times, //3
+											/* freq_times =  */			upssa0.ppp.quick_freq_times, //3
 											/* respiration_times =  */	17.5
 											);
 
@@ -568,8 +552,8 @@ void slow_check_process_s0(void)
 											/*data_size*/		4096,
 											/*win_size_time*/	256,
 											/*stride_time*/		128,
-											/*time_times*/		slow_time_times,			//5
-											/*time_add*/		slow_time_add				//40
+											/*time_times*/		upssa0.ppp.slow_time_times,			//5
+											/*time_add*/		upssa0.ppp.slow_time_add				//40
 											);
 									 
 	bigmotion_freq_vote  = freq_detection(	/*in_data_freq*/			Fast_detection_data,
@@ -579,18 +563,18 @@ void slow_check_process_s0(void)
 											/*stride_freq*/				64,
 											/*time_accum*/				16,
 											/*xhz1*/							2,
-											/*freq_times*/				slow_freq_times,		//6
-											/*respiration_times*/		res_times,		//res_times
+											/*freq_times*/				upssa0.ppp.slow_freq_times,		//6
+											/*respiration_times*/		upssa0.ppp.res_times,		//res_times
 											/*respirationfreq_vote*/	respirationfreq_vote
 											);
 										
 	if( bigmotion_freq_vote == 1 )
 	{
-		offset = offsetmin + 0.05f;
+		offset = upssa0.ppp.offsetmin + 0.05f;
 	}
 	else
 	{
-		offset = offsetmin;
+		offset = upssa0.ppp.offsetmin;
 	}
 	
   switch (mcu_get_bt_work_state())
@@ -711,11 +695,11 @@ void slow_check_process_s1(void)
 			break;
 		case NO_PERSON_NOT_SURE:
 			no_person_timer++;
-			if (no_person_timer >= (2 + delay_time_num))		//delay_time_num
+			if (no_person_timer >= (2 + 0))
 			{
 				no_person_check_tick = SysTick_GetTick();
 				no_person_diff = no_person_check_tick - no_person_start_tick;
-				if (no_person_diff > (1000u*delay_s_num - 2*4096))
+				if (no_person_diff > (1000u*delay_s_num - 2*4800))
 				{
 					SEGGER_RTT_printf(0, "%sno person status: delay_timer=%d, diff=%d%s\r\n", RTT_CTRL_TEXT_BRIGHT_YELLOW, no_person_timer, no_person_diff, RTT_CTRL_RESET);
 					no_person_timer = 0;
@@ -771,11 +755,7 @@ void idle_process(void)
 	static uint32_t study_time_ms = 0;
     
 	static unsigned short light_sensor_adc_data_last = 0;
-	char float_str[64];	
-	
-	float switch_dist_f = 0;
-	float switch_delay_f = 0;
-	float switch_light_f = 0;
+	char float_str[64];
 	
 	static unsigned int free_runner = 0;
 	
@@ -825,13 +805,13 @@ void idle_process(void)
 				clear_buffer();
 			}
 			//load a low pp1 pp2 value
-			res_times = 10.f;
-			offsetmin = 0.5f;
+			upssa0.ppp.res_times = 10.f;
+			upssa0.ppp.offsetmin = 0.5f;
 			if (upload_disable == 0)
 			{
-				mcu_dp_value_update(DPID_FREQ_PARAMETER1, (int)((res_times*100.0f)+0.5f));
+				mcu_dp_value_update(DPID_FREQ_PARAMETER1, (int)((upssa0.ppp.res_times*100.0f)+0.5f));
 				Delay_ms(ALL_UPLOAD_DELAY);
-				mcu_dp_value_update(DPID_FREQ_PARAMETER2, (int)((offsetmin*1000.0f)+0.5f));
+				mcu_dp_value_update(DPID_FREQ_PARAMETER2, (int)((upssa0.ppp.offsetmin*1000.0f)+0.5f));
 			}
 		}
 		
@@ -843,28 +823,28 @@ void idle_process(void)
 				switch (study_mode)
 				{
 					case 0:
-						res_times = max_pp1_rt*1.1f;
+						upssa0.ppp.res_times = max_pp1_rt*1.1f;
 						break;
 					case 1:
-						res_times = max_pp1_rt*1.07f;
+						upssa0.ppp.res_times = max_pp1_rt*1.07f;
 						break;
 					case 2:
-						res_times = max_pp1_rt*1.03f;
+						upssa0.ppp.res_times = max_pp1_rt*1.03f;
 						break;
 					case 3:
-						res_times = max_pp1_rt*1.0f;
+						upssa0.ppp.res_times = max_pp1_rt*1.0f;
 						break;
 					default:
-						res_times = max_pp1_rt*1.0f;
+						upssa0.ppp.res_times = max_pp1_rt*1.0f;
 						break;
 				}
 				
-				sprintf(float_str, "study new pp1 values: %.3lf\r\n", res_times);
+				sprintf(float_str, "study new pp1 values: %.3lf\r\n", upssa0.ppp.res_times);
 				SEGGER_RTT_printf(0, "%s", float_str);
 				
 				if (upload_disable == 0)
 				{			
-					mcu_dp_value_update(DPID_FREQ_PARAMETER1, (int)((res_times*100.0f)+0.5f));
+					mcu_dp_value_update(DPID_FREQ_PARAMETER1, (int)((upssa0.ppp.res_times*100.0f)+0.5f));
 				}
 				
 				max_pp1_rt_last = max_pp1_rt;
@@ -874,28 +854,28 @@ void idle_process(void)
 				switch (study_mode)
 				{
 					case 0:
-						offsetmin = max_pp2_rt*1.1f;
+						upssa0.ppp.offsetmin = max_pp2_rt*1.1f;
 						break;
 					case 1:
-						offsetmin = max_pp2_rt*1.07f;
+						upssa0.ppp.offsetmin = max_pp2_rt*1.07f;
 						break;
 					case 2:
-						offsetmin = max_pp2_rt*1.03f;
+						upssa0.ppp.offsetmin = max_pp2_rt*1.03f;
 						break;
 					case 3:
-						offsetmin = max_pp2_rt*1.0f;
+						upssa0.ppp.offsetmin = max_pp2_rt*1.0f;
 						break;
 					default:
-						offsetmin = max_pp2_rt*1.0f;
+						upssa0.ppp.offsetmin = max_pp2_rt*1.0f;
 						break;
 				}
 				
-				sprintf(float_str, "study new pp2 values: %.3lf\r\n", offsetmin);
+				sprintf(float_str, "study new pp2 values: %.3lf\r\n", upssa0.ppp.offsetmin);
 				SEGGER_RTT_printf(0, "%s", float_str);
 				
 				if (upload_disable == 0)
 				{
-					mcu_dp_value_update(DPID_FREQ_PARAMETER2, (int)((offsetmin*1000.0f)+0.5f));
+					mcu_dp_value_update(DPID_FREQ_PARAMETER2, (int)((upssa0.ppp.offsetmin*1000.0f)+0.5f));
 				}				
 				
 				max_pp2_rt_last = max_pp2_rt;
@@ -957,8 +937,7 @@ void idle_process(void)
 	if (free_runner%3000 == 0)
 	{
 		//光敏一直控制继电器
-		if (light_sensor2_adc_data < Light_threshold4)//门限3
-		//if (light_sensor_adc_data < Light_threshold3)//门限3
+		if (light_sensor_adc_data < upssa0.ppp.Light_threshold4)//门限3
 		{
 			if (person_in_range_flag == 1)
 			{
@@ -969,7 +948,7 @@ void idle_process(void)
 				GPIO1_LOW();
 			}
 		}
-		else if (light_sensor2_adc_data > Light_threshold3)
+		else if (light_sensor_adc_data > upssa0.ppp.Light_threshold3)
 		{
 			GPIO1_LOW();
 		}
@@ -998,183 +977,9 @@ void idle_process(void)
 				sprintf(float_str, "%slight sensor: %d(%.3lfV)%s\r\n", RTT_CTRL_TEXT_BRIGHT_MAGENTA, light_sensor_adc_data, light_sensor_adc_data*3.3f/4096, RTT_CTRL_RESET);
 				SEGGER_RTT_printf(0, "%s", float_str);				
 			}
-			
-			if (1)
-			{
-				sprintf(float_str, "%slight sensor2: %d(%.3lfV)%s\r\n", RTT_CTRL_TEXT_BRIGHT_MAGENTA, light_sensor2_adc_data, light_sensor2_adc_data*3.3f/4096, RTT_CTRL_RESET);
-				SEGGER_RTT_printf(0, "%s", float_str);
-			}
-			
-			if (1)
-			{
-				switch_dist_f = switch_dist*3.3f/4096;
-				sprintf(float_str, "%sswitch distance: %d(%.3lfV)%s\r\n", RTT_CTRL_TEXT_BRIGHT_MAGENTA, switch_dist, switch_dist_f, RTT_CTRL_RESET);
-				SEGGER_RTT_printf(0, "%s", float_str);
-
-				if (switch_dist_f > 1.5f)
-				{
-					//1: on 2: on
-					//2米
-					quick_time_times = 2048;			//4
-					quick_time_add = 135;			//32
-					quick_freq_times = 12;			//3
-					//////////////////////////////////////////////////////
-					slow_time_times = 2048;			//5
-					slow_time_add = 135;				//40
-					slow_freq_times = 6;			//6
-					res_times = 78.0f;				//17.5
-					offsetmin = 1.23f;					//0.6					
-				}
-				else if (switch_dist_f > 1.1f)
-				{
-					//1: off 2: on
-					//3米
-					quick_time_times = 400;			//4
-					quick_time_add = 120;			//32
-					quick_freq_times = 10;			//3
-					//////////////////////////////////////////////////////
-					slow_time_times = 400;			//5
-					slow_time_add = 120;				//40
-					slow_freq_times = 10;			//6
-					res_times = 65.0f;				//17.5
-					offsetmin = 1.1f;					//0.6							
-				}
-				else if (switch_dist_f > 0.5f)
-				{
-					//1: on 2: off
-					//4米
-					quick_time_times = 30;			//4
-					quick_time_add = 80;			//32
-					quick_freq_times = 6;			//3
-					//////////////////////////////////////////////////////
-					slow_time_times = 30;			//5
-					slow_time_add = 80;				//40
-					slow_freq_times = 6;			//6
-					res_times = 50.0f;				//17.5
-					offsetmin = 0.8f;					//0.6		
-				}
-				else
-				{
-					//1: off 2: off
-					//最远
-					quick_time_times = 4;			//4
-					quick_time_add = 32;			//32
-					quick_freq_times = 3;			//3
-					//////////////////////////////////////////////////////
-					slow_time_times = 5;			//5
-					slow_time_add = 40;				//40
-					slow_freq_times = 6;			//6
-					res_times = 17.5f;				//17.5
-					offsetmin = 0.6f;					//0.6
-				}
-			}
-			
-			if (1)
-			{
-				switch_delay_f = switch_delay*3.3f/4096;
-					
-				if (switch_delay_f > 1.7f)
-				{
-					//3: on 4: on 5: on 
-					delay_s_num = 240;
-				}
-				else if (switch_delay_f > 1.6f)
-				{
-					//3: off 4: on 5: on 
-					delay_s_num = 180;
-				}
-				else if (switch_delay_f > 1.4f)
-				{
-					//3: on 4: off 5: on 
-					delay_s_num = 120;
-				}
-				else if (switch_delay_f > 1.2f)
-				{
-					//3: off 4: off 5: on
-					delay_s_num = 60;
-				}
-				else if (switch_delay_f > 1.0f)
-				{
-					//3: on 4: on 5: off
-					delay_s_num = 50;
-				}
-				else if (switch_delay_f > 0.7f)
-				{
-					//3: off 4: on 5: off
-					delay_s_num = 40;
-				}	
-				else if (switch_delay_f > 0.4f)
-				{
-					//3: on 4: off 5: off
-					delay_s_num = 30;
-				}
-				else
-				{
-					//3: off 4: off 5: off
-					delay_s_num = 24;
-				}
-				sprintf(float_str, "%sswitch delay: %d(%.3lfV)-%ds%s\r\n", RTT_CTRL_TEXT_BRIGHT_MAGENTA, switch_delay, switch_delay_f, delay_s_num, RTT_CTRL_RESET);
-				SEGGER_RTT_printf(0, "%s", float_str);				
-			}
-
-			if (1)
-			{
-				switch_light_f = switch_light*3.3f/4096;
-				
-				if (switch_light_f > 1.7f)
-				{
-					//6: on 7: on 8: on 
-					Light_threshold3 = 500;
-					Light_threshold4 = Light_threshold3 - 200;
-				}
-				else if (switch_light_f > 1.6f)
-				{
-					//6: off 7: on 8: on 
-					Light_threshold3 = 1000;
-					Light_threshold4 = Light_threshold3 - 200;
-				}
-				else if (switch_light_f > 1.4f)
-				{
-					//6: on 7: off 8: on 
-					Light_threshold3 = 1500;
-					Light_threshold4 = Light_threshold3 - 200;
-				}
-				else if (switch_light_f > 1.2f)
-				{
-					//6: off 7: off 8: on 
-					Light_threshold3 = 2000;
-					Light_threshold4 = Light_threshold3 - 200;
-				}
-				else if (switch_light_f > 1.0f)
-				{
-					//6: on 7: on 8: off
-					Light_threshold3 = 2500;
-					Light_threshold4 = Light_threshold3 - 200;
-				}
-				else if (switch_light_f > 0.7f)
-				{
-					//6: off 7: on 8: off
-					Light_threshold3 = 3000;
-					Light_threshold4 = Light_threshold3 - 200;
-				}	
-				else if (switch_light_f > 0.4f)
-				{
-					//6: on 7: off 8: off
-					Light_threshold3 = 3500;
-					Light_threshold4 = Light_threshold3 - 200;
-				}
-				else
-				{
-					//6: off 7: off 8: off 
-					Light_threshold3 = 4000;
-					Light_threshold4 = Light_threshold3 - 200;
-				}
-				sprintf(float_str, "%sswitch light: %d(%.3lfV)-(u%d)(d%d)%s\r\n", RTT_CTRL_TEXT_BRIGHT_MAGENTA, switch_light, switch_light_f, Light_threshold3, Light_threshold4, RTT_CTRL_RESET);
-				SEGGER_RTT_printf(0, "%s", float_str);				
-			}			
 		}
 			
-		if (light_sensor_adc_data > Light_threshold1)//门限1
+		if (light_sensor_adc_data > upssa0.ppp.Light_threshold1)//门限1
 		{
 //			GPIO2_HIGH();
 		}
@@ -1183,22 +988,13 @@ void idle_process(void)
 //			GPIO2_LOW();
 		}
 
-		if (light_sensor_adc_data < Light_threshold2)//门限2
+		if (light_sensor_adc_data < upssa0.ppp.Light_threshold2)//门限2
 		{
 //			GPIO3_HIGH();
 		}
 		else
 		{
 //			GPIO3_LOW();
-		}		
-		
-		if (light_sensor_adc_data > Light_threshold4)//门限4
-		{
-//			GPIO5_HIGH();
-		}
-		else
-		{
-//			GPIO5_LOW();
 		}
 		
 		SEGGER_RTT_printf(0, 
@@ -1495,6 +1291,30 @@ void stop_sample(unsigned char flag)
 	}
 }
 
+void save_upssa0(void)
+{
+    uint32_t u32Addr;	
+	//
+	EFM_Unlock();
+	EFM_FlashCmd(Enable);
+    while(Set != EFM_GetFlagStatus(EFM_FLAG_RDY))
+    {
+        ;
+    }
+    EFM_SectorErase(USER_PARAMETER_START_SECTOR_ADDRESS0);
+	
+    u32Addr = USER_PARAMETER_START_SECTOR_ADDRESS0;
+
+    for(int i = 0u; i < 13u; i++)
+    {
+        EFM_SingleProgram(u32Addr, upssa0.int_value[i]);
+        u32Addr += 4u;
+				SEGGER_RTT_printf(0, "%s%ssave flash address: 0x%x with 0x%x%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, u32Addr, upssa0.int_value[i], RTT_CTRL_RESET);
+    }
+	
+	EFM_Lock();
+}
+
 void set_var_from_flash(void)
 {
 	char float_str[64];
@@ -1505,14 +1325,14 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		quick_time_times = 4.0f;
+		upssa0.ppp.quick_time_times = 4.0f;
 	}
 	else
 	{
-		quick_time_times = QUICK_TIME_TIMES_FLASH;
+		upssa0.ppp.quick_time_times = QUICK_TIME_TIMES_FLASH;
 	}	
 	
-	sprintf(float_str, "%s%sload quick_time_times: %.3lf%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, quick_time_times, RTT_CTRL_RESET);
+	sprintf(float_str, "%s%sload quick_time_times: %.3lf%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.quick_time_times, RTT_CTRL_RESET);
 	SEGGER_RTT_printf(0, "%s", float_str);
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1521,14 +1341,14 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		quick_time_add = 32.0f;
+		upssa0.ppp.quick_time_add = 32.0f;
 	}
 	else
 	{
-		quick_time_add = QUICK_TIME_ADD_FLASH;
+		upssa0.ppp.quick_time_add = QUICK_TIME_ADD_FLASH;
 	}	
 	
-	sprintf(float_str, "%s%sload quick_time_add: %.3lf%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, quick_time_add, RTT_CTRL_RESET);
+	sprintf(float_str, "%s%sload quick_time_add: %.3lf%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.quick_time_add, RTT_CTRL_RESET);
 	SEGGER_RTT_printf(0, "%s", float_str);
 //////////////////////////////////////////////////////////////////////////////////////////////////
 	//quick_freq_times
@@ -1536,14 +1356,14 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		quick_freq_times = 3.0f;
+		upssa0.ppp.quick_freq_times = 3.0f;
 	}
 	else
 	{
-		quick_freq_times = QUICK_FREQ_TIMES_FLASH;
+		upssa0.ppp.quick_freq_times = QUICK_FREQ_TIMES_FLASH;
 	}	
 	
-	sprintf(float_str, "%s%sload quick_freq_times: %.3lf%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, quick_freq_times, RTT_CTRL_RESET);
+	sprintf(float_str, "%s%sload quick_freq_times: %.3lf%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.quick_freq_times, RTT_CTRL_RESET);
 	SEGGER_RTT_printf(0, "%s", float_str);	
 //////////////////////////////////////////////////////////////////////////////////////////////////
 	//slow_time_times
@@ -1551,14 +1371,14 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		slow_time_times = 4.0f;
+		upssa0.ppp.slow_time_times = 4.0f;
 	}
 	else
 	{
-		slow_time_times = SLOW_TIME_TIMES_FLASH;
+		upssa0.ppp.slow_time_times = SLOW_TIME_TIMES_FLASH;
 	}
 	
-	sprintf(float_str, "%s%sload slow_time_times: %.3lf%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, slow_time_times, RTT_CTRL_RESET);
+	sprintf(float_str, "%s%sload slow_time_times: %.3lf%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.slow_time_times, RTT_CTRL_RESET);
 	SEGGER_RTT_printf(0, "%s", float_str);
 	
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1567,14 +1387,14 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		slow_time_add = 40.0f;
+		upssa0.ppp.slow_time_add = 40.0f;
 	}
 	else
 	{
-		slow_time_add = SLOW_TIME_ADD_FLASH;
+		upssa0.ppp.slow_time_add = SLOW_TIME_ADD_FLASH;
 	}	
 	
-	sprintf(float_str, "%s%sload slow_time_add: %.3lf%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, slow_time_add, RTT_CTRL_RESET);
+	sprintf(float_str, "%s%sload slow_time_add: %.3lf%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.slow_time_add, RTT_CTRL_RESET);
 	SEGGER_RTT_printf(0, "%s", float_str);
 //////////////////////////////////////////////////////////////////////////////////////////////////
 	//slow_freq_times
@@ -1582,14 +1402,14 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		slow_freq_times = 6.0f;
+		upssa0.ppp.slow_freq_times = 6.0f;
 	}
 	else
 	{
-		slow_freq_times = SLOW_FREQ_TIMES_FLASH;
+		upssa0.ppp.slow_freq_times = SLOW_FREQ_TIMES_FLASH;
 	}	
 	
-	sprintf(float_str, "%s%sload slow_freq_times: %.3lf%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, slow_freq_times, RTT_CTRL_RESET);
+	sprintf(float_str, "%s%sload slow_freq_times: %.3lf%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.slow_freq_times, RTT_CTRL_RESET);
 	SEGGER_RTT_printf(0, "%s", float_str);	
 //////////////////////////////////////////////////////////////////////////////////////////////////
 	//res_times
@@ -1597,14 +1417,14 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		res_times = 60.0f;
+		upssa0.ppp.res_times = 60.0f;
 	}
 	else
 	{
-		res_times = RES_TIMES_FLASH;
+		upssa0.ppp.res_times = RES_TIMES_FLASH;
 	}	
 	
-	sprintf(float_str, "%s%sload res_times: %.3lf%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, res_times, RTT_CTRL_RESET);
+	sprintf(float_str, "%s%sload res_times: %.3lf%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.res_times, RTT_CTRL_RESET);
 	SEGGER_RTT_printf(0, "%s", float_str);	
 //////////////////////////////////////////////////////////////////////////////////////////////////
 	//offsetmin
@@ -1612,17 +1432,85 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		offsetmin = 0.6f;
+		upssa0.ppp.offsetmin = 0.6f;
 	}
 	else
 	{
-		offsetmin = OFFSETMIN_FLASH;
+		upssa0.ppp.offsetmin = OFFSETMIN_FLASH;
 	}	
 	
-	sprintf(float_str, "%s%sload offsetmin: %.3lf%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, offsetmin, RTT_CTRL_RESET);
+	sprintf(float_str, "%s%sload offsetmin: %.3lf%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.offsetmin, RTT_CTRL_RESET);
 	SEGGER_RTT_printf(0, "%s", float_str);	
 //////////////////////////////////////////////////////////////////////////////////////////////////
+	upssa0.ppp.Light_threshold1 = LIGHT_THRESHOLD1_FLASH;
+	if (upssa0.ppp.Light_threshold1 == -1)
+	{
+		upssa0.ppp.Light_threshold1 = 0;
+	}
+	SEGGER_RTT_printf(0, "%s%sload Light_threshold1: %d%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.Light_threshold1, RTT_CTRL_RESET);
+//////////////////////////////////////////////////////////////////////////////////////////////////
+	upssa0.ppp.Light_threshold2 = LIGHT_THRESHOLD2_FLASH;
+	if (upssa0.ppp.Light_threshold2 == -1)
+	{
+		upssa0.ppp.Light_threshold2 = 0;
+	}	
+	SEGGER_RTT_printf(0, "%s%sload Light_threshold2: %d%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.Light_threshold2, RTT_CTRL_RESET);
+//////////////////////////////////////////////////////////////////////////////////////////////////
+	upssa0.ppp.Light_threshold3 = LIGHT_THRESHOLD3_FLASH;
+	if (upssa0.ppp.Light_threshold3 == -1)
+	{
+		upssa0.ppp.Light_threshold3 = 4000;
+	}
+	SEGGER_RTT_printf(0, "%s%sload Light_threshold3: %d%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.Light_threshold3, RTT_CTRL_RESET);
+//////////////////////////////////////////////////////////////////////////////////////////////////
+	upssa0.ppp.Light_threshold4 = LIGHT_THRESHOLD4_FLASH;
+	if (upssa0.ppp.Light_threshold4 == -1)
+	{
+		upssa0.ppp.Light_threshold4 = 3800;
+	}	
+	SEGGER_RTT_printf(0, "%s%sload Light_threshold4: %d%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.Light_threshold4, RTT_CTRL_RESET);
+//////////////////////////////////////////////////////////////////////////////////////////////////
+	upssa0.ppp.delay_time_num = DELAY_TIME_NUM_FLASH;
+	if (upssa0.ppp.delay_time_num == -1)
+	{
+		upssa0.ppp.delay_time_num = 0;
+	}
 
+	switch(upssa0.ppp.delay_time_num) {
+			case 0:
+				delay_s_num = 24;
+			break;
+			
+			case 1:
+				delay_s_num = 32;
+			break;
+			
+			case 2:
+				delay_s_num = 40;
+			break;
+			
+			case 3:
+				delay_s_num = 48;
+			break;
+			
+			case 4:
+				delay_s_num = 64;
+			break;
+			
+			case 5:
+				delay_s_num = 128;
+			break;
+			
+			case 6:
+				delay_s_num = 192;
+			break;
+			
+			default:
+	
+			break;
+	}
+	
+	SEGGER_RTT_printf(0, "%s%sload delay_time_num: %d%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.delay_time_num, RTT_CTRL_RESET);	
 }
 
 void	set_iot_network_from_flash(void)
