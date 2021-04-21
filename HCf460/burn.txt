@@ -1,6 +1,6 @@
 usb
 si 1
-speed 4000
+speed 25000
 device HC32F46x
 TestCSpeed 0x1FFF8000
 r
