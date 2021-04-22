@@ -17,7 +17,14 @@ print(jlk.connected())
 print(jlk.update_firmware())
 print(jlk.target_connected())
 jlk.exec_command(dev_xml)
-jlk.exec_command('device=HC32F46X')
+#jlk.exec_command('usb')
+#jlk.exec_command('si 1')
+#jlk.exec_command('speed 25000')
+jlk.exec_command('device HC32F46X')
+#jlk.exec_command('vcom enable')
+jlk.set_tif(jlink.enums.JLinkInterfaces.SWD)
+jlk.connect(chip_name='HC32F46X', speed=50000)
+print(jlk.target_connected())
 
  
 with window("Tutorial"):
