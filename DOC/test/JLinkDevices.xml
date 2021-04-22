@@ -1337,7 +1337,7 @@
   <!-- HDSC (HC32) -->
   <!--                 -->
   <Device>
-    <ChipInfo Vendor="HDSC" Name="HC32F46x"  WorkRAMAddr="0x1FFF8000" WorkRAMSize="0x2F000" Core="JLINK_CORE_CORTEX_M4" JLinkScriptFile="Devices/HDSC/HC32F46x.JLinkScript"/>
+    <ChipInfo Vendor="HDSC" Name="HC32F46x"  WorkRAMAddr="0x1FFF8000" WorkRAMSize="0x2F000" Core="JLINK_CORE_CORTEX_M4"/>
     <FlashBankInfo Name="Flash_512K" BaseAddr="0x0" MaxSize="0x80000" Loader="Devices/HDSC/HC32F46x.FLM" LoaderType="FLASH_ALGO_TYPE_OPEN" AlwaysPresent="1"/>
   </Device>  
 </DataBase>

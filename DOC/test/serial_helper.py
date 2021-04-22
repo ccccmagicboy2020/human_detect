@@ -1,5 +1,24 @@
 from dearpygui.core import *
 from dearpygui.simple import *
+from pylink import jlink
+import os
+
+# show the dearpygui logger
+show_logger()
+dllpath = os.path.join(os.getcwd(), 'JLink_x64.dll')
+xmlpath = os.path.join(os.getcwd(), 'JLinkDevices.xml')
+dev_xml = 'JLinkDevicesXMLPath ' + xmlpath
+print(dllpath)
+print(dev_xml)
+jlk = jlink.JLink(lib=jlink.library.Library(dllpath=dllpath))
+jlk.open()
+print(jlk.product_name)
+print(jlk.connected())
+print(jlk.update_firmware())
+print(jlk.target_connected())
+jlk.exec_command(dev_xml)
+jlk.exec_command('device=HC32F46X')
+
  
 with window("Tutorial"):
     set_main_window_size(600,440)
@@ -39,7 +58,6 @@ set_render_callback(callback=on_render)
 def print_me(sender, data):
     log_debug(f"菜单项: {sender}")
 
-show_logger()
 
 with window("Tutorial3"):
     with menu_bar("Main Menu Bar"):
