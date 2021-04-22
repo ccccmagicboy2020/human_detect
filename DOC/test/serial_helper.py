@@ -30,7 +30,7 @@ print(jlk.target_connected())
 with window("Tutorial"):
     set_main_window_size(600,440)
     add_tab_bar("bezier_test")
-    add_additional_font('NotoSerifCJKjp-Medium.otf', 30, glyph_ranges='chinese_full')
+    add_additional_font('font.TTF', 30, glyph_ranges='chinese_full')
      
     x1, y1 = [100,100]
     x2, y2 = [100,200]
