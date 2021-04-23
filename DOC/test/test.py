@@ -24,7 +24,7 @@ async def send_command0(delay):
     global packet_save_upssa0
     
     while True:
-        print('this message is from send function')
+        print('this message is from send_command0 function')
         result = ser.write(packet_pir_delay)
         ser.flush()
         result = ser.write(packet_load_radar_parameter)
@@ -179,6 +179,7 @@ def main():
     except KeyboardInterrupt:
         ser.close()
         print('Bye-Bye!!!')
+        pass
 
 if __name__ == '__main__':
     main()
