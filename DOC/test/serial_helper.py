@@ -1,10 +1,10 @@
-from dearpygui.core import *
-from dearpygui.simple import *
+from dearpygui import core,simple
 from pylink import jlink
 import os
 
 # show the dearpygui logger
-show_logger()
+#core.show_logger()
+#jlink initial
 dllpath = os.path.join(os.getcwd(), 'JLink_x64.dll')
 xmlpath = os.path.join(os.getcwd(), 'JLinkDevices.xml')
 dev_xml = 'JLinkDevicesXMLPath ' + xmlpath
@@ -26,63 +26,48 @@ jlk.set_tif(jlink.enums.JLinkInterfaces.SWD)
 jlk.connect(chip_name='HC32F46X', speed=50000)
 print(jlk.target_connected())
 
- 
-with window("Tutorial"):
-    set_main_window_size(600,440)
-    add_tab_bar("bezier_test")
-    add_additional_font('font.TTF', 30, glyph_ranges='chinese_full')
-     
-    x1, y1 = [100,100]
-    x2, y2 = [100,200]
-    x3, y3 = [200,200]
-    x4, y4 = [200,100]
-     
-    add_tab("第一个栏目")
-    add_simple_plot("Simpleplot1", value=[0.3, 0.9, 0.5, 0.3], height=300)
-    end()
-     
-    add_tab("第二个栏目")
-    add_simple_plot("Simpleplot2", value=[0.3, 0.9, 2.5, 8.9], overlay="Overlaying", height=180, histogram=True)
-     
-    end()
-    
-def on_render(sender, data):
-    delta_time = str(round(get_delta_time(), 4))
-    total_time = str(round(get_total_time(), 4))
-    set_value("delta_time", delta_time)
-    set_value("total_time", total_time)
-
-with window("Tutoria2"):
-    add_text("应用运行的总时间: ")
-    add_same_line()
-    add_label_text("##total_time_text", source="total_time")
-    add_text("应用刷新的时间差: ")
-    add_same_line()
-    add_label_text("##delta_time_text", source="delta_time")
-    
-set_render_callback(callback=on_render)
- 
 def print_me(sender, data):
-    log_debug(f"菜单项: {sender}")
+    core.log_debug(f"Menu Item: {sender}")
 
+def apply_theme(sender, data):
+    theme = core.get_value("Themes")
+    core.set_theme(theme)
 
-with window("Tutorial3"):
-    with menu_bar("Main Menu Bar"):
-        with menu("文件"):
-            add_menu_item("保存", callback=print_me)
-            add_menu_item("另存为", callback=print_me)
+with simple.window("main"):
+    core.set_main_window_size(1024, 768)
+    core.add_additional_font('font.TTF', 24, glyph_ranges='chinese_full')
+    core.set_main_window_pos(100, 100)
+    core.set_main_window_resizable(False)
+    core.set_main_window_title('serial helper for phosense')
 
-            with menu("设置"):
-                add_menu_item("设置项 1", callback=print_me)
-                add_menu_item("设置项 2", callback=print_me)
+    with simple.menu_bar("Main Menu Bar"):
+        with simple.menu("文件"):
+            core.add_menu_item("保存", callback=print_me)
+        with simple.menu("帮助"):
+            core.add_menu_item("关于", callback=print_me)
 
-        add_menu_item("帮助", callback=print_me)
+    core.add_tab_bar("test")
+     
+    core.add_tab("基本设置")
+    core.add_text("选择界面主题")
+    themes = ["Dark", "Light", "Classic", "Dark 2", "Grey", "Dark Grey", "Cherry", "Purple", "Gold", "Red"]
+    core.add_combo("Themes", items=themes, default_value="Gold", callback=apply_theme)
+    core.set_theme("Gold")
+    core.end()
+    core.add_tab("DP测试")
+    core.add_text("这里是数据点测试面板")
+    core.add_button("Apply1", label="Apply", tip="delete record")
+    core.add_spacing(count=50, name="spacing1")
+    core.add_button("Apply2", label="Apply", tip="delete record") 
+    core.end()
+    core.add_tab("工厂操作")
+    core.add_text("这里是工厂操作人员使用的面板")
+    core.end()
+    core.add_tab("固件更新")
+    core.add_text("这里用于现场固件更新面板")
 
-        with menu("控件列表"):
-            add_checkbox("选择", callback=print_me)
-            add_button("点击", callback=print_me)
-            add_color_picker4("选择颜色", callback=print_me)
+  
 
-start_dearpygui()
+core.start_dearpygui(primary_window='main')
 
 
