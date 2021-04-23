@@ -26,6 +26,10 @@ jlk.set_tif(jlink.enums.JLinkInterfaces.SWD)
 jlk.connect(chip_name='HC32F46X', speed=50000)
 print(jlk.target_connected())
 
+def apply_text_multiplier(sender, data):
+    font_multiplier = core.get_value("Font Size Multiplier")
+    core.set_global_font_scale(font_multiplier)
+
 def print_me(sender, data):
     core.log_debug(f"Menu Item: {sender}")
 
@@ -53,6 +57,8 @@ with simple.window("main"):
     themes = ["Dark", "Light", "Classic", "Dark 2", "Grey", "Dark Grey", "Cherry", "Purple", "Gold", "Red"]
     core.add_combo("Themes", items=themes, default_value="Gold", callback=apply_theme)
     core.set_theme("Gold")
+    core.add_slider_float("Font Size Multiplier", default_value=1.0, min_value=0.8, max_value=2.0,
+                 callback=apply_text_multiplier)    
     core.end()
     core.add_tab("DP测试")
     core.add_text("1. 感应延时")
