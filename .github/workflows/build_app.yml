@@ -57,14 +57,14 @@ jobs:
     - name: Build with pyinstaller AND UPX
       if: env.USE_UPX == 'true'
       run: |
-        pyinstaller.exe --upx-dir=.\upx-3.95-win64 --icon=railway_switch.ico -F --noconsole plot.py --version-file file_version_info.txt --uac-admin
+        pyinstaller.exe --upx-dir=.\upx-3.95-win64 --icon=serial_helper.ico -F --noconsole .\DOC\test\serial_helper.py --version-file file_version_info.txt --uac-admin
         cd dist
         dir
         
     - name: Build with pyinstaller
       if: env.USE_UPX == 'false'
       run: |
-        pyinstaller.exe --icon=railway_switch.ico -F --noconsole plot.py --version-file file_version_info.txt --uac-admin
+        pyinstaller.exe --icon=serial_helper.ico -F --noconsole .\DOC\test\serial_helper.py --version-file file_version_info.txt --uac-admin
         cd dist
         dir        
         
@@ -72,7 +72,7 @@ jobs:
       id: get_ver
       working-directory: .\
       run: |
-        echo "::set-output name=version::$((Get-Command D:\\a\\F1_tools\\F1_tools\\dist\\plot.exe).FileVersionInfo.FileVersion)"
+        echo "::set-output name=version::$((Get-Command D:\\a\\human_detect\\human_detect\\dist\\serial_helper.exe).FileVersionInfo.FileVersion)"
       shell: powershell
       
     - name: Get the datetime
@@ -85,15 +85,15 @@ jobs:
     - name: Zip the artifact
       if: env.USE_THIS_STEPS == 'true'
       run: |
-        7z a plot_v${{ steps.get_ver.outputs.version }}_${{ steps.get_datetime.outputs.datetime_str }}.zip dist\plot.exe README.md
+        7z a serial_helper_v${{ steps.get_ver.outputs.version }}_${{ steps.get_datetime.outputs.datetime_str }}.zip dist\serial_helper.exe README.md
       shell: cmd
       
     - name: Upload the zip file
       if: env.USE_THIS_STEPS == 'true'    
       uses: actions/upload-artifact@master
       with:
-        name: plot_v${{ steps.get_ver.outputs.version }}_${{ steps.get_datetime.outputs.datetime_str }}
-        path: plot_v${{ steps.get_ver.outputs.version }}_${{ steps.get_datetime.outputs.datetime_str }}.zip
+        name: serial_helper_v${{ steps.get_ver.outputs.version }}_${{ steps.get_datetime.outputs.datetime_str }}
+        path: serial_helper_v${{ steps.get_ver.outputs.version }}_${{ steps.get_datetime.outputs.datetime_str }}.zip
         
 
         
