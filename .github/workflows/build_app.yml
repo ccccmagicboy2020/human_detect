@@ -1,0 +1,99 @@
+#===================================================================================
+# https://github.com/ccccmagicboy2020/human_detect
+# Description: Build app tool using GitHub Actions
+# Lisence: MIT
+# Author: cccc
+# Url: 
+#===================================================================================
+
+name: APP_BUILD
+
+on:
+  pull_request:
+    branches:
+      - dev-4.0-PH10D3232EX
+  push:
+    branches:
+      - dev-4.0-PH10D3232EX
+    paths-ignore:
+    - '**.md'  
+  # schedule:
+    # - cron: 0 8 * * 5
+  # watch:
+    # types: [started]
+
+env:
+  TZ: Asia/Shanghai
+  USE_THIS_STEPS: true
+  USE_UPX: false
+
+jobs:
+  build:
+    runs-on: windows-2016
+
+    steps:
+    - name: Checkout this repos
+      uses: actions/checkout@v2
+      with:
+        ref: dev-4.0-PH10D3232EX
+
+    - name: Get the python v3.x
+      uses: actions/setup-python@v1
+      with:
+        python-version: '3.x'
+        architecture: 'x64'      
+
+    - name: Check python version
+      run: |
+        python -c "import sys; print(sys.version)"
+      shell: cmd
+      
+    - name: Install dependencies
+      run: |
+        python3 -m pip install --upgrade pip
+        pip3 install -U -r requirements.txt
+      shell: cmd
+      
+    - name: Build with pyinstaller AND UPX
+      if: env.USE_UPX == 'true'
+      run: |
+        pyinstaller.exe --upx-dir=.\upx-3.95-win64 --icon=railway_switch.ico -F --noconsole plot.py --version-file file_version_info.txt --uac-admin
+        cd dist
+        dir
+        
+    - name: Build with pyinstaller
+      if: env.USE_UPX == 'false'
+      run: |
+        pyinstaller.exe --icon=railway_switch.ico -F --noconsole plot.py --version-file file_version_info.txt --uac-admin
+        cd dist
+        dir        
+        
+    - name: Get the exe version
+      id: get_ver
+      working-directory: .\
+      run: |
+        echo "::set-output name=version::$((Get-Command D:\\a\\F1_tools\\F1_tools\\dist\\plot.exe).FileVersionInfo.FileVersion)"
+      shell: powershell
+      
+    - name: Get the datetime
+      id: get_datetime
+      uses: ccccmagicboy/get_datetime@master
+      with:
+        tz1: 'Asia'
+        tz2: 'Shanghai'           
+
+    - name: Zip the artifact
+      if: env.USE_THIS_STEPS == 'true'
+      run: |
+        7z a plot_v${{ steps.get_ver.outputs.version }}_${{ steps.get_datetime.outputs.datetime_str }}.zip dist\plot.exe README.md
+      shell: cmd
+      
+    - name: Upload the zip file
+      if: env.USE_THIS_STEPS == 'true'    
+      uses: actions/upload-artifact@master
+      with:
+        name: plot_v${{ steps.get_ver.outputs.version }}_${{ steps.get_datetime.outputs.datetime_str }}
+        path: plot_v${{ steps.get_ver.outputs.version }}_${{ steps.get_datetime.outputs.datetime_str }}.zip
+        
+
+        
