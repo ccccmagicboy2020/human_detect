@@ -59,7 +59,9 @@ def exit_handle():
 def init_ui():
     #dearpygui initial
     # show the dearpygui logger
-    #core.show_logger()
+    core.show_logger()
+    core.clear_log()
+    core.set_logger_window_title('debug viewer')   
 
     with simple.window("main"):
         core.set_main_window_size(1024, 768)
@@ -173,7 +175,8 @@ async def send_command0(delay):
     global ser
     
     while True:
-        print('this message is from send_command0 function')
+        #print('this message is from send_command0 function')
+        core.log_debug(f"this message is from send_command0 function")
         if (stop_thread_flag == True):
             break        
         await asyncio.sleep(delay)  # 阻塞直到协程sleep返回结果
@@ -182,7 +185,8 @@ async def rev_command0(delay):
     global ser
     
     while True:
-        print('this message is from rev_command0 function')
+        #print('this message is from rev_command0 function')
+        core.log_debug(f"this message is from rev_command0 function")
         if (stop_thread_flag == True):
             break
         await asyncio.sleep(delay)  # 阻塞直到协程sleep返回结果  
