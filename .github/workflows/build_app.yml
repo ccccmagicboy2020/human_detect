@@ -11,10 +11,9 @@ name: APP_BUILD
 on:
   pull_request:
     branches:
-      - dev-4.0-PH10D3232EX
+      - main
   push:
     branches:
-      - 'dev-4.0-PH10D3232EX'
       - main
     paths-ignore:
     - '**.md'  
