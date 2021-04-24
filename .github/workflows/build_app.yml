@@ -29,6 +29,7 @@ env:
 
 jobs:
   build:
+    name: serial_helper
     runs-on: windows-2016
 
     steps:
