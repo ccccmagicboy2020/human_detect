@@ -1,0 +1,5 @@
+pylink-square
+dearpygui
+pyserial
+
+
