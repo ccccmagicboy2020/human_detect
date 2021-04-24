@@ -14,7 +14,8 @@ on:
       - dev-4.0-PH10D3232EX
   push:
     branches:
-      - dev-4.0-PH10D3232EX
+      - 'dev-4.0-PH10D3232EX'
+      - main
     paths-ignore:
     - '**.md'  
   # schedule:
