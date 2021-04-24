@@ -34,7 +34,7 @@ VSVersionInfo(
         StringStruct(u'FileVersion', u'1.0'),
         StringStruct(u'InternalName', u'serial_helper'),
         StringStruct(u'LegalCopyright', u'© phosense<cuiwei_cv@163.com>'),
-        StringStruct(u'OriginalFilename', u'plot.exe'),
+        StringStruct(u'OriginalFilename', u'serial_helper.exe'),
         StringStruct(u'ProductName', u'串口量产工具'),
         StringStruct(u'ProductVersion', u'1.0')])
       ]), 
