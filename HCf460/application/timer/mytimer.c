@@ -11,7 +11,9 @@ extern uint16_t m_au16Adc2SaValue[ADC2_CH_COUNT];
 
 volatile uint32_t Timer_Counter = 0;
 volatile uint32_t light_sensor_Timer_Counter = 0;
+volatile uint32_t data_report_counter = 0;
 extern unsigned char light_sensor_upload_flag;
+extern unsigned char data_report_upload_flag;
 
 unsigned short  light_sensor_adc_data = 0;	//光敏数据
 unsigned short  light_sensor2_adc_data = 0;	//光敏数据 底板上
@@ -153,11 +155,18 @@ static void Timer0A_CallBack(void)      //  T = 1ms
 	SEGGER_SYSVIEW_RecordEnterISR();
 	Timer_Counter++;
 	light_sensor_Timer_Counter++;
+	data_report_counter++;
 	
 	if (light_sensor_Timer_Counter >= 1000*10)
 	{
 		light_sensor_upload_flag = 1;
 		light_sensor_Timer_Counter = 0;
+	}
+	
+	if (data_report_counter >= 1000*5)
+	{
+		data_report_upload_flag = 1;
+		data_report_counter = 0;
 	}
 	
 	SEGGER_SYSVIEW_RecordExitISR();

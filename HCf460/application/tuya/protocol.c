@@ -69,6 +69,9 @@ extern int study_flag;
 extern int study_mode;
 
 extern	union KKK upssa0;
+extern	char quick_detection_result_last;
+extern	char slow_check_result_last;
+extern	unsigned char data_report_upload_enable;
 ///////////////////////////////////////////////////////////////////////////////
 void Delay_ms(unsigned int t);
 void update_check_parameter(void);
@@ -896,24 +899,28 @@ static unsigned char dp_download_common_command_handle(const unsigned char value
     
     common_command = mcu_get_dp_download_enum(value,length);
     switch(common_command) {
-        case 0://更新检测参数
+        case 0://上传更新检测参数
 			update_check_parameter();
         break;
         
-        case 1:
+        case 1://保存参数到flash
 			save_upssa0();
         break;
         
-        case 2:
+        case 2://上传人状态
+			mcu_dp_enum_update(DPID_PERSON_IN_RANGE, quick_detection_result_last);
         break;
         
-        case 3:
+        case 3://上传慢检测结果
+			mcu_dp_enum_update(DPID_SLOW_CHECK_RESULT, slow_check_result_last);
         break;
         
-        case 4:
+        case 4://enable the data upload every 5s
+					data_report_upload_enable = 1;
         break;
         
-        case 5:
+        case 5://disalbe the data upload every 5s
+					data_report_upload_enable = 0;
         break;
         
         default:

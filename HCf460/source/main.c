@@ -62,6 +62,8 @@ volatile int check_status = TUYA_OTHER;
 volatile int person_in_range_flag = 0;
 volatile int light_status_flag = 0;
 
+char quick_detection_result_last = 0;
+char slow_check_result_last = 1;//no person
 ////////////////////////////////////////////////////////////
 char JS_RTT_UpBuffer[1024];
 Val_t adc_value;
@@ -90,6 +92,8 @@ unsigned char find_me_counter = 0;
 unsigned char light_sensor_upload_flag = 0;
 extern unsigned short  light_sensor_adc_data;
 ////////////////////////////////////////////////////////////
+unsigned char data_report_upload_flag = 0;
+unsigned char data_report_upload_enable = 0;
 ////////////////////////////////////////////////////////////
 int delay_s_num = 24;
 ////////////////////////////////////////////////////////////
@@ -158,7 +162,6 @@ void gpio_output(unsigned char res)
 
 void fast_output_result(char quick_detection_result)
 {
-	static char quick_detection_result_last = 0;
 	SEGGER_RTT_printf(0, "%squick: %d%s\r\n", RTT_CTRL_BG_GREEN, quick_detection_result, RTT_CTRL_RESET);
 	
 	if (quick_detection_result != quick_detection_result_last)
@@ -958,6 +961,15 @@ void idle_process(void)
 		}	
 	}
 	
+	if (data_report_upload_flag)
+	{
+		data_report_upload_flag = 0;
+		if (data_report_upload_enable)
+		{
+			mcu_dp_enum_update(DPID_PERSON_IN_RANGE, quick_detection_result_last);
+			mcu_dp_enum_update(DPID_SLOW_CHECK_RESULT, slow_check_result_last);
+		}
+	}
 	//光敏控制及上报，gpio状态上报，bt连接情况上报
 	if (light_sensor_upload_flag)
 	{
@@ -1119,9 +1131,7 @@ void check_status_upload(unsigned int aaaa)
 }
 
 void slow_check_result_upload(unsigned int aaaa)
-{
-	static unsigned int slow_check_result_last = 1;//no person
-	
+{	
 	slow_check_result = aaaa;
 	
 	if (upload_disable == 0)
