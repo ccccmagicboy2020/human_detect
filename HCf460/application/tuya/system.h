@@ -81,11 +81,11 @@
 #define TUYA_BCI_UART_COMMON_QUERY_MCU_VERSION			    0xE8				//查询MCU版本号
 #define TUYA_BCI_UART_COMMON_MCU_SEND_VERSION			    0xE9				//MCU主动发送版本号
 
-//#define TUYA_BCI_UART_COMMON_MCU_OTA_REQUEST			    0xEA				//OTA升级请求
-//#define TUYA_BCI_UART_COMMON_MCU_OTA_FILE_INFO			    0xEB				//OTA升级文件信息
-//#define TUYA_BCI_UART_COMMON_MCU_OTA_FILE_OFFSET	        0xEC				//OTA升级文件偏移请求
-//#define TUYA_BCI_UART_COMMON_MCU_OTA_DATA 			        0xED				//OTA升级数据
-//#define TUYA_BCI_UART_COMMON_MCU_OTA_END			        0xEE				//OTA升级结束
+#define TUYA_BCI_UART_COMMON_MCU_OTA_REQUEST			    0xEA				//OTA升级请求
+#define TUYA_BCI_UART_COMMON_MCU_OTA_FILE_INFO			    0xEB				//OTA升级文件信息
+#define TUYA_BCI_UART_COMMON_MCU_OTA_FILE_OFFSET	        0xEC				//OTA升级文件偏移请求
+#define TUYA_BCI_UART_COMMON_MCU_OTA_DATA 			        0xED				//OTA升级数据
+#define TUYA_BCI_UART_COMMON_MCU_OTA_END			        0xEE				//OTA升级结束
 
 
 //#define TUYA_BCI_UART_COMMON_QUERY_MOUDLE_VERSION			0xA0				//MCU 获取模块版本信息

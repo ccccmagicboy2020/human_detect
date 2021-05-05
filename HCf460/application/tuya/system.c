@@ -280,9 +280,9 @@ static unsigned char data_point_handle(const unsigned char value[])
 void data_handle(unsigned short offset)
 {
 #ifdef SUPPORT_MCU_FIRM_UPDATE
-  unsigned char *firmware_addr;
-  static unsigned long firm_length;                                             //MCU升级文件长度
-  static unsigned char firm_update_flag;                                        //MCU升级标志
+//  unsigned char *firmware_addr;
+//  static unsigned long firm_length;                                             //MCU升级文件长度
+//  static unsigned char firm_update_flag;                                        //MCU升级标志
   unsigned long dp_len;
 #else
   unsigned short dp_len;
@@ -395,7 +395,10 @@ void data_handle(unsigned short offset)
     break;
     
   case STATE_QUERY_CMD:                                 //状态查询
-    all_data_update();                               
+		if (upload_disable == 0)
+		{
+			all_data_update();		
+		}
     break;
     
 #ifdef TUYA_BCI_UART_COMMON_RF_TEST 
@@ -489,8 +492,12 @@ void data_handle(unsigned short offset)
 #endif
 #ifdef TUYA_BCI_UART_COMMON_QUERY_MCU_VERSION
 	case TUYA_BCI_UART_COMMON_QUERY_MCU_VERSION:  
-	  length = set_bt_uart_buffer(length,(unsigned char *)MCU_APP_VER_NUM,3);
-	  length = set_bt_uart_buffer(length,(unsigned char *)MCU_HARD_VER_NUM,3);
+		length = set_bt_uart_byte(length, (unsigned char)((MCU_APP_VER_NUM & 0x00FF0000) >> 16));
+		length = set_bt_uart_byte(length, (unsigned char)((MCU_APP_VER_NUM & 0x0000FF00) >> 8));
+		length = set_bt_uart_byte(length, (unsigned char)(MCU_APP_VER_NUM & 0x000000FF));
+		length = set_bt_uart_byte(length, (unsigned char)((MCU_HARD_VER_NUM & 0x00FF0000) >> 16));
+		length = set_bt_uart_byte(length, (unsigned char)((MCU_HARD_VER_NUM & 0x0000FF00) >> 8));
+		length = set_bt_uart_byte(length, (unsigned char)(MCU_HARD_VER_NUM & 0x000000FF));
 	  bt_uart_write_frame(TUYA_BCI_UART_COMMON_QUERY_MCU_VERSION,length);
 	  break;
 #endif
@@ -508,7 +515,7 @@ void data_handle(unsigned short offset)
 		total_len = bt_uart_rx_buf[offset + LENGTH_HIGH] * 0x100;
 		total_len += bt_uart_rx_buf[offset + LENGTH_LOW];
 		mcu_ota_proc(cmd_type,&bt_uart_rx_buf[offset + DATA_START],total_len);
-	  	break;
+	  break;
 #endif   
 
   default:

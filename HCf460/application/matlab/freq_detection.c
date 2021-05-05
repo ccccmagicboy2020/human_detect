@@ -174,25 +174,29 @@ int freq_detection(FIFO_DataType data[], const float win[], int data_size, int w
 		sprintf(float_str, "freq domain trigger value: %.2lf-%.2lf\r\n", freq_times_rt, freq_times);
 		SEGGER_RTT_printf(0, "%s", float_str);
 		run_counter++;
-		if (check_status == TUYA_FAST_CHECK)
+		
+		if (upload_disable == 0)
 		{
-			if(run_counter%64 == 0)//0.25hz
+			if (check_status == TUYA_FAST_CHECK)
 			{
-				//
-				if (freq_times_rt != freq_times_rt_last)
+				if(run_counter%64 == 0)//0.25hz
 				{
-						mcu_dp_value_update(DPID_FREQ_TIMES_RT, (int)((freq_times_rt*100.0f)+0.5f));
-						freq_times_rt_last = freq_times_rt;
+					//
+					if (freq_times_rt != freq_times_rt_last)
+					{
+							mcu_dp_value_update(DPID_FREQ_TIMES_RT, (int)((freq_times_rt*100.0f)+0.5f));
+							freq_times_rt_last = freq_times_rt;
+					}
 				}
 			}
-		}
-		else
-		{
-				if (freq_times_rt != freq_times_rt_last)
-				{
-						mcu_dp_value_update(DPID_FREQ_TIMES_RT, (int)((freq_times_rt*100.0f)+0.5f));
-						freq_times_rt_last = freq_times_rt;
-				}
+			else
+			{
+					if (freq_times_rt != freq_times_rt_last)
+					{
+							mcu_dp_value_update(DPID_FREQ_TIMES_RT, (int)((freq_times_rt*100.0f)+0.5f));
+							freq_times_rt_last = freq_times_rt;
+					}
+			}		
 		}
 	}
 	else

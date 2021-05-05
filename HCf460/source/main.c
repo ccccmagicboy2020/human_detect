@@ -975,20 +975,20 @@ void idle_process(void)
 	{
 		light_sensor_upload_flag = 0;//clear flag
 		//
-		//light sensor as bt heartbeat
-		if (1)
+		//light sensor upload
+		if (upload_disable == 0)
 		{
 			if (light_sensor_adc_data != light_sensor_adc_data_last)
 			{
 				mcu_dp_value_update(DPID_LIGHT_SENSOR_RAW, light_sensor_adc_data);
 				light_sensor_adc_data_last = light_sensor_adc_data;			
 			}
-			
-			if (1)
-			{
-				sprintf(float_str, "%slight sensor: %d(%.3lfV)%s\r\n", RTT_CTRL_TEXT_BRIGHT_MAGENTA, light_sensor_adc_data, light_sensor_adc_data*3.3f/4096, RTT_CTRL_RESET);
-				SEGGER_RTT_printf(0, "%s", float_str);				
-			}
+		}
+		
+		if (1)
+		{
+			sprintf(float_str, "%slight sensor: %d(%.3lfV)%s\r\n", RTT_CTRL_TEXT_BRIGHT_MAGENTA, light_sensor_adc_data, light_sensor_adc_data*3.3f/4096, RTT_CTRL_RESET);
+			SEGGER_RTT_printf(0, "%s", float_str);				
 		}
 			
 		if (light_sensor_adc_data > upssa0.ppp.Light_threshold1)//цеоч1
@@ -1030,7 +1030,7 @@ void idle_process(void)
             case    BT_NOT_CONNECTED:
                 SEGGER_RTT_printf(0,"bt binded but not connect\r\n");
 								get_mcu_bt_mode();
-                bt_hand_up();
+                //bt_hand_up();
                 break;
             case    BT_CONNECTED:
                 SEGGER_RTT_printf(0,"bt binded and connected\r\n");
