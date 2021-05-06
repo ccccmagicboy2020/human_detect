@@ -55,7 +55,9 @@ MCU OTA的方式和芯片强相关，该MCU OTA程序demo不一定适用所有�
 *****************************************************************************/
 uint8_t mcu_flash_init(void)
 {
-	#error "请自行完善该功能,完成后请删除该行"
+	//#error "请自行完善该功能,完成后请删除该行"
+	
+	return 0;
 }
 /*****************************************************************************
 函数名称 : mcu_flash_erase
@@ -67,7 +69,9 @@ uint8_t mcu_flash_init(void)
 *****************************************************************************/
 uint8_t mcu_flash_erase(uint32_t addr,uint32_t size)
 {
-	#error "请自行完善该功能,完成后请删除该行"
+	//#error "请自行完善该功能,完成后请删除该行"
+	
+	return 0;
 }
 /*****************************************************************************
 函数名称 : mcu_flash_write
@@ -80,7 +84,9 @@ uint8_t mcu_flash_erase(uint32_t addr,uint32_t size)
 
 uint8_t mcu_flash_write(uint32_t addr, const uint8_t *p_data, uint32_t size)
 {
-	#error "请自行完善该功能,完成后请删除该行"
+	//#error "请自行完善该功能,完成后请删除该行"
+	
+	return 0;
 }
 
 /*****************************************************************************
@@ -94,7 +100,9 @@ uint8_t mcu_flash_write(uint32_t addr, const uint8_t *p_data, uint32_t size)
 
 uint8_t mcu_flash_read(uint32_t addr, uint8_t *p_data, uint32_t size)
 {
-	#error "请自行完善该功能,完成后请删除该行"
+	//#error "请自行完善该功能,完成后请删除该行"
+	
+	return 0;
 }
 /*****************************************************************************
 函数名称 : mcu_device_delay_restart
@@ -107,16 +115,9 @@ uint8_t mcu_flash_read(uint32_t addr, uint8_t *p_data, uint32_t size)
 
 void mcu_device_delay_restart(void)
 {
-	error "请自行完善该功能,完成后请删除该行"
+	//
+	//
 }
-
-
-
-
-
-
-
-static dfu_settings_t s_dfu_settings;
 
 static volatile mcu_ota_status_t tuya_ota_status;
 void mcu_ota_status_set(mcu_ota_status_t status)
@@ -130,42 +131,36 @@ mcu_ota_status_t mcu_ota_status_get(void)
 
 
 #define MAX_DFU_DATA_LEN  200
-#define CODE_PAGE_SIZE	4096
-#define MAX_DFU_BUFFERS   ((CODE_PAGE_SIZE / MAX_DFU_DATA_LEN) + 1)
-
-
-static uint32_t m_firmware_start_addr;          /**< Start address of the current firmware image. */
-static uint32_t m_firmware_size_req;
-
 
 static uint16_t current_package = 0;
 static uint16_t last_package = 0;
 
-static uint32_t crc32_compute(uint8_t const * p_data, uint32_t size, uint32_t const * p_crc)
-{
-	uint32_t crc;
-    crc = (p_crc == NULL) ? 0xFFFFFFFF : ~(*p_crc);
-    for (uint32_t i = 0; i < size; i++)
-    {
-        crc = crc ^ p_data[i];
-        for (uint32_t j = 8; j > 0; j--)
-        {
-            crc = (crc >> 1) ^ (0xEDB88320U & ((crc & 1) ? 0xFFFFFFFF : 0));
-        }
-    }
-    return ~crc;
-}
+//static uint32_t crc32_compute(uint8_t const * p_data, uint32_t size, uint32_t const * p_crc)
+//{
+//	uint32_t crc;
+//    crc = (p_crc == NULL) ? 0xFFFFFFFF : ~(*p_crc);
+//    for (uint32_t i = 0; i < size; i++)
+//    {
+//        crc = crc ^ p_data[i];
+//        for (uint32_t j = 8; j > 0; j--)
+//        {
+//            crc = (crc >> 1) ^ (0xEDB88320U & ((crc & 1) ? 0xFFFFFFFF : 0));
+//        }
+//    }
+//    return ~crc;
+//}
 
 static void mcu_ota_start_req(uint8_t*recv_data,uint32_t recv_len)
 {
     uint8_t p_buf[12];
     uint8_t payload_len = 0;
     uint32_t current_version = MCU_OTA_VERSION;
-	uint16_t length = 0;
+		uint16_t length = 0;
 
     if(mcu_ota_status_get()!=MCU_OTA_STATUS_NONE)
     {
-        TUYA_OTA_LOG("current ota status is not MCU_OTA_STATUS_NONE  and is : %d !",mcu_ota_status_get());
+        //TUYA_OTA_LOG("current ota status is not MCU_OTA_STATUS_NONE  and is : %d !",mcu_ota_status_get());
+				SEGGER_RTT_printf(0,"current ota status is not MCU_OTA_STATUS_NONE  and is : %d !\r\n",mcu_ota_status_get());
         return;
     }
 
@@ -177,49 +172,13 @@ static void mcu_ota_start_req(uint8_t*recv_data,uint32_t recv_len)
     p_buf[4] = MAX_DFU_DATA_LEN>>8;
     p_buf[5] = MAX_DFU_DATA_LEN;
     
-    mcu_ota_status_set(MCU_OTA_STATUS_START);
-    payload_len = 6;
-
-	length = set_bt_uart_buffer(length,(unsigned char *)p_buf,payload_len);
-	bt_uart_write_frame(TUYA_BCI_UART_COMMON_MCU_OTA_REQUEST,length);
-}
-
-
-static uint8_t file_crc_check_in_flash(uint32_t len,uint32_t *crc)
-{
-
-    static uint8_t buf[257]={0};
-    if(len == 0)
-    {
-        return 1;
-    }
-    uint32_t crc_temp = 0;
-    uint32_t read_addr = APP_NEW_FW_START_ADR;
-    uint32_t cnt = len/256;
-    uint32_t remainder = len % 256;
-    for(uint32_t i = 0; i<cnt; i++)
-    {
-        TUYA_OTA_LOG("%d",i);
-        mcu_flash_read(read_addr,buf,256);
-        crc_temp = crc32_compute(buf, 256, &crc_temp);
-        read_addr += 256;
-    }
-
-    if(remainder>0&&remainder<256)
-    {
-        TUYA_OTA_LOG("%d",remainder);
-        mcu_flash_read(read_addr,buf,remainder);
-        crc_temp = crc32_compute(buf, remainder, &crc_temp);
-        read_addr += remainder;
-    }
+    mcu_ota_status_set(MCU_OTA_STATUS_START);//start process
     
-    *crc = crc_temp;
-    
-    return 0;
+		payload_len = 6;
+
+		length = set_bt_uart_buffer(length,(unsigned char *)p_buf,payload_len);
+		bt_uart_write_frame(TUYA_BCI_UART_COMMON_MCU_OTA_REQUEST,length);
 }
-
-
-
 
 static void mcu_ota_file_info_req(uint8_t*recv_data,uint32_t recv_len)
 {
@@ -228,29 +187,26 @@ static void mcu_ota_file_info_req(uint8_t*recv_data,uint32_t recv_len)
     uint32_t file_version;
     uint32_t file_length;
     uint32_t file_crc;
-    bool file_md5;
-    // uint8_t file_md5[16];
+    uint8_t file_md5[16];
     uint16_t length = 0;
     uint8_t state;
+		uint8_t i = 0;
 	
     if(mcu_ota_status_get()!=MCU_OTA_STATUS_START)
     {
-        TUYA_OTA_LOG("current ota status is not MCU_OTA_STATUS_START  and is : %d !",mcu_ota_status_get());
+				SEGGER_RTT_printf(0,"current ota status is not MCU_OTA_STATUS_START  and is : %d !\r\n",mcu_ota_status_get());
         return;
     }
 
+		//file version for example v1.0.1
     file_version = recv_data[0+8]<<16;
     file_version += recv_data[1+8]<<8;
     file_version += recv_data[2+8];
 
-    if(memcmp(s_dfu_settings.progress.firmware_file_md5,&recv_data[3+8],16)==0)
-    {
-        file_md5 = true;
-    }
-    else
-    {
-        file_md5 = false;
-    }
+		for (i =0;i<16;i++)
+		{
+			file_md5[i] = recv_data[3+i+8];
+		}
 
     file_length = recv_data[27]<<24;
     file_length += recv_data[28]<<16;
@@ -262,99 +218,67 @@ static void mcu_ota_file_info_req(uint8_t*recv_data,uint32_t recv_len)
     file_crc += recv_data[33]<<8;
     file_crc += recv_data[34];
 
-
-
     if (memcmp(&recv_data[0], PRODUCT_KEY, 8) == 0)
     {
-        if((file_version > MCU_OTA_VERSION)&&(file_length <= APP_NEW_FW_MAX_SIZE))
+        if((file_version > MCU_OTA_VERSION)&&(file_length <= 1024*100))
         {
-
-            if(file_md5&&(s_dfu_settings.progress.firmware_file_version==file_version)&&(s_dfu_settings.progress.firmware_file_length==file_length)
-                    &&(s_dfu_settings.progress.firmware_file_crc==file_crc))
-            {
-                state = 0;
-            }
-            else
-            {
-                memset(&s_dfu_settings.progress, 0, sizeof(dfu_progress_t));
-                s_dfu_settings.progress.firmware_image_crc_last = 0;
-                s_dfu_settings.progress.firmware_file_version = file_version;
-                s_dfu_settings.progress.firmware_file_length = file_length;
-                s_dfu_settings.progress.firmware_file_crc = file_crc;
-                memcpy(s_dfu_settings.progress.firmware_file_md5,&recv_data[3+8],16);
-                s_dfu_settings.write_offset = s_dfu_settings.progress.firmware_image_offset_last;
-                state = 0;
-                mcu_flash_write(DFU_SETTING_SAVE_ADDR,(uint8_t*)&s_dfu_settings,sizeof(s_dfu_settings));
-            }
-
-            m_firmware_start_addr = APP_NEW_FW_START_ADR;
-            m_firmware_size_req = s_dfu_settings.progress.firmware_file_length;
-
+						state = 0;
         }
         else
         {
             if(file_version <= MCU_OTA_VERSION)
             {
-                TUYA_OTA_LOG("ota file version error !");
+								SEGGER_RTT_printf(0,"ota file version too old !\r\n");
                 state = 2;
             }
             else
             {
-                TUYA_OTA_LOG("ota file length is bigger than rev space !");
+								SEGGER_RTT_printf(0,"ota file length is too bigger than rev space !\r\n");
                 state = 3;
             }
         }
-
     }
     else
     {
-        TUYA_OTA_LOG("ota pid error !");
+				SEGGER_RTT_printf(0,"ota pid error !\r\n");
         state = 1;
     }
 
     memset(p_buf,0,sizeof(p_buf));
+		
     p_buf[0] = state;
+		
     if(state==0)
     {
-        uint32_t crc_temp  = 0;
-        if(file_crc_check_in_flash(s_dfu_settings.progress.firmware_image_offset_last,&crc_temp)==0)
-        {
-            if(crc_temp != s_dfu_settings.progress.firmware_image_crc_last)
-            {
-                s_dfu_settings.progress.firmware_image_offset_last = 0;
-                s_dfu_settings.progress.firmware_image_crc_last = 0;
-                s_dfu_settings.write_offset = s_dfu_settings.progress.firmware_image_offset_last;
-                mcu_flash_write(DFU_SETTING_SAVE_ADDR,(uint8_t*)&s_dfu_settings,sizeof(s_dfu_settings));
-            }
-        }
-
-        p_buf[1] = s_dfu_settings.progress.firmware_image_offset_last>>24;
-        p_buf[2] = s_dfu_settings.progress.firmware_image_offset_last>>16;
-        p_buf[3] = s_dfu_settings.progress.firmware_image_offset_last>>8;
-        p_buf[4] = (uint8_t)s_dfu_settings.progress.firmware_image_offset_last;
+        p_buf[1] = 0x00;
+        p_buf[2] = 0x00;
+        p_buf[3] = 0x00;
+        p_buf[4] = 0x00;
         
-        p_buf[5] = s_dfu_settings.progress.firmware_image_crc_last>>24;
-        p_buf[6] = s_dfu_settings.progress.firmware_image_crc_last>>16;
-        p_buf[7] = s_dfu_settings.progress.firmware_image_crc_last>>8;
-        p_buf[8] = (uint8_t)s_dfu_settings.progress.firmware_image_crc_last;
+        p_buf[5] = 0x00;
+        p_buf[6] = 0x00;
+        p_buf[7] = 0x00;
+        p_buf[8] = 0x00;
+			
         mcu_ota_status_set(MCU_OTA_STATUS_FILE_INFO);
+			
         current_package = 0;
         last_package = 0;
-
-        TUYA_OTA_LOG("ota file length  : 0x%04x",s_dfu_settings.progress.firmware_file_length);
-        TUYA_OTA_LOG("ota file  crc    : 0x%04x",s_dfu_settings.progress.firmware_file_crc);
-        TUYA_OTA_LOG("ota file version : 0x%04x",s_dfu_settings.progress.firmware_file_version);
-        TUYA_OTA_LOG("ota firmware_image_offset_last : 0x%04x",s_dfu_settings.progress.firmware_image_offset_last);
-        TUYA_OTA_LOG("ota firmware_image_crc_last    : 0x%04x",s_dfu_settings.progress.firmware_image_crc_last);
-        TUYA_OTA_LOG("ota firmware   write offset    : 0x%04x",s_dfu_settings.write_offset);
-
+			
+				SEGGER_RTT_printf(0, "%sota file version : 0x%06x\r\n", RTT_CTRL_TEXT_BRIGHT_MAGENTA, file_version);
+				SEGGER_RTT_printf(0, "ota file length  : 0x%08x\r\n", file_length);
+				SEGGER_RTT_printf(0, "ota file crc     : 0x%08x\r\n", file_crc);
+				
+				SEGGER_RTT_printf(0, "ota file md5     : ");
+				for (i =0;i<16;i++)
+				{
+					SEGGER_RTT_printf(0, "%02x ", file_md5[i]);
+				}
+				SEGGER_RTT_printf(0, "\r\n%s", RTT_CTRL_RESET);
     }
     payload_len = 25;
-
-	length = set_bt_uart_buffer(length,(unsigned char *)p_buf,payload_len);
-	bt_uart_write_frame(TUYA_BCI_UART_COMMON_MCU_OTA_FILE_INFO,length);
-
-
+		length = set_bt_uart_buffer(length,(unsigned char *)p_buf,payload_len);
+		bt_uart_write_frame(TUYA_BCI_UART_COMMON_MCU_OTA_FILE_INFO,length);
 }
 
 
@@ -363,48 +287,37 @@ static void mcu_ota_offset_req(uint8_t*recv_data,uint32_t recv_len)
     uint8_t p_buf[5];
     uint8_t payload_len = 0;
     uint32_t offset;
-	uint16_t length = 0;
+		uint16_t length = 0;
+		static uint32_t offset_mcu_last = 0;
 	
     if(mcu_ota_status_get()!=MCU_OTA_STATUS_FILE_INFO)
     {
-        TUYA_OTA_LOG("current ota status is not MCU_OTA_STATUS_FILE_INFO  and is : %d !",mcu_ota_status_get());
+				SEGGER_RTT_printf(0,"current ota status is not MCU_OTA_STATUS_FILE_INFO  and is : %d !\r\n",mcu_ota_status_get());
         return;
     }
-
 
     offset  = recv_data[0]<<24;
     offset += recv_data[1]<<16;
     offset += recv_data[2]<<8;
     offset += recv_data[3];
 
-    if((offset==0)&&(s_dfu_settings.progress.firmware_image_offset_last!=0))
-    {
-        s_dfu_settings.progress.firmware_image_crc_last = 0;
-        s_dfu_settings.progress.firmware_image_offset_last = 0;
-        s_dfu_settings.write_offset = s_dfu_settings.progress.firmware_image_offset_last;
-        mcu_flash_write(DFU_SETTING_SAVE_ADDR,(uint8_t*)&s_dfu_settings,sizeof(s_dfu_settings));
-    }
+		SEGGER_RTT_printf(0, "offset: 0x%08x\r\n", offset);
 
-    p_buf[0] = s_dfu_settings.progress.firmware_image_offset_last>>24;
-    p_buf[1] = s_dfu_settings.progress.firmware_image_offset_last>>16;
-    p_buf[2] = s_dfu_settings.progress.firmware_image_offset_last>>8;
-    p_buf[3] = (uint8_t)s_dfu_settings.progress.firmware_image_offset_last;
+    p_buf[0] = offset_mcu_last>>24;
+    p_buf[1] = offset_mcu_last>>16;
+    p_buf[2] = offset_mcu_last>>8;
+    p_buf[3] = (uint8_t)offset_mcu_last;
 
     mcu_ota_status_set(MCU_OTA_STATUS_FILE_OFFSET);
 
     payload_len = 4;
 
-	length = set_bt_uart_buffer(length,(unsigned char *)p_buf,payload_len);
-	bt_uart_write_frame(TUYA_BCI_UART_COMMON_MCU_OTA_FILE_OFFSET,length);
-
-
+		length = set_bt_uart_buffer(length,(unsigned char *)p_buf,payload_len);
+		bt_uart_write_frame(TUYA_BCI_UART_COMMON_MCU_OTA_FILE_OFFSET,length);
 }
-
-
 
 static void mcu_ota_data_req(uint8_t*recv_data,uint32_t recv_len)
 {
-	TUYA_OTA_LOG("%s",__func__);
     uint8_t p_buf[2];
     uint8_t payload_len = 0;
     uint8_t state = 0;
@@ -412,75 +325,37 @@ static void mcu_ota_data_req(uint8_t*recv_data,uint32_t recv_len)
     uint8_t p_balloc_buf[256];
     uint16_t length = 0;
     
-
     if((mcu_ota_status_get()!=MCU_OTA_STATUS_FILE_OFFSET)&&(mcu_ota_status_get()!=MCU_OTA_STATUS_FILE_DATA))
     {
-        TUYA_OTA_LOG("current ota status is not MCU_OTA_STATUS_FILE_OFFSET  or MCU_OTA_STATUS_FILE_DATA and is : %d !",mcu_ota_status_get());
-        return;
+        SEGGER_RTT_printf(0, "current ota status is not MCU_OTA_STATUS_FILE_OFFSET  or MCU_OTA_STATUS_FILE_DATA and is : %d !\r\n", mcu_ota_status_get());
+				return;
     }
 
     state = 0;
 
-
+		//��ǰ����
     current_package = (recv_data[0]<<8)|recv_data[1];
+		//��ǰ�İ�����
     len = (recv_data[2]<<8)|recv_data[3];
+		
+		SEGGER_RTT_printf(0, "%s - %d - %d\r\n", __func__, last_package, current_package);		
 
     if((current_package!=(last_package+1))&&(current_package!=0))
     {
-        TUYA_OTA_LOG("ota received package number error.received package number : %d",current_package);
-        state = 1;
+        SEGGER_RTT_printf(0, "ota received package number error. received package number : %d\r\n", current_package);
+        state = 1;	//�����쳣
     }
     else  if(len>MAX_DFU_DATA_LEN)
     {
-        TUYA_OTA_LOG("ota received package data length error : %d",len);
+				SEGGER_RTT_printf(0, "ota received package data length error : %d\r\n", len);
         state = 5;
     }
     else
     {
-        uint32_t const write_addr = APP_NEW_FW_START_ADR +  s_dfu_settings.write_offset;
-        if(write_addr>=APP_NEW_FW_END_ADR)
-        {
-            TUYA_OTA_LOG("ota write addr error.");
-            state = 1;
-        }
-
-        if(write_addr%CODE_PAGE_SIZE==0)
-        {
-            if (mcu_flash_erase(write_addr,4096)!= 0)
-            {
-                TUYA_OTA_LOG("ota Erase page operation failed");
-                state = 4;
-            }
-        }
-
         if(state==0)
         {
-
-            len = (recv_data[2]<<8)|recv_data[3];
-
             memcpy(p_balloc_buf, &recv_data[6], len);
-
-            uint8_t ret = mcu_flash_write(write_addr, p_balloc_buf, len);
-			TUYA_OTA_LOG("ota save len :%d",len);
-			
-            if (ret != 0)
-            {
-                state = 4;
-            }
-            else
-            {
-                s_dfu_settings.progress.firmware_image_crc_last = crc32_compute(p_balloc_buf, len, &s_dfu_settings.progress.firmware_image_crc_last);
-                s_dfu_settings.write_offset    += len;
-                s_dfu_settings.progress.firmware_image_offset_last += len;
-
-                if((current_package+1)%32==0)
-                {
-                    mcu_flash_write(DFU_SETTING_SAVE_ADDR,(uint8_t*)&s_dfu_settings,sizeof(s_dfu_settings));
-                }
-
-
-            }
-			
+						//do some thing here!
         }
 
     }
@@ -491,40 +366,32 @@ static void mcu_ota_data_req(uint8_t*recv_data,uint32_t recv_len)
 
     payload_len = 1;
 
-	length = set_bt_uart_buffer(length,(unsigned char *)p_buf,payload_len);
-	bt_uart_write_frame(TUYA_BCI_UART_COMMON_MCU_OTA_DATA,length);
-
-
+		length = set_bt_uart_buffer(length,(unsigned char *)p_buf,payload_len);
+		bt_uart_write_frame(TUYA_BCI_UART_COMMON_MCU_OTA_DATA,length);
 
     if(state!=0)//�������ָ���ʼ״̬
     {
-        TUYA_OTA_LOG("ota error so free!");
+				SEGGER_RTT_printf(0, "ota error!\r\n");
         mcu_ota_status_set(MCU_OTA_STATUS_NONE);
         mcu_ota_init_disconnect();
-        memset(&s_dfu_settings, 0, sizeof(dfu_settings_t));
-        mcu_flash_write(DFU_SETTING_SAVE_ADDR,(uint8_t*)&s_dfu_settings,sizeof(s_dfu_settings));
     }
     else
     {
         last_package = current_package;
     }
-
-
 }
 
 
 static void reset_after_flash_write(void * p_context)
 {
-    TUYA_OTA_LOG("start reset~~~.");
+		SEGGER_RTT_printf(0, "start reset~~~.\r\n");
     mcu_device_delay_restart();
 }
 
 
 static void on_dfu_complete(void)
 {
-
-    TUYA_OTA_LOG("All flash operations have completed. DFU completed.");
-
+		SEGGER_RTT_printf(0, "All flash operations have completed. DFU completed.\r\n");
     reset_after_flash_write(NULL);
 }
 
@@ -532,78 +399,31 @@ static void on_dfu_complete(void)
 
 static void on_data_write_request_sched(void * data)
 {
-    uint8_t          ret;
     uint8_t p_buf[1];
     uint8_t payload_len = 0;
     uint8_t state;
-	uint16_t length = 0;
+		uint16_t length = 0;
 
-    if (s_dfu_settings.progress.firmware_image_offset_last == m_firmware_size_req)
-    {
-        TUYA_OTA_LOG("Whole firmware image received. Postvalidating.");
-        uint32_t crc_temp  = 0;
-        if(file_crc_check_in_flash(s_dfu_settings.progress.firmware_image_offset_last,&crc_temp)==0)
-        {
-            if(s_dfu_settings.progress.firmware_image_crc_last != crc_temp)
-            {
-                TUYA_OTA_LOG("file crc check in flash diff from crc_last. firmware_image_offset_last = 0x%04x,crc_temp = 0x%04x,crc_last = 0x%04x",s_dfu_settings.progress.firmware_image_offset_last,crc_temp,s_dfu_settings.progress.firmware_image_crc_last);
-                s_dfu_settings.progress.firmware_image_crc_last = crc_temp;
-            }
-            
-        }
-        TUYA_OTA_LOG("file crc check past.");
-        
-		TUYA_OTA_LOG("file crc check in flash diff from crc_last. firmware_image_offset_last = 0x%04x,crc_temp = 0x%04x,crc_last = 0x%04x",s_dfu_settings.progress.firmware_image_offset_last,crc_temp,s_dfu_settings.progress.firmware_image_crc_last);
-        if(s_dfu_settings.progress.firmware_image_crc_last!=s_dfu_settings.progress.firmware_file_crc)
-        {
-            TUYA_OTA_LOG("ota file crc check error,last_crc = 0x%04x ,file_crc = 0x%04x",s_dfu_settings.progress.firmware_image_crc_last,s_dfu_settings.progress.firmware_file_crc);
-            state = 2;
-        }
-        else
-        {
-            s_dfu_settings.bank_1.image_crc = s_dfu_settings.progress.firmware_image_crc_last;
-            s_dfu_settings.bank_1.image_size = m_firmware_size_req;
-            s_dfu_settings.bank_1.bank_code = NRF_DFU_BANK_VALID_APP;
-
-            memset(&s_dfu_settings.progress, 0, sizeof(dfu_progress_t));
-
-            s_dfu_settings.write_offset                  = 0;
-            s_dfu_settings.progress.update_start_address = APP_NEW_FW_START_ADR;
-
-            state = 0;
-
-
-        }
-
-
-    }
-    else
-    {
-
-        state = 1;
-    }
-
+		state = 0;
+		
     p_buf[0] = state;
     mcu_ota_status_set(MCU_OTA_STATUS_NONE);
     payload_len = 1;
 
-	length = set_bt_uart_buffer(length,(unsigned char *)p_buf,payload_len);
-	bt_uart_write_frame(TUYA_BCI_UART_COMMON_MCU_OTA_END,length);
+		length = set_bt_uart_buffer(length,(unsigned char *)p_buf,payload_len);
+		bt_uart_write_frame(TUYA_BCI_UART_COMMON_MCU_OTA_END,length);
 
-    
     if(state==0)
     {
-    	TUYA_OTA_LOG("ota will success!");
-    	mcu_flash_write(DFU_SETTING_SAVE_ADDR,(uint8_t*)&s_dfu_settings,sizeof(s_dfu_settings)); 
-        on_dfu_complete();
+			SEGGER_RTT_printf(0, "ota success!\r\n");
+			//do some thing here!
+      on_dfu_complete();
     }
     else
     {
-        TUYA_OTA_LOG("ota crc error!");
-        mcu_ota_status_set(MCU_OTA_STATUS_NONE);
-        mcu_ota_init_disconnect();
-        memset(&s_dfu_settings, 0, sizeof(dfu_settings_t));
-        mcu_flash_write(DFU_SETTING_SAVE_ADDR,(uint8_t*)&s_dfu_settings,sizeof(s_dfu_settings));
+			SEGGER_RTT_printf(0, "ota crc error!\r\n");
+      mcu_ota_status_set(MCU_OTA_STATUS_NONE);
+      mcu_ota_init_disconnect();
     }
 
 }
@@ -614,11 +434,10 @@ static void mcu_ota_end_req(uint8_t*recv_data,uint32_t recv_len)
 {
     if(mcu_ota_status_get()==MCU_OTA_STATUS_NONE)
     {
-        TUYA_OTA_LOG("current ota status is MCU_OTA_STATUS_NONE!");
+				SEGGER_RTT_printf(0, "current ota status is MCU_OTA_STATUS_NONE!\r\n");
         return;
     }
     on_data_write_request_sched(NULL);
-
 }
 
 
@@ -642,7 +461,7 @@ void mcu_ota_proc(uint16_t cmd,uint8_t*recv_data,uint32_t recv_len)
         mcu_ota_end_req(recv_data,recv_len);
         break;
     default:
-    	TUYA_OTA_LOG("tuya_ota_proc cmd err.");
+				SEGGER_RTT_printf(0,"tuya_ota_proc cmd err.\r\n");
         break;
     }
 
@@ -653,12 +472,13 @@ uint8_t mcu_ota_init_disconnect(void)
 {
     if(mcu_ota_status_get() != MCU_OTA_STATUS_NONE)
     {
-        mcu_flash_write(DFU_SETTING_SAVE_ADDR,(uint8_t*)&s_dfu_settings,sizeof(s_dfu_settings));
+        //do some thing here!
+			
         mcu_ota_status_set(MCU_OTA_STATUS_NONE);
     }
     current_package = 0;
     last_package = 0;
-	return 0;
+		return 0;
 }
 
 uint32_t mcu_ota_init(void)
@@ -667,7 +487,8 @@ uint32_t mcu_ota_init(void)
 
     current_package = 0;
     last_package = 0;
-	mcu_flash_read(DFU_SETTING_SAVE_ADDR,(uint8_t*)&s_dfu_settings,sizeof(s_dfu_settings));
+		
+		//do some thing here!!!
 
 
     return 0;
