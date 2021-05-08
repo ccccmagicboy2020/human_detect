@@ -32,7 +32,7 @@
 #define		FAST_CHECK_TIMES		(FAST_MAX_DATA_POOL	>> 9)
 
 #define		SLOW_CHECK_SAMPLES		2048			//慢检测样本数
-#define		SLOW_CHECK_OVER_SAMPLE	3				//慢检测超采样冥
+#define		SLOW_CHECK_OVER_SAMPLE	3				//慢检测超采样幂
 #define		SLOW_CHECK_DUTY			16				//慢检测周期，单位为秒s
 #define		SLOW_CHECK_USE_SAMPLES	(SLOW_CHECK_SAMPLES >> SLOW_CHECK_OVER_SAMPLE)	//慢检测实际用的样本数
 #define		SLOW_MAX_DATA_POOL		((FEEDRATE >> SLOW_CHECK_OVER_SAMPLE)	*	SLOW_CHECK_DUTY)
@@ -389,11 +389,11 @@ void fast_check_process(void)
 											/* time_times =  */			upssa0.ppp.quick_time_times,		//4
 											/* time_add =  */			upssa0.ppp.quick_time_add, 		//32
 											/* win_size_freq =  */		256, 
-									    /* stride_freq =  */		102, 
+									    /* stride_freq =  */			102, 
 											/* time_accum =  */			8, 
 											/* xhz1 =  */				2, 
 											/* freq_times =  */			upssa0.ppp.quick_freq_times, //3
-											/* respiration_times =  */	17.5
+											/* respiration_times =  */	16.5
 											);
 
 	if (quick_detection_result && (run_mode == 0))
@@ -809,7 +809,7 @@ void idle_process(void)
 			}
 			//load a low pp1 pp2 value
 			upssa0.ppp.res_times = 10.f;
-			upssa0.ppp.offsetmin = 0.5f;
+			upssa0.ppp.offsetmin = 0.3f;
 			if (upload_disable == 0)
 			{
 				mcu_dp_value_update(DPID_FREQ_PARAMETER1, (int)((upssa0.ppp.res_times*100.0f)+0.5f));
@@ -1335,7 +1335,7 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		upssa0.ppp.quick_time_times = 4.0f;
+		upssa0.ppp.quick_time_times = 3.8f;
 	}
 	else
 	{
@@ -1351,7 +1351,7 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		upssa0.ppp.quick_time_add = 32.0f;
+		upssa0.ppp.quick_time_add = 35.0f;
 	}
 	else
 	{
@@ -1366,7 +1366,7 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		upssa0.ppp.quick_freq_times = 3.0f;
+		upssa0.ppp.quick_freq_times = 4.0f;
 	}
 	else
 	{
@@ -1381,7 +1381,7 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		upssa0.ppp.slow_time_times = 4.0f;
+		upssa0.ppp.slow_time_times = 3.8f;
 	}
 	else
 	{
@@ -1397,7 +1397,7 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		upssa0.ppp.slow_time_add = 40.0f;
+		upssa0.ppp.slow_time_add = 35.0f;
 	}
 	else
 	{
@@ -1412,7 +1412,7 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		upssa0.ppp.slow_freq_times = 6.0f;
+		upssa0.ppp.slow_freq_times = 4.0f;
 	}
 	else
 	{
@@ -1427,7 +1427,7 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		upssa0.ppp.res_times = 60.0f;
+		upssa0.ppp.res_times = 16.5f;
 	}
 	else
 	{
@@ -1442,7 +1442,7 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		upssa0.ppp.offsetmin = 0.6f;
+		upssa0.ppp.offsetmin = 0.33f;
 	}
 	else
 	{

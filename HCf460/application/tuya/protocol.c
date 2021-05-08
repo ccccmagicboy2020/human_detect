@@ -323,14 +323,14 @@ void load_ceiling_setup(int mode)
 	}
 	else if (mode == 1)
 	{
-		upssa0.ppp.quick_time_times = 4.0f;
-		upssa0.ppp.quick_time_add = 32.0f;
-		upssa0.ppp.quick_freq_times = 3.0f;
-		upssa0.ppp.slow_time_times = 4.0f;
-		upssa0.ppp.slow_time_add = 32.0f;
-		upssa0.ppp.slow_freq_times = 3.0f;
-		upssa0.ppp.res_times = 50.0f;
-		upssa0.ppp.offsetmin = 0.6f;
+		upssa0.ppp.quick_time_times = 3.8f;
+		upssa0.ppp.quick_time_add = 35.0f;
+		upssa0.ppp.quick_freq_times = 4.0f;
+		upssa0.ppp.slow_time_times = 3.8f;
+		upssa0.ppp.slow_time_add = 35.0f;
+		upssa0.ppp.slow_freq_times = 4.0f;
+		upssa0.ppp.res_times = 16.5f;
+		upssa0.ppp.offsetmin = 0.33f;
 	}
 }
 
@@ -349,14 +349,14 @@ void load_wall_setup(int mode)
 	}
 	else if (mode == 1)
 	{
-		upssa0.ppp.quick_time_times = 4.0f;
-		upssa0.ppp.quick_time_add = 32.0f;
-		upssa0.ppp.quick_freq_times = 3.0f;
-		upssa0.ppp.slow_time_times = 4.0f;
-		upssa0.ppp.slow_time_add = 32.0f;
-		upssa0.ppp.slow_freq_times = 3.0f;
-		upssa0.ppp.res_times = 50.0f;
-		upssa0.ppp.offsetmin = 0.6f;
+		upssa0.ppp.quick_time_times = 3.8f;
+		upssa0.ppp.quick_time_add = 35.0f;
+		upssa0.ppp.quick_freq_times = 4.0f;
+		upssa0.ppp.slow_time_times = 3.8f;
+		upssa0.ppp.slow_time_add = 35.0f;
+		upssa0.ppp.slow_freq_times = 4.0f;
+		upssa0.ppp.res_times = 16.5f;
+		upssa0.ppp.offsetmin = 0.33f;
 	}
 }
 
@@ -369,23 +369,23 @@ static unsigned char dp_download_load_radar_parameter_handle(const unsigned char
     load_radar_parameter = mcu_get_dp_download_enum(value,length);
     switch(load_radar_parameter) {
         case 0:
-					load_ceiling_setup(0);
-					SEGGER_RTT_printf(0, "%s%sload ceiling setup %d%s\r\n", RTT_CTRL_BG_BRIGHT_YELLOW, RTT_CTRL_TEXT_BLACK, 0, RTT_CTRL_RESET);
+			load_ceiling_setup(0);
+			SEGGER_RTT_printf(0, "%s%sload ceiling setup %d%s\r\n", RTT_CTRL_BG_BRIGHT_YELLOW, RTT_CTRL_TEXT_BLACK, 0, RTT_CTRL_RESET);
         break;
      
         case 1:
-					load_ceiling_setup(1);
-					SEGGER_RTT_printf(0, "%s%sload ceiling setup %d%s\r\n", RTT_CTRL_BG_BRIGHT_YELLOW, RTT_CTRL_TEXT_BLACK, 1, RTT_CTRL_RESET);   
+			load_ceiling_setup(1);
+			SEGGER_RTT_printf(0, "%s%sload ceiling setup %d%s\r\n", RTT_CTRL_BG_BRIGHT_YELLOW, RTT_CTRL_TEXT_BLACK, 1, RTT_CTRL_RESET);   
         break;
         
         case 2:
-					load_wall_setup(0);
-					SEGGER_RTT_printf(0, "%s%sload wall setup %d%s\r\n", RTT_CTRL_BG_BRIGHT_YELLOW, RTT_CTRL_TEXT_BLACK, 0, RTT_CTRL_RESET);
+			load_wall_setup(0);
+			SEGGER_RTT_printf(0, "%s%sload wall setup %d%s\r\n", RTT_CTRL_BG_BRIGHT_YELLOW, RTT_CTRL_TEXT_BLACK, 0, RTT_CTRL_RESET);
         break;
         
         case 3:
-					load_wall_setup(1);
-					SEGGER_RTT_printf(0, "%s%sload wall setup %d%s\r\n", RTT_CTRL_BG_BRIGHT_YELLOW, RTT_CTRL_TEXT_BLACK, 1, RTT_CTRL_RESET);					
+			load_wall_setup(1);
+			SEGGER_RTT_printf(0, "%s%sload wall setup %d%s\r\n", RTT_CTRL_BG_BRIGHT_YELLOW, RTT_CTRL_TEXT_BLACK, 1, RTT_CTRL_RESET);					
         break;
         
         case 4:
@@ -656,27 +656,27 @@ static unsigned char dp_download_factory_op_handle(const unsigned char value[], 
     factory_op = mcu_get_dp_download_enum(value,length);
     switch(factory_op) {
         case 0:// soft reset the mcu
-					soft_reset_mcu();
+			soft_reset_mcu();
         break;
         
         case 1:// go bootloader and fw ota
-					go_bootloader_ota();
+			go_bootloader_ota();
         break;
         
         case 2:// tuya re-config the network
-					tuya_re_config_network();
+			tuya_re_config_network();
         break;
         
         case 3:// tuya reset module
-					tuya_reset_module();
+			tuya_reset_module();
         break;
         
         case 4:// tuya retry the ota (send fail)
-					tuya_retry_ota();
+			tuya_retry_ota();
         break;
         
         case 5:// reset_default_parameter
-					reset_default_parameter();				
+			reset_default_parameter();				
         break;
         case 6:// do nothing
 					//
@@ -916,11 +916,11 @@ static unsigned char dp_download_common_command_handle(const unsigned char value
         break;
         
         case 4://enable the data upload every 5s
-					data_report_upload_enable = 1;
+			data_report_upload_enable = 1;
         break;
         
         case 5://disalbe the data upload every 5s
-					data_report_upload_enable = 0;
+			data_report_upload_enable = 0;
         break;
         
         default:
@@ -1504,6 +1504,8 @@ void tuya_retry_ota(void)
 					
 void reset_default_parameter(void)
 {
+	//load factory parameter here!
+	//
 	//
 }
 
