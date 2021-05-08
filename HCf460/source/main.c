@@ -1013,58 +1013,58 @@ void idle_process(void)
 				if (switch_dist_f > 1.5f)
 				{
 					//1: on 2: on
-					//2米
-					quick_time_times = 2048;			//4
-					quick_time_add = 135;			//32
-					quick_freq_times = 12;			//3
-					//////////////////////////////////////////////////////
-					slow_time_times = 2048;			//5
-					slow_time_add = 135;				//40
-					slow_freq_times = 6;			//6
-					res_times = 78.0f;				//17.5
-					offsetmin = 1.23f;					//0.6					
+					//0.7米
+					quick_time_times = 2048.0f;		
+					quick_time_add = 135.0f;			
+					quick_freq_times = 12.0f;			
+					////////////////////////////////
+					slow_time_times = 2048.0f;			
+					slow_time_add = 135.0f;			
+					slow_freq_times = 12.0f;			
+					res_times = 78.0f;				
+					offsetmin = 1.23f;					
 				}
 				else if (switch_dist_f > 1.1f)
 				{
 					//1: off 2: on
-					//3米
-					quick_time_times = 400;			//4
-					quick_time_add = 120;			//32
-					quick_freq_times = 10;			//3
-					//////////////////////////////////////////////////////
-					slow_time_times = 400;			//5
-					slow_time_add = 120;				//40
-					slow_freq_times = 10;			//6
-					res_times = 65.0f;				//17.5
-					offsetmin = 1.1f;					//0.6							
+					//1.5米
+					quick_time_times = 30.9f;			
+					quick_time_add = 101.6f;			
+					quick_freq_times = 9.34f;			
+					////////////////////////////////
+					slow_time_times = 30.9f;			
+					slow_time_add = 101.6f;			
+					slow_freq_times = 9.34f;			
+					res_times = 53.5f;				
+					offsetmin = 0.93f;							
 				}
 				else if (switch_dist_f > 0.5f)
 				{
 					//1: on 2: off
-					//4米
-					quick_time_times = 30;			//4
-					quick_time_add = 80;			//32
-					quick_freq_times = 6;			//3
-					//////////////////////////////////////////////////////
-					slow_time_times = 30;			//5
-					slow_time_add = 80;				//40
-					slow_freq_times = 6;			//6
-					res_times = 50.0f;				//17.5
-					offsetmin = 0.8f;					//0.6		
+					//3米
+					quick_time_times = 10.9f;			
+					quick_time_add = 68.3f;			
+					quick_freq_times = 6.67f;			
+					////////////////////////////////
+					slow_time_times = 10.9f;			
+					slow_time_add = 68.3f;				
+					slow_freq_times = 6.67f;			
+					res_times = 37.0f;		
+					offsetmin = 0.63f;	
 				}
 				else
 				{
 					//1: off 2: off
 					//最远
-					quick_time_times = 4;			//4
-					quick_time_add = 32;			//32
-					quick_freq_times = 3;			//3
-					//////////////////////////////////////////////////////
-					slow_time_times = 5;			//5
-					slow_time_add = 40;				//40
-					slow_freq_times = 6;			//6
-					res_times = 17.5f;				//17.5
-					offsetmin = 0.6f;					//0.6
+					quick_time_times = 3.8f;			
+					quick_time_add = 35.0f;			
+					quick_freq_times = 4.0f;			
+					////////////////////////////////
+					slow_time_times = 3.8f;			
+					slow_time_add = 35.0f;				
+					slow_freq_times = 4.0f;			
+					res_times = 16.5f;				
+					offsetmin = 0.33f;				
 				}
 			}
 			
