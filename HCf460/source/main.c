@@ -194,6 +194,8 @@ void slow_output_result(char slow_s0_result)
 		{
 			slow_check_result_upload(slow_s0_result);
 		}
+		
+		printf("大 1 \r\n");
 		break;
 	case BREATHE:
 		if (slow_only_flag == 1)
@@ -206,6 +208,8 @@ void slow_output_result(char slow_s0_result)
 		{
 			slow_check_result_upload(slow_s0_result);
 		}
+		
+		printf("微 1 \r\n");
 		break;
 	case BREATHE_NOT_SURE:
 		if (slow_only_flag == 1)
@@ -218,9 +222,13 @@ void slow_output_result(char slow_s0_result)
 		{
 			slow_check_result_upload(slow_s0_result);
 		}
+		
+		printf("微 0 \r\n");
 		break;
 	case NO_PERSON_NOT_SURE:
 		slow_check_result_upload(slow_s0_result);
+		
+		printf("大 0 \r\n");
 		break;
 	case NO_PERSON:
 		if (slow_only_flag == 1)
@@ -233,6 +241,8 @@ void slow_output_result(char slow_s0_result)
 		{
 			SEGGER_RTT_printf(0, "slow check no person go fast check\r\n");
 		}
+		
+		printf("无 \r\n");
 		break;
 	default:
 		break;
@@ -362,6 +372,9 @@ void fast_check_process(void)
 	}
 
 	fast_output_result(quick_detection_result);
+	
+	//print
+	printf("快%d \r\n", quick_detection_result);
 }
 
 void slow_check_data_prepare_s0(void)
@@ -546,7 +559,7 @@ void slow_check_process_s0(void)
 	
 	///////////////////////////////////////////
 
-	if (1 == bigmotion_time_vote)
+	if (1 == bigmotion_time_vote && 1 == bigmotion_freq_vote)
 	{
 		slow_s0_result = BIG_MOTION;
 	}
@@ -554,11 +567,11 @@ void slow_check_process_s0(void)
 	{
 		slow_s0_result = BREATHE;
 	}
-	else if ((0 == bigmotion_freq_vote) && (1 == respirationfreq_vote[0]))
+	else if ((0 == bigmotion_time_vote) && (0 == bigmotion_freq_vote) && (1 == respirationfreq_vote[0]))
 	{
 		slow_s0_result = BREATHE;
 	}
-	else if ((1 == bigmotion_freq_vote) && (1 == respirationfreq_vote[0]))
+	else if ((0 == bigmotion_time_vote) && (1 == bigmotion_freq_vote) && (1 == respirationfreq_vote[0]))
 	{
 		slow_s0_result = BREATHE_NOT_SURE;
 	}
