@@ -222,13 +222,9 @@ void slow_output_result(char slow_s0_result)
 		{
 			slow_check_result_upload(slow_s0_result);
 		}
-		
-		printf("Î¢ 0 \r\n");
 		break;
 	case NO_PERSON_NOT_SURE:
 		slow_check_result_upload(slow_s0_result);
-		
-		printf("´ó 0 \r\n");
 		break;
 	case NO_PERSON:
 		if (slow_only_flag == 1)
@@ -607,9 +603,6 @@ void slow_check_process_s1(void)
 
 	if (slow_s0_result_last != slow_s0_result)
 	{
-		slow_s0_result_last = slow_s0_result;
-		state = IDLE;
-		next_state = SLOW_CHECK_DATA_PREPARE_S0;
 		switch (slow_s0_result)
 		{
 		case BREATHE_NOT_SURE:
@@ -617,10 +610,21 @@ void slow_check_process_s1(void)
 			break;
 		case NO_PERSON_NOT_SURE:
 			no_person_timer = 1;
+			if (BIG_MOTION == slow_s0_result_last)
+			{
+				printf("´ó 0 \r\n");
+			}
+			else if (BREATHE == slow_s0_result_last)
+			{
+				printf("Î¢ 0 \r\n");
+			}
 			break;
 		default:
 			break;
 		}
+		slow_s0_result_last = slow_s0_result;
+		state = IDLE;
+		next_state = SLOW_CHECK_DATA_PREPARE_S0;		
 	}
 	else
 	{
