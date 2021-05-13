@@ -108,6 +108,9 @@ float max_pp1_rt_last = 0;
 float max_pp2_rt = 0;
 float max_pp2_rt_last = 0;
 ////////////////////////////////////////////////////////////
+unsigned char breathe_sure = 0;
+unsigned char stop_sure = 0;
+////////////////////////////////////////////////////////////
 void get_mcu_bt_mode(void);
 void bt_hand_up(void);
 void clear_buffer(void);
@@ -179,7 +182,7 @@ static void enable_flash_cache(en_functional_state_t state)
 void slow_output_result(char slow_s0_result)
 {
 	//
-	Delay_ms(ALL_UPLOAD_DELAY);
+	Delay_ms(ALL_UPLOAD_DELAY);	//for bt upload delay
 	//
 	switch (slow_s0_result)
 	{
@@ -194,8 +197,6 @@ void slow_output_result(char slow_s0_result)
 		{
 			slow_check_result_upload(slow_s0_result);
 		}
-		
-		printf("大 1 \r\n");
 		break;
 	case BREATHE:
 		if (slow_only_flag == 1)
@@ -208,8 +209,6 @@ void slow_output_result(char slow_s0_result)
 		{
 			slow_check_result_upload(slow_s0_result);
 		}
-		
-		printf("微 1 \r\n");
 		break;
 	case BREATHE_NOT_SURE:
 		if (slow_only_flag == 1)
@@ -237,10 +236,89 @@ void slow_output_result(char slow_s0_result)
 		{
 			SEGGER_RTT_printf(0, "slow check no person go fast check\r\n");
 		}
-		
-		printf("无 \r\n");
 		break;
 	default:
+		break;
+	}	
+}
+
+void slow_output_result2(char slow_s0_result, unsigned char breathe_sure_flag, unsigned char stop_sure_flag)
+{
+	static unsigned char big_0_continue_flag = 0;
+	static unsigned char micor_0_continue_flag = 0;
+	
+	//clear globals
+	breathe_sure = 0;
+	stop_sure = 0;
+		
+	switch (slow_s0_result)
+	{
+	case BIG_MOTION:	//B列
+		printf("大 1 \r\n");
+		big_0_continue_flag = 0;
+		micor_0_continue_flag = 0;
+		break;
+	case BREATHE:		//C或者D列
+		printf("微 1 \r\n");
+		big_0_continue_flag = 0;
+		micor_0_continue_flag = 0;
+		break;
+	case BREATHE_NOT_SURE:
+		//E列
+		big_0_continue_flag = 0;
+		micor_0_continue_flag = 0;
+		if (breathe_sure_flag)
+		{
+			printf("微 1 \r\n");
+		}
+		else
+		{
+			printf("微 0 \r\n");
+		}
+		break;
+	case NO_PERSON_NOT_SURE:	//F列	
+		if (BIG_MOTION == slow_s0_result_last)
+		{
+			printf("大 0 \r\n");
+			big_0_continue_flag = 1;
+		}
+		else if (BREATHE == slow_s0_result_last)
+		{
+			printf("微 0 \r\n");
+			micor_0_continue_flag = 1;
+		}
+		else if (BREATHE_NOT_SURE == slow_s0_result_last)
+		{
+			printf("微 0 \r\n");
+			micor_0_continue_flag = 1;
+		}
+		else
+		{
+			if (stop_sure_flag)
+			{
+				printf("无 \r\n");
+			}
+			else
+			{
+				if (big_0_continue_flag)
+				{
+					printf("大 0 \r\n");
+				}
+				if (micor_0_continue_flag)
+				{
+					printf("微 0 \r\n");
+				}
+			}
+		}
+		break;
+	case NO_PERSON:		//无对应列
+		printf("无 \r\n");
+		big_0_continue_flag = 0;
+		micor_0_continue_flag = 0;		
+		break;		
+	default:
+		big_0_continue_flag = 0;
+		micor_0_continue_flag = 0;	
 		break;
 	}	
 }
@@ -576,7 +654,8 @@ void slow_check_process_s0(void)
 		slow_s0_result = NO_PERSON_NOT_SURE;
 	}
 
-	slow_output_result(slow_s0_result);
+	slow_output_result2(slow_s0_result, breathe_sure, stop_sure);//li's style output first
+	slow_output_result(slow_s0_result);//tuya's upload
 	
 	switch (slow_s0_result)
 	{
@@ -606,20 +685,16 @@ void slow_check_process_s1(void)
 		switch (slow_s0_result)
 		{
 		case BREATHE_NOT_SURE:
-			breathe_timer = 1;		
+			breathe_timer = 1;
+			breathe_sure = 0;
 			break;
 		case NO_PERSON_NOT_SURE:
 			no_person_timer = 1;
-			if (BIG_MOTION == slow_s0_result_last)
-			{
-				printf("大 0 \r\n");
-			}
-			else if (BREATHE == slow_s0_result_last)
-			{
-				printf("微 0 \r\n");
-			}
+			stop_sure = 0;
 			break;
 		default:
+			breathe_sure = 0;		
+			stop_sure = 0;
 			break;
 		}
 		slow_s0_result_last = slow_s0_result;
@@ -638,6 +713,12 @@ void slow_check_process_s1(void)
 				//do some thing
 				slow_s0_result = BREATHE;
 				slow_output_result(slow_s0_result);
+				//output string
+				breathe_sure = 1;
+			}
+			else
+			{
+				breathe_sure = 0;
 			}
 			state = IDLE;
 			next_state = SLOW_CHECK_DATA_PREPARE_S0;		
@@ -662,9 +743,13 @@ void slow_check_process_s1(void)
 
 				slow_s0_result = NO_PERSON;
 				slow_output_result(slow_s0_result);
+				//output string
+				stop_sure = 0;
+				slow_output_result2(slow_s0_result, breathe_sure, stop_sure);
 			}
 			else
 			{
+				stop_sure = 0;
 				state = IDLE;
 				next_state = SLOW_CHECK_DATA_PREPARE_S0;	//keep slow check again
 			}
