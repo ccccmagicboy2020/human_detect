@@ -254,12 +254,12 @@ void slow_output_result2(char slow_s0_result, unsigned char breathe_sure_flag, u
 	switch (slow_s0_result)
 	{
 	case BIG_MOTION:	//B列
-		printf("大 1 \r\n");
+		printf("大 1 (BIG_MOTION)\r\n");
 		big_0_continue_flag = 0;
 		micor_0_continue_flag = 0;
 		break;
 	case BREATHE:		//C或者D列
-		printf("微 1 \r\n");
+		printf("微 1 (BREATHE)\r\n");
 		big_0_continue_flag = 0;
 		micor_0_continue_flag = 0;
 		break;
@@ -269,50 +269,50 @@ void slow_output_result2(char slow_s0_result, unsigned char breathe_sure_flag, u
 		micor_0_continue_flag = 0;
 		if (breathe_sure_flag)
 		{
-			printf("微 1 \r\n");
+			printf("微 1 (BREATHE_NOT_SURE)\r\n");
 		}
 		else
 		{
-			printf("微 0 \r\n");
+			printf("微 0 (BREATHE_NOT_SURE)\r\n");
 		}
 		break;
 	case NO_PERSON_NOT_SURE:	//F列	
 		if (BIG_MOTION == slow_s0_result_last)
 		{
-			printf("大 0 \r\n");
+			printf("大 0 (NO_PERSON_NOT_SURE @ BIG_MOTION)\r\n");
 			big_0_continue_flag = 1;
 		}
 		else if (BREATHE == slow_s0_result_last)
 		{
-			printf("微 0 \r\n");
+			printf("微 0 (NO_PERSON_NOT_SURE @ BREATHE)\r\n");
 			micor_0_continue_flag = 1;
 		}
 		else if (BREATHE_NOT_SURE == slow_s0_result_last)
 		{
-			printf("微 0 \r\n");
+			printf("微 0 (NO_PERSON_NOT_SURE @ BREATHE_NOT_SURE)\r\n");
 			micor_0_continue_flag = 1;
 		}
 		else
 		{
 			if (stop_sure_flag)
 			{
-				printf("无 \r\n");
+				printf("无 (NO_PERSON_NOT_SURE)\r\n");
 			}
 			else
 			{
 				if (big_0_continue_flag)
 				{
-					printf("大 0 \r\n");
+					printf("大 0 (NO_PERSON_NOT_SURE)\r\n");
 				}
 				if (micor_0_continue_flag)
 				{
-					printf("微 0 \r\n");
+					printf("微 0 (NO_PERSON_NOT_SURE)\r\n");
 				}
 			}
 		}
 		break;
 	case NO_PERSON:		//无对应列
-		printf("无 \r\n");
+		printf("无 (NO_PERSON)\r\n");
 		big_0_continue_flag = 0;
 		micor_0_continue_flag = 0;		
 		break;		
