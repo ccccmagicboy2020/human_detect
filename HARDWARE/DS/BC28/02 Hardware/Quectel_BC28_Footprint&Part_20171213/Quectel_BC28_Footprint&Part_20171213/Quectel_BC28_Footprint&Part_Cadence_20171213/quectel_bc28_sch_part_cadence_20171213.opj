@@ -1,0 +1,36 @@
+(ExpressProject ""
+  (ProjectVersion "19981106")
+  (Folder "Design Resources"
+    (Folder "Library")
+    (File ".\quectel_bc28_sch_part_cadence_20171213.olb"
+      (Type "Schematic Library"))
+    (BuildFileAddedOrDeleted "x")
+    (CompileFileAddedOrDeleted "x")
+    (NoModify))
+  (Folder "Outputs")
+  (Folder "Referenced Projects")
+  (GlobalState
+    (FileView
+      (Path "Design Resources")
+      (Path "Design Resources" ".\quectel_bc28_sch_part_cadence_20171213.olb")
+      (Select "Design Resources" ".\quectel_bc28_sch_part_cadence_20171213.olb"
+         "BC28"))
+    (HierarchyView)
+    (Doc
+      (Type "COrCapturePMDoc")
+      (Frame
+        (Placement "44 0 1 -1 -1 -1 -1 0 200 0 428"))
+      (Tab 0))
+    (Doc
+      (Type "COrPartDoc")
+      (Frame
+        (Placement "44 0 1 -1 -1 -1 -1 181 1338 10 418")
+        (PackageScroll "0 0")
+        (PackageZoom "1")
+        (PartPackage "Part")
+        (Scroll "0 20")
+        (Zoom "90"))
+      (Path
+         "E:\QYC\QUECTEL\NBIOT\BC28\BC28\02 HARDWARE\QUECTEL_BC28_FOOTPRINT&PART_20171213\QUECTEL_BC28_FOOTPRINT&PART_20171213\QUECTEL_BC28_FOOTPRINT&PART_CADENCE_20171213\QUECTEL_BC28_SCH_PART_CADENCE_20171213.OLB")
+      (Package "BC28")))
+  (MPSSessionName "Administrator"))
