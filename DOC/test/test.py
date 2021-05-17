@@ -86,7 +86,7 @@ def main():
     global packet_Light_threshold4
     global packet_save_upssa0
     
-    ser=serial.Serial("com6", 115200, timeout=0.5)
+    ser=serial.Serial("com11", 115200, timeout=0.5)
     print(ser.port)
 
     ser.close()

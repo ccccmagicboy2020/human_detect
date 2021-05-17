@@ -164,7 +164,7 @@ def init_ui():
 
 def init_uart():
     global ser
-    ser=serial.Serial("com6", 115200, timeout=0.5)
+    ser=serial.Serial("com11", 115200, timeout=0.5)
     print(ser.port)
 
     ser.close()
