@@ -1,0 +1,1 @@
+vsrename.exe jlink_example jlink_example .\
