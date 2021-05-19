@@ -1,0 +1,13 @@
+usb
+si 1
+speed 25000
+device HC32F46x
+TestCSpeed 0x1FFF8000
+r
+h
+loadbin .\MDK\bin\adc_03_sa_interrupt.bin 0
+r
+g
+qc
+
+
