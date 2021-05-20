@@ -183,13 +183,29 @@ void Cjlink_exampleDlg::OnButton1()
 	const char* sErr;
 	U32 Core;
 	char acBuffer[50];
+	U8 acBuffer2[256];
+	int speed;
 
 	sErr = JLINKARM_Open();		// Connect to J-Link
 	if (sErr)
 	{
 		MessageBox(sErr, "J-Link", MB_OK);
 	}
-	//
+	JLINKARM_EMU_GetProductName((LPSTR)acBuffer2, sizeof(acBuffer2));
+	MessageBox((LPSTR)acBuffer2, "J-Link", MB_OK);
+
+	JLINKARM_TIF_Select(JLINKARM_TIF_SWD);
+	JLINKARM_SetSpeed(25000);
+	speed = JLINKARM_GetSpeed();
+	mPutsEx("%frblue");
+	mPuts("speed: %d\n", speed);
+	mPutsEx("%endfr");
+	JLINKARM_SetMaxSpeed();
+	speed = JLINKARM_GetSpeed();
+	mPutsEx("%frblue");
+	mPuts("speed: %d\n", speed);
+	mPutsEx("%endfr");
+
 	JLINKARM_Connect();                // Connect to target
 	Core = JLINKARM_CORE_GetFound();
 	JLINKARM_Core2CoreName(Core, acBuffer, sizeof(acBuffer));
