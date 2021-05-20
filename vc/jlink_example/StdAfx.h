@@ -22,8 +22,10 @@
 
 #include <afxsock.h>		// MFC socket extensions
 
-///jlink
-#include "3rd_part/jlink/jlink.h"
+///jlinksdk
+//#pragma comment (lib, "3rd_part/jlinksdk/win/JLinkARM.lib")
+#pragma comment (lib, "3rd_part/jlinksdk/win/JLink.lib")
+#include "3rd_part/jlinksdk/inc/JLinkARMDLL.h"
 
 ///mdebugÊä³ö
 #include "3rd_part/mdebug/mdebug.h"

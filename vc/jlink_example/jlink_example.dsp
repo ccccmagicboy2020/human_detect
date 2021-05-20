@@ -91,10 +91,6 @@ LINK32=link.exe
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat;asm"
 # Begin Source File
 
-SOURCE=.\3rd_part\jlink\jlink.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=.\jlink_example.cpp
 # End Source File
 # Begin Source File
@@ -120,7 +116,7 @@ SOURCE=.\StdAfx.cpp
 # PROP Default_Filter "h;hpp;hxx;hm;inl;inc"
 # Begin Source File
 
-SOURCE=.\3rd_part\jlink\jlink.h
+SOURCE=.\3rd_part\jlinksdk\inc\GLOBAL.h
 # End Source File
 # Begin Source File
 
@@ -129,6 +125,14 @@ SOURCE=.\jlink_example.h
 # Begin Source File
 
 SOURCE=.\jlink_exampleDlg.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\3rd_part\jlinksdk\inc\JLINKARM_Const.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\3rd_part\jlinksdk\inc\JLinkARMDLL.h
 # End Source File
 # Begin Source File
 
@@ -141,6 +145,14 @@ SOURCE=.\Resource.h
 # Begin Source File
 
 SOURCE=.\StdAfx.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\3rd_part\jlinksdk\inc\TYPES.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\3rd_part\jlinksdk\inc\Version.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"

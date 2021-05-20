@@ -180,9 +180,21 @@ HCURSOR Cjlink_exampleDlg::OnQueryDragIcon()
 
 void Cjlink_exampleDlg::OnButton1() 
 {
+	const char* sErr;
+	U32 Core;
+	char acBuffer[50];
+
+	sErr = JLINKARM_Open();		// Connect to J-Link
+	if (sErr)
+	{
+		MessageBox(sErr, "J-Link", MB_OK);
+	}
 	//
-	//
-	//
+	JLINKARM_Connect();                // Connect to target
+	Core = JLINKARM_CORE_GetFound();
+	JLINKARM_Core2CoreName(Core, acBuffer, sizeof(acBuffer));
+
+	JLINKARM_Close();
 }
 
 int Cjlink_exampleDlg::OnCreate(LPCREATESTRUCT lpCreateStruct) 
