@@ -7,7 +7,7 @@ LastTemplate=CDialog
 NewFileInclude1=#include "stdafx.h"
 NewFileInclude2=#include "jlink_example.h"
 
-ClassCount=4
+ClassCount=3
 Class1=Cjlink_exampleApp
 Class2=Cjlink_exampleDlg
 Class3=CAboutDlg
@@ -32,6 +32,7 @@ ImplementationFile=jlink_exampleDlg.cpp
 Filter=D
 BaseClass=CDialog
 VirtualFilter=dWC
+LastObject=Cjlink_exampleDlg
 
 [CLS:CAboutDlg]
 Type=0
@@ -51,7 +52,10 @@ Control4=IDOK,button,1342373889
 [DLG:IDD_jlink_example_DIALOG]
 Type=1
 Class=Cjlink_exampleDlg
-ControlCount=2
+ControlCount=5
 Control1=IDC_BUTTON1,button,1342242816
 Control2=IDC_BUTTON2,button,1342242816
+Control3=IDC_BUTTON3,button,1342242816
+Control4=IDC_BUTTON4,button,1342242816
+Control5=IDC_BUTTON5,button,1342242816
 

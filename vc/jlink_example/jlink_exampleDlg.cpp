@@ -85,6 +85,10 @@ BEGIN_MESSAGE_MAP(Cjlink_exampleDlg, CDialog)
 	ON_BN_CLICKED(IDC_BUTTON1, OnButton1)
 	ON_WM_CREATE()
 	ON_BN_CLICKED(IDC_BUTTON2, OnButton2)
+	ON_BN_CLICKED(IDC_BUTTON3, OnButton3)
+	ON_WM_TIMER()
+	ON_BN_CLICKED(IDC_BUTTON4, OnButton4)
+	ON_BN_CLICKED(IDC_BUTTON5, OnButton5)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -181,9 +185,13 @@ HCURSOR Cjlink_exampleDlg::OnQueryDragIcon()
 void Cjlink_exampleDlg::OnButton1() 
 {
 	int result;
-	U32 num = 0;
+	I32 num_up = 0;
+	I32 num_down = 0;
+	U32 dir;
 	CString num_of_buffer;
 	rtt_start start;
+	rtt_buf_desc desc;
+	CString temp_str;
 
 	start.ConfigBlockAddress = 0x200158b0;	//.bss                segger_rtt.o
 
@@ -191,12 +199,59 @@ void Cjlink_exampleDlg::OnButton1()
 
 	if (result >= 0)
 	{
-		result = JLINK_RTTERMINAL_Control(JLINKARM_RTTERMINAL_CMD_GETNUMBUF, &num);
-
-		if (result)
+		dir = 0;
+		num_up = JLINK_RTTERMINAL_Control(JLINKARM_RTTERMINAL_CMD_GETNUMBUF, &dir);
+		if (num_up == -2)
 		{
-			num_of_buffer.Format("%d", num);
-			TRACE(num_of_buffer);	
+			TRACE("not find cb");
+		}
+		else
+		{
+			num_of_buffer.Format("up: %d", num_up);
+			TRACE(num_of_buffer);
+
+			mPutsEx("%frblue");
+			mPuts("%s\n", num_of_buffer);
+			mPutsEx("%endfr");
+
+			for (int i=0;i<num_up;i++)
+			{
+				desc.BufferIndex = i;
+				desc.Direction = dir;
+				JLINK_RTTERMINAL_Control(JLINKARM_RTTERMINAL_CMD_GETDESC, &desc);
+				temp_str.Format("%s: size=%d, flag=%d", desc.acName, desc.SizeOfBuffer, desc.Flags);
+				TRACE(temp_str);
+				mPutsEx("%frmag");
+				mPuts("%s\n", temp_str);
+				mPutsEx("%endfr");
+			}
+		}
+		dir = 1;
+		num_down = JLINK_RTTERMINAL_Control(JLINKARM_RTTERMINAL_CMD_GETNUMBUF, &dir);
+		if (num_down == -2)
+		{
+			TRACE("not find cb");
+		}
+		else
+		{
+			num_of_buffer.Format("down: %d", num_down);
+			TRACE(num_of_buffer);
+
+			mPutsEx("%frblue");
+			mPuts("%s\n", num_of_buffer);
+			mPutsEx("%endfr");
+			
+			for (int i=0;i<num_up;i++)
+			{
+				desc.BufferIndex = i;
+				desc.Direction = dir;
+				JLINK_RTTERMINAL_Control(JLINKARM_RTTERMINAL_CMD_GETDESC, &desc);
+				temp_str.Format("%s: size=%d, flag=%d", desc.acName, desc.SizeOfBuffer, desc.Flags);
+				TRACE(temp_str);
+				mPutsEx("%frmag");
+				mPuts("%s\n", temp_str);
+				mPutsEx("%endfr");
+			}
 		}
 	}
 	else
@@ -237,4 +292,70 @@ void Cjlink_exampleDlg::PostNcDestroy()
 	// TODO: Add your specialized code here and/or call the base class
 	
 	CDialog::PostNcDestroy();
+}
+
+void Cjlink_exampleDlg::OnButton3() 
+{
+	static bn = 0;
+
+	if (bn == 0)
+	{
+		SetTimer(0, 100, NULL);	//100msÒ»´Î
+		bn = 1;
+	}
+	else
+	{
+		KillTimer(0);
+		bn = 0;
+	}
+}
+
+void Cjlink_exampleDlg::OnTimer(UINT nIDEvent) 
+{
+	switch (nIDEvent)
+	{
+	case 0:
+		update_rtt_ch0();
+		break;
+	case 1:
+		break;
+	case 2:
+		break;
+	case 3:
+		break;
+	case 4:
+		break;
+	default:
+		break;
+	}
+	
+	CDialog::OnTimer(nIDEvent);
+}
+
+void Cjlink_exampleDlg::update_rtt_ch0()
+{
+	U32 read_num;
+	char buf[1024];
+
+	read_num = JLINK_RTTERMINAL_Read(0, buf, 1024);
+
+	if (read_num)
+	{
+		buf[read_num] = 0;
+		mPutsEx("%fryellow");
+		mPuts("%s", buf);
+		mPutsEx("%endfr");		
+	}
+}
+
+void Cjlink_exampleDlg::OnButton4() 
+{
+	// TODO: Add your control notification handler code here
+	JLINKARM_ResetNoHalt();
+}
+
+void Cjlink_exampleDlg::OnButton5() 
+{
+	// TODO: Add your control notification handler code here
+	JLINKARM_SetLogFile("log.log");
 }

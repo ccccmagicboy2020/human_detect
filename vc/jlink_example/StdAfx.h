@@ -35,6 +35,15 @@ struct rtt_start
 	U32 Dummy2;
 };
 
+struct rtt_buf_desc
+{
+	int BufferIndex;
+	U32 Direction;
+	char acName[32];
+	U32 SizeOfBuffer;
+	U32 Flags;
+};
+
 ///mdebugÊä³ö
 #include "3rd_part/mdebug/mdebug.h"
 
@@ -43,7 +52,6 @@ struct rtt_start
 #include "3rd_part\xtracestd\xtrace.h"
 #include "3rd_part\xtracestd\xtracestd.h"
 #endif
-
 
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.

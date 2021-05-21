@@ -43,11 +43,15 @@ protected:
 	afx_msg void OnButton1();
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnButton2();
+	afx_msg void OnButton3();
+	afx_msg void OnTimer(UINT nIDEvent);
+	afx_msg void OnButton4();
+	afx_msg void OnButton5();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
-
-
-	//
+	
+public:
+	void update_rtt_ch0();
 };
 
 //{{AFX_INSERT_LOCATION}}
