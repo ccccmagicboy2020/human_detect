@@ -60,6 +60,9 @@ BOOL Cjlink_exampleApp::InitInstance()
 	Enable3dControlsStatic();	// Call this when linking to MFC statically
 #endif
 
+	init_console();
+	init_jlink();
+
 	Cjlink_exampleDlg dlg;
 	m_pMainWnd = &dlg;
 	int nResponse = dlg.DoModal();
@@ -77,4 +80,117 @@ BOOL Cjlink_exampleApp::InitInstance()
 	// Since the dialog has been closed, return FALSE so that we exit the
 	//  application, rather than start the application's message pump.
 	return FALSE;
+}
+
+void Cjlink_exampleApp::init_jlink()
+{
+	const char* sErr;
+	U32 Core;
+	char acBuffer[50];
+	U8 acBuffer2[256];
+	int speed;
+
+	TCHAR tchBuffer[MAX_PATH];
+	LPTSTR lpszCurDir;	
+	lpszCurDir = tchBuffer;	
+	CString	currentDir;
+	CString cmd;
+
+	CString temp_str;
+	char result;
+	int SN;
+	int CPU_clock;
+
+	U32 Ver;
+	char ac[256];
+	
+	::GetModuleFileName(NULL, lpszCurDir, MAX_PATH);
+	currentDir	=	lpszCurDir;
+	
+	currentDir.MakeUpper();
+	currentDir.Replace(".EXE", ".xml");
+	TRACE(currentDir);
+
+	Ver = JLINKARM_GetDLLVersion();
+	mPutsEx("%frblue");
+	mPuts("DLL: v%.2lf\n", Ver/10000.0f);
+	mPutsEx("%endfr");
+
+	JLINKARM_GetFeatureString(ac);
+	mPutsEx("%frblue");
+	mPuts("Embedded features: %s\n",ac);
+	mPutsEx("%endfr");
+
+	sErr = JLINKARM_Open();		// Connect to J-Link
+	TRACE(sErr);
+
+	JLINKARM_EMU_GetProductName((LPSTR)acBuffer2, sizeof(acBuffer2));
+
+	temp_str.Format("%s", acBuffer2);
+	TRACE(temp_str);
+
+	cmd.Format("JLinkDevicesXMLPath %s", currentDir);
+	TRACE(cmd);
+	JLINKARM_ExecCommand(cmd, NULL, 0);
+	
+	cmd.Format("device HC32F46X");
+	TRACE(cmd);
+	JLINKARM_ExecCommand(cmd, NULL, 0);
+	
+	JLINKARM_TIF_Select(JLINKARM_TIF_SWD);
+	JLINKARM_SetSpeed(25000);
+	speed = JLINKARM_GetSpeed();
+	mPutsEx("%frblue");
+	mPuts("speed: %dKBytes/s\n", speed);
+	mPutsEx("%endfr");
+// 	JLINKARM_SetMaxSpeed();
+// 	speed = JLINKARM_GetSpeed();
+// 	mPutsEx("%frblue");
+// 	mPuts("speed: %d\n", speed);
+// 	mPutsEx("%endfr");
+
+
+	
+	JLINKARM_Connect();                // Connect to target
+	Core = JLINKARM_CORE_GetFound();
+	JLINKARM_Core2CoreName(Core, acBuffer, sizeof(acBuffer));
+
+	TRACE(acBuffer);
+	mPutsEx("%frblue");
+	mPuts("core: %s\n", acBuffer);
+	mPutsEx("%endfr");
+
+	result = JLINKARM_IsConnected();
+
+	if (result)
+	{
+		TRACE("mcu connected!");
+		SN = JLINKARM_GetSN();
+		mPutsEx("%frblue");
+		mPuts("SN: %d\n", SN);
+		mPutsEx("%endfr");
+
+		CPU_clock = JLINKARM_MeasureCPUSpeed(0x1FFF8000, 128);//for f460
+		mPutsEx("%frblue");
+		mPuts("CPU clock: %dHz\n", CPU_clock);
+		mPutsEx("%endfr");
+	}
+	else
+	{
+		TRACE("muc not connected!");
+	}
+}
+
+int Cjlink_exampleApp::ExitInstance() 
+{
+	// TODO: Add your specialized code here and/or call the base class
+	JLINKARM_Close();
+	debugFree();
+	
+	return CWinApp::ExitInstance();
+}
+
+void Cjlink_exampleApp::init_console()
+{
+	debugInit();
 }

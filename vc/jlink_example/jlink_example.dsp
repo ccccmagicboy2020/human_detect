@@ -110,6 +110,10 @@ SOURCE=.\3rd_part\mdebug\mdebug.cpp
 SOURCE=.\StdAfx.cpp
 # ADD CPP /Yc"stdafx.h"
 # End Source File
+# Begin Source File
+
+SOURCE=.\3rd_part\xtracestd\xtrace.cpp
+# End Source File
 # End Group
 # Begin Group "Header Files"
 
@@ -153,6 +157,14 @@ SOURCE=.\3rd_part\jlinksdk\inc\TYPES.h
 # Begin Source File
 
 SOURCE=.\3rd_part\jlinksdk\inc\Version.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\3rd_part\xtracestd\xtrace.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\3rd_part\xtracestd\xtracestd.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"

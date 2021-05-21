@@ -22,6 +22,8 @@ Type=0
 HeaderFile=jlink_example.h
 ImplementationFile=jlink_example.cpp
 Filter=N
+BaseClass=CWinApp
+VirtualFilter=AC
 
 [CLS:Cjlink_exampleDlg]
 Type=0

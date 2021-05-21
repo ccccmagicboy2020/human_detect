@@ -180,37 +180,29 @@ HCURSOR Cjlink_exampleDlg::OnQueryDragIcon()
 
 void Cjlink_exampleDlg::OnButton1() 
 {
-	const char* sErr;
-	U32 Core;
-	char acBuffer[50];
-	U8 acBuffer2[256];
-	int speed;
+	int result;
+	U32 num = 0;
+	CString num_of_buffer;
+	rtt_start start;
 
-	sErr = JLINKARM_Open();		// Connect to J-Link
-	if (sErr)
+	start.ConfigBlockAddress = 0x200158b0;	//.bss                segger_rtt.o
+
+	result = JLINK_RTTERMINAL_Control(JLINKARM_RTTERMINAL_CMD_START, &start);
+
+	if (result >= 0)
 	{
-		MessageBox(sErr, "J-Link", MB_OK);
+		result = JLINK_RTTERMINAL_Control(JLINKARM_RTTERMINAL_CMD_GETNUMBUF, &num);
+
+		if (result)
+		{
+			num_of_buffer.Format("%d", num);
+			TRACE(num_of_buffer);	
+		}
 	}
-	JLINKARM_EMU_GetProductName((LPSTR)acBuffer2, sizeof(acBuffer2));
-	MessageBox((LPSTR)acBuffer2, "J-Link", MB_OK);
-
-	JLINKARM_TIF_Select(JLINKARM_TIF_SWD);
-	JLINKARM_SetSpeed(25000);
-	speed = JLINKARM_GetSpeed();
-	mPutsEx("%frblue");
-	mPuts("speed: %d\n", speed);
-	mPutsEx("%endfr");
-	JLINKARM_SetMaxSpeed();
-	speed = JLINKARM_GetSpeed();
-	mPutsEx("%frblue");
-	mPuts("speed: %d\n", speed);
-	mPutsEx("%endfr");
-
-	JLINKARM_Connect();                // Connect to target
-	Core = JLINKARM_CORE_GetFound();
-	JLINKARM_Core2CoreName(Core, acBuffer, sizeof(acBuffer));
-
-	JLINKARM_Close();
+	else
+	{
+		//
+	}
 }
 
 int Cjlink_exampleDlg::OnCreate(LPCREATESTRUCT lpCreateStruct) 
@@ -219,22 +211,30 @@ int Cjlink_exampleDlg::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;
 	
 	// TODO: Add your specialized creation code here
-	debugInit();
+	
 	
 	return 0;
 }
 
 void Cjlink_exampleDlg::OnButton2() 
 {
-	//
-	//
-	//
+	int result;
+
+	result = JLINK_RTTERMINAL_Control(JLINKARM_RTTERMINAL_CMD_STOP, NULL);
+	
+	if (result >= 0)
+	{
+		//
+	}
+	else
+	{
+		//
+	}
 }
 
 void Cjlink_exampleDlg::PostNcDestroy() 
 {
 	// TODO: Add your specialized code here and/or call the base class
-	debugFree();
 	
 	CDialog::PostNcDestroy();
 }

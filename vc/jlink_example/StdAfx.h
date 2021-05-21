@@ -27,8 +27,22 @@
 #pragma comment (lib, "3rd_part/jlinksdk/win/JLink.lib")
 #include "3rd_part/jlinksdk/inc/JLinkARMDLL.h"
 
+struct rtt_start 
+{
+	U32	ConfigBlockAddress;
+	U32 Dummy0;
+	U32 Dummy1;
+	U32 Dummy2;
+};
+
 ///mdebug输出
 #include "3rd_part/mdebug/mdebug.h"
+
+///增强调试TRACE输出
+#ifdef _DEBUG
+#include "3rd_part\xtracestd\xtrace.h"
+#include "3rd_part\xtracestd\xtracestd.h"
+#endif
 
 
 //{{AFX_INSERT_LOCATION}}

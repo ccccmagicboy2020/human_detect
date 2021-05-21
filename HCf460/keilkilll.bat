@@ -23,7 +23,7 @@ del JLinkLog.txt /s
 del *.iex /s
 del *.htm /s
 del *.sct /s
-del *.map /s
+::del *.map /s
 
 ::del *.hex /s
 ::del *.bin /s
