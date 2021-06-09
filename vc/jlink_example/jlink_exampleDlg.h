@@ -47,11 +47,15 @@ protected:
 	afx_msg void OnTimer(UINT nIDEvent);
 	afx_msg void OnButton4();
 	afx_msg void OnButton5();
+	afx_msg void OnButton6();
+	afx_msg void OnButton7();
+	afx_msg void OnButton8();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 	
 public:
 	void update_rtt_ch0();
+	void update_light_sensor();
 };
 
 //{{AFX_INSERT_LOCATION}}

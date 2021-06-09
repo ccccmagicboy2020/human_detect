@@ -1,1 +1,4 @@
 需要指定.bss                segger_rtt.o的地址：
+HSS变量的地址可通过jscope程序读axf文件得出
+
+

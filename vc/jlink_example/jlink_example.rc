@@ -99,10 +99,13 @@ CAPTION "jlink_example"
 FONT 9, "ËÎÌו"
 BEGIN
     PUSHBUTTON      "&start rtt",IDC_BUTTON1,7,7,52,25
-    PUSHBUTTON      "&stop rtt",IDC_BUTTON2,7,47,52,25
+    PUSHBUTTON      "s&top rtt",IDC_BUTTON2,7,47,52,25
     PUSHBUTTON      "rtt_up0(stop/start)",IDC_BUTTON3,7,87,87,25
     PUSHBUTTON      "reset mcu",IDC_BUTTON4,7,127,52,25
     PUSHBUTTON      "enable log",IDC_BUTTON5,7,167,52,25
+    PUSHBUTTON      "&start hss",IDC_BUTTON6,138,7,52,25
+    PUSHBUTTON      "s&top hss",IDC_BUTTON7,138,47,52,25
+    PUSHBUTTON      "light_sensor(stop/start)",IDC_BUTTON8,138,87,117,25
 END
 
 

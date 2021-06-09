@@ -89,6 +89,9 @@ BEGIN_MESSAGE_MAP(Cjlink_exampleDlg, CDialog)
 	ON_WM_TIMER()
 	ON_BN_CLICKED(IDC_BUTTON4, OnButton4)
 	ON_BN_CLICKED(IDC_BUTTON5, OnButton5)
+	ON_BN_CLICKED(IDC_BUTTON6, OnButton6)
+	ON_BN_CLICKED(IDC_BUTTON7, OnButton7)
+	ON_BN_CLICKED(IDC_BUTTON8, OnButton8)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -318,6 +321,7 @@ void Cjlink_exampleDlg::OnTimer(UINT nIDEvent)
 		update_rtt_ch0();
 		break;
 	case 1:
+		update_light_sensor();
 		break;
 	case 2:
 		break;
@@ -358,4 +362,73 @@ void Cjlink_exampleDlg::OnButton5()
 {
 	// TODO: Add your control notification handler code here
 	JLINKARM_SetLogFile("log.log");
+}
+
+void Cjlink_exampleDlg::OnButton6() 
+{
+	// TODO: Add your control notification handler code here
+	JLINK_HSS_CAPS Caps;
+	JLINK_HSS_MEM_BLOCK_DESC aBlock[2];
+	int result = 0;
+	//check the map file to find the var address
+	aBlock[0].Addr = 0x1fff80d8;  //address copy from jscope
+	aBlock[0].NumBytes = 4;
+	aBlock[0].Flags = 0;
+	aBlock[0].Dummy = 0;
+
+	JLINK_HSS_GetCaps(&Caps);
+	mPutsEx("%frgreen");
+	mPuts("Max. num blocks: %d\nMax sampling frequency: %d kHz\n", Caps.MaxBlocks, Caps.MaxFreq / 1000);
+	mPutsEx("%endfr");
+
+	//100000us == 10Hz, with ms timestamp
+	result = JLINK_HSS_Start(&aBlock[0], 1, 100000, 0);
+
+	mPutsEx("%frgreen");
+	mPuts("hss start: %d\n", result);
+	mPutsEx("%endfr");
+}
+
+void Cjlink_exampleDlg::OnButton7() 
+{
+	// TODO: Add your control notification handler code here
+	JLINK_HSS_Stop();
+}
+
+void Cjlink_exampleDlg::OnButton8() 
+{
+	// TODO: Add your control notification handler code here
+	static bn = 0;
+	
+	if (bn == 0)
+	{
+		SetTimer(1, 100, NULL);	//100ms“ª¥Œ
+		bn = 1;
+	}
+	else
+	{
+		KillTimer(1);
+		bn = 0;
+	}
+}
+
+void Cjlink_exampleDlg::update_light_sensor()
+{
+	U32 aBuffer[2*20];
+	int NumBytesRem;
+	int i = 0;
+
+	NumBytesRem = JLINK_HSS_Read(&aBuffer[0], sizeof(aBuffer));
+
+	do 
+	{
+		mPutsEx("%frgreen");
+		mPuts("Timestamp: %d\n", aBuffer[i + 0]);
+		mPuts("0x1fff80d8: 0x%.8X(%d)\n", aBuffer[i + 1], aBuffer[i + 1]);
+		mPutsEx("%endfr");
+
+		i += 2;
+		NumBytesRem -= 8;
+	} while (NumBytesRem);
+
 }
