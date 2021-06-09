@@ -1,2 +1,1 @@
-
-
+需要指定.bss                segger_rtt.o的地址：
