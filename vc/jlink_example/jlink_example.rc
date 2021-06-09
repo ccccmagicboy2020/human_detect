@@ -106,6 +106,7 @@ BEGIN
     PUSHBUTTON      "&start hss",IDC_BUTTON6,138,7,52,25
     PUSHBUTTON      "s&top hss",IDC_BUTTON7,138,47,52,25
     PUSHBUTTON      "light_sensor(stop/start)",IDC_BUTTON8,138,87,117,25
+    PUSHBUTTON      "burn bin to flash",IDC_BUTTON9,138,127,117,25
 END
 
 

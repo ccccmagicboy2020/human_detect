@@ -92,6 +92,7 @@ BEGIN_MESSAGE_MAP(Cjlink_exampleDlg, CDialog)
 	ON_BN_CLICKED(IDC_BUTTON6, OnButton6)
 	ON_BN_CLICKED(IDC_BUTTON7, OnButton7)
 	ON_BN_CLICKED(IDC_BUTTON8, OnButton8)
+	ON_BN_CLICKED(IDC_BUTTON9, OnButton9)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -431,4 +432,81 @@ void Cjlink_exampleDlg::update_light_sensor()
 		NumBytesRem -= 8;
 	} while (NumBytesRem);
 
+}
+
+void Cjlink_exampleDlg::OnButton9() 
+{
+
+	BOOL isOpen = TRUE;		//是否打开(否则为保存)
+	CString defaultDir = L"";	//默认打开的文件路径
+	CString fileName = L"";			//默认打开的文件名
+	//CString filter = L"文件 (*.bin; *.hex; *.axf)|*.bin;*.hex;*.axf||";	//文件过虑的类型
+	CString filter = L"文件 (*.bin)|*.bin||";
+	CString filePath;
+	INT_PTR result;
+	int n = 0;
+	CString cmd;
+	int r = 0;
+	FILE	*	pFile;
+	int	FileSize;
+	U8	*	pBuffer;
+
+	CFileDialog openFileDlg(isOpen, defaultDir, fileName, OFN_HIDEREADONLY|OFN_READONLY, filter, NULL);
+
+	result = openFileDlg.DoModal();
+	if(result == IDOK)
+	{
+		filePath = openFileDlg.GetPathName();
+		mPutsEx("%frgreen");
+		mPuts("file name: %s\n", filePath);
+		mPutsEx("%endfr");
+
+		n = filePath.Find(".bin");
+		if (n != -1)
+		{
+			mPutsEx("%frgreen");
+			mPuts("%d - bin file name: %s\n", n, filePath);
+			mPutsEx("%endfr");
+			
+			TRACE("Downloading sample application...");
+			JLINKARM_Reset();
+			JLINKARM_Halt();
+
+			pFile = fopen((LPSTR)(LPCTSTR)filePath, "rb");
+			if (pFile == NULL) 
+			{
+				TRACE("Could not open file.\n");
+				return;
+			}
+			fseek(pFile, 0, SEEK_END);
+			FileSize = ftell(pFile);
+			TRACE("bin file size: %d bytes\n", FileSize);
+			fseek(pFile, 0, SEEK_SET);
+
+			pBuffer  = (U8*) malloc(FileSize);
+			if (pBuffer == NULL) 
+			{
+				TRACE("Could not allocate file buffer.\n");
+				return;
+			}
+			fread(pBuffer, 1, FileSize, pFile);
+			TRACE("bin file read O.K.\n");
+			fclose(pFile);
+			
+			JLINKARM_BeginDownload(0);
+			JLINKARM_WriteMem(0, FileSize, pBuffer);
+			JLINKARM_EndDownload();
+			free(pBuffer);
+
+			TRACE("Starting target application...");
+			JLINKARM_Reset();
+			JLINKARM_Go();
+		}
+
+		n = filePath.Find(".hex");
+		if (n != -1)
+		{
+			//
+		}
+	}
 }
