@@ -93,6 +93,7 @@ BEGIN_MESSAGE_MAP(Cjlink_exampleDlg, CDialog)
 	ON_BN_CLICKED(IDC_BUTTON7, OnButton7)
 	ON_BN_CLICKED(IDC_BUTTON8, OnButton8)
 	ON_BN_CLICKED(IDC_BUTTON9, OnButton9)
+	ON_BN_CLICKED(IDC_BUTTON10, OnButton10)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -436,7 +437,6 @@ void Cjlink_exampleDlg::update_light_sensor()
 
 void Cjlink_exampleDlg::OnButton9() 
 {
-
 	BOOL isOpen = TRUE;		//是否打开(否则为保存)
 	CString defaultDir = L"";	//默认打开的文件路径
 	CString fileName = L"";			//默认打开的文件名
@@ -507,6 +507,41 @@ void Cjlink_exampleDlg::OnButton9()
 		if (n != -1)
 		{
 			//
+		}
+	}
+}
+
+void Cjlink_exampleDlg::OnButton10() 
+{
+	BOOL isOpen = TRUE;		//是否打开(否则为保存)
+	CString defaultDir = L"";	//默认打开的文件路径
+	CString fileName = L"";			//默认打开的文件名
+	//CString filter = L"文件 (*.bin; *.hex; *.axf)|*.bin;*.hex;*.axf||";	//文件过虑的类型
+	CString filter = L"文件 (*.bin; *.hex)|*.bin;*.hex||";	//文件过虑的类型
+	CString filePath;
+	INT_PTR result;
+	
+	CFileDialog openFileDlg(isOpen, defaultDir, fileName, OFN_HIDEREADONLY|OFN_READONLY, filter, NULL);
+	
+	result = openFileDlg.DoModal();
+	if(result == IDOK)
+	{
+		filePath = openFileDlg.GetPathName();
+		mPutsEx("%frgreen");
+		mPuts("file name: %s\n", filePath);
+		mPutsEx("%endfr");
+		
+		if (1)
+		{			
+			TRACE("Downloading sample application...");
+			JLINKARM_Reset();
+			JLINKARM_Halt();
+
+			JLINK_DownloadFile((LPSTR)(LPCTSTR)filePath, 0);
+			
+			TRACE("Starting target application...");
+			JLINKARM_Reset();
+			JLINKARM_Go();
 		}
 	}
 }

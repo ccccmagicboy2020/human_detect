@@ -52,7 +52,7 @@ Control4=IDOK,button,1342373889
 [DLG:IDD_jlink_example_DIALOG]
 Type=1
 Class=Cjlink_exampleDlg
-ControlCount=9
+ControlCount=10
 Control1=IDC_BUTTON1,button,1342242816
 Control2=IDC_BUTTON2,button,1342242816
 Control3=IDC_BUTTON3,button,1342242816
@@ -62,4 +62,5 @@ Control6=IDC_BUTTON6,button,1342242816
 Control7=IDC_BUTTON7,button,1342242816
 Control8=IDC_BUTTON8,button,1342242816
 Control9=IDC_BUTTON9,button,1342242816
+Control10=IDC_BUTTON10,button,1342242816
 
