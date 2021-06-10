@@ -236,7 +236,8 @@ int freq_detection(FIFO_DataType data[], const float win[], int data_size, int w
 			sprintf(float_str, "freq domain res trigger value: %.2lf-%.2lf\r\n", minTEMP, respiration_times);
 			SEGGER_RTT_printf(0, "%s", float_str);
 			//if (0)
-			if (upload_disable == 0)
+			//if (upload_disable == 0)
+			if (1)
 			{
 				if (minTEMP != minTEMP_last)
 				{

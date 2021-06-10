@@ -95,7 +95,6 @@ extern unsigned short  light_sensor_adc_data;
 unsigned char data_report_upload_flag = 0;
 unsigned char data_report_upload_enable = 0;
 ////////////////////////////////////////////////////////////
-int delay_s_num = 24;
 ////////////////////////////////////////////////////////////
 volatile unsigned int  person_meter = 0;
 volatile unsigned int  person_meter_last = 0;
@@ -224,7 +223,7 @@ static void enable_flash_cache(en_functional_state_t state)
 void slow_output_result(char slow_s0_result)
 {
 	//
-	Delay_ms(ALL_UPLOAD_DELAY);
+	//Delay_ms(ALL_UPLOAD_DELAY);
 	//
 	switch (slow_s0_result)
 	{
@@ -702,7 +701,7 @@ void slow_check_process_s1(void)
 			{
 				no_person_check_tick = SysTick_GetTick();
 				no_person_diff = no_person_check_tick - no_person_start_tick;
-				if (no_person_diff > (1000u*delay_s_num - 2*4800))
+				if (no_person_diff > (1000u*upssa0.ppp.delay_time_num - 2*4800))
 				{
 					SEGGER_RTT_printf(0, "%sno person status: delay_timer=%d, diff=%d%s\r\n", RTT_CTRL_TEXT_BRIGHT_YELLOW, no_person_timer, no_person_diff, RTT_CTRL_RESET);
 					no_person_timer = 0;
@@ -779,9 +778,13 @@ void idle_process(void)
 		if (study_counter == 0)
 		{
 			study_start = SysTick_GetTick();
-			SEGGER_RTT_printf(0, "study mode%d begin:\r\n", study_mode);
-			study_time_ms = 60u*1000u + study_mode*60u*1000u;
-			if (upload_disable == 0)
+			SEGGER_RTT_printf(0, "%sstudy mode%d begin:%s\r\n", RTT_CTRL_TEXT_BRIGHT_YELLOW, study_mode, RTT_CTRL_RESET);
+			//study_time_ms = 60u*1000u + study_mode*60u*1000u;
+			study_time_ms = 60u*1000u;
+			SEGGER_RTT_printf(0, "%sALL study will last: %dms %s\r\n", RTT_CTRL_TEXT_BRIGHT_YELLOW, study_time_ms, RTT_CTRL_RESET);
+			
+			if (1)
+			//if (upload_disable == 0)
 			{
 				mcu_dp_enum_update(DPID_STUDY_PROCESS_UPLOAD, 0);	//start
 			}
@@ -826,23 +829,23 @@ void idle_process(void)
 				switch (study_mode)
 				{
 					case 0:
-						upssa0.ppp.res_times = max_pp1_rt*1.1f;
+						upssa0.ppp.res_times = max_pp1_rt*0.7f;
 						break;
 					case 1:
-						upssa0.ppp.res_times = max_pp1_rt*1.07f;
+						upssa0.ppp.res_times = max_pp1_rt*0.8f;
 						break;
 					case 2:
-						upssa0.ppp.res_times = max_pp1_rt*1.03f;
+						upssa0.ppp.res_times = max_pp1_rt*0.9f;
 						break;
 					case 3:
 						upssa0.ppp.res_times = max_pp1_rt*1.0f;
 						break;
 					default:
-						upssa0.ppp.res_times = max_pp1_rt*1.0f;
+						upssa0.ppp.res_times = max_pp1_rt*0.7f;
 						break;
 				}
 				
-				sprintf(float_str, "study new pp1 values: %.3lf\r\n", upssa0.ppp.res_times);
+				sprintf(float_str, "%sstudy new pp1 values: %.3lf%s\r\n", RTT_CTRL_TEXT_BRIGHT_YELLOW, upssa0.ppp.res_times, RTT_CTRL_RESET);
 				SEGGER_RTT_printf(0, "%s", float_str);
 				
 				if (upload_disable == 0)
@@ -857,23 +860,23 @@ void idle_process(void)
 				switch (study_mode)
 				{
 					case 0:
-						upssa0.ppp.offsetmin = max_pp2_rt*1.1f;
+						upssa0.ppp.offsetmin = max_pp2_rt*0.7f;
 						break;
 					case 1:
-						upssa0.ppp.offsetmin = max_pp2_rt*1.07f;
+						upssa0.ppp.offsetmin = max_pp2_rt*0.8f;
 						break;
 					case 2:
-						upssa0.ppp.offsetmin = max_pp2_rt*1.03f;
+						upssa0.ppp.offsetmin = max_pp2_rt*0.9f;
 						break;
 					case 3:
 						upssa0.ppp.offsetmin = max_pp2_rt*1.0f;
 						break;
 					default:
-						upssa0.ppp.offsetmin = max_pp2_rt*1.0f;
+						upssa0.ppp.offsetmin = max_pp2_rt*0.7f;
 						break;
 				}
 				
-				sprintf(float_str, "study new pp2 values: %.3lf\r\n", upssa0.ppp.offsetmin);
+				sprintf(float_str, "%sstudy new pp2 values: %.3lf%s\r\n", RTT_CTRL_TEXT_BRIGHT_YELLOW, upssa0.ppp.offsetmin, RTT_CTRL_RESET);
 				SEGGER_RTT_printf(0, "%s", float_str);
 				
 				if (upload_disable == 0)
@@ -887,8 +890,9 @@ void idle_process(void)
 			if (study_diff > study_time_ms)
 			{
 				study_flag = 0;
-				SEGGER_RTT_printf(0, "study mode%d finished in %dms\r\n", study_mode, study_diff);
-				if (upload_disable == 0)
+				SEGGER_RTT_printf(0, "%sstudy mode%d finished in %dms%s\r\n", RTT_CTRL_TEXT_BRIGHT_YELLOW, study_mode, study_diff, RTT_CTRL_RESET);
+				//if (upload_disable == 0)
+				if (1)	
 				{			
 					mcu_dp_enum_update(DPID_STUDY_PROCESS_UPLOAD, 1);	//end
 				}
@@ -1483,44 +1487,10 @@ void set_var_from_flash(void)
 	upssa0.ppp.delay_time_num = DELAY_TIME_NUM_FLASH;
 	if (upssa0.ppp.delay_time_num == -1)
 	{
-		upssa0.ppp.delay_time_num = 0;
-	}
-
-	switch(upssa0.ppp.delay_time_num) {
-			case 0:
-				delay_s_num = 24;
-			break;
-			
-			case 1:
-				delay_s_num = 32;
-			break;
-			
-			case 2:
-				delay_s_num = 40;
-			break;
-			
-			case 3:
-				delay_s_num = 48;
-			break;
-			
-			case 4:
-				delay_s_num = 64;
-			break;
-			
-			case 5:
-				delay_s_num = 128;
-			break;
-			
-			case 6:
-				delay_s_num = 192;
-			break;
-			
-			default:
-	
-			break;
+		upssa0.ppp.delay_time_num = 32;
 	}
 	
-	SEGGER_RTT_printf(0, "%s%sload delay_time_num: %d%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.delay_time_num, RTT_CTRL_RESET);	
+	SEGGER_RTT_printf(0, "%s%sload delay_time_num: %ds%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.delay_time_num, RTT_CTRL_RESET);	
 }
 
 void	set_iot_network_from_flash(void)
@@ -1557,7 +1527,7 @@ int main(void)
 	bt_protocol_init();
 	gpio_init();
   segger_init();		
-	get_mcu_bt_mode();
+	//get_mcu_bt_mode();
 	read_uid();
 	tick_init();
 	enable_flash_cache(Enable);

@@ -324,11 +324,11 @@ void data_handle(unsigned short offset)
 			}
 			break;
   case HEAT_BEAT_CMD:                                   //心跳包
-    heat_beat_check();
+    //heat_beat_check();
     break;
     
   case PRODUCT_INFO_CMD:                                //产品信息
-    product_info_update();
+    //product_info_update();
     break;
     
   case WORK_MODE_CMD:                                   //查询MCU设定的模块工作模式
@@ -352,7 +352,7 @@ void data_handle(unsigned short offset)
 	}
 	else if(BT_CONNECTED == bt_work_state)
 	{
-		all_data_update();
+		//all_data_update();
 		upload_disable = 0;
 		led_green(1);
 	}

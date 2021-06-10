@@ -58,7 +58,6 @@ extern unsigned char g_work_mode;
 extern unsigned char find_me_flag;
 extern unsigned short  light_sensor_adc_data;
 
-extern int delay_s_num;
 extern unsigned int  person_meter;
 
 extern float breathe_freq;
@@ -100,7 +99,7 @@ void save_upssa0(void);
 ******************************************************************************/
 const DOWNLOAD_CMD_S download_cmd[] =
 {
-  {DPID_PIR_DELAY, DP_TYPE_ENUM},
+  {DPID_PIR_DELAY, DP_TYPE_VALUE},
   {DPID_LOAD_RADAR_PARAMETER, DP_TYPE_ENUM},
   {DPID_LIGHT_STATUS, DP_TYPE_ENUM},
   {DPID_PERSON_IN_RANGE, DP_TYPE_ENUM},
@@ -253,48 +252,14 @@ static unsigned char dp_download_pir_delay_handle(const unsigned char value[], u
     unsigned char ret;
     unsigned char pir_delay;
     
-    pir_delay = mcu_get_dp_download_enum(value,length);
+    pir_delay = mcu_get_dp_download_value(value,length);
 	
-		upssa0.ppp.delay_time_num = pir_delay;
+	upssa0.ppp.delay_time_num = pir_delay;
 	
-    switch(upssa0.ppp.delay_time_num) {
-        case 0:
-					delay_s_num = 24;
-        break;
-        
-        case 1:
-					delay_s_num = 32;
-        break;
-        
-        case 2:
-					delay_s_num = 40;
-        break;
-        
-        case 3:
-					delay_s_num = 48;
-        break;
-        
-        case 4:
-					delay_s_num = 64;
-        break;
-        
-        case 5:
-					delay_s_num = 128;
-        break;
-        
-        case 6:
-					delay_s_num = 192;
-        break;
-        
-        default:
-    
-        break;
-    }
-    
-		SEGGER_RTT_printf(0, "%s%snew delay_time_num: %d, and delay_s_num = %d%s\r\n", RTT_CTRL_BG_BRIGHT_YELLOW, RTT_CTRL_TEXT_BLACK, upssa0.ppp.delay_time_num, delay_s_num, RTT_CTRL_RESET);
+	SEGGER_RTT_printf(0, "%s%snew delay_time_num: %d%s\r\n", RTT_CTRL_BG_BRIGHT_YELLOW, RTT_CTRL_TEXT_BLACK, upssa0.ppp.delay_time_num, RTT_CTRL_RESET);
 
     //处理完DP数据后应有反馈
-    ret = mcu_dp_enum_update(DPID_PIR_DELAY, upssa0.ppp.delay_time_num);
+    ret = mcu_dp_value_update(DPID_PIR_DELAY, upssa0.ppp.delay_time_num);
     if(ret == SUCCESS)
         return SUCCESS;
     else
@@ -332,6 +297,83 @@ void load_ceiling_setup(int mode)
 		upssa0.ppp.res_times = 16.5f;
 		upssa0.ppp.offsetmin = 0.33f;
 	}
+	else if (mode == 2)
+	{
+		upssa0.ppp.quick_time_times = 3.8f;
+		upssa0.ppp.quick_time_add = 35.0f;
+		upssa0.ppp.quick_freq_times = 4.0f;
+		upssa0.ppp.slow_time_times = 3.8f;
+		upssa0.ppp.slow_time_add = 35.0f;
+		upssa0.ppp.slow_freq_times = 4.0f;
+		upssa0.ppp.res_times = 16.5f;
+		upssa0.ppp.offsetmin = 0.33f;
+	}
+	else if (mode == 3)
+	{
+		upssa0.ppp.quick_time_times = 3.8f;
+		upssa0.ppp.quick_time_add = 35.0f;
+		upssa0.ppp.quick_freq_times = 4.0f;
+		upssa0.ppp.slow_time_times = 3.8f;
+		upssa0.ppp.slow_time_add = 35.0f;
+		upssa0.ppp.slow_freq_times = 4.0f;
+		upssa0.ppp.res_times = 16.5f;
+		upssa0.ppp.offsetmin = 0.33f;
+	}
+	else if (mode == 4)
+	{
+		upssa0.ppp.quick_time_times = 3.8f;
+		upssa0.ppp.quick_time_add = 35.0f;
+		upssa0.ppp.quick_freq_times = 4.0f;
+		upssa0.ppp.slow_time_times = 3.8f;
+		upssa0.ppp.slow_time_add = 35.0f;
+		upssa0.ppp.slow_freq_times = 4.0f;
+		upssa0.ppp.res_times = 16.5f;
+		upssa0.ppp.offsetmin = 0.33f;
+	}
+	else if (mode == 5)
+	{
+		upssa0.ppp.quick_time_times = 3.8f;
+		upssa0.ppp.quick_time_add = 35.0f;
+		upssa0.ppp.quick_freq_times = 4.0f;
+		upssa0.ppp.slow_time_times = 3.8f;
+		upssa0.ppp.slow_time_add = 35.0f;
+		upssa0.ppp.slow_freq_times = 4.0f;
+		upssa0.ppp.res_times = 16.5f;
+		upssa0.ppp.offsetmin = 0.33f;
+	}	
+	else if (mode == 6)
+	{
+		upssa0.ppp.quick_time_times = 3.8f;
+		upssa0.ppp.quick_time_add = 35.0f;
+		upssa0.ppp.quick_freq_times = 4.0f;
+		upssa0.ppp.slow_time_times = 3.8f;
+		upssa0.ppp.slow_time_add = 35.0f;
+		upssa0.ppp.slow_freq_times = 4.0f;
+		upssa0.ppp.res_times = 16.5f;
+		upssa0.ppp.offsetmin = 0.33f;
+	}
+	else if (mode == 7)
+	{
+		upssa0.ppp.quick_time_times = 3.8f;
+		upssa0.ppp.quick_time_add = 35.0f;
+		upssa0.ppp.quick_freq_times = 4.0f;
+		upssa0.ppp.slow_time_times = 3.8f;
+		upssa0.ppp.slow_time_add = 35.0f;
+		upssa0.ppp.slow_freq_times = 4.0f;
+		upssa0.ppp.res_times = 16.5f;
+		upssa0.ppp.offsetmin = 0.33f;
+	}
+	else if (mode == 8)
+	{
+		upssa0.ppp.quick_time_times = 3.8f;
+		upssa0.ppp.quick_time_add = 35.0f;
+		upssa0.ppp.quick_freq_times = 4.0f;
+		upssa0.ppp.slow_time_times = 3.8f;
+		upssa0.ppp.slow_time_add = 35.0f;
+		upssa0.ppp.slow_freq_times = 4.0f;
+		upssa0.ppp.res_times = 25.0f;
+		upssa0.ppp.offsetmin = 0.6f;
+	}	
 }
 
 void load_wall_setup(int mode)
@@ -369,43 +411,34 @@ static unsigned char dp_download_load_radar_parameter_handle(const unsigned char
     load_radar_parameter = mcu_get_dp_download_enum(value,length);
     switch(load_radar_parameter) {
         case 0:
-			load_ceiling_setup(0);
-			SEGGER_RTT_printf(0, "%s%sload ceiling setup %d%s\r\n", RTT_CTRL_BG_BRIGHT_YELLOW, RTT_CTRL_TEXT_BLACK, 0, RTT_CTRL_RESET);
+			//load_ceiling_setup(0);
+			//SEGGER_RTT_printf(0, "%s%sload ceiling setup %d%s\r\n", RTT_CTRL_BG_BRIGHT_YELLOW, RTT_CTRL_TEXT_BLACK, 0, RTT_CTRL_RESET);
         break;
      
         case 1:
-			load_ceiling_setup(1);
-			SEGGER_RTT_printf(0, "%s%sload ceiling setup %d%s\r\n", RTT_CTRL_BG_BRIGHT_YELLOW, RTT_CTRL_TEXT_BLACK, 1, RTT_CTRL_RESET);   
+				case 2:
+				case 3:
+				case 4:
+				case 5:
+				case 6:
+				case 7:
+				case 8:
+				case 9:
+					load_ceiling_setup(load_radar_parameter - 1);
+					SEGGER_RTT_printf(0, "%s%sload ceiling setup %d%s\r\n", RTT_CTRL_BG_BRIGHT_YELLOW, RTT_CTRL_TEXT_BLACK, load_radar_parameter - 1, RTT_CTRL_RESET);   
         break;
         
-        case 2:
-			load_wall_setup(0);
-			SEGGER_RTT_printf(0, "%s%sload wall setup %d%s\r\n", RTT_CTRL_BG_BRIGHT_YELLOW, RTT_CTRL_TEXT_BLACK, 0, RTT_CTRL_RESET);
-        break;
         
-        case 3:
-			load_wall_setup(1);
-			SEGGER_RTT_printf(0, "%s%sload wall setup %d%s\r\n", RTT_CTRL_BG_BRIGHT_YELLOW, RTT_CTRL_TEXT_BLACK, 1, RTT_CTRL_RESET);					
-        break;
-        
-        case 4:
-            SEGGER_RTT_printf(0, "load user parameter%d\r\n", 1);
-        break;
-        
-        case 5:
-            SEGGER_RTT_printf(0, "load user parameter%d\r\n", 2);
-        break;
-        
-        case 6:
-            SEGGER_RTT_printf(0, "load user parameter%d\r\n", 3);
-        break;
-        
-        case 7:
-            SEGGER_RTT_printf(0, "load user parameter%d\r\n", 4);
+        case 0x60:
+        case 0x61:
+        case 0x62:
+        case 0x63:
+        case 0x64:					
+            SEGGER_RTT_printf(0, "load user parameter%d\r\n", load_radar_parameter - 0x60);
         break;
         
         default:
-    
+					//
         break;
     }
     
