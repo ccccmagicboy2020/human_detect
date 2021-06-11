@@ -128,6 +128,7 @@ const DOWNLOAD_CMD_S download_cmd[] =
   {DPID_BREATHE_FREQ, DP_TYPE_VALUE},
   {DPID_STUDY_CMD, DP_TYPE_ENUM},
   {DPID_STUDY_PROCESS_UPLOAD, DP_TYPE_ENUM},
+	{DPID_UPLOAD_DUTY, DP_TYPE_VALUE},
 };
 
 /******************************************************************************
@@ -275,18 +276,51 @@ static unsigned char dp_download_pir_delay_handle(const unsigned char value[], u
 *****************************************************************************/
 void load_ceiling_setup(int mode)
 {
-	if (mode == 0)
+	if (mode == 0)		//1M
 	{
 		upssa0.ppp.quick_time_times = 2048.0f;
-		upssa0.ppp.quick_time_add = 135.0f;
+		upssa0.ppp.quick_time_add = 330.0f;
 		upssa0.ppp.quick_freq_times = 12.0f;
 		upssa0.ppp.slow_time_times = 2048.0f;
-		upssa0.ppp.slow_time_add = 135.0f;
+		upssa0.ppp.slow_time_add = 330.0f;
 		upssa0.ppp.slow_freq_times = 12.0f;
-		upssa0.ppp.res_times = 78.0f;
-		upssa0.ppp.offsetmin = 1.23f;
+		upssa0.ppp.res_times = 2048.0f;
+		upssa0.ppp.offsetmin = 2.26f;
 	}
-	else if (mode == 1)
+	else if (mode == 1)		//1.5M
+	{
+		upssa0.ppp.quick_time_times = 2048.0f;
+		upssa0.ppp.quick_time_add = 295.0f;
+		upssa0.ppp.quick_freq_times = 9.0f;
+		upssa0.ppp.slow_time_times = 2048.0f;
+		upssa0.ppp.slow_time_add = 295.0f;
+		upssa0.ppp.slow_freq_times = 12.0f;
+		upssa0.ppp.res_times = 168.0f;
+		upssa0.ppp.offsetmin = 1.95f;
+	}
+	else if (mode == 2)		//2.0M
+	{
+		upssa0.ppp.quick_time_times = 10.0f;
+		upssa0.ppp.quick_time_add = 100.0f;
+		upssa0.ppp.quick_freq_times = 8.0f;
+		upssa0.ppp.slow_time_times = 10.0f;
+		upssa0.ppp.slow_time_add = 100.0f;
+		upssa0.ppp.slow_freq_times = 8.0f;
+		upssa0.ppp.res_times = 45.0f;
+		upssa0.ppp.offsetmin = 0.9f;
+	}
+	else if (mode == 3)		//2.5M
+	{
+		upssa0.ppp.quick_time_times = 4.51405f;
+		upssa0.ppp.quick_time_add = 64.48665f;
+		upssa0.ppp.quick_freq_times = 7.1201f;
+		upssa0.ppp.slow_time_times = 5.68685f;
+		upssa0.ppp.slow_time_add = 59.35425f;
+		upssa0.ppp.slow_freq_times = 9.49635f;
+		upssa0.ppp.res_times = 16.053f;
+		upssa0.ppp.offsetmin = 0.6073f;
+	}
+	else if (mode == 4)		//3.0M
 	{
 		upssa0.ppp.quick_time_times = 3.8f;
 		upssa0.ppp.quick_time_add = 35.0f;
@@ -297,40 +331,7 @@ void load_ceiling_setup(int mode)
 		upssa0.ppp.res_times = 16.5f;
 		upssa0.ppp.offsetmin = 0.33f;
 	}
-	else if (mode == 2)
-	{
-		upssa0.ppp.quick_time_times = 3.8f;
-		upssa0.ppp.quick_time_add = 35.0f;
-		upssa0.ppp.quick_freq_times = 4.0f;
-		upssa0.ppp.slow_time_times = 3.8f;
-		upssa0.ppp.slow_time_add = 35.0f;
-		upssa0.ppp.slow_freq_times = 4.0f;
-		upssa0.ppp.res_times = 16.5f;
-		upssa0.ppp.offsetmin = 0.33f;
-	}
-	else if (mode == 3)
-	{
-		upssa0.ppp.quick_time_times = 3.8f;
-		upssa0.ppp.quick_time_add = 35.0f;
-		upssa0.ppp.quick_freq_times = 4.0f;
-		upssa0.ppp.slow_time_times = 3.8f;
-		upssa0.ppp.slow_time_add = 35.0f;
-		upssa0.ppp.slow_freq_times = 4.0f;
-		upssa0.ppp.res_times = 16.5f;
-		upssa0.ppp.offsetmin = 0.33f;
-	}
-	else if (mode == 4)
-	{
-		upssa0.ppp.quick_time_times = 3.8f;
-		upssa0.ppp.quick_time_add = 35.0f;
-		upssa0.ppp.quick_freq_times = 4.0f;
-		upssa0.ppp.slow_time_times = 3.8f;
-		upssa0.ppp.slow_time_add = 35.0f;
-		upssa0.ppp.slow_freq_times = 4.0f;
-		upssa0.ppp.res_times = 16.5f;
-		upssa0.ppp.offsetmin = 0.33f;
-	}
-	else if (mode == 5)
+	else if (mode == 5)		//3.5M
 	{
 		upssa0.ppp.quick_time_times = 3.8f;
 		upssa0.ppp.quick_time_add = 35.0f;
@@ -341,7 +342,7 @@ void load_ceiling_setup(int mode)
 		upssa0.ppp.res_times = 16.5f;
 		upssa0.ppp.offsetmin = 0.33f;
 	}	
-	else if (mode == 6)
+	else if (mode == 6)		//4.0M
 	{
 		upssa0.ppp.quick_time_times = 3.8f;
 		upssa0.ppp.quick_time_add = 35.0f;
@@ -352,7 +353,7 @@ void load_ceiling_setup(int mode)
 		upssa0.ppp.res_times = 16.5f;
 		upssa0.ppp.offsetmin = 0.33f;
 	}
-	else if (mode == 7)
+	else if (mode == 7)		//4.5M
 	{
 		upssa0.ppp.quick_time_times = 3.8f;
 		upssa0.ppp.quick_time_add = 35.0f;
@@ -363,7 +364,7 @@ void load_ceiling_setup(int mode)
 		upssa0.ppp.res_times = 16.5f;
 		upssa0.ppp.offsetmin = 0.33f;
 	}
-	else if (mode == 8)
+	else if (mode == 8)		//5.0M
 	{
 		upssa0.ppp.quick_time_times = 3.8f;
 		upssa0.ppp.quick_time_add = 35.0f;
@@ -371,8 +372,8 @@ void load_ceiling_setup(int mode)
 		upssa0.ppp.slow_time_times = 3.8f;
 		upssa0.ppp.slow_time_add = 35.0f;
 		upssa0.ppp.slow_freq_times = 4.0f;
-		upssa0.ppp.res_times = 25.0f;
-		upssa0.ppp.offsetmin = 0.6f;
+		upssa0.ppp.res_times = 16.5f;
+		upssa0.ppp.offsetmin = 0.33f;
 	}	
 }
 
@@ -809,8 +810,8 @@ static unsigned char dp_download_light_threshold1_handle(const unsigned char val
     
     upssa0.ppp.Light_threshold1 = mcu_get_dp_download_value(value,length);
  
-		
-    
+		SEGGER_RTT_printf(0, "%s%sload light sensor threshold1: %d%s\r\n", RTT_CTRL_BG_BRIGHT_YELLOW, RTT_CTRL_TEXT_BLACK, upssa0.ppp.Light_threshold1, RTT_CTRL_RESET);	
+
     //处理完DP数据后应有反馈
     ret = mcu_dp_value_update(DPID_LIGHT_THRESHOLD1, upssa0.ppp.Light_threshold1);
     if(ret == SUCCESS)
@@ -833,6 +834,7 @@ static unsigned char dp_download_light_threshold2_handle(const unsigned char val
     
     upssa0.ppp.Light_threshold2 = mcu_get_dp_download_value(value,length);
     
+		SEGGER_RTT_printf(0, "%s%sload light sensor threshold2: %d%s\r\n", RTT_CTRL_BG_BRIGHT_YELLOW, RTT_CTRL_TEXT_BLACK, upssa0.ppp.Light_threshold2, RTT_CTRL_RESET);	
     //处理完DP数据后应有反馈
     ret = mcu_dp_value_update(DPID_LIGHT_THRESHOLD2, upssa0.ppp.Light_threshold2);
     if(ret == SUCCESS)
@@ -881,6 +883,22 @@ static unsigned char dp_download_light_threshold4_handle(const unsigned char val
 		SEGGER_RTT_printf(0, "%s%sload light sensor threshold4: %d%s\r\n", RTT_CTRL_BG_BRIGHT_YELLOW, RTT_CTRL_TEXT_BLACK, upssa0.ppp.Light_threshold4, RTT_CTRL_RESET);	
     //处理完DP数据后应有反馈
     ret = mcu_dp_value_update(DPID_LIGHT_THRESHOLD4, upssa0.ppp.Light_threshold4);
+    if(ret == SUCCESS)
+        return SUCCESS;
+    else
+        return ERROR;
+}
+
+static unsigned char dp_download_upload_duty_handle(const unsigned char value[], unsigned short length)
+{
+    //示例:当前DP类型为VALUE
+    unsigned char ret;
+    
+    upssa0.ppp.upload_duty = mcu_get_dp_download_value(value,length);
+    
+		SEGGER_RTT_printf(0, "%s%sload upload_duty: %dms%s\r\n", RTT_CTRL_BG_BRIGHT_YELLOW, RTT_CTRL_TEXT_BLACK, upssa0.ppp.upload_duty, RTT_CTRL_RESET);		
+    //处理完DP数据后应有反馈
+    ret = mcu_dp_value_update(DPID_UPLOAD_DUTY, upssa0.ppp.upload_duty);
     if(ret == SUCCESS)
         return SUCCESS;
     else
@@ -1111,7 +1129,10 @@ unsigned char dp_download_handle(unsigned char dpid,const unsigned char value[],
             //学习命令处理函数
             ret = dp_download_study_cmd_handle(value,length);
         break;
-
+				case DPID_UPLOAD_DUTY:
+						//通迅周期
+						ret = dp_download_upload_duty_handle(value,length);
+				break;
 
   default:
     break;
@@ -1537,8 +1558,59 @@ void tuya_retry_ota(void)
 					
 void reset_default_parameter(void)
 {
+	char float_str[64];
+	
 	//load factory parameter here!
-	//
+	upssa0.ppp.quick_time_times = 3.8f;
+	sprintf(float_str, "%s%sload quick_time_times: %.3lf%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.quick_time_times, RTT_CTRL_RESET);
+	SEGGER_RTT_printf(0, "%s", float_str);
+	
+	upssa0.ppp.quick_time_add = 35.0f;
+	sprintf(float_str, "%s%sload quick_time_add: %.3lf%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.quick_time_add, RTT_CTRL_RESET);
+	SEGGER_RTT_printf(0, "%s", float_str);
+	
+	upssa0.ppp.quick_freq_times = 4.0f;
+	sprintf(float_str, "%s%sload quick_freq_times: %.3lf%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.quick_freq_times, RTT_CTRL_RESET);
+	SEGGER_RTT_printf(0, "%s", float_str);	
+	
+	upssa0.ppp.slow_time_times = 3.8f;
+	sprintf(float_str, "%s%sload slow_time_times: %.3lf%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.slow_time_times, RTT_CTRL_RESET);
+	SEGGER_RTT_printf(0, "%s", float_str);
+	
+	upssa0.ppp.slow_time_add = 35.0f;
+	sprintf(float_str, "%s%sload slow_time_add: %.3lf%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.slow_time_add, RTT_CTRL_RESET);
+	SEGGER_RTT_printf(0, "%s", float_str);
+	
+	upssa0.ppp.slow_freq_times = 4.0f;
+	sprintf(float_str, "%s%sload slow_freq_times: %.3lf%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.slow_freq_times, RTT_CTRL_RESET);
+	SEGGER_RTT_printf(0, "%s", float_str);	
+	
+	upssa0.ppp.res_times = 16.5f;
+	sprintf(float_str, "%s%sload res_times: %.3lf%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.res_times, RTT_CTRL_RESET);
+	SEGGER_RTT_printf(0, "%s", float_str);	
+	
+	upssa0.ppp.offsetmin = 0.33f;
+	sprintf(float_str, "%s%sload offsetmin: %.3lf%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.offsetmin, RTT_CTRL_RESET);
+	SEGGER_RTT_printf(0, "%s", float_str);	
+	
+	upssa0.ppp.Light_threshold1 = 0;
+	SEGGER_RTT_printf(0, "%s%sload Light_threshold1: %d%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.Light_threshold1, RTT_CTRL_RESET);
+	
+	upssa0.ppp.Light_threshold2 = 0;
+	SEGGER_RTT_printf(0, "%s%sload Light_threshold2: %d%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.Light_threshold2, RTT_CTRL_RESET);
+	
+	upssa0.ppp.Light_threshold3 = 4000;
+	SEGGER_RTT_printf(0, "%s%sload Light_threshold3: %d%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.Light_threshold3, RTT_CTRL_RESET);
+	
+	upssa0.ppp.Light_threshold4 = 3800;
+	SEGGER_RTT_printf(0, "%s%sload Light_threshold4: %d%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.Light_threshold4, RTT_CTRL_RESET);
+	
+	upssa0.ppp.delay_time_num = 32;
+	SEGGER_RTT_printf(0, "%s%sload delay_time_num: %ds%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.delay_time_num, RTT_CTRL_RESET);
+	
+	upssa0.ppp.upload_duty = 8000;
+	SEGGER_RTT_printf(0, "%s%sload upload_duty: %dms%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.upload_duty, RTT_CTRL_RESET);		
+
 	//
 }
 

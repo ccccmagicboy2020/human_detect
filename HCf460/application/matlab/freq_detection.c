@@ -241,7 +241,7 @@ int freq_detection(FIFO_DataType data[], const float win[], int data_size, int w
 			{
 				if (minTEMP != minTEMP_last)
 				{
-						mcu_dp_value_update(DPID_FREQ_PARAMETER1_RT, (int)((minTEMP*100.0f)+0.5f));
+						//mcu_dp_value_update(DPID_FREQ_PARAMETER1_RT, (int)((minTEMP*100.0f)+0.5f));
 						minTEMP_last = minTEMP;
 					
 						if (study_flag == 1)

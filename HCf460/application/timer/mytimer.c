@@ -22,6 +22,7 @@ unsigned short  switch_delay = 0;	// 延时设置
 unsigned short  switch_light = 0;	// 光敏门限3
 
 extern Val_t adc_value;
+extern	union KKK upssa0;
 
 void Delay_ms(unsigned int t)
 {
@@ -163,7 +164,8 @@ static void Timer0A_CallBack(void)      //  T = 1ms
 		light_sensor_Timer_Counter = 0;
 	}
 	
-	if (data_report_counter >= 1000*5)
+	//if (data_report_counter >= 1000*5)
+	if (data_report_counter >= upssa0.ppp.upload_duty)
 	{
 		data_report_upload_flag = 1;
 		data_report_counter = 0;

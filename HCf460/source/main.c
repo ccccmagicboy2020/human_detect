@@ -829,19 +829,19 @@ void idle_process(void)
 				switch (study_mode)
 				{
 					case 0:
-						upssa0.ppp.res_times = max_pp1_rt*0.7f;
-						break;
-					case 1:
-						upssa0.ppp.res_times = max_pp1_rt*0.8f;
-						break;
-					case 2:
-						upssa0.ppp.res_times = max_pp1_rt*0.9f;
-						break;
-					case 3:
 						upssa0.ppp.res_times = max_pp1_rt*1.0f;
 						break;
-					default:
+					case 1:
+						upssa0.ppp.res_times = max_pp1_rt*0.9f;
+						break;
+					case 2:
+						upssa0.ppp.res_times = max_pp1_rt*0.8f;
+						break;
+					case 3:
 						upssa0.ppp.res_times = max_pp1_rt*0.7f;
+						break;
+					default:
+						upssa0.ppp.res_times = max_pp1_rt*1.0f;
 						break;
 				}
 				
@@ -860,19 +860,19 @@ void idle_process(void)
 				switch (study_mode)
 				{
 					case 0:
-						upssa0.ppp.offsetmin = max_pp2_rt*0.7f;
-						break;
-					case 1:
-						upssa0.ppp.offsetmin = max_pp2_rt*0.8f;
-						break;
-					case 2:
-						upssa0.ppp.offsetmin = max_pp2_rt*0.9f;
-						break;
-					case 3:
 						upssa0.ppp.offsetmin = max_pp2_rt*1.0f;
 						break;
-					default:
+					case 1:
+						upssa0.ppp.offsetmin = max_pp2_rt*0.9f;
+						break;
+					case 2:
+						upssa0.ppp.offsetmin = max_pp2_rt*0.8f;
+						break;
+					case 3:
 						upssa0.ppp.offsetmin = max_pp2_rt*0.7f;
+						break;
+					default:
+						upssa0.ppp.offsetmin = max_pp2_rt*1.0f;
 						break;
 				}
 				
@@ -1138,14 +1138,14 @@ void slow_check_result_upload(unsigned int aaaa)
 {	
 	slow_check_result = aaaa;
 	
-	if (upload_disable == 0)
+	if (slow_check_result != slow_check_result_last)
 	{
-		if (slow_check_result != slow_check_result_last)
+		if (upload_disable == 0)
 		{
 			mcu_dp_enum_update(DPID_SLOW_CHECK_RESULT, aaaa);
-			slow_check_result_last = slow_check_result;
-		}	
-	}
+		}
+		slow_check_result_last = slow_check_result;
+	}	
 }
 
 void app(void)
@@ -1319,7 +1319,7 @@ void save_upssa0(void)
 	
     u32Addr = USER_PARAMETER_START_SECTOR_ADDRESS0;
 
-    for(int i = 0u; i < 13u; i++)
+    for(int i = 0u; i < 14u; i++)
     {
         EFM_SingleProgram(u32Addr, upssa0.int_value[i]);
 				SEGGER_RTT_printf(0, "%s%ssave flash address: 0x%x with 0x%x%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, u32Addr, upssa0.int_value[i], RTT_CTRL_RESET);
@@ -1371,6 +1371,7 @@ void set_var_from_flash(void)
 	if (temp_int == -1)
 	{
 		upssa0.ppp.quick_freq_times = 4.0f;
+		//upssa0.ppp.quick_freq_times = 20.0f;
 	}
 	else
 	{
@@ -1417,6 +1418,7 @@ void set_var_from_flash(void)
 	if (temp_int == -1)
 	{
 		upssa0.ppp.slow_freq_times = 4.0f;
+		//upssa0.ppp.slow_freq_times = 20.0f;
 	}
 	else
 	{
@@ -1491,6 +1493,13 @@ void set_var_from_flash(void)
 	}
 	
 	SEGGER_RTT_printf(0, "%s%sload delay_time_num: %ds%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.delay_time_num, RTT_CTRL_RESET);	
+/////////////////////////////////////////////////////
+	upssa0.ppp.upload_duty = UPLOAD_DUTY_FLASH;
+	if (upssa0.ppp.upload_duty == -1)
+	{
+		upssa0.ppp.upload_duty = 8000;
+	}	
+	SEGGER_RTT_printf(0, "%s%sload upload_duty: %dms%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.upload_duty, RTT_CTRL_RESET);		
 }
 
 void	set_iot_network_from_flash(void)

@@ -205,8 +205,8 @@ mcu在bt模块正确联网后可调用mcu_get_system_time()函数发起校时功
 //学习进度上报(只上报)
 //备注:学习状态上报
 #define DPID_STUDY_PROCESS_UPLOAD 172
-
-
+//CCCC ADD HERE!
+#define DPID_UPLOAD_DUTY	175
 
 
 
