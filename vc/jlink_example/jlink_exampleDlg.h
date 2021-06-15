@@ -52,6 +52,7 @@ protected:
 	afx_msg void OnButton8();
 	afx_msg void OnButton9();
 	afx_msg void OnButton10();
+	afx_msg void OnButton11();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 	

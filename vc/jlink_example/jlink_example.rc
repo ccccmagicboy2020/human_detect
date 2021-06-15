@@ -92,7 +92,7 @@ BEGIN
     DEFPUSHBUTTON   "确定",IDOK,178,7,50,14,WS_GROUP
 END
 
-IDD_jlink_example_DIALOG DIALOGEX 0, 0, 320, 200
+IDD_jlink_example_DIALOG DIALOGEX 0, 0, 367, 200
 STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_APPWINDOW
 CAPTION "jlink_example"
@@ -108,6 +108,7 @@ BEGIN
     PUSHBUTTON      "light_sensor(stop/start)",IDC_BUTTON8,138,87,117,25
     PUSHBUTTON      "burn bin to flash",IDC_BUTTON9,138,127,117,25
     PUSHBUTTON      "burn file to flash",IDC_BUTTON10,138,167,117,25
+    PUSHBUTTON      "read power",IDC_BUTTON11,308,7,52,25
 END
 
 
@@ -118,8 +119,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,0,1
- PRODUCTVERSION 1,0,0,1
+ FILEVERSION 1,0,0,7
+ PRODUCTVERSION 1,0,0,7
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -136,13 +137,13 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "\0"
             VALUE "FileDescription", "jlink_example Microsoft 基础类应用程序\0"
-            VALUE "FileVersion", "1, 0, 0, 1\0"
+            VALUE "FileVersion", "1, 0, 0, 7\0"
             VALUE "InternalName", "jlink_example\0"
             VALUE "LegalCopyright", "版权所有 (C) 2021\0"
             VALUE "LegalTrademarks", "\0"
             VALUE "OriginalFilename", "jlink_example.EXE\0"
             VALUE "ProductName", "jlink_example 应用程序\0"
-            VALUE "ProductVersion", "1, 0, 0, 1\0"
+            VALUE "ProductVersion", "1, 0, 0, 7\0"
         END
     END
     BLOCK "VarFileInfo"
@@ -173,7 +174,7 @@ BEGIN
     IDD_jlink_example_DIALOG, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 313
+        RIGHTMARGIN, 360
         TOPMARGIN, 7
         BOTTOMMARGIN, 193
     END

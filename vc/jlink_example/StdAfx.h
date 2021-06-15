@@ -43,6 +43,11 @@ struct rtt_buf_desc
 	U32 SizeOfBuffer;
 	U32 Flags;
 };
+#define HW_INFO_POWER_ENABLED             0
+#define HW_INFO_POWER_OVERCURRENT         1
+#define HW_INFO_ITARGET                   2
+#define HW_INFO_ITARGET_PEAK              3
+
 
 ///mdebugÊä³ö
 #include "3rd_part/mdebug/mdebug.h"
@@ -52,6 +57,8 @@ struct rtt_buf_desc
 #include "3rd_part\xtracestd\xtrace.h"
 #include "3rd_part\xtracestd\xtracestd.h"
 #endif
+
+
 
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.

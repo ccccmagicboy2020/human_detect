@@ -94,6 +94,7 @@ BEGIN_MESSAGE_MAP(Cjlink_exampleDlg, CDialog)
 	ON_BN_CLICKED(IDC_BUTTON8, OnButton8)
 	ON_BN_CLICKED(IDC_BUTTON9, OnButton9)
 	ON_BN_CLICKED(IDC_BUTTON10, OnButton10)
+	ON_BN_CLICKED(IDC_BUTTON11, OnButton11)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -544,4 +545,56 @@ void Cjlink_exampleDlg::OnButton10()
 			JLINKARM_Go();
 		}
 	}
+}
+
+void Cjlink_exampleDlg::OnButton11() 
+{
+	// TODO: Add your control notification handler code here
+	U32 aInfo[32];
+	int i;
+
+	JLINKARM_GetHWInfo(0xFFFFFFFF, &aInfo[0]);
+	
+	mPutsEx("%frgreen");
+	for (i = 0; i < 4; i++)
+	{
+		 if (aInfo[i] != 0xFFFFFFFF)
+		 {
+			switch (i)
+			{
+			case HW_INFO_POWER_ENABLED:
+				 mPuts("HWInfo[%.2d] = Target power is %s\n", i, aInfo[i] ? "enabled" : "disabled");
+				 break;
+			case HW_INFO_POWER_OVERCURRENT:
+				 switch (aInfo[i]) 
+				 {
+				 case 0:
+					 break;
+				 case 1:
+					 mPuts("HWInfo[%.2d] = OverCurrent (2ms @ 3000mA)\n", i);
+					 break;
+				 case 2:
+					 mPuts("HWInfo[%.2d] = OverCurrent (10ms @ 1000mA)\n", i);
+					 break;
+				 case 3:
+					 mPuts("HWInfo[%.2d] = OverCurrent (40ms @ 400mA)\n", i);
+					 break;
+				 default:
+					 mPuts("HWInfo[%.2d] = OverCurrent (Unknown reason: %d)\n", i, aInfo[i]);
+				 }
+				 break;
+			case HW_INFO_ITARGET:
+					 mPuts("HWInfo[%.2d] = %dmA\t(ITarget)\n", i, aInfo[i]);
+					 break;
+			case HW_INFO_ITARGET_PEAK:
+					 mPuts("HWInfo[%.2d] = %dmA\t(ITargetPeak)\n", i, aInfo[i]);
+					 break;
+
+			}
+		}
+	}
+
+	mPutsEx("%endfr");
+
+
 }
