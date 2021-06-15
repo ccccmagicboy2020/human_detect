@@ -188,10 +188,10 @@ void uart_transmit_output(unsigned char value)
 void all_data_update(void)
 {
   //此代码为平台自动生成，请按照实际数据修改每个可下发可上报函数和只上报函数
-    mcu_dp_enum_update(DPID_PIR_DELAY, 0); //枚举型数据上报;
-		Delay_ms(ALL_UPLOAD_DELAY);
-    mcu_dp_enum_update(DPID_LOAD_RADAR_PARAMETER, 0); //枚举型数据上报;
-	Delay_ms(ALL_UPLOAD_DELAY);
+    //mcu_dp_value_update(DPID_PIR_DELAY, 0); //枚举型数据上报;
+		//Delay_ms(ALL_UPLOAD_DELAY);
+    //mcu_dp_enum_update(DPID_LOAD_RADAR_PARAMETER, 0); //枚举型数据上报;
+	//Delay_ms(ALL_UPLOAD_DELAY);
 	mcu_dp_enum_update(DPID_LIGHT_STATUS, light_status_flag);
 	Delay_ms(ALL_UPLOAD_DELAY);
 	//////////////////////////////////////////////////////////////////////////
