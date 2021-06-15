@@ -91,6 +91,14 @@ LINK32=link.exe
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat;asm"
 # Begin Source File
 
+SOURCE=.\3rd_part\HyperLink\HyperLink.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\3rd_part\mdebug\mdebug.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\PH10D3232EX_burn.cpp
 # End Source File
 # Begin Source File
@@ -103,12 +111,12 @@ SOURCE=.\PH10D3232EX_burnDlg.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\3rd_part\mdebug\mdebug.cpp
+SOURCE=.\StdAfx.cpp
+# ADD CPP /Yc"stdafx.h"
 # End Source File
 # Begin Source File
 
-SOURCE=.\StdAfx.cpp
-# ADD CPP /Yc"stdafx.h"
+SOURCE=.\3rd_part\VersionInfo\VersionInfo.cpp
 # End Source File
 # Begin Source File
 
@@ -124,11 +132,7 @@ SOURCE=.\3rd_part\jlinksdk\inc\GLOBAL.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\PH10D3232EX_burn.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\PH10D3232EX_burnDlg.h
+SOURCE=.\3rd_part\HyperLink\HyperLink.h
 # End Source File
 # Begin Source File
 
@@ -141,6 +145,14 @@ SOURCE=.\3rd_part\jlinksdk\inc\JLinkARMDLL.h
 # Begin Source File
 
 SOURCE=.\3rd_part\mdebug\mdebug.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\PH10D3232EX_burn.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\PH10D3232EX_burnDlg.h
 # End Source File
 # Begin Source File
 
@@ -157,6 +169,10 @@ SOURCE=.\3rd_part\jlinksdk\inc\TYPES.h
 # Begin Source File
 
 SOURCE=.\3rd_part\jlinksdk\inc\Version.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\3rd_part\VersionInfo\VersionInfo.h
 # End Source File
 # Begin Source File
 

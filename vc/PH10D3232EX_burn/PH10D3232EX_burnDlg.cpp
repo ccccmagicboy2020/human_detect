@@ -33,28 +33,67 @@ public:
 // Implementation
 protected:
 	//{{AFX_MSG(CAboutDlg)
+	virtual BOOL OnInitDialog();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
+
+private:
+	CStatic	m_ver;
+	CHyperLink	m_link;
+public:
+	void init_static();
+	void init_window();
 };
 
 CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD)
 {
-	//{{AFX_DATA_INIT(CAboutDlg)
-	//}}AFX_DATA_INIT
+	//
 }
 
 void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CAboutDlg)
+	DDX_Control(pDX, IDC_STATIC_VER, m_ver);
+	DDX_Control(pDX, IDC_STATIC_LINK, m_link);
 	//}}AFX_DATA_MAP
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialog)
 	//{{AFX_MSG_MAP(CAboutDlg)
-		// No message handlers
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
+
+void CAboutDlg::init_static()
+{
+#define IDS_MAILADDR	_T("http://www.phosense-tech.com/")
+	
+	CVersionInfo	ver;
+	CString version;
+	
+	ver.GetVersionInfo(AfxGetInstanceHandle());
+	
+#ifdef _DEBUG
+	version	=	_T("debug: v") + ver.m_strFixedProductVersion;
+#else
+	version	=	_T("release: v") + ver.m_strFixedProductVersion;
+#endif
+	
+	version.Replace(',', '.');	
+	m_ver.SetWindowText(version);
+	
+	m_link.SetWindowText(_T("www.phosense-tech.com"));
+	m_link.SetURL(IDS_MAILADDR);
+	m_link.SetUnderline(CHyperLink::ulAlways);
+	
+	Invalidate();
+	UpdateWindow();	
+}
+
+void CAboutDlg::init_window()
+{
+	ModifyStyle(NULL, WS_CLIPCHILDREN);
+}
 
 /////////////////////////////////////////////////////////////////////////////
 // CPH10D3232EX_burnDlg dialog
@@ -85,6 +124,7 @@ BEGIN_MESSAGE_MAP(CPH10D3232EX_burnDlg, CDialog)
 	ON_WM_CREATE()
 	ON_WM_TIMER()
 	ON_BN_CLICKED(IDC_BUTTON10, OnButton10)
+	ON_BN_CLICKED(IDC_BUTTON1, OnButton1)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -288,4 +328,26 @@ void CPH10D3232EX_burnDlg::OnButton10()
 			JLINKARM_Go();
 		}
 	}
+}
+
+void CPH10D3232EX_burnDlg::OnButton1() 
+{
+	// TODO: Add your control notification handler code here
+	JLINKARM_Reset();
+	JLINKARM_Halt();
+	JLINK_EraseChip();
+	JLINKARM_Reset();
+	JLINKARM_Go();
+}
+
+BOOL CAboutDlg::OnInitDialog() 
+{
+	CDialog::OnInitDialog();
+	
+	// TODO: Add extra initialization here
+	init_window();
+	init_static();
+	
+	return TRUE;  // return TRUE unless you set the focus to a control
+	              // EXCEPTION: OCX Property Pages should return FALSE
 }

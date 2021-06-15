@@ -53,6 +53,13 @@ struct rtt_buf_desc
 #include "3rd_part\xtracestd\xtracestd.h"
 #endif
 
+///version
+#include "version.h"
+#include "3rd_part\HyperLink\HyperLink.h"
+#include "3rd_part\VersionInfo\VersionInfo.h"
+#pragma comment(lib, "version.lib")
+
+
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 
