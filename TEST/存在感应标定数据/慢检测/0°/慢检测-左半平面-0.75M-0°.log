@@ -1,0 +1,928 @@
+# SEGGER J-Link RTT Viewer V6.32  Terminal Log File
+# Compiled: 17:26:19 on Apr 20 2018
+# Logging started @ 11 Jun 2021 10:57:24
+ 0> slow result: 0 - 1 - 0 - 0
+ 0> slow check last: 723ms
+ 0> no person status: delay_timer=5, diff=18239
+ 0> slow check no person go fast check
+ 0> fifo0 number useless: 2944
+ 0> fifo0 number useless: 944
+ 0> fifo0 number useless: 944
+ 0> fifo0 number useless: 0
+ 0> fifo1 number useless: 256
+ 0> fifo1 number useless: 0
+ 0> fifo0 number: (i=0) - 513
+ 0> fifo0 number: 1
+ 0> fifo0 number: (i=1) - 513
+ 0> fifo0 number: 2
+ 0> fifo0 number: (i=2) - 513
+ 0> fifo0 number: 1
+ 0> fifo0 number: (i=3) - 513
+ 0> fifo0 number: 1
+ 0> fifo0 number: (i=4) - 513
+ 0> fifo0 number: 1
+ 0> fifo0 number: (i=5) - 513
+ 0> fifo0 number: 1
+ 0> fifo0 number: (i=6) - 513
+ 0> fifo0 number: 2
+ 0> fifo0 number: (i=7) - 513
+ 0> fifo0 number: 1
+ 0> fifo0 number: (i=8) - 513
+ 0> fifo0 number: 2
+ 0> fifo0 number: (i=9) - 513
+ 0> fifo0 number: 1
+ 0> fifo0 number: (i=10) - 513
+ 0> fifo0 number: 1
+ 0> fifo0 number: (i=11) - 513
+ 0> fifo0 number: 2
+ 0> fifo0 number: (i=12) - 513
+ 0> fifo0 number: 2
+ 0> fifo0 number: (i=13) - 513
+ 0> fifo0 number: 2
+ 0> fifo0 number: (i=14) - 513
+ 0> fifo0 number: 2
+ 0> fifo0 number: (i=15) - 513
+ 0> fifo0 number: 2
+ 0> 
+ 0> 
+ 0> 
+ 0> fifo0 number: (i=32) - 519
+ 0> fifo0 number: 8
+ 0> fast check duty: 77ms
+ 0> 
+ 0> fast check adc_avg: 2063(1.662V) = 33815176 / 16384
+ 0> time domain times trigger value: 2.58-4.00
+ 0> time domain add trigger value: 15.85-32.00
+ 0> quick: 0
+ 0> fast check last: 8ms
+ 0> fifo0 number: (i=32) - 519
+ 0> fifo0 number: 8
+ 0> fast check duty: 76ms
+ 0> 
+ 0> fast check adc_avg: 2064(1.663V) = 33818278 / 16384
+ 0> time domain times trigger value: 2.31-4.00
+ 0> time domain add trigger value: 13.43-32.00
+ 0> quick: 0
+ 0> fast check last: 9ms
+ 0> fifo0 number: (i=32) - 519
+ 0> fifo0 number: 8
+ 0> fast check duty: 77ms
+ 0> 
+ 0> fast check adc_avg: 2063(1.662V) = 33805712 / 16384
+ 0> time domain times trigger value: 2.58-4.00
+ 0> time domain add trigger value: 15.85-32.00
+ 0> quick: 0
+ 0> fast check last: 9ms
+ 0> fifo0 number: (i=32) - 519
+ 0> fifo0 number: 8
+ 0> fast check duty: 77ms
+ 0> 
+ 0> fast check adc_avg: 2062(1.661V) = 33790757 / 16384
+ 0> time domain times trigger value: 2.21-4.00
+ 0> time domain add trigger value: 12.95-32.00
+ 0> quick: 0
+ 0> fast check last: 9ms
+ 0> fifo0 number: (i=32) - 519
+ 0> fifo0 number: 8
+ 0> fast check duty: 77ms
+ 0> 
+ 0> fast check adc_avg: 2061(1.660V) = 33769618 / 16384
+ 0> time domain times trigger value: 2.25-4.00
+ 0> time domain add trigger value: 14.38-32.00
+ 0> quick: 0
+ 0> fast check last: 8ms
+ 0> fifo0 number: (i=32) - 519
+ 0> fifo0 number: 7
+ 0> fast check duty: 77ms
+ 0> 
+ 0> fast check adc_avg: 2059(1.659V) = 33743312 / 16384
+ 0> time domain times trigger value: 1.95-4.00
+ 0> time domain add trigger value: 11.54-32.00
+ 0> quick: 0
+ 0> fast check last: 8ms
+ 0> fifo0 number: (i=32) - 519
+ 0> fifo0 number: 7
+ 0> fast check duty: 76ms
+ 0> 
+ 0> fast check adc_avg: 2058(1.658V) = 33727144 / 16384
+ 0> time domain times trigger value: 2.15-4.00
+ 0> time domain add trigger value: 13.84-32.00
+ 0> quick: 0
+ 0> fast check last: 9ms
+ 0> fifo0 number: (i=32) - 519
+ 0> fifo0 number: 8
+ 0> fast check duty: 77ms
+ 0> 
+ 0> fast check adc_avg: 2057(1.657V) = 33715917 / 16384
+ 0> time domain times trigger value: 1.95-4.00
+ 0> time domain add trigger value: 11.54-32.00
+ 0> quick: 0
+ 0> fast check last: 9ms
+ 0> fifo0 number: (i=32) - 519
+ 0> fifo0 number: 8
+ 0> fast check duty: 77ms
+ 0> 
+ 0> fast check adc_avg: 2057(1.657V) = 33712385 / 16384
+ 0> time domain times trigger value: 2.15-4.00
+ 0> time domain add trigger value: 13.84-32.00
+ 0> quick: 0
+ 0> fast check last: 9ms
+ 0> fifo0 number: (i=32) - 519
+ 0> fifo0 number: 8
+ 0> fast check duty: 77ms
+ 0> 
+ 0> fast check adc_avg: 2057(1.657V) = 33714342 / 16384
+ 0> time domain times trigger value: 1.95-4.00
+ 0> time domain add trigger value: 11.54-32.00
+ 0> quick: 0
+ 0> fast check last: 9ms
+ 0> fifo0 number: (i=32) - 519
+ 0> fifo0 number: 8
+ 0> fast check duty: 77ms
+ 0> 
+ 0> fast check adc_avg: 2057(1.657V) = 33702316 / 16384
+ 0> time domain times trigger value: 2.15-4.00
+ 0> time domain add trigger value: 13.84-32.00
+ 0> quick: 0
+ 0> fast check last: 8ms
+ 0> fifo0 number: (i=32) - 519
+ 0> fifo0 number: 8
+ 0> fast check duty: 77ms
+ 0> 
+ 0> fast check adc_avg: 2056(1.656V) = 33694771 / 16384
+ 0> time domain times trigger value: 1.95-4.00
+ 0> time domain add trigger value: 11.54-32.00
+ 0> quick: 0
+ 0> fast check last: 8ms
+ 0> fifo0 number: (i=32) - 519
+ 0> fifo0 number: 8
+ 0> fast check duty: 76ms
+ 0> 
+ 0> fast check adc_avg: 2055(1.656V) = 33675257 / 16384
+ 0> time domain times trigger value: 2.15-4.00
+ 0> time domain add trigger value: 13.84-32.00
+ 0> quick: 0
+ 0> fast check last: 9ms
+ 0> fifo0 number: (i=32) - 519
+ 0> fifo0 number: 8
+ 0> fast check duty: 77ms
+ 0> 
+ 0> fast check adc_avg: 2053(1.654V) = 33647764 / 16384
+ 0> time domain times trigger value: 1.95-4.00
+ 0> time domain add trigger value: 11.54-32.00
+ 0> quick: 0
+ 0> fast check last: 9ms
+ 0> fifo0 number: (i=32) - 519
+ 0> fifo0 number: 8
+ 0> fast check duty: 77ms
+ 0> 
+ 0> fast check adc_avg: 2050(1.652V) = 33602276 / 16384
+ 0> time domain times trigger value: 2.15-4.00
+ 0> time domain add trigger value: 13.84-32.00
+ 0> quick: 0
+ 0> fast check last: 9ms
+ 0> fifo0 number: (i=32) - 519
+ 0> fifo0 number: 8
+ 0> fast check duty: 77ms
+ 0> 
+ 0> fast check adc_avg: 2047(1.649V) = 33553381 / 16384
+ 0> time domain times trigger value: 1.93-4.00
+ 0> time domain add trigger value: 12.08-32.00
+ 0> quick: 0
+ 0> fast check last: 8ms
+ 0> fifo0 number: (i=32) - 519
+ 0> fifo0 number: 8
+ 0> fast check duty: 77ms
+ 0> 
+ 0> fast check adc_avg: 2044(1.647V) = 33500613 / 16384
+ 0> time domain times trigger value: 2.15-4.00
+ 0> time domain add trigger value: 13.84-32.00
+ 0> quick: 0
+ 0> fast check last: 8ms
+ 0> fifo0 number: (i=32) - 519
+ 0> fifo0 number: 8
+ 0> fast check duty: 76ms
+ 0> 
+ 0> fast check adc_avg: 2042(1.645V) = 33457904 / 16384
+ 0> time domain times trigger value: 1.93-4.00
+ 0> time domain add trigger value: 12.08-32.00
+ 0> quick: 0
+ 0> fast check last: 9ms
+ 0> fifo0 number: (i=32) - 519
+ 0> fifo0 number: 8
+ 0> fast check duty: 77ms
+ 0> 
+ 0> fast check adc_avg: 2039(1.643V) = 33421959 / 16384
+ 0> time domain times trigger value: 2.15-4.00
+ 0> time domain add trigger value: 13.84-32.00
+ 0> quick: 0
+ 0> fast check last: 9ms
+ 0> fifo0 number: (i=32) - 519
+ 0> fifo0 number: 8
+ 0> fast check duty: 77ms
+ 0> 
+ 0> fast check adc_avg: 2039(1.643V) = 33408761 / 16384
+ 0> time domain times trigger value: 2.44-4.00
+ 0> time domain add trigger value: 18.76-32.00
+ 0> quick: 0
+ 0> fast check last: 9ms
+ 0> fifo0 number: (i=32) - 519
+ 0> fifo0 number: 8
+ 0> fast check duty: 77ms
+ 0> 
+ 0> fast check adc_avg: 2038(1.642V) = 33401038 / 16384
+ 0> time domain times trigger value: 2.15-4.00
+ 0> time domain add trigger value: 13.84-32.00
+ 0> quick: 0
+ 0> fast check last: 8ms
+ 0> fifo0 number: (i=32) - 519
+ 0> fifo0 number: 8
+ 0> fast check duty: 77ms
+ 0> 
+ 0> fast check adc_avg: 2038(1.642V) = 33404953 / 16384
+ 0> time domain times trigger value: 2.44-4.00
+ 0> time domain add trigger value: 18.76-32.00
+ 0> quick: 0
+ 0> fast check last: 8ms
+ 0> fifo0 number: (i=32) - 519
+ 0> fifo0 number: 7
+ 0> fast check duty: 76ms
+ 0> 
+ 0> fast check adc_avg: 2039(1.643V) = 33417808 / 16384
+ 0> time domain times trigger value: 2.15-4.00
+ 0> time domain add trigger value: 13.84-32.00
+ 0> quick: 0
+ 0> fast check last: 9ms
+ 0> fifo0 number: (i=32) - 519
+ 0> fifo0 number: 8
+ 0> fast check duty: 77ms
+ 0> 
+ 0> fast check adc_avg: 2040(1.644V) = 33435013 / 16384
+ 0> time domain times trigger value: 2.44-4.00
+ 0> time domain add trigger value: 18.76-32.00
+ 0> quick: 0
+ 0> fast check last: 9ms
+ 0> fifo0 number: (i=32) - 519
+ 0> fifo0 number: 8
+ 0> fast check duty: 77ms
+ 0> 
+ 0> fast check adc_avg: 2041(1.644V) = 33451704 / 16384
+ 0> time domain times trigger value: 2.15-4.00
+ 0> time domain add trigger value: 13.84-32.00
+ 0> quick: 0
+ 0> fast check last: 9ms
+ 0> fifo0 number: (i=32) - 519
+ 0> fifo0 number: 8
+ 0> fast check duty: 77ms
+ 0> 
+ 0> fast check adc_avg: 2042(1.645V) = 33459411 / 16384
+ 0> time domain times trigger value: 2.44-4.00
+ 0> time domain add trigger value: 18.76-32.00
+ 0> quick: 0
+ 0> fast check last: 9ms
+ 0> fifo0 number: (i=32) - 519
+ 0> fifo0 number: 8
+ 0> fast check duty: 77ms
+ 0> 
+ 0> fast check adc_avg: 2041(1.644V) = 33444010 / 16384
+ 0> time domain times trigger value: 2.37-4.00
+ 0> time domain add trigger value: 16.53-32.00
+ 0> quick: 0
+ 0> fast check last: 8ms
+ 0> study mode0 begin:
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo1 number: (i=0) - 2304
+ 0> fifo1 number: 256
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 2
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> light sensor: 1588(1.279V)
+ 0> 
+ 0> gpio0~gpio6 read bit:1-1-0-0-1-1-1
+ 0> bt binded and connected
+ 0> 
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo1 number: (i=1) - 2304
+ 0> fifo1 number: 256
+ 0> slow check duty: 34083ms
+ 0> 
+ 0> slow check adc_avg: 2045(1.648V) = 8377826 / 4096
+ 0> time domain times trigger value: 2.19-4.00
+ 0> time domain add trigger value: 14.00-40.00
+ 0> freq domain trigger value: 14.32-6.00
+ 0> freq domain res trigger value: 101.73-10.00
+ 0> freq domain cfar trigger value: 1.663-0.550
+ 0> slow result: 0 - 1 - 1 - 1
+ 0> slow check last: 833ms
+ 0> study new pp2 values: 1.829
+ 0> fifo0 number: 3342
+ 0> fifo0 number: 1296
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo1 number: (i=2) - 2304
+ 0> fifo1 number: 256
+ 0> slow check duty: 4084ms
+ 0> 
+ 0> slow check adc_avg: 2047(1.649V) = 8385367 / 4096
+ 0> time domain times trigger value: 3.28-4.00
+ 0> time domain add trigger value: 27.47-40.00
+ 0> freq domain trigger value: 16.40-6.00
+ 0> freq domain res trigger value: 117.72-10.00
+ 0> slow result: 0 - 1 - 1 - 0
+ 0> slow check last: 730ms
+ 0> fifo0 number: 2940
+ 0> fifo0 number: 894
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 2
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 2
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo1 number: (i=2) - 2304
+ 0> fifo1 number: 256
+ 0> slow check duty: 4093ms
+ 0> 
+ 0> slow check adc_avg: 2047(1.649V) = 8385799 / 4096
+ 0> time domain times trigger value: 4.48-4.00
+ 0> time domain add trigger value: 42.59-40.00
+ 0> freq domain trigger value: 16.78-6.00
+ 0> freq domain res trigger value: 109.71-10.00
+ 0> slow result: 1 - 1 - 1 - 0
+ 0> slow check last: 832ms
+ 0> light sensor: 1560(1.257V)
+ 0> 
+ 0> gpio0~gpio6 read bit:1-1-0-0-1-1-1
+ 0> bt binded and connected
+ 0> 
+ 0> fifo0 number: 3340
+ 0> fifo0 number: 1294
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo1 number: (i=2) - 2304
+ 0> fifo1 number: 256
+ 0> slow check duty: 4109ms
+ 0> 
+ 0> slow check adc_avg: 2053(1.654V) = 8410659 / 4096
+ 0> time domain times trigger value: 4.82-4.00
+ 0> time domain add trigger value: 43.44-40.00
+ 0> freq domain trigger value: 18.47-6.00
+ 0> freq domain res trigger value: 162.99-10.00
+ 0> freq domain cfar trigger value: 1.931-1.879
+ 0> slow result: 1 - 1 - 1 - 1
+ 0> slow check last: 932ms
+ 0> study new pp1 values: 179.294
+ 0> study new pp2 values: 2.124
+ 0> fifo0 number: 3730
+ 0> fifo0 number: 1684
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo1 number: (i=2) - 2304
+ 0> fifo1 number: 256
+ 0> slow check duty: 4125ms
+ 0> 
+ 0> slow check adc_avg: 2043(1.646V) = 8370552 / 4096
+ 0> time domain times trigger value: 2.79-4.00
+ 0> time domain add trigger value: 20.39-40.00
+ 0> freq domain trigger value: 12.81-6.00
+ 0> slow result: 0 - 1 - 0 - 0
+ 0> slow check last: 727ms
+ 0> fifo0 number: 2890
+ 0> fifo0 number: 844
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 2
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 2
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> light sensor: 1403(1.130V)
+ 0> 
+ 0> gpio0~gpio6 read bit:1-1-0-0-1-1-1
+ 0> bt binded and connected
+ 0> 
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo1 number: (i=2) - 2304
+ 0> fifo1 number: 256
+ 0> slow check duty: 4143ms
+ 0> 
+ 0> slow check adc_avg: 2042(1.645V) = 8367317 / 4096
+ 0> time domain times trigger value: 2.81-4.00
+ 0> time domain add trigger value: 20.46-40.00
+ 0> freq domain trigger value: 12.33-6.00
+ 0> slow result: 0 - 1 - 0 - 0
+ 0> slow check last: 727ms
+ 0> fifo0 number: 2879
+ 0> fifo0 number: 833
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 2
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo1 number: (i=2) - 2304
+ 0> fifo1 number: 256
+ 0> slow check duty: 4159ms
+ 0> 
+ 0> slow check adc_avg: 2046(1.648V) = 8382689 / 4096
+ 0> time domain times trigger value: 2.46-4.00
+ 0> time domain add trigger value: 16.46-40.00
+ 0> freq domain trigger value: 13.22-6.00
+ 0> slow result: 0 - 1 - 0 - 0
+ 0> slow check last: 726ms
+ 0> fifo0 number: 2864
+ 0> fifo0 number: 817
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> light sensor: 1534(1.236V)
+ 0> 
+ 0> gpio0~gpio6 read bit:1-1-0-0-1-1-1
+ 0> bt binded and connected
+ 0> 
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo1 number: (i=2) - 2304
+ 0> fifo1 number: 256
+ 0> slow check duty: 4175ms
+ 0> 
+ 0> slow check adc_avg: 2043(1.646V) = 8369206 / 4096
+ 0> time domain times trigger value: 2.90-4.00
+ 0> time domain add trigger value: 21.31-40.00
+ 0> freq domain trigger value: 14.36-6.00
+ 0> slow result: 0 - 1 - 0 - 0
+ 0> slow check last: 727ms
+ 0> fifo0 number: 2856
+ 0> fifo0 number: 810
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo1 number: (i=2) - 2304
+ 0> fifo1 number: 256
+ 0> slow check duty: 4192ms
+ 0> 
+ 0> slow check adc_avg: 2044(1.647V) = 8374264 / 4096
+ 0> time domain times trigger value: 2.96-4.00
+ 0> time domain add trigger value: 21.53-40.00
+ 0> freq domain trigger value: 12.69-6.00
+ 0> slow result: 0 - 1 - 0 - 0
+ 0> slow check last: 726ms
+ 0> no person status: delay_timer=5, diff=16668
+ 0> ????!
+ 0> fifo0 number: 3242
+ 0> fifo0 number: 1196
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 2
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo1 number: (i=2) - 2304
+ 0> fifo1 number: 256
+ 0> slow check duty: 4207ms
+ 0> 
+ 0> slow check adc_avg: 2047(1.649V) = 8385303 / 4096
+ 0> time domain times trigger value: 2.64-4.00
+ 0> time domain add trigger value: 16.90-40.00
+ 0> freq domain trigger value: 8.51-6.00
+ 0> slow result: 0 - 1 - 0 - 0
+ 0> slow check last: 728ms
+ 0> fifo0 number: 2837
+ 0> fifo0 number: 791
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> light sensor: 1341(1.080V)
+ 0> 
+ 0> gpio0~gpio6 read bit:1-0-0-0-1-1-1
+ 0> bt binded and connected
+ 0> 
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo1 number: (i=2) - 2304
+ 0> fifo1 number: 256
+ 0> slow check duty: 4225ms
+ 0> 
+ 0> slow check adc_avg: 2034(1.639V) = 8333588 / 4096
+ 0> time domain times trigger value: 7.64-4.00
+ 0> time domain add trigger value: 68.54-40.00
+ 0> freq domain trigger value: 24.55-6.00
+ 0> slow result: 1 - 1 - 0 - 0
+ 0> ????!
+ 0> slow check last: 830ms
+ 0> person meter: 277
+ 0> fifo0 number: 3231
+ 0> fifo0 number: 1186
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 2
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 2
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo1 number: (i=2) - 2304
+ 0> fifo1 number: 256
+ 0> slow check duty: 4240ms
+ 0> 
+ 0> slow check adc_avg: 2028(1.634V) = 8310073 / 4096
+ 0> time domain times trigger value: 8.90-4.00
+ 0> time domain add trigger value: 123.45-40.00
+ 0> freq domain trigger value: 30.46-6.00
+ 0> freq domain res trigger value: 277.03-179.29
+ 0> slow result: 1 - 1 - 1 - 0
+ 0> slow check last: 829ms
+ 0> study new pp1 values: 304.734
+ 0> fifo0 number: 3211
+ 0> fifo0 number: 1165
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> light sensor: 1396(1.125V)
+ 0> 
+ 0> gpio0~gpio6 read bit:1-1-0-0-1-1-1
+ 0> bt binded and connected
+ 0> 
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo1 number: (i=2) - 2304
+ 0> fifo1 number: 256
+ 0> slow check duty: 4257ms
+ 0> 
+ 0> slow check adc_avg: 2079(1.675V) = 8515969 / 4096
+ 0> time domain times trigger value: 33.52-4.00
+ 0> time domain add trigger value: 508.21-40.00
+ 0> freq domain trigger value: 76.76-6.00
+ 0> freq domain res trigger value: 344.17-304.73
+ 0> freq domain cfar trigger value: 2.310-2.174
+ 0> slow result: 1 - 1 - 1 - 1
+ 0> slow check last: 932ms
+ 0> study new pp1 values: 378.588
+ 0> study new pp2 values: 2.541
+ 0> fifo0 number: 3602
+ 0> fifo0 number: 1556
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> study mode0 finished in 60001ms
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 1
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo1 number: (i=2) - 2304
+ 0> fifo1 number: 256
+ 0> slow check duty: 4273ms
+ 0> 
+ 0> slow check adc_avg: 2081(1.677V) = 8527603 / 4096
+ 0> time domain times trigger value: 20.75-4.00
+ 0> time domain add trigger value: 498.59-40.00
+ 0> freq domain trigger value: 95.10-6.00
+ 0> slow result: 1 - 1 - 0 - 0
+ 0> slow check last: 828ms
+ 0> fifo0 number: 3177
+ 0> fifo0 number: 1131
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 2
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo1 number: (i=2) - 2304
+ 0> fifo1 number: 256
+ 0> slow check duty: 4290ms
+ 0> 
+ 0> slow check adc_avg: 2038(1.642V) = 8350117 / 4096
+ 0> time domain times trigger value: 10.50-4.00
+ 0> time domain add trigger value: 124.63-40.00
+ 0> freq domain trigger value: 31.15-6.00
+ 0> slow result: 1 - 1 - 0 - 0
+ 0> slow check last: 827ms
+ 0> light sensor: 1495(1.204V)
+ 0> 
+ 0> gpio0~gpio6 read bit:1-1-0-0-1-1-1
+ 0> bt binded and connected
+ 0> 
+ 0> fifo0 number: 3169
+ 0> fifo0 number: 1123
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo1 number: (i=2) - 2304
+ 0> fifo1 number: 256
+ 0> slow check duty: 4306ms
+ 0> 
+ 0> slow check adc_avg: 2042(1.645V) = 8366919 / 4096
+ 0> time domain times trigger value: 16.76-4.00
+ 0> time domain add trigger value: 170.07-40.00
+ 0> freq domain trigger value: 24.10-6.00
+ 0> slow result: 1 - 1 - 0 - 0
+ 0> slow check last: 826ms
+ 0> fifo0 number: 3147
+ 0> fifo0 number: 1101
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 2
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 2
+ 0> fifo1 number: (i=2) - 2304
+ 0> fifo1 number: 256
+ 0> slow check duty: 4322ms
+ 0> 
+ 0> slow check adc_avg: 2056(1.656V) = 8421856 / 4096
+ 0> time domain times trigger value: 17.61-4.00
+ 0> time domain add trigger value: 179.31-40.00
+ 0> freq domain trigger value: 71.61-6.00
+ 0> freq domain res trigger value: 438.19-378.59
+ 0> slow result: 1 - 1 - 1 - 0
+ 0> slow check last: 829ms
+ 0> fifo0 number: 3144
+ 0> fifo0 number: 1098
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> light sensor: 1400(1.128V)
+ 0> 
+ 0> gpio0~gpio6 read bit:1-1-0-0-1-1-1
+ 0> bt binded and connected
+ 0> 
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo1 number: (i=2) - 2304
+ 0> fifo1 number: 256
+ 0> slow check duty: 4339ms
+ 0> 
+ 0> slow check adc_avg: 2052(1.653V) = 8408452 / 4096
+ 0> time domain times trigger value: 16.28-4.00
+ 0> time domain add trigger value: 178.43-40.00
+ 0> freq domain trigger value: 21.00-6.00
+ 0> slow result: 1 - 1 - 0 - 0
+ 0> slow check last: 827ms
+ 0> fifo0 number: 3126
+ 0> fifo0 number: 1080
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 2
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo1 number: (i=2) - 2304
+ 0> fifo1 number: 256
+ 0> slow check duty: 4355ms
+ 0> 
+ 0> slow check adc_avg: 2045(1.648V) = 8378227 / 4096
+ 0> time domain times trigger value: 4.95-4.00
+ 0> time domain add trigger value: 41.88-40.00
+ 0> freq domain trigger value: 14.54-6.00
+ 0> slow result: 1 - 1 - 0 - 0
+ 0> slow check last: 828ms
+ 0> fifo0 number: 3117
+ 0> fifo0 number: 1071
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 2
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> light sensor: 1395(1.124V)
+ 0> 
+ 0> gpio0~gpio6 read bit:1-1-0-0-1-1-1
+ 0> bt binded and connected
+ 0> 
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo1 number: (i=2) - 2304
+ 0> fifo1 number: 256
+ 0> slow check duty: 4372ms
+ 0> 
+ 0> slow check adc_avg: 2046(1.648V) = 8381106 / 4096
+ 0> time domain times trigger value: 4.94-4.00
+ 0> time domain add trigger value: 41.74-40.00
+ 0> freq domain trigger value: 13.35-6.00
+ 0> slow result: 1 - 1 - 0 - 0
+ 0> slow check last: 827ms
+ 0> fifo0 number: 3104
+ 0> fifo0 number: 1058
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 2
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
+ 0> fifo1 number: (i=2) - 2304
+ 0> fifo1 number: 256
+ 0> slow check duty: 4387ms
+ 0> 
+ 0> slow check adc_avg: 2046(1.648V) = 8382210 / 4096
+ 0> time domain times trigger value: 7.71-4.00
+ 0> time domain add trigger value: 70.50-40.00
+ 0> freq domain trigger value: 20.03-6.00
+ 0> slow result: 1 - 1 - 0 - 0
+ 0> slow check last: 827ms
+ 0> fifo0 number: 3089
+ 0> fifo0 number: 1043
+ 0> fifo0 number: 2049
+ 0> fifo0 number: 3
