@@ -1,3 +1,5 @@
+import numpy as np
+
 def check_p0(file_name):
     t = "time domain times trigger value: "
     p0_list = []
@@ -18,7 +20,7 @@ def check_p0(file_name):
     p0_sum = sum(p0_list)
     p0_avg = p0_sum / p0_len
     #print(p0_list)
-    print("{:d}\t{:.2f}\t{:.2f}\t{:.2f}".format(p0_len, p0_max, p0_min, p0_avg))
+    print("{:d}\t{:.2f}\t{:.2f}\t{:.2f}\t{:.2f}".format(p0_len, p0_max, p0_min, p0_avg, np.median(p0_list)))
 
 def check_p1(file_name):
     t = "time domain add trigger value: "
@@ -40,7 +42,7 @@ def check_p1(file_name):
     p1_sum = sum(p1_list)
     p1_avg = p1_sum / p1_len
     #print(p1_list)
-    print("{:d}\t{:.2f}\t{:.2f}\t{:.2f}".format(p1_len, p1_max, p1_min, p1_avg))
+    print("{:d}\t{:.2f}\t{:.2f}\t{:.2f}\t{:.2f}".format(p1_len, p1_max, p1_min, p1_avg, np.median(p1_list)))
 
 def check_p2(file_name):
     t = "freq domain trigger value: "
@@ -62,7 +64,7 @@ def check_p2(file_name):
     p2_sum = sum(p2_list)
     p2_avg = p2_sum / p2_len
     #print(p2_list)
-    print("{:d}\t{:.2f}\t{:.2f}\t{:.2f}".format(p2_len, p2_max, p2_min, p2_avg)) 
+    print("{:d}\t{:.2f}\t{:.2f}\t{:.2f}\t{:.2f}".format(p2_len, p2_max, p2_min, p2_avg, np.median(p2_list)))
 
 def check_all():
     print('--------------5.0米---------------')
