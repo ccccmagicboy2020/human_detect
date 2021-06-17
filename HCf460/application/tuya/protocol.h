@@ -392,7 +392,7 @@ void tuya_re_config_network(void);
 void tuya_reset_module(void);
 void tuya_retry_ota(void);
 void reset_default_parameter(void);
-
+void load_ceiling_setup(int mode);
 
 
 #endif

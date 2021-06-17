@@ -278,102 +278,102 @@ void load_ceiling_setup(int mode)
 {
 	if (mode == 0)		//1M
 	{
-		upssa0.ppp.quick_time_times = 2048.0f;
-		upssa0.ppp.quick_time_add = 330.0f;
-		upssa0.ppp.quick_freq_times = 12.0f;
-		upssa0.ppp.slow_time_times = 2048.0f;
-		upssa0.ppp.slow_time_add = 330.0f;
-		upssa0.ppp.slow_freq_times = 12.0f;
-		upssa0.ppp.res_times = 2048.0f;
-		upssa0.ppp.offsetmin = 2.26f;
+		upssa0.ppp.quick_time_times = 3.05f;
+		upssa0.ppp.quick_time_add = 172.79f;
+		upssa0.ppp.quick_freq_times = 58.96f;
+		upssa0.ppp.slow_time_times = 3.05f;
+		upssa0.ppp.slow_time_add = 172.79f;
+		upssa0.ppp.slow_freq_times = 58.96f;
+		upssa0.ppp.res_times = 202.17f;
+		upssa0.ppp.offsetmin = 1.22f;
 	}
 	else if (mode == 1)		//1.5M
 	{
-		upssa0.ppp.quick_time_times = 2048.0f;
-		upssa0.ppp.quick_time_add = 295.0f;
-		upssa0.ppp.quick_freq_times = 9.0f;
-		upssa0.ppp.slow_time_times = 2048.0f;
-		upssa0.ppp.slow_time_add = 295.0f;
-		upssa0.ppp.slow_freq_times = 12.0f;
-		upssa0.ppp.res_times = 168.0f;
-		upssa0.ppp.offsetmin = 1.95f;
+		upssa0.ppp.quick_time_times = 2.53f;
+		upssa0.ppp.quick_time_add = 106.50f;
+		upssa0.ppp.quick_freq_times = 44.52f;
+		upssa0.ppp.slow_time_times = 2.53f;
+		upssa0.ppp.slow_time_add = 106.50f;
+		upssa0.ppp.slow_freq_times = 44.52f;
+		upssa0.ppp.res_times = 183.92f;
+		upssa0.ppp.offsetmin = 1.27f;
 	}
 	else if (mode == 2)		//2.0M
 	{
-		upssa0.ppp.quick_time_times = 10.0f;
-		upssa0.ppp.quick_time_add = 100.0f;
-		upssa0.ppp.quick_freq_times = 8.0f;
-		upssa0.ppp.slow_time_times = 10.0f;
-		upssa0.ppp.slow_time_add = 100.0f;
-		upssa0.ppp.slow_freq_times = 8.0f;
-		upssa0.ppp.res_times = 45.0f;
-		upssa0.ppp.offsetmin = 0.9f;
+		upssa0.ppp.quick_time_times = 2.42f;
+		upssa0.ppp.quick_time_add = 78.02f;
+		upssa0.ppp.quick_freq_times = 37.03f;
+		upssa0.ppp.slow_time_times = 2.42f;
+		upssa0.ppp.slow_time_add = 78.02f;
+		upssa0.ppp.slow_freq_times = 37.03f;
+		upssa0.ppp.res_times = 164.03f;
+		upssa0.ppp.offsetmin = 1.16f;
 	}
 	else if (mode == 3)		//2.5M
 	{
-		upssa0.ppp.quick_time_times = 4.51405f;
-		upssa0.ppp.quick_time_add = 64.48665f;
-		upssa0.ppp.quick_freq_times = 7.1201f;
-		upssa0.ppp.slow_time_times = 5.68685f;
-		upssa0.ppp.slow_time_add = 59.35425f;
-		upssa0.ppp.slow_freq_times = 9.49635f;
-		upssa0.ppp.res_times = 16.053f;
-		upssa0.ppp.offsetmin = 0.6073f;
+		upssa0.ppp.quick_time_times = 2.39f;
+		upssa0.ppp.quick_time_add = 59.78f;
+		upssa0.ppp.quick_freq_times = 30.22f;
+		upssa0.ppp.slow_time_times = 2.39f;
+		upssa0.ppp.slow_time_add = 59.78f;
+		upssa0.ppp.slow_freq_times = 30.22f;
+		upssa0.ppp.res_times = 139.01f;
+		upssa0.ppp.offsetmin = 1.27f;
 	}
 	else if (mode == 4)		//3.0M
 	{
-		upssa0.ppp.quick_time_times = 3.8f;
-		upssa0.ppp.quick_time_add = 35.0f;
-		upssa0.ppp.quick_freq_times = 4.0f;
-		upssa0.ppp.slow_time_times = 3.8f;
-		upssa0.ppp.slow_time_add = 35.0f;
-		upssa0.ppp.slow_freq_times = 4.0f;
-		upssa0.ppp.res_times = 16.5f;
-		upssa0.ppp.offsetmin = 0.33f;
+		upssa0.ppp.quick_time_times = 2.37f;
+		upssa0.ppp.quick_time_add = 51.72f;
+		upssa0.ppp.quick_freq_times = 27.72f;
+		upssa0.ppp.slow_time_times = 2.37f;
+		upssa0.ppp.slow_time_add = 51.72f;
+		upssa0.ppp.slow_freq_times = 27.72f;
+		upssa0.ppp.res_times = 116.44f;
+		upssa0.ppp.offsetmin = 1.07f;
 	}
 	else if (mode == 5)		//3.5M
 	{
-		upssa0.ppp.quick_time_times = 3.8f;
-		upssa0.ppp.quick_time_add = 35.0f;
-		upssa0.ppp.quick_freq_times = 4.0f;
-		upssa0.ppp.slow_time_times = 3.8f;
-		upssa0.ppp.slow_time_add = 35.0f;
-		upssa0.ppp.slow_freq_times = 4.0f;
-		upssa0.ppp.res_times = 16.5f;
-		upssa0.ppp.offsetmin = 0.33f;
+		upssa0.ppp.quick_time_times = 2.51f;
+		upssa0.ppp.quick_time_add = 40.12f;
+		upssa0.ppp.quick_freq_times = 20.24f;
+		upssa0.ppp.slow_time_times = 2.51f;
+		upssa0.ppp.slow_time_add = 40.12f;
+		upssa0.ppp.slow_freq_times = 20.24f;
+		upssa0.ppp.res_times = 109.41f;
+		upssa0.ppp.offsetmin = 1.08f;
 	}	
 	else if (mode == 6)		//4.0M
 	{
-		upssa0.ppp.quick_time_times = 3.8f;
-		upssa0.ppp.quick_time_add = 35.0f;
-		upssa0.ppp.quick_freq_times = 4.0f;
-		upssa0.ppp.slow_time_times = 3.8f;
-		upssa0.ppp.slow_time_add = 35.0f;
-		upssa0.ppp.slow_freq_times = 4.0f;
-		upssa0.ppp.res_times = 16.5f;
-		upssa0.ppp.offsetmin = 0.33f;
+		upssa0.ppp.quick_time_times = 2.31f;
+		upssa0.ppp.quick_time_add = 34.52f;
+		upssa0.ppp.quick_freq_times = 21.14f;
+		upssa0.ppp.slow_time_times = 2.31f;
+		upssa0.ppp.slow_time_add = 34.52f;
+		upssa0.ppp.slow_freq_times = 21.14f;
+		upssa0.ppp.res_times = 94.20f;
+		upssa0.ppp.offsetmin = 1.05f;
 	}
 	else if (mode == 7)		//4.5M
 	{
-		upssa0.ppp.quick_time_times = 3.8f;
-		upssa0.ppp.quick_time_add = 35.0f;
-		upssa0.ppp.quick_freq_times = 4.0f;
-		upssa0.ppp.slow_time_times = 3.8f;
-		upssa0.ppp.slow_time_add = 35.0f;
-		upssa0.ppp.slow_freq_times = 4.0f;
-		upssa0.ppp.res_times = 16.5f;
-		upssa0.ppp.offsetmin = 0.33f;
+		upssa0.ppp.quick_time_times = 2.12f;
+		upssa0.ppp.quick_time_add = 27.67f;
+		upssa0.ppp.quick_freq_times = 19.83f;
+		upssa0.ppp.slow_time_times = 2.12f;
+		upssa0.ppp.slow_time_add = 27.67f;
+		upssa0.ppp.slow_freq_times = 19.83f;
+		upssa0.ppp.res_times = 93.56f;
+		upssa0.ppp.offsetmin = 1.15f;
 	}
 	else if (mode == 8)		//5.0M
 	{
-		upssa0.ppp.quick_time_times = 3.8f;
-		upssa0.ppp.quick_time_add = 35.0f;
-		upssa0.ppp.quick_freq_times = 4.0f;
-		upssa0.ppp.slow_time_times = 3.8f;
-		upssa0.ppp.slow_time_add = 35.0f;
+		upssa0.ppp.quick_time_times = 2.05f;
+		upssa0.ppp.quick_time_add = 21.50f;
+		upssa0.ppp.quick_freq_times = 17.54f;
+		upssa0.ppp.slow_time_times = 2.05f;
+		upssa0.ppp.slow_time_add = 21.50f;
 		upssa0.ppp.slow_freq_times = 4.0f;
-		upssa0.ppp.res_times = 16.5f;
-		upssa0.ppp.offsetmin = 0.33f;
+		upssa0.ppp.res_times = 85.85f;
+		upssa0.ppp.offsetmin = 1.08f;
 	}	
 }
 
@@ -1561,35 +1561,21 @@ void reset_default_parameter(void)
 	char float_str[64];
 	
 	//load factory parameter here!
-	upssa0.ppp.quick_time_times = 3.8f;
+	load_ceiling_setup(0);
 	sprintf(float_str, "%s%sload quick_time_times: %.3lf%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.quick_time_times, RTT_CTRL_RESET);
 	SEGGER_RTT_printf(0, "%s", float_str);
-	
-	upssa0.ppp.quick_time_add = 35.0f;
 	sprintf(float_str, "%s%sload quick_time_add: %.3lf%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.quick_time_add, RTT_CTRL_RESET);
 	SEGGER_RTT_printf(0, "%s", float_str);
-	
-	upssa0.ppp.quick_freq_times = 4.0f;
 	sprintf(float_str, "%s%sload quick_freq_times: %.3lf%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.quick_freq_times, RTT_CTRL_RESET);
 	SEGGER_RTT_printf(0, "%s", float_str);	
-	
-	upssa0.ppp.slow_time_times = 3.8f;
 	sprintf(float_str, "%s%sload slow_time_times: %.3lf%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.slow_time_times, RTT_CTRL_RESET);
 	SEGGER_RTT_printf(0, "%s", float_str);
-	
-	upssa0.ppp.slow_time_add = 35.0f;
 	sprintf(float_str, "%s%sload slow_time_add: %.3lf%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.slow_time_add, RTT_CTRL_RESET);
 	SEGGER_RTT_printf(0, "%s", float_str);
-	
-	upssa0.ppp.slow_freq_times = 4.0f;
 	sprintf(float_str, "%s%sload slow_freq_times: %.3lf%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.slow_freq_times, RTT_CTRL_RESET);
 	SEGGER_RTT_printf(0, "%s", float_str);	
-	
-	upssa0.ppp.res_times = 16.5f;
 	sprintf(float_str, "%s%sload res_times: %.3lf%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.res_times, RTT_CTRL_RESET);
 	SEGGER_RTT_printf(0, "%s", float_str);	
-	
-	upssa0.ppp.offsetmin = 0.33f;
 	sprintf(float_str, "%s%sload offsetmin: %.3lf%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.offsetmin, RTT_CTRL_RESET);
 	SEGGER_RTT_printf(0, "%s", float_str);	
 	

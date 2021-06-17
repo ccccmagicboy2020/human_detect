@@ -1339,7 +1339,8 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		upssa0.ppp.quick_time_times = 3.8f;
+		//upssa0.ppp.quick_time_times = 3.8f;
+		load_ceiling_setup(0);
 	}
 	else
 	{
@@ -1355,7 +1356,8 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		upssa0.ppp.quick_time_add = 35.0f;
+		//upssa0.ppp.quick_time_add = 35.0f;
+		load_ceiling_setup(0);
 	}
 	else
 	{
@@ -1370,8 +1372,9 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		upssa0.ppp.quick_freq_times = 4.0f;
+		//upssa0.ppp.quick_freq_times = 4.0f;
 		//upssa0.ppp.quick_freq_times = 20.0f;
+		load_ceiling_setup(0);
 	}
 	else
 	{
@@ -1386,7 +1389,8 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		upssa0.ppp.slow_time_times = 3.8f;
+		//upssa0.ppp.slow_time_times = 3.8f;
+		load_ceiling_setup(0);
 	}
 	else
 	{
@@ -1402,7 +1406,8 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		upssa0.ppp.slow_time_add = 35.0f;
+		//upssa0.ppp.slow_time_add = 35.0f;
+		load_ceiling_setup(0);
 	}
 	else
 	{
@@ -1417,8 +1422,9 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		upssa0.ppp.slow_freq_times = 4.0f;
+		//upssa0.ppp.slow_freq_times = 4.0f;
 		//upssa0.ppp.slow_freq_times = 20.0f;
+		load_ceiling_setup(0);
 	}
 	else
 	{
@@ -1433,7 +1439,8 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		upssa0.ppp.res_times = 16.5f;
+		//upssa0.ppp.res_times = 16.5f;
+		load_ceiling_setup(0);
 	}
 	else
 	{
@@ -1448,7 +1455,8 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		upssa0.ppp.offsetmin = 0.33f;
+		//upssa0.ppp.offsetmin = 0.33f;
+		load_ceiling_setup(0);
 	}
 	else
 	{
