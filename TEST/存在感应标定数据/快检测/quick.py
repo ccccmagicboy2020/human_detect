@@ -70,202 +70,322 @@ def check_p2(file_name):
     return p2_len, p2_max, p2_min, p2_avg, np.median(p2_list)
 
 def check_all():
-    print('--------------5.0米---------------')
-    a, b, c, d, e = check_p0('快检测-左边平面-5M.log')
-    f, g, h, i, j = check_p0('快检测-右半平面-5M.log')
-    if 500 < (a + f)/2:
-        print("p0 = {:.2f}".format((e+j)/2))
-    else:
-        print("p0样本不足 = {:.2f}".format((e+j)/2))
-    
-    a, b, c, d, e = check_p1('快检测-左边平面-5M.log')
-    f, g, h, i, j = check_p1('快检测-右半平面-5M.log')
-    if 500 < (a + f)/2:
-        print("p1 = {:.2f}".format((e+j)/2))
-    else:
-        print("p1样本不足 = {:.2f}".format((e+j)/2))
+    temp_str = ''
+    with open('fast_result.txt', 'w', encoding='UTF-8') as ff:
+        ff.write('--------------5.0米---------------\n')
+        print('--------------5.0米---------------')
+        a, b, c, d, e = check_p0('快检测-左边平面-5M.log')
+        f, g, h, i, j = check_p0('快检测-右半平面-5M.log')
+        if 500 < (a + f)/2:
+            temp_str = "p0 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
+        else:
+            temp_str = "p0样本不足 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
+        
+        a, b, c, d, e = check_p1('快检测-左边平面-5M.log')
+        f, g, h, i, j = check_p1('快检测-右半平面-5M.log')
+        if 500 < (a + f)/2:
+            temp_str = "p1 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
+        else:
+            temp_str = "p1样本不足 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
 
-    a, b, c, d, e = check_p2('快检测-左边平面-5M.log')
-    f, g, h, i, j = check_p2('快检测-右半平面-5M.log')
-    if 100 < (a + f)/2:
-        print("p2 = {:.2f}".format((e+j)/2))
-    else:
-        print("p2样本不足 = {:.2f}".format((e+j)/2))
+        a, b, c, d, e = check_p2('快检测-左边平面-5M.log')
+        f, g, h, i, j = check_p2('快检测-右半平面-5M.log')
+        if 500 < (a + f)/2:
+            temp_str = "p2 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
+        else:
+            temp_str = "p2样本不足 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
 
-    print('--------------4.5米---------------')
-    a, b, c, d, e = check_p0('快检测-左边平面-4.5M.log')
-    f, g, h, i, j = check_p0('快检测-右半平面-4.5M.log')
-    if 500 < (a + f)/2:    
-        print("p0 = {:.2f}".format((e+j)/2))
-    else:
-        print("p0样本不足 = {:.2f}".format((e+j)/2))
+        ff.write('--------------4.5米---------------\n')
+        print('--------------4.5米---------------')
+        a, b, c, d, e = check_p0('快检测-左边平面-4.5M.log')
+        f, g, h, i, j = check_p0('快检测-右半平面-4.5M.log')
+        if 500 < (a + f)/2:
+            temp_str = "p0 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
+        else:
+            temp_str = "p0样本不足 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
 
-    a, b, c, d, e = check_p1('快检测-左边平面-4.5M.log')
-    f, g, h, i, j = check_p1('快检测-右半平面-4.5M.log')
-    if 500 < (a + f)/2:    
-        print("p1 = {:.2f}".format((e+j)/2))
-    else:
-        print("p1样本不足 = {:.2f}".format((e+j)/2))
+        a, b, c, d, e = check_p1('快检测-左边平面-4.5M.log')
+        f, g, h, i, j = check_p1('快检测-右半平面-4.5M.log')
+        if 500 < (a + f)/2:
+            temp_str = "p1 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
+        else:
+            temp_str = "p1样本不足 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
 
-    a, b, c, d, e = check_p2('快检测-左边平面-4.5M.log')
-    f, g, h, i, j = check_p2('快检测-右半平面-4.5M.log')
-    if 100 < (a + f)/2:    
-        print("p2 = {:.2f}".format((e+j)/2))
-    else:
-        print("p2样本不足 = {:.2f}".format((e+j)/2))
+        a, b, c, d, e = check_p2('快检测-左边平面-4.5M.log')
+        f, g, h, i, j = check_p2('快检测-右半平面-4.5M.log')
+        if 500 < (a + f)/2:
+            temp_str = "p2 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
+        else:
+            temp_str = "p2样本不足 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
 
-    print('--------------4.0米---------------')
-    a, b, c, d, e = check_p0('快检测-左边平面-4M.log')
-    f, g, h, i, j = check_p0('快检测-右半平面-4M.log')
-    if 500 < (a + f)/2:    
-        print("p0 = {:.2f}".format((e+j)/2))
-    else:
-        print("p0样本不足 = {:.2f}".format((e+j)/2))
+        ff.write('--------------4.0米---------------\n')
+        print('--------------4.0米---------------')
+        a, b, c, d, e = check_p0('快检测-左边平面-4M.log')
+        f, g, h, i, j = check_p0('快检测-右半平面-4M.log')
+        if 500 < (a + f)/2:
+            temp_str = "p0 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
+        else:
+            temp_str = "p0样本不足 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
 
-    a, b, c, d, e = check_p1('快检测-左边平面-4M.log')
-    f, g, h, i, j = check_p1('快检测-右半平面-4M.log')
-    if 500 < (a + f)/2:    
-        print("p1 = {:.2f}".format((e+j)/2))
-    else:
-        print("p1样本不足 = {:.2f}".format((e+j)/2))
+        a, b, c, d, e = check_p1('快检测-左边平面-4M.log')
+        f, g, h, i, j = check_p1('快检测-右半平面-4M.log')
+        if 500 < (a + f)/2:
+            temp_str = "p1 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
+        else:
+            temp_str = "p1样本不足 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
 
-    a, b, c, d, e = check_p2('快检测-左边平面-4M.log')
-    f, g, h, i, j = check_p2('快检测-右半平面-4M.log')
-    if 100 < (a + f)/2:    
-        print("p2 = {:.2f}".format((e+j)/2))
-    else:
-        print("p2样本不足 = {:.2f}".format((e+j)/2))
+        a, b, c, d, e = check_p2('快检测-左边平面-4M.log')
+        f, g, h, i, j = check_p2('快检测-右半平面-4M.log')
+        if 500 < (a + f)/2:
+            temp_str = "p2 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
+        else:
+            temp_str = "p2样本不足 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
 
-    print('--------------3.5米---------------')
-    a, b, c, d, e = check_p0('快检测-左边平面-3.5M.log')
-    f, g, h, i, j = check_p0('快检测-右半平面-3.5M.log')
-    if 500 < (a + f)/2:    
-        print("p0 = {:.2f}".format((e+j)/2))
-    else:
-        print("p0样本不足 = {:.2f}".format((e+j)/2))
+        ff.write('--------------3.5米---------------\n')
+        print('--------------3.5米---------------')
+        a, b, c, d, e = check_p0('快检测-左边平面-3.5M.log')
+        f, g, h, i, j = check_p0('快检测-右半平面-3.5M.log')
+        if 500 < (a + f)/2:
+            temp_str = "p0 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
+        else:
+            temp_str = "p0样本不足 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
 
-    a, b, c, d, e = check_p1('快检测-左边平面-3.5M.log')
-    f, g, h, i, j = check_p1('快检测-右半平面-3.5M.log')   
-    if 500 < (a + f)/2:    
-        print("p1 = {:.2f}".format((e+j)/2))
-    else:
-        print("p1样本不足 = {:.2f}".format((e+j)/2))
+        a, b, c, d, e = check_p1('快检测-左边平面-3.5M.log')
+        f, g, h, i, j = check_p1('快检测-右半平面-3.5M.log')   
+        if 500 < (a + f)/2:
+            temp_str = "p1 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
+        else:
+            temp_str = "p1样本不足 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
 
-    a, b, c, d, e = check_p2('快检测-左边平面-3.5M.log')
-    f, g, h, i, j = check_p2('快检测-右半平面-3.5M.log') 
-    if 100 < (a + f)/2:    
-        print("p2 = {:.2f}".format((e+j)/2))
-    else:
-        print("p2样本不足 = {:.2f}".format((e+j)/2))
+        a, b, c, d, e = check_p2('快检测-左边平面-3.5M.log')
+        f, g, h, i, j = check_p2('快检测-右半平面-3.5M.log') 
+        if 500 < (a + f)/2:
+            temp_str = "p2 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
+        else:
+            temp_str = "p2样本不足 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
 
-    print('--------------3.0米---------------')
-    a, b, c, d, e = check_p0('快检测-左边平面-3M.log')
-    f, g, h, i, j = check_p0('快检测-右半平面-3M.log')
-    if 500 < (a + f)/2:    
-        print("p0 = {:.2f}".format((e+j)/2))
-    else:
-        print("p0样本不足 = {:.2f}".format((e+j)/2))
+        ff.write('--------------3.0米---------------\n')
+        print('--------------3.0米---------------')
+        a, b, c, d, e = check_p0('快检测-左边平面-3M.log')
+        f, g, h, i, j = check_p0('快检测-右半平面-3M.log')
+        if 500 < (a + f)/2:
+            temp_str = "p0 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
+        else:
+            temp_str = "p0样本不足 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
 
-    a, b, c, d, e = check_p1('快检测-左边平面-3M.log')
-    f, g, h, i, j = check_p1('快检测-右半平面-3M.log') 
-    if 500 < (a + f)/2:    
-        print("p1 = {:.2f}".format((e+j)/2))
-    else:
-        print("p1样本不足 = {:.2f}".format((e+j)/2))
+        a, b, c, d, e = check_p1('快检测-左边平面-3M.log')
+        f, g, h, i, j = check_p1('快检测-右半平面-3M.log') 
+        if 500 < (a + f)/2:
+            temp_str = "p1 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
+        else:
+            temp_str = "p1样本不足 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
 
-    a, b, c, d, e = check_p2('快检测-左边平面-3M.log')
-    f, g, h, i, j = check_p2('快检测-右半平面-3M.log') 
-    if 100 < (a + f)/2:    
-        print("p2 = {:.2f}".format((e+j)/2))
-    else:
-        print("p2样本不足 = {:.2f}".format((e+j)/2))
+        a, b, c, d, e = check_p2('快检测-左边平面-3M.log')
+        f, g, h, i, j = check_p2('快检测-右半平面-3M.log') 
+        if 500 < (a + f)/2:
+            temp_str = "p2 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
+        else:
+            temp_str = "p2样本不足 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
 
-    print('--------------2.5米---------------')
-    a, b, c, d, e = check_p0('快检测-左边平面-2.5M.log')
-    f, g, h, i, j = check_p0('快检测-右半平面-2.5M.log')
-    if 500 < (a + f)/2:    
-        print("p0 = {:.2f}".format((e+j)/2))
-    else:
-        print("p0样本不足 = {:.2f}".format((e+j)/2))
+        ff.write('--------------2.5米---------------\n')
+        print('--------------2.5米---------------')
+        a, b, c, d, e = check_p0('快检测-左边平面-2.5M.log')
+        f, g, h, i, j = check_p0('快检测-右半平面-2.5M.log')
+        if 500 < (a + f)/2:
+            temp_str = "p0 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
+        else:
+            temp_str = "p0样本不足 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
 
-    a, b, c, d, e = check_p1('快检测-左边平面-2.5M.log')
-    f, g, h, i, j = check_p1('快检测-右半平面-2.5M.log') 
-    if 500 < (a + f)/2:    
-        print("p1 = {:.2f}".format((e+j)/2))
-    else:
-        print("p1样本不足 = {:.2f}".format((e+j)/2))
+        a, b, c, d, e = check_p1('快检测-左边平面-2.5M.log')
+        f, g, h, i, j = check_p1('快检测-右半平面-2.5M.log') 
+        if 500 < (a + f)/2:
+            temp_str = "p1 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
+        else:
+            temp_str = "p1样本不足 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
 
-    a, b, c, d, e = check_p2('快检测-左边平面-2.5M.log')
-    f, g, h, i, j = check_p2('快检测-右半平面-2.5M.log') 
-    if 100 < (a + f)/2:    
-        print("p2 = {:.2f}".format((e+j)/2))
-    else:
-        print("p2样本不足 = {:.2f}".format((e+j)/2))
+        a, b, c, d, e = check_p2('快检测-左边平面-2.5M.log')
+        f, g, h, i, j = check_p2('快检测-右半平面-2.5M.log') 
+        if 500 < (a + f)/2:
+            temp_str = "p2 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
+        else:
+            temp_str = "p2样本不足 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
 
-    print('--------------2.0米---------------')
-    a, b, c, d, e = check_p0('快检测-左边平面-2M.log')
-    f, g, h, i, j = check_p0('快检测-右半平面-2M.log')
-    if 500 < (a + f)/2:    
-        print("p0 = {:.2f}".format((e+j)/2))
-    else:
-        print("p0样本不足 = {:.2f}".format((e+j)/2))
+        ff.write('--------------2.0米---------------\n')
+        print('--------------2.0米---------------')
+        a, b, c, d, e = check_p0('快检测-左边平面-2M.log')
+        f, g, h, i, j = check_p0('快检测-右半平面-2M.log')
+        if 500 < (a + f)/2:
+            temp_str = "p0 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
+        else:
+            temp_str = "p0样本不足 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
 
-    a, b, c, d, e = check_p1('快检测-左边平面-2M.log')
-    f, g, h, i, j = check_p1('快检测-右半平面-2M.log') 
-    if 500 < (a + f)/2:    
-        print("p1 = {:.2f}".format((e+j)/2))
-    else:
-        print("p1样本不足 = {:.2f}".format((e+j)/2))
+        a, b, c, d, e = check_p1('快检测-左边平面-2M.log')
+        f, g, h, i, j = check_p1('快检测-右半平面-2M.log') 
+        if 500 < (a + f)/2:
+            temp_str = "p1 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
+        else:
+            temp_str = "p1样本不足 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
 
-    a, b, c, d, e = check_p2('快检测-左边平面-2M.log')
-    f, g, h, i, j = check_p2('快检测-右半平面-2M.log') 
-    if 100 < (a + f)/2:    
-        print("p2 = {:.2f}".format((e+j)/2))
-    else:
-        print("p2样本不足 = {:.2f}".format((e+j)/2))
-    print('--------------1.5米---------------')
-    a, b, c, d, e = check_p0('快检测-左边平面-1.5M.log')
-    f, g, h, i, j = check_p0('快检测-右半平面-1.5M.log')
-    if 500 < (a + f)/2:    
-        print("p0 = {:.2f}".format((e+j)/2))
-    else:
-        print("p0样本不足 = {:.2f}".format((e+j)/2))
+        a, b, c, d, e = check_p2('快检测-左边平面-2M.log')
+        f, g, h, i, j = check_p2('快检测-右半平面-2M.log') 
+        if 500 < (a + f)/2:
+            temp_str = "p2 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
+        else:
+            temp_str = "p2样本不足 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
 
-    a, b, c, d, e = check_p1('快检测-左边平面-1.5M.log')
-    f, g, h, i, j = check_p1('快检测-右半平面-1.5M.log')  
-    if 500 < (a + f)/2:    
-        print("p1 = {:.2f}".format((e+j)/2))
-    else:
-        print("p1样本不足 = {:.2f}".format((e+j)/2))
+        ff.write('--------------1.5米---------------\n')    
+        print('--------------1.5米---------------')
+        a, b, c, d, e = check_p0('快检测-左边平面-1.5M.log')
+        f, g, h, i, j = check_p0('快检测-右半平面-1.5M.log')
+        if 500 < (a + f)/2:
+            temp_str = "p0 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
+        else:
+            temp_str = "p0样本不足 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
 
-    a, b, c, d, e = check_p2('快检测-左边平面-1.5M.log')
-    f, g, h, i, j = check_p2('快检测-右半平面-1.5M.log') 
-    if 100 < (a + f)/2:    
-        print("p2 = {:.2f}".format((e+j)/2))
-    else:
-        print("p2样本不足 = {:.2f}".format((e+j)/2))
+        a, b, c, d, e = check_p1('快检测-左边平面-1.5M.log')
+        f, g, h, i, j = check_p1('快检测-右半平面-1.5M.log')  
+        if 500 < (a + f)/2:
+            temp_str = "p1 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
+        else:
+            temp_str = "p1样本不足 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
 
-    print('--------------1.0米---------------')
-    a, b, c, d, e = check_p0('快检测-左边平面-1M.log')
-    f, g, h, i, j = check_p0('快检测-右半平面-1M.log')
-    if 500 < (a + f)/2:    
-        print("p0 = {:.2f}".format((e+j)/2))
-    else:
-        print("p0样本不足 = {:.2f}".format((e+j)/2))
+        a, b, c, d, e = check_p2('快检测-左边平面-1.5M.log')
+        f, g, h, i, j = check_p2('快检测-右半平面-1.5M.log') 
+        if 500 < (a + f)/2:
+            temp_str = "p2 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
+        else:
+            temp_str = "p2样本不足 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
 
-    a, b, c, d, e = check_p1('快检测-左边平面-1M.log')
-    f, g, h, i, j = check_p1('快检测-右半平面-1M.log')
-    if 500 < (a + f)/2:    
-        print("p1 = {:.2f}".format((e+j)/2))
-    else:
-        print("p1样本不足 = {:.2f}".format((e+j)/2))
+        ff.write('--------------1.0米---------------\n')
+        print('--------------1.0米---------------')
+        a, b, c, d, e = check_p0('快检测-左边平面-1M.log')
+        f, g, h, i, j = check_p0('快检测-右半平面-1M.log')
+        if 500 < (a + f)/2:
+            temp_str = "p0 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
+        else:
+            temp_str = "p0样本不足 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
 
-    a, b, c, d, e = check_p2('快检测-左边平面-1M.log')
-    f, g, h, i, j = check_p2('快检测-右半平面-1M.log') 
-    if 100 < (a + f)/2:    
-        print("p2 = {:.2f}".format((e+j)/2))
-    else:
-        print("p2样本不足 = {:.2f}".format((e+j)/2))
+        a, b, c, d, e = check_p1('快检测-左边平面-1M.log')
+        f, g, h, i, j = check_p1('快检测-右半平面-1M.log')
+        if 500 < (a + f)/2:
+            temp_str = "p1 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
+        else:
+            temp_str = "p1样本不足 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
+
+        a, b, c, d, e = check_p2('快检测-左边平面-1M.log')
+        f, g, h, i, j = check_p2('快检测-右半平面-1M.log') 
+        if 500 < (a + f)/2:
+            temp_str = "p2 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
+        else:
+            temp_str = "p2样本不足 = {:.2f}\n".format((e+j)/2)
+            ff.write(temp_str)
+            print(temp_str)
 
 check_all()
 
