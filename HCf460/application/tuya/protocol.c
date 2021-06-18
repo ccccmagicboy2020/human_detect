@@ -314,11 +314,11 @@ void load_ceiling_setup(int mode)
 		upssa0.ppp.quick_time_times = 2.39f;
 		upssa0.ppp.quick_time_add = 59.78f;
 		upssa0.ppp.quick_freq_times = 30.22f;
-		upssa0.ppp.slow_time_times = 2.39f;
+		upssa0.ppp.slow_time_times = 2.39f*1.3f;
 		upssa0.ppp.slow_time_add = 59.78f;
 		upssa0.ppp.slow_freq_times = 30.22f;
 		upssa0.ppp.res_times = 139.01f;
-		upssa0.ppp.offsetmin = 1.27f;
+		upssa0.ppp.offsetmin = 1.27f*1.1f;
 	}
 	else if (mode == 4)		//3.0M
 	{
