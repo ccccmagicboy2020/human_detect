@@ -92,6 +92,7 @@ unsigned char find_me_counter = 0;
 ////////////////////////////////////////////////////////////
 unsigned char light_sensor_upload_flag = 0;
 extern unsigned short  light_sensor_adc_data;
+extern unsigned short  light_sensor2_adc_data;
 ////////////////////////////////////////////////////////////
 unsigned char data_report_upload_flag = 0;
 unsigned char data_report_upload_enable = 0;
@@ -140,12 +141,11 @@ void gpio_output(unsigned char res)
 	{
 		led_red(1);
 		
-		if (light_sensor_adc_data < upssa0.ppp.Light_threshold4)//门限3
-		//if (light_sensor_adc_data < Light_threshold3)//门限3
+		if (light_sensor2_adc_data < upssa0.ppp.Light_threshold4)//门限3
 		{
 			GPIO1_HIGH();
 		}
-		else if (light_sensor_adc_data > upssa0.ppp.Light_threshold3)
+		else if (light_sensor2_adc_data > upssa0.ppp.Light_threshold3)
 		{
 			GPIO1_LOW();
 		}
@@ -951,7 +951,7 @@ void idle_process(void)
 	if (free_runner%3000 == 0)
 	{
 		//光敏一直控制继电器
-		if (light_sensor_adc_data < upssa0.ppp.Light_threshold4)//门限3
+		if (light_sensor2_adc_data < upssa0.ppp.Light_threshold4)//门限3
 		{
 			if (person_in_range_flag == 1)
 			{
@@ -962,7 +962,7 @@ void idle_process(void)
 				GPIO1_LOW();
 			}
 		}
-		else if (light_sensor_adc_data > upssa0.ppp.Light_threshold3)
+		else if (light_sensor2_adc_data > upssa0.ppp.Light_threshold3)
 		{
 			GPIO1_LOW();
 		}
@@ -989,10 +989,10 @@ void idle_process(void)
 		//light sensor upload
 		if (upload_disable == 0)
 		{
-			if (light_sensor_adc_data != light_sensor_adc_data_last)
+			if (light_sensor2_adc_data != light_sensor_adc_data_last)
 			{
-				mcu_dp_value_update(DPID_LIGHT_SENSOR_RAW, light_sensor_adc_data);
-				light_sensor_adc_data_last = light_sensor_adc_data;			
+				mcu_dp_value_update(DPID_LIGHT_SENSOR_RAW, light_sensor2_adc_data);
+				light_sensor_adc_data_last = light_sensor2_adc_data;			
 			}
 		}
 		
@@ -1000,9 +1000,11 @@ void idle_process(void)
 		{
 			sprintf(float_str, "%slight sensor: %d(%.3lfV)%s\r\n", RTT_CTRL_TEXT_BRIGHT_MAGENTA, light_sensor_adc_data, light_sensor_adc_data*3.3f/4096, RTT_CTRL_RESET);
 			SEGGER_RTT_printf(0, "%s", float_str);				
+			sprintf(float_str, "%slight sensor2: %d(%.3lfV)%s\r\n", RTT_CTRL_TEXT_BRIGHT_MAGENTA, light_sensor2_adc_data, light_sensor2_adc_data*3.3f/4096, RTT_CTRL_RESET);
+			SEGGER_RTT_printf(0, "%s", float_str);				
 		}
 			
-		if (light_sensor_adc_data > upssa0.ppp.Light_threshold1)//门限1
+		if (light_sensor2_adc_data > upssa0.ppp.Light_threshold1)//门限1
 		{
 //			GPIO2_HIGH();
 		}
@@ -1011,7 +1013,7 @@ void idle_process(void)
 //			GPIO2_LOW();
 		}
 
-		if (light_sensor_adc_data < upssa0.ppp.Light_threshold2)//门限2
+		if (light_sensor2_adc_data < upssa0.ppp.Light_threshold2)//门限2
 		{
 //			GPIO3_HIGH();
 		}
