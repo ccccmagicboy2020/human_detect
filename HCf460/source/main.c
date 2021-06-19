@@ -1557,9 +1557,9 @@ int main(void)
 	enable_flash_cache(Enable);
 	
 	SysTick_GetTick();
-	GPIO1_HIGH();
-	Delay_ms(ALL_UPLOAD_DELAY);
-	GPIO1_LOW();
+//	GPIO1_HIGH();
+//	Delay_ms(ALL_UPLOAD_DELAY);
+//	GPIO1_LOW();
 	SysTick_GetTick();
 	
 	set_var_from_flash();
