@@ -59,7 +59,7 @@ int run_mode = 0;
 int slow_only_flag = 0;
 
 volatile int check_status = TUYA_OTHER;
-volatile int person_in_range_flag = 0;
+volatile int person_in_range_flag __attribute__((section(".ARM.__at_0x1FFF8D38"))) = 0;
 volatile int light_status_flag = 0;
 
 char quick_detection_result_last = 0;
@@ -100,7 +100,7 @@ volatile unsigned int  person_meter = 0;
 volatile unsigned int  person_meter_last = 0;
 
 float breathe_freq = 0;
-volatile unsigned int slow_check_result = 1;//no person
+volatile unsigned int slow_check_result __attribute__((section(".ARM.__at_0x1FFF8D58"))) = 1;//no person
 int study_flag = 0;
 int study_mode = 0;
 
