@@ -185,8 +185,11 @@ int freq_detection(FIFO_DataType data[], const float win[], int data_size, int w
 					//
 					if (freq_times_rt != freq_times_rt_last)
 					{
+						if (0)	//bypass this
+						{
 							mcu_dp_value_update(DPID_FREQ_TIMES_RT, (int)((freq_times_rt*100.0f)+0.5f));
-							freq_times_rt_last = freq_times_rt;
+						}
+						freq_times_rt_last = freq_times_rt;
 					}
 				}
 			}
@@ -194,8 +197,11 @@ int freq_detection(FIFO_DataType data[], const float win[], int data_size, int w
 			{
 					if (freq_times_rt != freq_times_rt_last)
 					{
+						if (0)	//bypass this
+						{
 							mcu_dp_value_update(DPID_FREQ_TIMES_RT, (int)((freq_times_rt*100.0f)+0.5f));
-							freq_times_rt_last = freq_times_rt;
+						}
+						freq_times_rt_last = freq_times_rt;
 					}
 			}		
 		}
@@ -278,7 +284,10 @@ int freq_detection(FIFO_DataType data[], const float win[], int data_size, int w
 				//
 				if (freq_times_rt != (float)0)
 				{
-					mcu_dp_value_update(DPID_FREQ_TIMES_RT, (int)((freq_times_rt*100.0f)+0.5f));
+					if (0)	//bypass this
+					{
+						mcu_dp_value_update(DPID_FREQ_TIMES_RT, (int)((freq_times_rt*100.0f)+0.5f));
+					}
 				}
 			}
 		}
@@ -288,7 +297,10 @@ int freq_detection(FIFO_DataType data[], const float win[], int data_size, int w
 			{
 				if (freq_times_rt != (float)0)
 				{
-					mcu_dp_value_update(DPID_FREQ_TIMES_RT, (int)((freq_times_rt*100.0f)+0.5f));
+					if (0)	//bypass this
+					{
+						mcu_dp_value_update(DPID_FREQ_TIMES_RT, (int)((freq_times_rt*100.0f)+0.5f));
+					}
 				}			
 			}
 			else if(run_counter%4 == 2)
@@ -297,7 +309,10 @@ int freq_detection(FIFO_DataType data[], const float win[], int data_size, int w
 				{
 					if (minTEMP != (float)0)
 					{
-						mcu_dp_value_update(DPID_FREQ_PARAMETER1_RT, (int)((minTEMP*100.0f)+0.5f));
+						if (0)	//bypass this
+						{
+							mcu_dp_value_update(DPID_FREQ_PARAMETER1_RT, (int)((minTEMP*100.0f)+0.5f));
+						}
 					}	
 				}
 			}

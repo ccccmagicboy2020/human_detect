@@ -29,6 +29,8 @@ float out1[800] = {0};
 extern const float hamming_TAB2[4096];
 int power_freq = 50;
 
+extern	int breathe_upload_en;
+
 void Delay_ms(unsigned int t);
 
 int quick_detection(FIFO_DataType  in_data[16384],int win_size_time,int stride_time,float time_times,float time_add,int win_size_freq,  
@@ -232,8 +234,10 @@ int Fretting_detection(FIFO_DataType in_data5[4096],double N, double pro_N, doub
 				
 				if (breathe_freq != breathe_freq_last)
 				{
-					//mcu_dp_value_update(DPID_BREATHE_FREQ, (int)((breathe_freq*10.0f)+0.5f));
-					mcu_dp_value_update(DPID_BREATHE_FREQ, (int)((breathe_freq*1.0f)+0.5f));
+					if (breathe_upload_en)
+					{
+						mcu_dp_value_update(DPID_BREATHE_FREQ, (int)((breathe_freq*1.0f)+0.5f));
+					}
 					breathe_freq_last = breathe_freq;
 				}
 				
@@ -272,7 +276,10 @@ int Fretting_detection(FIFO_DataType in_data5[4096],double N, double pro_N, doub
 			//upload offset and diff
 			if (diff_max != (float)0)
 			{
-				mcu_dp_value_update(DPID_FREQ_PARAMETER2_RT, (int)((diff_max*1000.0f)+0.5f));
+				if (0)	//bypass this
+				{
+					mcu_dp_value_update(DPID_FREQ_PARAMETER2_RT, (int)((diff_max*1000.0f)+0.5f));
+				}
 			}			
 		}
 	}	

@@ -137,7 +137,10 @@ int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
                     {
                         if (time_times_rt != time_times_rt_last)
                         {
-                            mcu_dp_value_update(DPID_TIME_TIMES_RT, (int)((time_times_rt*100.0f)+0.5f));
+							if (0) //bypass this
+							{
+                            	mcu_dp_value_update(DPID_TIME_TIMES_RT, (int)((time_times_rt*100.0f)+0.5f));
+							}
                             time_times_rt_last = time_times_rt;
                         }							
                     }
@@ -145,8 +148,11 @@ int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
                     {
                         if (time_add_rt != time_add_rt_last)
                         {
-                            mcu_dp_value_update(DPID_TIME_ADD_RT, (int)((time_add_rt*100.0f)+0.5f));
-                            time_add_rt_last = time_add_rt;
+							if (0)//bypass this
+							{
+                            	mcu_dp_value_update(DPID_TIME_ADD_RT, (int)((time_add_rt*100.0f)+0.5f));
+							}
+							time_add_rt_last = time_add_rt;
                         }	
                     }		
                 }
@@ -154,14 +160,20 @@ int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
                 {
                     if (time_times_rt != time_times_rt_last)
                     {
-                        mcu_dp_value_update(DPID_TIME_TIMES_RT, (int)((time_times_rt*100.0f)+0.5f));
-                        time_times_rt_last = time_times_rt;
-                        Delay_ms(ALL_UPLOAD_DELAY);
+						if (0)	//bypass this
+						{
+                        	mcu_dp_value_update(DPID_TIME_TIMES_RT, (int)((time_times_rt*100.0f)+0.5f));
+							Delay_ms(ALL_UPLOAD_DELAY);
+						}
+						time_times_rt_last = time_times_rt;
                     }
                     if (time_add_rt != time_add_rt_last)
                     {
-                        mcu_dp_value_update(DPID_TIME_ADD_RT, (int)((time_add_rt*100.0f)+0.5f));
-                        time_add_rt_last = time_add_rt;
+						if (0)//bypass this
+						{
+                        	mcu_dp_value_update(DPID_TIME_ADD_RT, (int)((time_add_rt*100.0f)+0.5f));
+						}
+						time_add_rt_last = time_add_rt;
                     }				
                 }
             }
@@ -184,14 +196,20 @@ int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
 				{
 					if (time_times_rt != (float)0)
 					{
-						mcu_dp_value_update(DPID_TIME_TIMES_RT, (int)((time_times_rt*100.0f)+0.5f));
+						if (0)	//bypass this
+						{
+							mcu_dp_value_update(DPID_TIME_TIMES_RT, (int)((time_times_rt*100.0f)+0.5f));
+						}
 					}							
 				}
 				else if (run_counter%64 == 32)
 				{
 					if (time_add_rt != (float)0)
 					{
-						mcu_dp_value_update(DPID_TIME_ADD_RT, (int)((time_add_rt*100.0f)+0.5f));
+						if (0)	//bypass this
+						{
+							mcu_dp_value_update(DPID_TIME_ADD_RT, (int)((time_add_rt*100.0f)+0.5f));
+						}
 					}	
 				}		
 			}
@@ -201,12 +219,18 @@ int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
 				{
 					if (time_times_rt != (float)0)
 					{
-						mcu_dp_value_update(DPID_TIME_TIMES_RT, (int)((time_times_rt*100.0f)+0.5f));
-						Delay_ms(ALL_UPLOAD_DELAY);
+						if (0)	//bypass this
+						{
+							mcu_dp_value_update(DPID_TIME_TIMES_RT, (int)((time_times_rt*100.0f)+0.5f));
+							Delay_ms(ALL_UPLOAD_DELAY);
+						}
 					}
 					if (time_add_rt != (float)0)
 					{
-						mcu_dp_value_update(DPID_TIME_ADD_RT, (int)((time_add_rt*100.0f)+0.5f));
+						if (0)	//bypass this
+						{
+							mcu_dp_value_update(DPID_TIME_ADD_RT, (int)((time_add_rt*100.0f)+0.5f));
+						}
 					}				
 				}
 			}		

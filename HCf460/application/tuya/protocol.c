@@ -71,6 +71,7 @@ extern	union KKK upssa0;
 extern	char quick_detection_result_last;
 extern	char slow_check_result_last;
 extern	unsigned char data_report_upload_enable;
+extern	int breathe_upload_en;
 ///////////////////////////////////////////////////////////////////////////////
 void Delay_ms(unsigned int t);
 void update_check_parameter(void);
@@ -201,7 +202,10 @@ void all_data_update(void)
 
 		if (person_meter != 0)
 		{
-			mcu_dp_value_update(DPID_PERSON_METER,person_meter); //VALUE型数据上报;
+			if (0)	//bypass this
+			{
+				mcu_dp_value_update(DPID_PERSON_METER,person_meter); //VALUE型数据上报;
+			}
 			Delay_ms(ALL_UPLOAD_DELAY);
 		}
     
@@ -224,8 +228,11 @@ void all_data_update(void)
 		
 		if (breathe_freq != 0)
 		{
-			mcu_dp_value_update(DPID_BREATHE_FREQ, (int)((breathe_freq*10.0f)+0.5f));
-			Delay_ms(ALL_UPLOAD_DELAY);		
+			if (breathe_upload_en)	//
+			{
+				mcu_dp_value_update(DPID_BREATHE_FREQ, (int)((breathe_freq*10.0f)+0.5f));
+				Delay_ms(ALL_UPLOAD_DELAY);
+			}		
 		}
 		
 		update_check_parameter();
@@ -974,9 +981,14 @@ static unsigned char dp_download_common_command_handle(const unsigned char value
 			data_report_upload_enable = 0;
         break;
         
+				case 0x14://enable
+					breathe_upload_en = 1;
+					break;
+				case 0x15://disable
+					breathe_upload_en = 0;
+					break;
         default:
-    
-        break;
+					break;
     }
     
     //处理完DP数据后应有反馈

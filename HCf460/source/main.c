@@ -59,7 +59,8 @@ int run_mode = 0;
 int slow_only_flag = 0;
 
 volatile int check_status = TUYA_OTHER;
-volatile int person_in_range_flag __attribute__((section(".ARM.__at_0x1FFF8D38"))) = 0;
+//volatile int person_in_range_flag __attribute__((section(".ARM.__at_0x1FFF8D38"))) = 0;
+volatile int person_in_range_flag = 0;
 volatile int light_status_flag = 0;
 
 char quick_detection_result_last = 0;
@@ -100,7 +101,8 @@ volatile unsigned int  person_meter = 0;
 volatile unsigned int  person_meter_last = 0;
 
 float breathe_freq = 0;
-volatile unsigned int slow_check_result __attribute__((section(".ARM.__at_0x1FFF8D58"))) = 1;//no person
+//volatile unsigned int slow_check_result __attribute__((section(".ARM.__at_0x1FFF8D58"))) = 1;//no person
+volatile unsigned int slow_check_result= 1;//no person
 int study_flag = 0;
 int study_mode = 0;
 
@@ -122,6 +124,8 @@ unsigned int slow_samplerate = 9999;		//5K
 //unsigned int slow_samplerate = 7499;	//6.7K
 ////////////////////////////////////////////////////////////
 union KKK upssa0;
+////////////////////////////////////////////////////////////
+int breathe_upload_en = 1;
 ////////////////////////////////////////////////////////////
 void clear_buffer(void)
 {
@@ -912,8 +916,11 @@ void idle_process(void)
 	if ((person_meter != person_meter_last) && (person_meter != 0))
 	{
 		if (upload_disable == 0)
-		{		
-			mcu_dp_value_update(DPID_PERSON_METER,person_meter);
+		{	
+			if (0)	//bypass this
+			{
+				mcu_dp_value_update(DPID_PERSON_METER,person_meter);
+			}
 		}
 		SEGGER_RTT_printf(0, "%sperson meter: %d%s\r\n", RTT_CTRL_TEXT_BRIGHT_RED, person_meter, RTT_CTRL_RESET);
 		person_meter_last = person_meter;
