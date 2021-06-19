@@ -8,13 +8,13 @@
 #define ADC_CH_REMAP                (1u)
 
 /* ADC1 channel definition for this example. */
-#define ADC1_SA_NORMAL_CHANNEL      (ADC1_CH0|ADC1_CH6)
-#define ADC1_AVG_CHANNEL   				  (ADC1_CH0|ADC1_CH6)
+#define ADC1_SA_NORMAL_CHANNEL      (ADC1_CH6)
+#define ADC1_AVG_CHANNEL   				  (ADC1_CH6)
 #define ADC1_PGA_CHANNEL   				  (ADC1_CH6)
 #define ADC1_SA_CHANNEL             (ADC1_SA_NORMAL_CHANNEL)
-#define ADC1_SA_CHANNEL_COUNT       (2u)
+#define ADC1_SA_CHANNEL_COUNT       (1u)
 /* ADC1 channel sampling time. */
-#define ADC1_SA_CHANNEL_SAMPLE_TIME {25, 25, }      //25*20ns = 500ns / 2M SPS
+#define ADC1_SA_CHANNEL_SAMPLE_TIME {25, }      //25*20ns = 500ns / 2M SPS
 #define ADC1_CHANNEL                (ADC1_SA_CHANNEL)
 
 #define ADC2_SA_NORMAL_CHANNEL      (ADC2_CH0|ADC2_CH3|ADC2_CH4|ADC2_CH5)

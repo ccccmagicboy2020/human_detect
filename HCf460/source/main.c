@@ -296,7 +296,8 @@ void fast_check_data_prepare(void)
 	{
 		fast_retry_flag = 0;		
 		set_samplerate(fast_samplerate);
-		slow_samplerate = 12499;
+		//slow_samplerate = 12499;
+		slow_samplerate = 14699;
 		i = 0;
 		memory_init();
 	}
@@ -523,13 +524,14 @@ void slow_check_process_s0(void)
 		
 		if (diff > 4800)
 		{
-			slow_samplerate -= 50;
+			slow_samplerate -= 10;
 		}
 		else
 		{
-			slow_samplerate += 50;
+			slow_samplerate += 10;
 		}
 		//
+		SEGGER_RTT_printf(0, "slow_samplerate: %d\r\n", slow_samplerate);
 	}
 	last_tick = now_tick;	
 
@@ -705,7 +707,7 @@ void slow_check_process_s1(void)
 			{
 				no_person_check_tick = SysTick_GetTick();
 				no_person_diff = no_person_check_tick - no_person_start_tick;
-				if (no_person_diff > (1000u*upssa0.ppp.delay_time_num - 2*4800))
+				if (no_person_diff > (1000u*upssa0.ppp.delay_time_num - 3.5*4800))
 				{
 					SEGGER_RTT_printf(0, "%sno person status: delay_timer=%d, diff=%d%s\r\n", RTT_CTRL_TEXT_BRIGHT_YELLOW, no_person_timer, no_person_diff, RTT_CTRL_RESET);
 					no_person_timer = 0;
