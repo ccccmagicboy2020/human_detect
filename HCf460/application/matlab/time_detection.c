@@ -118,9 +118,17 @@ int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
 		
 		time_times_rt = maxValue/minValue;
 		time_add_rt = maxValue - minValue;		
-
-		sprintf(float_str, "time domain times trigger value: %.2lf-%.2lf\r\n", time_times_rt, time_times);
-		SEGGER_RTT_printf(0, "%s", float_str);
+		
+		if (time_times_rt >= 100000000.0f)
+		{
+			SEGGER_RTT_printf(0, "%santenna error!!!%s\r\n", RTT_CTRL_BG_RED, RTT_CTRL_RESET);
+		}
+		else
+		{
+			sprintf(float_str, "time domain times trigger value: %.2lf-%.2lf\r\n", time_times_rt, time_times);
+			SEGGER_RTT_printf(0, "%s", float_str);
+		}
+		
 		sprintf(float_str, "time domain add trigger value: %.2lf-%.2lf\r\n", time_add_rt, time_add);
 		SEGGER_RTT_printf(0, "%s", float_str);
 		
