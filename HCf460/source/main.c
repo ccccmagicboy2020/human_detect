@@ -232,7 +232,7 @@ static void enable_flash_cache(en_functional_state_t state)
 void slow_output_result(char slow_s0_result)
 {
 	//
-	//Delay_ms(ALL_UPLOAD_DELAY);
+	Delay_ms(ALL_UPLOAD_DELAY);
 	//
 	switch (slow_s0_result)
 	{

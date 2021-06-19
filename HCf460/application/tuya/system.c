@@ -166,39 +166,39 @@ void bt_uart_write_frame(unsigned char fr_type, unsigned short len)
 输入参数 : 无
 返回参数 : 无
 *****************************************************************************/
-//static void heat_beat_check(void)
-//{
-//  unsigned char length = 0;
-//  static unsigned char mcu_reset_state = FALSE;
-//  
-//  if(FALSE == mcu_reset_state)
-//  {
-//    length = set_bt_uart_byte(length,FALSE);
-//    mcu_reset_state = TRUE;
-//    all_data_update();
-//  }
-//  else
-//  {
-//    length = set_bt_uart_byte(length,TRUE);
-//  }
-//  
-//  bt_uart_write_frame(HEAT_BEAT_CMD, length);
-//}
+static void heat_beat_check(void)
+{
+  unsigned char length = 0;
+  static unsigned char mcu_reset_state = FALSE;
+  
+  if(FALSE == mcu_reset_state)
+  {
+    length = set_bt_uart_byte(length,FALSE);
+    mcu_reset_state = TRUE;
+    all_data_update();
+  }
+  else
+  {
+    length = set_bt_uart_byte(length,TRUE);
+  }
+  
+  bt_uart_write_frame(HEAT_BEAT_CMD, length);
+}
 /*****************************************************************************
 函数名称  : product_info_update
 功能描述  : 产品信息上传
 输入参数 : 无
 返回参数 : 无
 *****************************************************************************/
-//static void product_info_update(void)
-//{
-//  unsigned char length = 0;
-//  
-//  length = set_bt_uart_buffer(length,(unsigned char *)PRODUCT_KEY,my_strlen((unsigned char *)PRODUCT_KEY));
-//  length = set_bt_uart_buffer(length,(unsigned char *)MCU_VER,my_strlen((unsigned char *)MCU_VER));
-//  
-//  bt_uart_write_frame(PRODUCT_INFO_CMD, length);
-//}
+static void product_info_update(void)
+{
+  unsigned char length = 0;
+  
+  length = set_bt_uart_buffer(length,(unsigned char *)PRODUCT_KEY,my_strlen((unsigned char *)PRODUCT_KEY));
+  length = set_bt_uart_buffer(length,(unsigned char *)MCU_VER,my_strlen((unsigned char *)MCU_VER));
+  
+  bt_uart_write_frame(PRODUCT_INFO_CMD, length);
+}
 /*****************************************************************************
 函数名称 : get_mcu_bt_mode
 功能描述 : 查询mcu和bt的工作模式
@@ -324,11 +324,11 @@ void data_handle(unsigned short offset)
 			}
 			break;
   case HEAT_BEAT_CMD:                                   //心跳包
-    //heat_beat_check();
+    heat_beat_check();
     break;
     
   case PRODUCT_INFO_CMD:                                //产品信息
-    //product_info_update();
+    product_info_update();
     break;
     
   case WORK_MODE_CMD:                                   //查询MCU设定的模块工作模式
@@ -352,7 +352,7 @@ void data_handle(unsigned short offset)
 	}
 	else if(BT_CONNECTED == bt_work_state)
 	{
-		//all_data_update();
+		all_data_update();
 		upload_disable = 0;
 		led_green(1);
 	}
