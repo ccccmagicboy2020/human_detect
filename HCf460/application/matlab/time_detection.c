@@ -119,13 +119,14 @@ int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
 		time_times_rt = maxValue/minValue;
 		time_add_rt = maxValue - minValue;		
 
+		sprintf(float_str, "time domain times trigger value: %.2lf-%.2lf\r\n", time_times_rt, time_times);
+		SEGGER_RTT_printf(0, "%s", float_str);
+		sprintf(float_str, "time domain add trigger value: %.2lf-%.2lf\r\n", time_add_rt, time_add);
+		SEGGER_RTT_printf(0, "%s", float_str);
+		
 		if (maxValue > temp2)
 		{
 			time_vote = 1;
-			sprintf(float_str, "time domain times trigger value: %.2lf-%.2lf\r\n", time_times_rt, time_times);
-			SEGGER_RTT_printf(0, "%s", float_str);
-			sprintf(float_str, "time domain add trigger value: %.2lf-%.2lf\r\n", time_add_rt, time_add);
-			SEGGER_RTT_printf(0, "%s", float_str);
 						//if (0)
             if (upload_disable == 0)
             {
@@ -167,11 +168,7 @@ int time_detection(FIFO_DataType data[], int data_size, int win_size_time, int
 		}
 		else
 		{
-			time_vote = 0;
-			sprintf(float_str, "time domain times trigger value: %.2lf-%.2lf\r\n", time_times_rt, time_times);
-			SEGGER_RTT_printf(0, "%s", float_str);
-			sprintf(float_str, "time domain add trigger value: %.2lf-%.2lf\r\n", time_add_rt, time_add);
-			SEGGER_RTT_printf(0, "%s", float_str);			
+			time_vote = 0;		
 		}
 
 		//printf("time domain *: %.2lf - %.2lf\r\n", time_times, maxValue/minValue);

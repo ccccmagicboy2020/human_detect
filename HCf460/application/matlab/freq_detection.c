@@ -168,11 +168,12 @@ int freq_detection(FIFO_DataType data[], const float win[], int data_size, int w
 	//printf("freq_detection: %.2lf - %.2lf\r\n", freq_times, maxValue/minValue);
 	freq_times_rt = maxValue/minValue;
 	
+	sprintf(float_str, "freq domain trigger value: %.2lf-%.2lf\r\n", freq_times_rt, freq_times);
+	SEGGER_RTT_printf(0, "%s", float_str);	
+	
 	if (maxValue > minValue * freq_times)
 	{
 		freq_vote = 1;
-		sprintf(float_str, "freq domain trigger value: %.2lf-%.2lf\r\n", freq_times_rt, freq_times);
-		SEGGER_RTT_printf(0, "%s", float_str);
 		run_counter++;
 		
 		if (upload_disable == 0)
@@ -229,12 +230,13 @@ int freq_detection(FIFO_DataType data[], const float win[], int data_size, int w
 		}
 		
 		//printf("res: %.2lf - %.2lf\r\n", respiration_times, minTEMP);
+		sprintf(float_str, "freq domain res trigger value: %.2lf-%.2lf\r\n", minTEMP, respiration_times);
+		SEGGER_RTT_printf(0, "%s", float_str);		
 		
 		if ((respirationfreq_max > minValue*respiration_times) || (respirationfreq_mean > minValue*respiration_times*0.618f))
 		{
 			respirationfreq_vote[0] = 1;
-			sprintf(float_str, "freq domain res trigger value: %.2lf-%.2lf\r\n", minTEMP, respiration_times);
-			SEGGER_RTT_printf(0, "%s", float_str);
+
 			//if (0)
 			//if (upload_disable == 0)
 			if (1)
