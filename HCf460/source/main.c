@@ -69,6 +69,7 @@ char slow_check_result_last = 1;//no person
 char JS_RTT_UpBuffer[1024];
 Val_t adc_value;
 ////////////////////////////////////////////////////////////
+float max_std = 0;
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
 void check_status_upload(unsigned int aaaa);
@@ -422,7 +423,11 @@ void fast_check_process(void)
 void slow_check_data_prepare_s0(void)
 {
 	int i = 0;	//index
+	int j = 0;	//index
 	FIFO_DataType  temp[2048] = {0};//temp data
+	float pResult = 0;
+	char float_str[64];
+	float data_temp[2048] = {0};
 	
 	set_samplerate(slow_samplerate);
 	
@@ -431,6 +436,25 @@ void slow_check_data_prepare_s0(void)
 		SEGGER_RTT_printf(0, "fifo0 number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[0]));
 		FIFO_ReadData(&FIFO_Data[0], temp, SLOW_CHECK_SAMPLES);
 		SEGGER_RTT_printf(0, "fifo0 number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[0]));
+
+		for(j=0;j<SLOW_CHECK_SAMPLES;j++)
+		{
+			data_temp[j] = temp[j];
+		}
+
+		arm_std_f32(data_temp, SLOW_CHECK_SAMPLES, &pResult);
+
+		if (pResult > max_std)
+		{
+			max_std = pResult;
+		}
+		else
+		{
+			//do nothing
+		}
+
+		sprintf(float_str, "mid std result-max: %.2lf - %.2lf\r\n", pResult, max_std);
+		SEGGER_RTT_printf(0, "%s", float_str);	
 
 		for(i=0;i<SLOW_CHECK_USE_SAMPLES;i++)
 		{
@@ -457,6 +481,8 @@ void slow_check_data_prepare_s1(void)
 		slow_retry_flag = 0;
 		i = 0;
 	}	
+	
+	max_std = 0;
 	
 	if (SLOW_CHECK_SAMPLES < FIFO_GetDataCount(&FIFO_Data[1]))
 	{
