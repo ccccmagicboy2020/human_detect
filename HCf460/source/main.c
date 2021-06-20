@@ -453,6 +453,14 @@ void slow_check_data_prepare_s0(void)
 			//do nothing
 		}
 
+		if (max_std > 200.00f)
+		{
+			if (slow_check_result != BIG_MOTION)
+			{
+				slow_check_result_upload(BIG_MOTION);
+			}
+		}
+
 		sprintf(float_str, "mid std result-max: %.2lf - %.2lf\r\n", pResult, max_std);
 		SEGGER_RTT_printf(0, "%s", float_str);	
 
@@ -1177,6 +1185,18 @@ void slow_check_result_upload(unsigned int aaaa)
 		{
 			mcu_dp_enum_update(DPID_SLOW_CHECK_RESULT, aaaa);
 		}
+		switch (aaaa)
+		{
+		case BIG_MOTION:
+			SEGGER_RTT_printf(0, "%sbig motion detected!!!%s\r\n", RTT_CTRL_TEXT_BRIGHT_GREEN, RTT_CTRL_RESET);
+			break;
+		case BREATHE:
+			SEGGER_RTT_printf(0, "%sbreathe detected!!!%s\r\n", RTT_CTRL_TEXT_BRIGHT_YELLOW, RTT_CTRL_RESET);
+			break;
+		default:
+			break;
+		}
+
 		slow_check_result_last = slow_check_result;
 	}	
 }
