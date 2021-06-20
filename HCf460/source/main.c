@@ -453,6 +453,9 @@ void slow_check_data_prepare_s0(void)
 			//do nothing
 		}
 
+		sprintf(float_str, "mid std result-max: %.2lf - %.2lf\r\n", pResult, max_std);
+		SEGGER_RTT_printf(0, "%s", float_str);			
+
 		if (max_std > 200.00f)
 		{
 			if (slow_check_result != BIG_MOTION)
@@ -460,9 +463,6 @@ void slow_check_data_prepare_s0(void)
 				slow_check_result_upload(BIG_MOTION);
 			}
 		}
-
-		sprintf(float_str, "mid std result-max: %.2lf - %.2lf\r\n", pResult, max_std);
-		SEGGER_RTT_printf(0, "%s", float_str);	
 
 		for(i=0;i<SLOW_CHECK_USE_SAMPLES;i++)
 		{
@@ -488,9 +488,7 @@ void slow_check_data_prepare_s1(void)
 	{
 		slow_retry_flag = 0;
 		i = 0;
-	}	
-	
-	max_std = 0;
+	}
 	
 	if (SLOW_CHECK_SAMPLES < FIFO_GetDataCount(&FIFO_Data[1]))
 	{
@@ -549,6 +547,8 @@ void slow_check_process_s0(void)
 	
 	char float_str[64];		
 	
+	max_std = 0;
+
 	now_tick = SysTick_GetTick();
 	diff = now_tick - last_tick;
 	if ((0 != last_tick) && (0 != diff))
