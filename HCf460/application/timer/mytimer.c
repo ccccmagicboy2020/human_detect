@@ -130,9 +130,9 @@ static void Timer0B_CallBack(void)		// T === 500us
 		adc_value.Val1 = if_adc_data;
 		adc_value.Val2 = light_sensor_adc_data;
 		adc_value.Val3 = light_sensor2_adc_data;
-		adc_value.Val4 = switch_dist;
-		adc_value.Val5 = switch_delay;
-		adc_value.Val6 = switch_light;
+		adc_value.Val4 = 0;
+		adc_value.Val5 = 0;
+		adc_value.Val6 = 0;
 		
 		SEGGER_RTT_Write(1, &adc_value, sizeof(adc_value));
 
@@ -142,9 +142,7 @@ static void Timer0B_CallBack(void)		// T === 500us
 	{
 		DMA_ClearIrqFlag(ADC2_SA_DMA_UNIT, ADC2_SA_DMA_CH, BlkTrnCpltIrq);	
 
-		switch_delay = m_au16Adc2SaValue[0u];
-		light_sensor2_adc_data = m_au16Adc2SaValue[3u];		
-		switch_dist = m_au16Adc2SaValue[4u];
+		light_sensor2_adc_data = m_au16Adc2SaValue[0u];
 		light_sensor_adc_data =  m_au16Adc2SaValue[5u];
 	}	
 	
