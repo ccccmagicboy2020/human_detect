@@ -99,6 +99,7 @@ extern unsigned short  light_sensor_adc_data;
 ////////////////////////////////////////////////////////////
 unsigned char data_report_upload_flag = 0;
 unsigned char data_report_upload_enable = 0;
+unsigned char data_report_upload_enable2 = 0;
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
 volatile unsigned int  person_meter = 0;
@@ -1014,8 +1015,11 @@ void idle_process(void)
 		if (data_report_upload_enable)
 		{
 			mcu_dp_enum_update(DPID_PERSON_IN_RANGE, quick_detection_result_last);
-			mcu_dp_enum_update(DPID_SLOW_CHECK_RESULT, slow_check_result_last);
 		}
+		if (data_report_upload_enable2)
+		{
+			mcu_dp_enum_update(DPID_SLOW_CHECK_RESULT, slow_check_result_last);
+		}		
 	}
 	//光敏控制及上报，gpio状态上报，bt连接情况上报
 	if (light_sensor_upload_flag)

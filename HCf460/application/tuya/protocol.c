@@ -71,6 +71,7 @@ extern	union KKK upssa0;
 extern	char quick_detection_result_last;
 extern	char slow_check_result_last;
 extern	unsigned char data_report_upload_enable;
+extern	unsigned char data_report_upload_enable2;
 extern	int breathe_upload_en;
 ///////////////////////////////////////////////////////////////////////////////
 void Delay_ms(unsigned int t);
@@ -987,6 +988,12 @@ static unsigned char dp_download_common_command_handle(const unsigned char value
 				case 0x15://disable
 					breathe_upload_en = 0;
 					break;
+				case 0x16://enable
+					data_report_upload_enable2 = 1;
+					break;
+				case 0x17://disable
+					data_report_upload_enable2 = 0;
+					break;					
         default:
 					break;
     }
