@@ -19,10 +19,10 @@
         </Windows>
         <SelectedSymbols>
             <Symbol>
-                <Options Name="light_sensor_adc_data" Address="0x1FFF91A0" Type="ushort" TypeID="7" Size="2" GraphColorRed="255" GraphColorGreen="215" GraphColorBlue="0" YMinSampled="15" YMaxSampled="3792" YAvgSampled="3122" Offset="4" ShowInGraph="1" YOffset="200" IsAutoConfig="1" YResolution="2000" MaxValue="4000" File="..\application\timer\mytimer.c" Scope="0" DrawStyle="0" />
+                <Options Name="light_sensor_adc_data" Address="0x1FFF91B8" Type="ushort" TypeID="7" Size="2" GraphColorRed="255" GraphColorGreen="215" GraphColorBlue="0" YMinSampled="591" YMaxSampled="3868" YAvgSampled="3836" Offset="4" ShowInGraph="1" YOffset="200" IsAutoConfig="1" YResolution="2000" MaxValue="4000" File="..\application\timer\mytimer.c" Scope="0" DrawStyle="0" />
             </Symbol>
             <Symbol>
-                <Options Name="light_sensor2_adc_data" Address="0x1FFF91A2" Type="ushort" TypeID="7" Size="2" GraphColorRed="0" GraphColorGreen="255" GraphColorBlue="0" YMinSampled="4" YMaxSampled="3839" YAvgSampled="2423" Offset="6" ShowInGraph="1" YOffset="200" IsAutoConfig="1" YResolution="2000" MaxValue="5080" File="..\application\timer\mytimer.c" Scope="0" DrawStyle="0" />
+                <Options Name="light_sensor2_adc_data" Address="0x1FFF91BA" Type="ushort" TypeID="7" Size="2" GraphColorRed="0" GraphColorGreen="255" GraphColorBlue="0" YMinSampled="329" YMaxSampled="2834" YAvgSampled="2140" Offset="6" ShowInGraph="1" YOffset="200" IsAutoConfig="1" YResolution="2000" MaxValue="4000" File="..\application\timer\mytimer.c" Scope="0" DrawStyle="0" />
             </Symbol>
         </SelectedSymbols>
     </Project>

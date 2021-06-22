@@ -542,9 +542,13 @@ void slow_check_data_prepare_s0(void)
 		{
 			temp_cent = 0.80f;
 		}
+		else if (light_sensor2_adc_data_last > 1800)
+		{
+			temp_cent = 0.65f;
+		}
 		else
 		{
-			temp_cent = 0.80f;
+			temp_cent = 0.60f;
 		}
 		
 		if (pResult > pResult_last*1.2f)

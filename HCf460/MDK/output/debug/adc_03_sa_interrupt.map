@@ -6,7 +6,7 @@ Memory Map of the image
 
   Image Entry point : 0x00000281
 
-  Load Region LR_IROM1 (Base: 0x00000000, Size: 0x0003334c, Max: 0x00080000, ABSOLUTE, COMPRESSED[0x000331fc])
+  Load Region LR_IROM1 (Base: 0x00000000, Size: 0x00033364, Max: 0x00080000, ABSOLUTE, COMPRESSED[0x00033214])
 
     Execution Region ER_IROM1 (Exec base: 0x00000000, Load base: 0x00000000, Size: 0x0003210c, Max: 0x00080000, ABSOLUTE)
 
@@ -557,71 +557,71 @@ Memory Map of the image
     0x000320dc   0x000320dc   0x00000030   Data   RO         5988    Region$$Table       anon$$obj.o
 
 
-    Execution Region RW_IRAM1 (Exec base: 0x1fff8000, Load base: 0x0003210c, Size: 0x0002e848, Max: 0x0002f000, ABSOLUTE, COMPRESSED[0x0000003c])
+    Execution Region RW_IRAM1 (Exec base: 0x1fff8000, Load base: 0x0003210c, Size: 0x0002e860, Max: 0x0002f000, ABSOLUTE, COMPRESSED[0x0000003c])
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x1fff8000   0x0003210c   0x000007a4   Code   RO           88    RAMCODE             main.o
-    0x1fff87a4   0x000328b0   0x000004b6   Code   RO         3552    RAMCODE             freq_detection.o
-    0x1fff8c5a   COMPRESSED   0x00000002   PAD
-    0x1fff8c5c   0x00032d68   0x00000354   Code   RO         3686    RAMCODE             time_detection.o
-    0x1fff8fb0   0x000330bc   0x0000000a   Ven    RO         6003    Veneer$$Code        anon$$obj.o
-    0x1fff8fba   0x000330c6   0x0000000a   Ven    RO         6004    Veneer$$Code        anon$$obj.o
-    0x1fff8fc4   0x000330d0   0x0000000a   Ven    RO         6005    Veneer$$Code        anon$$obj.o
-    0x1fff8fce   0x000330da   0x0000000a   Ven    RO         6006    Veneer$$Code        anon$$obj.o
-    0x1fff8fd8   0x000330e4   0x0000000a   Ven    RO         6007    Veneer$$Code        anon$$obj.o
-    0x1fff8fe2   0x000330ee   0x0000000a   Ven    RO         6008    Veneer$$Code        anon$$obj.o
-    0x1fff8fec   0x000330f8   0x0000000a   Ven    RO         6009    Veneer$$Code        anon$$obj.o
-    0x1fff8ff6   0x00033102   0x0000000a   Ven    RO         6010    Veneer$$Code        anon$$obj.o
-    0x1fff9000   0x0003310c   0x0000000a   Ven    RO         6011    Veneer$$Code        anon$$obj.o
-    0x1fff900a   0x00033116   0x0000000a   Ven    RO         6012    Veneer$$Code        anon$$obj.o
-    0x1fff9014   0x00033120   0x0000000a   Ven    RO         6013    Veneer$$Code        anon$$obj.o
-    0x1fff901e   0x0003312a   0x0000000a   Ven    RO         6014    Veneer$$Code        anon$$obj.o
-    0x1fff9028   0x00033134   0x0000000a   Ven    RO         6015    Veneer$$Code        anon$$obj.o
-    0x1fff9032   0x0003313e   0x0000000a   Ven    RO         6016    Veneer$$Code        anon$$obj.o
-    0x1fff903c   0x00033148   0x0000000a   Ven    RO         6017    Veneer$$Code        anon$$obj.o
-    0x1fff9046   0x00033152   0x0000000a   Ven    RO         6018    Veneer$$Code        anon$$obj.o
-    0x1fff9050   0x0003315c   0x0000000a   Ven    RO         6019    Veneer$$Code        anon$$obj.o
-    0x1fff905a   0x00033166   0x0000000a   Ven    RO         6020    Veneer$$Code        anon$$obj.o
-    0x1fff9064   0x00033170   0x0000000a   Ven    RO         6021    Veneer$$Code        anon$$obj.o
-    0x1fff906e   0x0003317a   0x0000000a   Ven    RO         6022    Veneer$$Code        anon$$obj.o
-    0x1fff9078   0x00033184   0x0000000a   Ven    RO         6023    Veneer$$Code        anon$$obj.o
-    0x1fff9082   0x0003318e   0x0000000a   Ven    RO         6024    Veneer$$Code        anon$$obj.o
-    0x1fff908c   0x00033198   0x0000000a   Ven    RO         6025    Veneer$$Code        anon$$obj.o
-    0x1fff9096   0x000331a2   0x0000000a   Ven    RO         6026    Veneer$$Code        anon$$obj.o
-    0x1fff90a0   0x000331ac   0x0000000a   Ven    RO         6027    Veneer$$Code        anon$$obj.o
-    0x1fff90aa   0x000331b6   0x0000000a   Ven    RO         6028    Veneer$$Code        anon$$obj.o
-    0x1fff90b4   COMPRESSED   0x00000008   Data   RW           15    .data               system_hc32f46x.o
-    0x1fff90bc   COMPRESSED   0x000000cc   Data   RW          120    .data               main.o
-    0x1fff9188   COMPRESSED   0x00000008   Data   RW          457    .data               hc32f46x_utility.o
-    0x1fff9190   COMPRESSED   0x00000001   Data   RW         2960    .data               hc32f46x_dmac.o
-    0x1fff9191   COMPRESSED   0x00000003   PAD
-    0x1fff9194   COMPRESSED   0x00000016   Data   RW         3295    .data               mytimer.o
-    0x1fff91aa   COMPRESSED   0x00000002   PAD
-    0x1fff91ac   COMPRESSED   0x00000014   Data   RW         3350    .data               matlab.o
-    0x1fff91c0   COMPRESSED   0x00000010   Data   RW         3554    .data               freq_detection.o
-    0x1fff91d0   COMPRESSED   0x00000010   Data   RW         3688    .data               time_detection.o
-    0x1fff91e0   COMPRESSED   0x00000028   Data   RW         3721    .data               fifo.o
-    0x1fff9208   COMPRESSED   0x0000000a   Data   RW         3797    .data               mcu_api.o
-    0x1fff9212   COMPRESSED   0x00000002   PAD
-    0x1fff9214   COMPRESSED   0x0000000d   Data   RW         3942    .data               system.o
-    0x1fff9221   COMPRESSED   0x00000003   PAD
-    0x1fff9224   COMPRESSED   0x0000000c   Data   RW         4027    .data               mcu_ota_handler.o
-    0x1fff9230   COMPRESSED   0x00000004   Data   RW         5953    .data               mc_w.l(stdout.o)
-    0x1fff9234   COMPRESSED   0x00000004   Data   RW         5962    .data               mc_w.l(mvars.o)
-    0x1fff9238   COMPRESSED   0x00000004   Data   RW         5963    .data               mc_w.l(mvars.o)
-    0x1fff923c   COMPRESSED   0x00000004   Data   RW         5967    .data               mc_w.l(errno.o)
-    0x1fff9240        -       0x00008444   Zero   RW          118    .bss                main.o
-    0x20001684        -       0x00000200   Zero   RW         1453    .bss                hc32f46x_interrupts.o
-    0x20001884        -       0x00000034   Zero   RW         3127    .bss                myadc.o
-    0x200018b8        -       0x00002c80   Zero   RW         3349    .bss                matlab.o
-    0x20004538        -       0x0000e000   Zero   RW         3553    .bss                freq_detection.o
-    0x20012538        -       0x00005140   Zero   RW         3720    .bss                fifo.o
-    0x20017678        -       0x00000515   Zero   RW         3941    .bss                system.o
-    0x20017b8d   COMPRESSED   0x00000003   PAD
-    0x20017b90        -       0x000004b8   Zero   RW         4421    .bss                segger_rtt.o
-    0x20018048        -       0x00008800   Zero   RW            2    HEAP                startup_hc32f46x.o
-    0x20020848        -       0x00006000   Zero   RW            1    STACK               startup_hc32f46x.o
+    0x1fff8000   0x0003210c   0x000007bc   Code   RO           88    RAMCODE             main.o
+    0x1fff87bc   0x000328c8   0x000004b6   Code   RO         3552    RAMCODE             freq_detection.o
+    0x1fff8c72   COMPRESSED   0x00000002   PAD
+    0x1fff8c74   0x00032d80   0x00000354   Code   RO         3686    RAMCODE             time_detection.o
+    0x1fff8fc8   0x000330d4   0x0000000a   Ven    RO         6003    Veneer$$Code        anon$$obj.o
+    0x1fff8fd2   0x000330de   0x0000000a   Ven    RO         6004    Veneer$$Code        anon$$obj.o
+    0x1fff8fdc   0x000330e8   0x0000000a   Ven    RO         6005    Veneer$$Code        anon$$obj.o
+    0x1fff8fe6   0x000330f2   0x0000000a   Ven    RO         6006    Veneer$$Code        anon$$obj.o
+    0x1fff8ff0   0x000330fc   0x0000000a   Ven    RO         6007    Veneer$$Code        anon$$obj.o
+    0x1fff8ffa   0x00033106   0x0000000a   Ven    RO         6008    Veneer$$Code        anon$$obj.o
+    0x1fff9004   0x00033110   0x0000000a   Ven    RO         6009    Veneer$$Code        anon$$obj.o
+    0x1fff900e   0x0003311a   0x0000000a   Ven    RO         6010    Veneer$$Code        anon$$obj.o
+    0x1fff9018   0x00033124   0x0000000a   Ven    RO         6011    Veneer$$Code        anon$$obj.o
+    0x1fff9022   0x0003312e   0x0000000a   Ven    RO         6012    Veneer$$Code        anon$$obj.o
+    0x1fff902c   0x00033138   0x0000000a   Ven    RO         6013    Veneer$$Code        anon$$obj.o
+    0x1fff9036   0x00033142   0x0000000a   Ven    RO         6014    Veneer$$Code        anon$$obj.o
+    0x1fff9040   0x0003314c   0x0000000a   Ven    RO         6015    Veneer$$Code        anon$$obj.o
+    0x1fff904a   0x00033156   0x0000000a   Ven    RO         6016    Veneer$$Code        anon$$obj.o
+    0x1fff9054   0x00033160   0x0000000a   Ven    RO         6017    Veneer$$Code        anon$$obj.o
+    0x1fff905e   0x0003316a   0x0000000a   Ven    RO         6018    Veneer$$Code        anon$$obj.o
+    0x1fff9068   0x00033174   0x0000000a   Ven    RO         6019    Veneer$$Code        anon$$obj.o
+    0x1fff9072   0x0003317e   0x0000000a   Ven    RO         6020    Veneer$$Code        anon$$obj.o
+    0x1fff907c   0x00033188   0x0000000a   Ven    RO         6021    Veneer$$Code        anon$$obj.o
+    0x1fff9086   0x00033192   0x0000000a   Ven    RO         6022    Veneer$$Code        anon$$obj.o
+    0x1fff9090   0x0003319c   0x0000000a   Ven    RO         6023    Veneer$$Code        anon$$obj.o
+    0x1fff909a   0x000331a6   0x0000000a   Ven    RO         6024    Veneer$$Code        anon$$obj.o
+    0x1fff90a4   0x000331b0   0x0000000a   Ven    RO         6025    Veneer$$Code        anon$$obj.o
+    0x1fff90ae   0x000331ba   0x0000000a   Ven    RO         6026    Veneer$$Code        anon$$obj.o
+    0x1fff90b8   0x000331c4   0x0000000a   Ven    RO         6027    Veneer$$Code        anon$$obj.o
+    0x1fff90c2   0x000331ce   0x0000000a   Ven    RO         6028    Veneer$$Code        anon$$obj.o
+    0x1fff90cc   COMPRESSED   0x00000008   Data   RW           15    .data               system_hc32f46x.o
+    0x1fff90d4   COMPRESSED   0x000000cc   Data   RW          120    .data               main.o
+    0x1fff91a0   COMPRESSED   0x00000008   Data   RW          457    .data               hc32f46x_utility.o
+    0x1fff91a8   COMPRESSED   0x00000001   Data   RW         2960    .data               hc32f46x_dmac.o
+    0x1fff91a9   COMPRESSED   0x00000003   PAD
+    0x1fff91ac   COMPRESSED   0x00000016   Data   RW         3295    .data               mytimer.o
+    0x1fff91c2   COMPRESSED   0x00000002   PAD
+    0x1fff91c4   COMPRESSED   0x00000014   Data   RW         3350    .data               matlab.o
+    0x1fff91d8   COMPRESSED   0x00000010   Data   RW         3554    .data               freq_detection.o
+    0x1fff91e8   COMPRESSED   0x00000010   Data   RW         3688    .data               time_detection.o
+    0x1fff91f8   COMPRESSED   0x00000028   Data   RW         3721    .data               fifo.o
+    0x1fff9220   COMPRESSED   0x0000000a   Data   RW         3797    .data               mcu_api.o
+    0x1fff922a   COMPRESSED   0x00000002   PAD
+    0x1fff922c   COMPRESSED   0x0000000d   Data   RW         3942    .data               system.o
+    0x1fff9239   COMPRESSED   0x00000003   PAD
+    0x1fff923c   COMPRESSED   0x0000000c   Data   RW         4027    .data               mcu_ota_handler.o
+    0x1fff9248   COMPRESSED   0x00000004   Data   RW         5953    .data               mc_w.l(stdout.o)
+    0x1fff924c   COMPRESSED   0x00000004   Data   RW         5962    .data               mc_w.l(mvars.o)
+    0x1fff9250   COMPRESSED   0x00000004   Data   RW         5963    .data               mc_w.l(mvars.o)
+    0x1fff9254   COMPRESSED   0x00000004   Data   RW         5967    .data               mc_w.l(errno.o)
+    0x1fff9258        -       0x00008444   Zero   RW          118    .bss                main.o
+    0x2000169c        -       0x00000200   Zero   RW         1453    .bss                hc32f46x_interrupts.o
+    0x2000189c        -       0x00000034   Zero   RW         3127    .bss                myadc.o
+    0x200018d0        -       0x00002c80   Zero   RW         3349    .bss                matlab.o
+    0x20004550        -       0x0000e000   Zero   RW         3553    .bss                freq_detection.o
+    0x20012550        -       0x00005140   Zero   RW         3720    .bss                fifo.o
+    0x20017690        -       0x00000515   Zero   RW         3941    .bss                system.o
+    0x20017ba5   COMPRESSED   0x00000003   PAD
+    0x20017ba8        -       0x000004b8   Zero   RW         4421    .bss                segger_rtt.o
+    0x20018060        -       0x00008800   Zero   RW            2    HEAP                startup_hc32f46x.o
+    0x20020860        -       0x00006000   Zero   RW            1    STACK               startup_hc32f46x.o
 
 
 
