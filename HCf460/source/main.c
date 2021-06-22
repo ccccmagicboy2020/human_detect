@@ -71,8 +71,10 @@ Val_t adc_value;
 ////////////////////////////////////////////////////////////
 volatile float max_std = 0;
 //volatile float max_std __attribute__((section(".ARM.__at_0x1FFF8D60"))) = 0;
+volatile float max_std_last = 0;
 float pResult = 0;
 //float pResult __attribute__((section(".ARM.__at_0x1FFF8D64"))) = 0;
+float pResult_last = 0;
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
 void check_status_upload(unsigned int aaaa);
@@ -97,6 +99,7 @@ unsigned char find_me_counter = 0;
 unsigned char light_sensor_upload_flag = 0;
 extern unsigned short  light_sensor_adc_data;
 extern unsigned short  light_sensor2_adc_data;
+unsigned short  light_sensor2_adc_data_last;
 ////////////////////////////////////////////////////////////
 unsigned char data_report_upload_flag = 0;
 unsigned char data_report_upload_enable = 0;
@@ -333,7 +336,11 @@ void slow_output_result(char slow_s0_result)
 void fast_check_data_prepare(void)
 {
 	static	int i = 0;	//index, fullfill the tank first
+	int j = 0;
 	int k = 0;	//index
+	float pp_result = 0.00f;
+	float data_temp[512] = {0};
+	char float_str[64];
 	
 	if (fast_retry_flag)
 	{
@@ -381,6 +388,21 @@ void fast_check_data_prepare(void)
 				state = IDLE;
 				next_state = FAST_CHECK_DATA_PREPARE;
 			}
+
+			for(j=0;j<FAST_CHECK_SAMPLES;j++)
+			{
+				data_temp[j] = Fast_detection_data[FAST_CHECK_SAMPLES*(i-1)+j];
+			}
+
+			arm_std_f32(data_temp, FAST_CHECK_SAMPLES, &pp_result);
+
+			sprintf(float_str, "%s%spp_result: %.3lf%s\r\n", RTT_CTRL_BG_BRIGHT_GREEN, RTT_CTRL_TEXT_BLACK, pp_result, RTT_CTRL_RESET);
+			SEGGER_RTT_printf(0, "%s", float_str);
+
+			if (pp_result > 100.00f)
+			{
+				fast_output_result(1);
+			}	
 		}
 	}
 	else
@@ -471,6 +493,7 @@ void slow_check_data_prepare_s0(void)
 	FIFO_DataType  temp[2048] = {0};//temp data
 	char float_str[64];
 	float data_temp[2048] = {0};
+	float temp_cent = 0.00f;
 	
 	set_samplerate(slow_samplerate);
 	
@@ -507,10 +530,31 @@ void slow_check_data_prepare_s0(void)
 			}
 		}
 		
-		if (max_std > 1200.00f)
+		if (light_sensor2_adc_data_last > 3700)
 		{
-			if (light_sensor2_adc_data < 1800)
+			temp_cent = 0.9f;
+		}
+		else if (light_sensor2_adc_data_last > 3200)
+		{
+			temp_cent = 0.85f;
+		}
+		else if (light_sensor2_adc_data_last > 2500)
+		{
+			temp_cent = 0.80f;
+		}
+		else
+		{
+			temp_cent = 0.80f;
+		}
+		
+		if (pResult > pResult_last*1.2f)
+		{
+			sprintf(float_str, "%s%spResult trigger!!!@%.2lf%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, pResult_last, RTT_CTRL_RESET);
+			SEGGER_RTT_printf(0, "%s", float_str);
+
+			if (light_sensor2_adc_data < light_sensor2_adc_data_last*temp_cent)
 			{
+				SEGGER_RTT_printf(0, "%s%slight_sensor2_adc_data trigger!!!@%d%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, light_sensor2_adc_data_last, RTT_CTRL_RESET);		
 				if (hand_swipe_enable)
 				{
 					if (current_light_color == WARM)
@@ -547,6 +591,9 @@ void slow_check_data_prepare_s0(void)
 				}
 			}
 		}
+
+		pResult_last = pResult;	//update var
+		light_sensor2_adc_data_last = light_sensor2_adc_data;	//update var
 
 		for(i=0;i<SLOW_CHECK_USE_SAMPLES;i++)
 		{
@@ -733,7 +780,7 @@ void slow_check_process_s0(void)
 	
 	///////////////////////////////////////////
 
-	if (1 == bigmotion_time_vote && 1 == bigmotion_freq_vote)
+	if (1 == bigmotion_time_vote)
 	{
 		slow_s0_result = BIG_MOTION;
 	}
@@ -741,11 +788,11 @@ void slow_check_process_s0(void)
 	{
 		slow_s0_result = BREATHE;
 	}
-	else if ((0 == bigmotion_time_vote) && (0 == bigmotion_freq_vote) && (1 == respirationfreq_vote[0]))
+	else if ((0 == bigmotion_freq_vote) && (1 == respirationfreq_vote[0]))
 	{
 		slow_s0_result = BREATHE;
 	}
-	else if ((0 == bigmotion_time_vote) && (1 == bigmotion_freq_vote) && (1 == respirationfreq_vote[0]))
+	else if ((1 == bigmotion_freq_vote) && (1 == respirationfreq_vote[0]))
 	{
 		slow_s0_result = BREATHE_NOT_SURE;
 	}

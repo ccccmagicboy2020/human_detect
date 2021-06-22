@@ -19,22 +19,22 @@
         </Windows>
         <SelectedSymbols>
             <Symbol>
-                <Options Name="max_std" Address="0x1FFF8D60" Type="volatile float" TypeID="1" Size="4" GraphColorRed="255" GraphColorGreen="215" GraphColorBlue="0" YMinSampled="0" YMaxSampled="1893" YAvgSampled="408" Offset="4" ShowInGraph="1" YOffset="200" IsAutoConfig="0" YResolution="200" MaxValue="2000" File="..\source\main.c" Scope="0" DrawStyle="0" />
+                <Options Name="max_std" Address="0x1FFF8EAC" Type="volatile float" TypeID="1" Size="4" GraphColorRed="255" GraphColorGreen="215" GraphColorBlue="0" YMinSampled="0" YMaxSampled="996" YAvgSampled="33" Offset="4" ShowInGraph="1" YOffset="200" IsAutoConfig="0" YResolution="500" MaxValue="2000" File="..\source\main.c" Scope="0" DrawStyle="0" />
             </Symbol>
             <Symbol>
-                <Options Name="person_in_range_flag" Address="0x1FFF8D54" Type="volatile int" TypeID="12" Size="4" GraphColorRed="0" GraphColorGreen="255" GraphColorBlue="0" YMinSampled="0" YMaxSampled="1" YAvgSampled="0" Offset="8" ShowInGraph="1" YOffset="200" IsAutoConfig="0" YResolution="5" MaxValue="2000000" File="..\source\main.c" Scope="0" DrawStyle="0" />
+                <Options Name="person_in_range_flag" Address="0x1FFF8EA0" Type="volatile int" TypeID="12" Size="4" GraphColorRed="0" GraphColorGreen="255" GraphColorBlue="0" YMinSampled="0" YMaxSampled="1" YAvgSampled="0" Offset="8" ShowInGraph="1" YOffset="200" IsAutoConfig="0" YResolution="5" MaxValue="2000000" File="..\source\main.c" Scope="0" DrawStyle="0" />
             </Symbol>
             <Symbol>
-                <Options Name="pResult" Address="0x1FFF8D64" Type="float" TypeID="1" Size="4" GraphColorRed="102" GraphColorGreen="102" GraphColorBlue="178" YMinSampled="0" YMaxSampled="1893" YAvgSampled="367" Offset="12" ShowInGraph="1" YOffset="200" IsAutoConfig="0" YResolution="200" MaxValue="2000" File="..\source\main.c" Scope="0" DrawStyle="0" />
+                <Options Name="pResult" Address="0x1FFF8EB0" Type="float" TypeID="1" Size="4" GraphColorRed="102" GraphColorGreen="102" GraphColorBlue="178" YMinSampled="0" YMaxSampled="996" YAvgSampled="9" Offset="12" ShowInGraph="1" YOffset="200" IsAutoConfig="0" YResolution="500" MaxValue="2000" File="..\source\main.c" Scope="0" DrawStyle="0" />
             </Symbol>
             <Symbol>
-                <Options Name="slow_check_result" Address="0x1FFF8D7C" Type="volatile uint" TypeID="8" Size="4" GraphColorRed="160" GraphColorGreen="32" GraphColorBlue="240" YMinSampled="0" YMaxSampled="3" YAvgSampled="1" Offset="16" ShowInGraph="1" YOffset="200" IsAutoConfig="0" YResolution="5" MaxValue="1000000000" File="..\source\main.c" Scope="0" DrawStyle="0" />
+                <Options Name="slow_check_result" Address="0x1FFF8EC8" Type="volatile uint" TypeID="8" Size="4" GraphColorRed="160" GraphColorGreen="32" GraphColorBlue="240" YMinSampled="0" YMaxSampled="2" YAvgSampled="0" Offset="16" ShowInGraph="1" YOffset="200" IsAutoConfig="0" YResolution="5" MaxValue="1000000000" File="..\source\main.c" Scope="0" DrawStyle="0" />
             </Symbol>
             <Symbol>
-                <Options Name="light_sensor2_adc_data" Address="0x1FFF8E3A" Type="ushort" TypeID="7" Size="2" GraphColorRed="255" GraphColorGreen="0" GraphColorBlue="0" YMinSampled="887" YMaxSampled="3873" YAvgSampled="3829" Offset="20" ShowInGraph="1" YOffset="200" IsAutoConfig="1" YResolution="1000" MaxValue="5880" File="..\application\timer\mytimer.c" Scope="0" DrawStyle="0" />
+                <Options Name="light_sensor2_adc_data" Address="0x1FFF8F5A" Type="ushort" TypeID="7" Size="2" GraphColorRed="255" GraphColorGreen="0" GraphColorBlue="0" YMinSampled="3920" YMaxSampled="3924" YAvgSampled="3921" Offset="20" ShowInGraph="1" YOffset="200" IsAutoConfig="0" YResolution="1000" MaxValue="4000" File="..\application\timer\mytimer.c" Scope="0" DrawStyle="0" />
             </Symbol>
             <Symbol>
-                <Options Name="light_sensor_adc_data" Address="0x1FFF8E38" Type="ushort" TypeID="7" Size="2" GraphColorRed="0" GraphColorGreen="191" GraphColorBlue="255" YMinSampled="2043" YMaxSampled="3886" YAvgSampled="3662" Offset="22" ShowInGraph="1" YOffset="200" IsAutoConfig="1" YResolution="1000" MaxValue="5880" File="..\application\timer\mytimer.c" Scope="0" DrawStyle="0" />
+                <Options Name="light_sensor_adc_data" Address="0x1FFF8F58" Type="ushort" TypeID="7" Size="2" GraphColorRed="0" GraphColorGreen="191" GraphColorBlue="255" YMinSampled="3863" YMaxSampled="3897" YAvgSampled="3869" Offset="22" ShowInGraph="1" YOffset="200" IsAutoConfig="0" YResolution="1000" MaxValue="4000" File="..\application\timer\mytimer.c" Scope="0" DrawStyle="0" />
             </Symbol>
         </SelectedSymbols>
     </Project>
