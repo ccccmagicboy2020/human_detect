@@ -4,9 +4,8 @@
     <Project>
         <Configuration>
             <JLink>
-                <Options Connection="1" IsRTTSession="0" IsRTTWithTimeStamp="1" SamplingPeriod="1000" SerialNo="0" JTAG_IRPre="-1" JTAG_DRPre="-1" IP="localhost" TargetDevice="HC32F46x" TargetInterface="SWD" InterfaceSpeed="25000" />
+                <Options IsRTTSession="0" IsRTTWithTimeStamp="1" SamplingPeriod="20000" Connection="1" SerialNo="0" IP="" TargetDevice="HC32F46x" TargetInterface="SWD" InterfaceSpeed="25000" />
             </JLink>
-            <ScriptFile Name="unspecified" />
             <ElfFile Name="D:\cccc2020\CODE\human_detect\HCf460\MDK\output\debug\adc_03_sa_interrupt.axf" />
             <DataFile Name="" />
             <RawFile Name="" />
@@ -20,7 +19,10 @@
         </Windows>
         <SelectedSymbols>
             <Symbol>
-                <Options Name="light_sensor_adc_data" Address="0x1FFF8DFC" Type="ushort" TypeID="7" Size="2" GraphColorRed="255" GraphColorGreen="215" GraphColorBlue="0" YMinSampled="496" YMaxSampled="1757" YAvgSampled="1434" Offset="4" ShowInGraph="1" ACCoupling="0" YOffset="200" IsAutoConfig="1" YResolution="500" MaxValue="6755" File="..\application\timer\mytimer.c" Scope="0" DrawStyle="0" />
+                <Options Name="light_sensor_adc_data" Address="0x1FFF91A0" Type="ushort" TypeID="7" Size="2" GraphColorRed="255" GraphColorGreen="215" GraphColorBlue="0" YMinSampled="15" YMaxSampled="3792" YAvgSampled="3122" Offset="4" ShowInGraph="1" YOffset="200" IsAutoConfig="1" YResolution="2000" MaxValue="4000" File="..\application\timer\mytimer.c" Scope="0" DrawStyle="0" />
+            </Symbol>
+            <Symbol>
+                <Options Name="light_sensor2_adc_data" Address="0x1FFF91A2" Type="ushort" TypeID="7" Size="2" GraphColorRed="0" GraphColorGreen="255" GraphColorBlue="0" YMinSampled="4" YMaxSampled="3839" YAvgSampled="2423" Offset="6" ShowInGraph="1" YOffset="200" IsAutoConfig="1" YResolution="2000" MaxValue="5080" File="..\application\timer\mytimer.c" Scope="0" DrawStyle="0" />
             </Symbol>
         </SelectedSymbols>
     </Project>
