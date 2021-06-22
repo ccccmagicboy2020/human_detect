@@ -96,6 +96,7 @@ extern unsigned short  light_sensor2_adc_data;
 ////////////////////////////////////////////////////////////
 unsigned char data_report_upload_flag = 0;
 unsigned char data_report_upload_enable = 0;
+unsigned char data_report_upload_enable2 = 0;
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
 volatile unsigned int  person_meter = 0;
@@ -707,7 +708,7 @@ void slow_check_process_s1(void)
 			{
 				no_person_check_tick = SysTick_GetTick();
 				no_person_diff = no_person_check_tick - no_person_start_tick;
-				if (no_person_diff > (1000u*upssa0.ppp.delay_time_num - 4.5*4800))
+				if (no_person_diff > (1000u*upssa0.ppp.delay_time_num - 3.5*4800))
 				{
 					SEGGER_RTT_printf(0, "%sno person status: delay_timer=%d, diff=%d%s\r\n", RTT_CTRL_TEXT_BRIGHT_YELLOW, no_person_timer, no_person_diff, RTT_CTRL_RESET);
 					no_person_timer = 0;
@@ -980,8 +981,11 @@ void idle_process(void)
 		if (data_report_upload_enable)
 		{
 			mcu_dp_enum_update(DPID_PERSON_IN_RANGE, quick_detection_result_last);
-			mcu_dp_enum_update(DPID_SLOW_CHECK_RESULT, slow_check_result_last);
 		}
+		if (data_report_upload_enable2)
+		{
+			mcu_dp_enum_update(DPID_SLOW_CHECK_RESULT, slow_check_result_last);
+		}		
 	}
 	//光敏控制及上报，gpio状态上报，bt连接情况上报
 	if (light_sensor_upload_flag)
@@ -1155,6 +1159,18 @@ void slow_check_result_upload(unsigned int aaaa)
 		{
 			mcu_dp_enum_update(DPID_SLOW_CHECK_RESULT, aaaa);
 		}
+		switch (aaaa)
+		{
+		case BIG_MOTION:
+			SEGGER_RTT_printf(0, "%sbig motion detected!!!%s\r\n", RTT_CTRL_TEXT_BRIGHT_GREEN, RTT_CTRL_RESET);
+			break;
+		case BREATHE:
+			SEGGER_RTT_printf(0, "%sbreathe detected!!!%s\r\n", RTT_CTRL_TEXT_BRIGHT_YELLOW, RTT_CTRL_RESET);
+			break;
+		default:
+			break;
+		}
+
 		slow_check_result_last = slow_check_result;
 	}	
 }
