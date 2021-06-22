@@ -59,8 +59,8 @@ int run_mode = 0;
 int slow_only_flag = 0;
 
 volatile int check_status = TUYA_OTHER;
-//volatile int person_in_range_flag = 0;
-volatile int person_in_range_flag __attribute__((section(".ARM.__at_0x1FFF8D54"))) = 0;
+volatile int person_in_range_flag = 0;
+//volatile int person_in_range_flag __attribute__((section(".ARM.__at_0x1FFF8D54"))) = 0;
 volatile int light_status_flag = 0;
 
 char quick_detection_result_last = 0;
@@ -69,10 +69,10 @@ char slow_check_result_last = 1;//no person
 char JS_RTT_UpBuffer[1024];
 Val_t adc_value;
 ////////////////////////////////////////////////////////////
-//volatile float max_std = 0;
-volatile float max_std __attribute__((section(".ARM.__at_0x1FFF8D60"))) = 0;
-//float pResult = 0;
-float pResult __attribute__((section(".ARM.__at_0x1FFF8D64"))) = 0;
+volatile float max_std = 0;
+//volatile float max_std __attribute__((section(".ARM.__at_0x1FFF8D60"))) = 0;
+float pResult = 0;
+//float pResult __attribute__((section(".ARM.__at_0x1FFF8D64"))) = 0;
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
 void check_status_upload(unsigned int aaaa);
@@ -84,7 +84,7 @@ void stop_sample(unsigned char flag);
 void memory_init(void);
 void get_mcu_bt_mode(void);
 void bt_hand_up(void);
-void gpio_output(unsigned char res);
+void gpio_output(unsigned char res, unsigned char color, unsigned char use_light);
 void set_samplerate(unsigned int speed);
 void save_upssa0(void);
 ////////////////////////////////////////////////////////////
@@ -96,6 +96,7 @@ unsigned char find_me_counter = 0;
 ////////////////////////////////////////////////////////////
 unsigned char light_sensor_upload_flag = 0;
 extern unsigned short  light_sensor_adc_data;
+extern unsigned short  light_sensor2_adc_data;
 ////////////////////////////////////////////////////////////
 unsigned char data_report_upload_flag = 0;
 unsigned char data_report_upload_enable = 0;
@@ -105,8 +106,8 @@ volatile unsigned int  person_meter = 0;
 volatile unsigned int  person_meter_last = 0;
 
 float breathe_freq = 0;
-//volatile unsigned int slow_check_result= 1;//no person
-volatile unsigned int slow_check_result __attribute__((section(".ARM.__at_0x1FFF8D7C"))) = 1;//no person
+volatile unsigned int slow_check_result= 1;//no person
+//volatile unsigned int slow_check_result __attribute__((section(".ARM.__at_0x1FFF8D7C"))) = 1;//no person
 int study_flag = 0;
 int study_mode = 0;
 
@@ -116,20 +117,22 @@ float max_pp2_rt = 0;
 float max_pp2_rt_last = 0;
 
 //unsigned int fast_samplerate = 12499;	//4K-250us-128ms
-//unsigned int fast_samplerate = 9999;	//5K
-unsigned int fast_samplerate = 7499;		//6.7K-150us-76.8ms
-//unsigned int fast_samplerate = 4999;	//10K
+//unsigned int fast_samplerate = 9999;	//5K-200us-102.4ms
+//unsigned int fast_samplerate = 7499;		//6.7K-150us-76.8ms
+unsigned int fast_samplerate = 4999;	//10K-100us-51.2ms
 //unsigned int fast_samplerate = 2999;	//15K
 //unsigned int fast_samplerate = 2499;	//20K
 //unsigned int fast_samplerate = 1349;	//37K
 ////////////////////////////////////////////////////////////
-//unsigned int slow_samplerate = 12499;	//4K
-unsigned int slow_samplerate = 9999;		//5K
+//unsigned int slow_samplerate = 12499;	//4K-250us-512ms-4096ms
+unsigned int slow_samplerate = 9999;		//5K-200us-409.6ms-3276.8ms
 //unsigned int slow_samplerate = 7499;	//6.7K
 ////////////////////////////////////////////////////////////
 union KKK upssa0;
 ////////////////////////////////////////////////////////////
 int breathe_upload_en = 1;
+unsigned char current_light_color = WARM;
+unsigned char hand_swipe_enable = 1;
 ////////////////////////////////////////////////////////////
 void clear_buffer(void)
 {
@@ -137,32 +140,68 @@ void clear_buffer(void)
 	slow_retry_flag = 1;
 }
 
-void gpio_output(unsigned char res)
+void gpio_output(unsigned char res, unsigned char color, unsigned char use_light)
 {
 	//
 	if (res)
 	{
 		led_red(1);
 		
-		if (light_sensor_adc_data < upssa0.ppp.Light_threshold4)//门限3
-		//if (light_sensor_adc_data < Light_threshold3)//门限3
+		if (use_light)
 		{
-			GPIO1_HIGH();
-		}
-		else if (light_sensor_adc_data > upssa0.ppp.Light_threshold3)
-		{
-			GPIO1_LOW();
+			if (light_sensor2_adc_data < upssa0.ppp.Light_threshold4)//门限3
+			{
+				if (color == WARM)
+				{
+					GPIO0_LOW();
+					GPIO1_HIGH();
+				}
+				else if (color == COOL)
+				{
+					GPIO0_HIGH();
+					GPIO1_LOW();
+				}
+			}
+			else if (light_sensor2_adc_data > upssa0.ppp.Light_threshold3)
+			{
+				if (color == WARM)
+				{
+					GPIO0_LOW();
+					GPIO1_LOW();
+				}
+				else if (color == COOL)
+				{
+					GPIO0_LOW();
+					GPIO1_LOW();
+				}
+			}
+			else
+			{
+				//do nothing
+			}
 		}
 		else
 		{
-			//do nothing
+			if (color == WARM)
+			{
+				GPIO0_LOW();
+				GPIO1_HIGH();
+			}
+			else if (color == COOL)
+			{
+				GPIO0_HIGH();
+				GPIO1_LOW();
+			}
 		}
 		light_status_upload(1);
 	}
 	else
 	{
 		led_red(0);
+		////////////
+		GPIO0_LOW();
 		GPIO1_LOW();
+		////////////
 		light_status_upload(0);
 	}
 }
@@ -178,15 +217,15 @@ void fast_output_result(char quick_detection_result)
 		if (quick_detection_result)//有人
 		{
 			person_in_range_upload(TUYA_PERSON_STATUS_HAVE_PERSON);
-			gpio_output(1);
+			gpio_output(1, current_light_color, 1);
 		}
 		else						//无人
 		{
 			person_in_range_upload(TUYA_PERSON_STATUS_NO_PERSON);
-			if (1)		//有继电器
+			if (0)		//有继电器
 			{
 				stop_sample(1);
-				gpio_output(0);
+				gpio_output(0, current_light_color, 1);
 				Delay_ms(ALL_UPLOAD_DELAY);
 				Delay_ms(ALL_UPLOAD_DELAY);
 				Delay_ms(ALL_UPLOAD_DELAY);
@@ -210,7 +249,7 @@ void fast_output_result(char quick_detection_result)
 			}
 			else
 			{
-				gpio_output(0);
+				gpio_output(0, current_light_color, 1);
 			}
 		}
 	}
@@ -239,7 +278,7 @@ void slow_output_result(char slow_s0_result)
 		if (slow_only_flag == 1)
 		{
 			person_in_range_upload(TUYA_PERSON_STATUS_HAVE_PERSON);
-			gpio_output(1);
+			gpio_output(1, current_light_color, 1);
 			slow_check_result_upload(slow_s0_result);
 		}
 		else
@@ -251,7 +290,7 @@ void slow_output_result(char slow_s0_result)
 		if (slow_only_flag == 1)
 		{
 			person_in_range_upload(TUYA_PERSON_STATUS_HAVE_PERSON);
-			gpio_output(1);
+			gpio_output(1, current_light_color, 1);
 			slow_check_result_upload(slow_s0_result);
 		}
 		else
@@ -263,7 +302,7 @@ void slow_output_result(char slow_s0_result)
 		if (slow_only_flag == 1)
 		{
 			person_in_range_upload(TUYA_PERSON_STATUS_HAVE_PERSON);
-			gpio_output(1);
+			gpio_output(1, current_light_color, 1);
 			slow_check_result_upload(slow_s0_result);
 		}
 		else
@@ -278,7 +317,7 @@ void slow_output_result(char slow_s0_result)
 		if (slow_only_flag == 1)
 		{
 			person_in_range_upload(TUYA_PERSON_STATUS_NO_PERSON);
-			gpio_output(0);
+			gpio_output(0, current_light_color, 1);
 			//slow_check_result_upload(slow_s0_result);
 		}
 		else
@@ -300,7 +339,9 @@ void fast_check_data_prepare(void)
 	{
 		fast_retry_flag = 0;		
 		set_samplerate(fast_samplerate);
-		slow_samplerate = 12499;
+		//slow_samplerate = 9999;
+		//slow_samplerate = 12499;
+		slow_samplerate = 14699;
 		i = 0;
 		memory_init();
 	}
@@ -465,6 +506,47 @@ void slow_check_data_prepare_s0(void)
 				slow_check_result_upload(BIG_MOTION);
 			}
 		}
+		
+		if (max_std > 1200.00f)
+		{
+			if (light_sensor2_adc_data < 1800)
+			{
+				if (hand_swipe_enable)
+				{
+					if (current_light_color == WARM)
+					{
+						current_light_color = COOL;
+					}
+					else if (current_light_color == COOL)
+					{
+						current_light_color = WARM;
+					}
+					else
+					{
+						current_light_color = WARM;
+					}
+					
+					if (current_light_color == WARM)
+					{
+						GPIO0_LOW();
+						GPIO1_HIGH();
+						SEGGER_RTT_printf(0, "%s%swarm color!!!@%d%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, light_sensor2_adc_data, RTT_CTRL_RESET);
+					}
+					else if (current_light_color == COOL)
+					{				
+						GPIO0_HIGH();
+						GPIO1_LOW();
+						SEGGER_RTT_printf(0, "%s%scool color!!!@%d%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, light_sensor2_adc_data, RTT_CTRL_RESET);			
+					}
+					else
+					{
+						GPIO0_LOW();
+						GPIO1_LOW();
+					}
+					hand_swipe_enable = 0;
+				}
+			}
+		}
 
 		for(i=0;i<SLOW_CHECK_USE_SAMPLES;i++)
 		{
@@ -550,6 +632,7 @@ void slow_check_process_s0(void)
 	char float_str[64];		
 	
 	max_std = 0;
+	hand_swipe_enable = 1;
 
 	now_tick = SysTick_GetTick();
 	diff = now_tick - last_tick;
@@ -559,13 +642,14 @@ void slow_check_process_s0(void)
 		
 		if (diff > 4800)
 		{
-			slow_samplerate -= 50;
+			slow_samplerate -= 10;
 		}
 		else
 		{
-			slow_samplerate += 50;
+			slow_samplerate += 10;
 		}
 		//
+		SEGGER_RTT_printf(0, "slow_samplerate: %d\r\n", slow_samplerate);
 	}
 	last_tick = now_tick;	
 
@@ -622,13 +706,10 @@ void slow_check_process_s0(void)
   switch (mcu_get_bt_work_state())
   {
       case	BT_UN_BIND:
-      case    BT_NOT_CONNECTED:
-      case    BT_SATE_UNKNOW:
+      case	BT_NOT_CONNECTED:
+      case	BT_SATE_UNKNOW:
           break;
-      case    BT_CONNECTED:
-					//
-					//
-					//offset = 1.2f;
+      case	BT_CONNECTED:
           break;
       default:
           break;
@@ -652,7 +733,7 @@ void slow_check_process_s0(void)
 	
 	///////////////////////////////////////////
 
-	if (1 == bigmotion_time_vote)
+	if (1 == bigmotion_time_vote && 1 == bigmotion_freq_vote)
 	{
 		slow_s0_result = BIG_MOTION;
 	}
@@ -660,11 +741,11 @@ void slow_check_process_s0(void)
 	{
 		slow_s0_result = BREATHE;
 	}
-	else if ((0 == bigmotion_freq_vote) && (1 == respirationfreq_vote[0]))
+	else if ((0 == bigmotion_time_vote) && (0 == bigmotion_freq_vote) && (1 == respirationfreq_vote[0]))
 	{
 		slow_s0_result = BREATHE;
 	}
-	else if ((1 == bigmotion_freq_vote) && (1 == respirationfreq_vote[0]))
+	else if ((0 == bigmotion_time_vote) && (1 == bigmotion_freq_vote) && (1 == respirationfreq_vote[0]))
 	{
 		slow_s0_result = BREATHE_NOT_SURE;
 	}
@@ -700,6 +781,7 @@ void slow_check_process_s1(void)
 	static int no_person_start_tick = 0;
 	int no_person_diff = 0;
 	int no_person_check_tick = 0;
+	int no_person_compare = 0;
 
 	if (slow_s0_result_last != slow_s0_result)
 	{
@@ -741,9 +823,16 @@ void slow_check_process_s1(void)
 			{
 				no_person_check_tick = SysTick_GetTick();
 				no_person_diff = no_person_check_tick - no_person_start_tick;
-				if (no_person_diff > (1000u*upssa0.ppp.delay_time_num - 2*4800))
+				SEGGER_RTT_printf(0, "%sno person status: delay_timer=%d, diff=%dms%s\r\n", RTT_CTRL_TEXT_BRIGHT_YELLOW, no_person_timer, no_person_diff, RTT_CTRL_RESET);
+				no_person_compare = 1000u*upssa0.ppp.delay_time_num;
+				SEGGER_RTT_printf(0, "%sno person status: no_person_compare=%dms%s\r\n", RTT_CTRL_TEXT_BRIGHT_YELLOW, no_person_compare, RTT_CTRL_RESET);
+				
+				if (no_person_compare < 0)
 				{
-					SEGGER_RTT_printf(0, "%sno person status: delay_timer=%d, diff=%d%s\r\n", RTT_CTRL_TEXT_BRIGHT_YELLOW, no_person_timer, no_person_diff, RTT_CTRL_RESET);
+					no_person_compare = 0;
+				}
+				if (no_person_diff > no_person_compare)
+				{
 					no_person_timer = 0;
 					state = IDLE;
 
@@ -752,6 +841,7 @@ void slow_check_process_s1(void)
 						next_state = FAST_CHECK_DATA_PREPARE;	//no person so all loopback	to fast check
 						//do some thing
 						clear_buffer();
+						pResult = 0;
 					}
 					else
 					{
@@ -987,19 +1077,30 @@ void idle_process(void)
 	if (free_runner%3000 == 0)
 	{
 		//光敏一直控制继电器
-		if (light_sensor_adc_data < upssa0.ppp.Light_threshold4)//门限3
+		if (light_sensor2_adc_data < upssa0.ppp.Light_threshold4)//门限3
 		{
 			if (person_in_range_flag == 1)
 			{
-				GPIO1_HIGH();
+				if (current_light_color == WARM)
+				{
+					GPIO0_LOW();
+					GPIO1_HIGH();
+				}
+				else if (current_light_color == COOL)
+				{				
+					GPIO0_HIGH();
+					GPIO1_LOW();				
+				}			
 			}
 			else
 			{
+				GPIO0_LOW();
 				GPIO1_LOW();
 			}
 		}
-		else if (light_sensor_adc_data > upssa0.ppp.Light_threshold3)
+		else if (light_sensor2_adc_data > upssa0.ppp.Light_threshold3)
 		{
+			GPIO0_LOW();
 			GPIO1_LOW();
 		}
 		else
@@ -1025,10 +1126,10 @@ void idle_process(void)
 		//light sensor upload
 		if (upload_disable == 0)
 		{
-			if (light_sensor_adc_data != light_sensor_adc_data_last)
+			if (light_sensor2_adc_data != light_sensor_adc_data_last)
 			{
-				mcu_dp_value_update(DPID_LIGHT_SENSOR_RAW, light_sensor_adc_data);
-				light_sensor_adc_data_last = light_sensor_adc_data;			
+				mcu_dp_value_update(DPID_LIGHT_SENSOR_RAW, light_sensor2_adc_data);
+				light_sensor_adc_data_last = light_sensor2_adc_data;			
 			}
 		}
 		
@@ -1036,9 +1137,11 @@ void idle_process(void)
 		{
 			sprintf(float_str, "%slight sensor: %d(%.3lfV)%s\r\n", RTT_CTRL_TEXT_BRIGHT_MAGENTA, light_sensor_adc_data, light_sensor_adc_data*3.3f/4096, RTT_CTRL_RESET);
 			SEGGER_RTT_printf(0, "%s", float_str);				
+			sprintf(float_str, "%slight sensor2: %d(%.3lfV)%s\r\n", RTT_CTRL_TEXT_BRIGHT_MAGENTA, light_sensor2_adc_data, light_sensor2_adc_data*3.3f/4096, RTT_CTRL_RESET);
+			SEGGER_RTT_printf(0, "%s", float_str);				
 		}
 			
-		if (light_sensor_adc_data > upssa0.ppp.Light_threshold1)//门限1
+		if (light_sensor2_adc_data > upssa0.ppp.Light_threshold1)//门限1
 		{
 //			GPIO2_HIGH();
 		}
@@ -1047,7 +1150,7 @@ void idle_process(void)
 //			GPIO2_LOW();
 		}
 
-		if (light_sensor_adc_data < upssa0.ppp.Light_threshold2)//门限2
+		if (light_sensor2_adc_data < upssa0.ppp.Light_threshold2)//门限2
 		{
 //			GPIO3_HIGH();
 		}
@@ -1264,19 +1367,19 @@ void gpio_init(void)
 	stcPortInit.enPullUp = Disable;
 	/* LED0 Port/Pin initialization */
 
-	//PORT_Init(PortA, Pin07, &stcPortInit);   //P1-4	//gpio0
+	PORT_Init(PortA, Pin07, &stcPortInit);   //P1-4	//gpio0
 	PORT_Init(PortA, Pin08, &stcPortInit);   //P1-3	//gpio1
 	//PORT_Init(PortB, Pin06, &stcPortInit);   //P5-1 //gpio2
 	//PORT_Init(PortB, Pin05, &stcPortInit);   //P5-2	//gpio3
-	//PORT_Init(PortA, Pin00, &stcPortInit);   //P5-3 //gpio4
+	PORT_Init(PortA, Pin00, &stcPortInit);   //P5-3 //gpio4
 	//PORT_Init(PortA, Pin04, &stcPortInit);   //P5-4	//gpio5		
 	//PORT_Init(PortB, Pin00, &stcPortInit);   //P5-5 //gpio6
 		
-//	GPIO0_LOW();
+	GPIO0_LOW();
 	GPIO1_LOW();
 //	GPIO2_LOW();
 //	GPIO3_LOW();
-//	GPIO4_LOW();
+	GPIO4_LOW();
 //	GPIO5_LOW();
 //	GPIO6_LOW();
 }
@@ -1289,7 +1392,7 @@ void segger_init(void)
 	SEGGER_RTT_Init();
 	SEGGER_RTT_printf(0, "%sphosense radar chip: XBR816C DEMO%s\r\n", RTT_CTRL_BG_BRIGHT_RED, RTT_CTRL_RESET);
 	
-	SEGGER_SYSVIEW_Conf();
+	//SEGGER_SYSVIEW_Conf();
 }
 
 void read_uid(void)
@@ -1308,9 +1411,9 @@ void read_uid(void)
 
 void SysTick_IrqHandler(void)
 {
-		SEGGER_SYSVIEW_RecordEnterISR();	
+//		SEGGER_SYSVIEW_RecordEnterISR();	
     SysTick_IncTick();
-		SEGGER_SYSVIEW_RecordExitISR();	
+//		SEGGER_SYSVIEW_RecordExitISR();	
 }
 
 void tick_init(void)
@@ -1394,7 +1497,6 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		//upssa0.ppp.quick_time_times = 3.8f;
 		load_ceiling_setup(0);
 	}
 	else
@@ -1411,7 +1513,6 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		//upssa0.ppp.quick_time_add = 35.0f;
 		load_ceiling_setup(0);
 	}
 	else
@@ -1427,8 +1528,6 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		//upssa0.ppp.quick_freq_times = 4.0f;
-		//upssa0.ppp.quick_freq_times = 20.0f;
 		load_ceiling_setup(0);
 	}
 	else
@@ -1444,7 +1543,6 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		//upssa0.ppp.slow_time_times = 3.8f;
 		load_ceiling_setup(0);
 	}
 	else
@@ -1461,7 +1559,6 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		//upssa0.ppp.slow_time_add = 35.0f;
 		load_ceiling_setup(0);
 	}
 	else
@@ -1477,8 +1574,6 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		//upssa0.ppp.slow_freq_times = 4.0f;
-		//upssa0.ppp.slow_freq_times = 20.0f;
 		load_ceiling_setup(0);
 	}
 	else
@@ -1494,7 +1589,6 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		//upssa0.ppp.res_times = 16.5f;
 		load_ceiling_setup(0);
 	}
 	else
@@ -1510,7 +1604,6 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		//upssa0.ppp.offsetmin = 0.33f;
 		load_ceiling_setup(0);
 	}
 	else
@@ -1545,14 +1638,14 @@ void set_var_from_flash(void)
 	upssa0.ppp.Light_threshold4 = LIGHT_THRESHOLD4_FLASH;
 	if (upssa0.ppp.Light_threshold4 == -1)
 	{
-		upssa0.ppp.Light_threshold4 = 3800;
+		upssa0.ppp.Light_threshold4 = 4000;
 	}	
 	SEGGER_RTT_printf(0, "%s%sload Light_threshold4: %d%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.Light_threshold4, RTT_CTRL_RESET);
 //////////////////////////////////////////////////////////////////////////////////////////////////
 	upssa0.ppp.delay_time_num = DELAY_TIME_NUM_FLASH;
 	if (upssa0.ppp.delay_time_num == -1)
 	{
-		upssa0.ppp.delay_time_num = 32;
+		upssa0.ppp.delay_time_num = 24;
 	}
 	
 	SEGGER_RTT_printf(0, "%s%sload delay_time_num: %ds%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.delay_time_num, RTT_CTRL_RESET);	
@@ -1605,9 +1698,15 @@ int main(void)
 	enable_flash_cache(Enable);
 	
 	SysTick_GetTick();
+//	GPIO0_HIGH();
+//	Delay_ms(ALL_UPLOAD_DELAY);
+//	GPIO0_LOW();	
 //	GPIO1_HIGH();
 //	Delay_ms(ALL_UPLOAD_DELAY);
 //	GPIO1_LOW();
+//	GPIO4_HIGH();
+//	Delay_ms(1000);
+//	GPIO4_LOW();
 	SysTick_GetTick();
 	
 	set_var_from_flash();

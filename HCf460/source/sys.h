@@ -6,7 +6,7 @@
 #include "bluetooth.h"
 #include "SEGGER_RTT.h"
 #include "SEGGER_RTT_Conf.h"
-#include "SEGGER_SYSVIEW.h"
+//#include "SEGGER_SYSVIEW.h"
 #include "flash_def.h"
 
 typedef int32_t  s32;
@@ -42,10 +42,10 @@ typedef const uint8_t uc8;
 #define	MAGIC_SECTOR_ADDRESS0					0x0007E000u
 /////////////////////////////////////////////////////////////////////
 
-//#define GPIO0_HIGH()		(PORT_SetBits(PortA, Pin07))
-//#define GPIO0_LOW()			(PORT_ResetBits(PortA, Pin07))
+#define GPIO0_HIGH()		(PORT_SetBits(PortA, Pin07))			//cool color
+#define GPIO0_LOW()			(PORT_ResetBits(PortA, Pin07))
 
-#define GPIO1_HIGH()		(PORT_SetBits(PortA, Pin08))			//relay
+#define GPIO1_HIGH()		(PORT_SetBits(PortA, Pin08))			//warm color
 #define GPIO1_LOW()			(PORT_ResetBits(PortA, Pin08))
 
 #define GPIO2_HIGH()		(PORT_SetBits(PortB, Pin06))			//not use
@@ -54,8 +54,8 @@ typedef const uint8_t uc8;
 #define GPIO3_HIGH()		(PORT_SetBits(PortB, Pin05))			//not use
 #define GPIO3_LOW()			(PORT_ResetBits(PortB, Pin05))
 
-//#define GPIO4_HIGH()		(PORT_SetBits(PortA, Pin00))
-//#define GPIO4_LOW()			(PORT_ResetBits(PortA, Pin00))
+#define GPIO4_HIGH()		(PORT_SetBits(PortA, Pin00))
+#define GPIO4_LOW()			(PORT_ResetBits(PortA, Pin00))
 
 //#define GPIO5_HIGH()		(PORT_SetBits(PortA, Pin04))
 //#define GPIO5_LOW()			(PORT_ResetBits(PortA, Pin04))
@@ -118,6 +118,12 @@ enum slow_s0_result
 	BREATHE,
 	BREATHE_NOT_SURE,				//breathe but not sure
 	SLOW_OTHERS,
+};
+
+enum light_color
+{
+	WARM=0,			//
+	COOL,
 };
 
 #endif
