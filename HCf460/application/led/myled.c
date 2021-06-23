@@ -2,6 +2,8 @@
 #include "hc32_ddl.h"
 #include "sys.h"
 
+extern int onboard_led_en;
+
 void led_init(void)
 {
 	  stc_port_init_t stcPortInit;
@@ -30,8 +32,11 @@ void led_red(char onoff)
     }
     else
     {
-        PORT_SetBits(PortA, Pin01);
-    }
+		if (onboard_led_en)
+		{
+			PORT_SetBits(PortA, Pin01);
+		}
+	}
 }
 
 void led_green(char onoff)
@@ -42,7 +47,10 @@ void led_green(char onoff)
     }
     else
     {
-        PORT_SetBits(PortA, Pin05);
+		if (onboard_led_en)
+		{
+			PORT_SetBits(PortA, Pin05);
+		}
     }
 }
 
