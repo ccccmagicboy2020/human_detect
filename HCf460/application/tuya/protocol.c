@@ -73,6 +73,9 @@ extern	char slow_check_result_last;
 extern	unsigned char data_report_upload_enable;
 extern	unsigned char data_report_upload_enable2;
 extern	int breathe_upload_en;
+
+unsigned char load_radar_parameter = 1;
+int onboard_led_en = 1;
 ///////////////////////////////////////////////////////////////////////////////
 void Delay_ms(unsigned int t);
 void update_check_parameter(void);
@@ -415,7 +418,6 @@ static unsigned char dp_download_load_radar_parameter_handle(const unsigned char
 {
     //示例:当前DP类型为ENUM
     unsigned char ret;
-    unsigned char load_radar_parameter;
     
     load_radar_parameter = mcu_get_dp_download_enum(value,length);
     switch(load_radar_parameter) {
@@ -981,7 +983,12 @@ static unsigned char dp_download_common_command_handle(const unsigned char value
         case 5://disalbe the data upload every 5s
 			data_report_upload_enable = 0;
         break;
-        
+				case 0x12://enable
+					onboard_led_en = 1;
+					break;
+				case 0x13://disable
+					onboard_led_en = 0;
+					break;
 				case 0x14://enable
 					breathe_upload_en = 1;
 					break;
@@ -993,7 +1000,19 @@ static unsigned char dp_download_common_command_handle(const unsigned char value
 					break;
 				case 0x17://disable
 					data_report_upload_enable2 = 0;
-					break;					
+					break;
+				case 0x18:
+					mcu_dp_value_update(DPID_PIR_DELAY, upssa0.ppp.delay_time_num);
+					break;
+				case 0x19:
+					mcu_dp_value_update(DPID_LIGHT_THRESHOLD3, upssa0.ppp.Light_threshold3);
+					break;
+				case 0x1A:
+					mcu_dp_value_update(DPID_LIGHT_THRESHOLD4, upssa0.ppp.Light_threshold4);
+					break;
+				case 0x1B:
+					mcu_dp_enum_update(DPID_LOAD_RADAR_PARAMETER, load_radar_parameter);
+					break;
         default:
 					break;
     }
