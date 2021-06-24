@@ -46,6 +46,7 @@
 #include "myusart.h"
 #include "hc32f46x_usart.h"
 #include "hc32_ddl.h"
+#include "myled.h"
 
 extern int check_status;
 extern int person_in_range_flag;
@@ -74,7 +75,6 @@ extern	unsigned char data_report_upload_enable;
 extern	unsigned char data_report_upload_enable2;
 extern	int breathe_upload_en;
 
-unsigned char load_radar_parameter = 1;
 int onboard_led_en = 1;
 ///////////////////////////////////////////////////////////////////////////////
 void Delay_ms(unsigned int t);
@@ -419,8 +419,8 @@ static unsigned char dp_download_load_radar_parameter_handle(const unsigned char
     //示例:当前DP类型为ENUM
     unsigned char ret;
     
-    load_radar_parameter = mcu_get_dp_download_enum(value,length);
-    switch(load_radar_parameter) {
+    upssa0.ppp.load_radar_parameter = mcu_get_dp_download_enum(value,length);
+    switch(upssa0.ppp.load_radar_parameter) {
         case 0:
 			//load_ceiling_setup(0);
 			//SEGGER_RTT_printf(0, "%s%sload ceiling setup %d%s\r\n", RTT_CTRL_BG_BRIGHT_YELLOW, RTT_CTRL_TEXT_BLACK, 0, RTT_CTRL_RESET);
@@ -435,8 +435,8 @@ static unsigned char dp_download_load_radar_parameter_handle(const unsigned char
 				case 7:
 				case 8:
 				case 9:
-					load_ceiling_setup(load_radar_parameter - 1);
-					SEGGER_RTT_printf(0, "%s%sload ceiling setup %d%s\r\n", RTT_CTRL_BG_BRIGHT_YELLOW, RTT_CTRL_TEXT_BLACK, load_radar_parameter - 1, RTT_CTRL_RESET);   
+					load_ceiling_setup(upssa0.ppp.load_radar_parameter - 1);
+					SEGGER_RTT_printf(0, "%s%sload ceiling setup %d%s\r\n", RTT_CTRL_BG_BRIGHT_YELLOW, RTT_CTRL_TEXT_BLACK, upssa0.ppp.load_radar_parameter - 1, RTT_CTRL_RESET);   
         break;
         
         
@@ -445,7 +445,7 @@ static unsigned char dp_download_load_radar_parameter_handle(const unsigned char
         case 0x62:
         case 0x63:
         case 0x64:					
-            SEGGER_RTT_printf(0, "load user parameter%d\r\n", load_radar_parameter - 0x60);
+            SEGGER_RTT_printf(0, "load user parameter%d\r\n", upssa0.ppp.load_radar_parameter - 0x60);
         break;
         
         default:
@@ -454,7 +454,7 @@ static unsigned char dp_download_load_radar_parameter_handle(const unsigned char
     }
     
     //处理完DP数据后应有反馈
-    ret = mcu_dp_enum_update(DPID_LOAD_RADAR_PARAMETER, load_radar_parameter);
+    ret = mcu_dp_enum_update(DPID_LOAD_RADAR_PARAMETER, upssa0.ppp.load_radar_parameter);
     if(ret == SUCCESS)
         return SUCCESS;
     else
@@ -985,9 +985,32 @@ static unsigned char dp_download_common_command_handle(const unsigned char value
         break;
 				case 0x12://enable
 					onboard_led_en = 1;
+					if (person_in_range_flag == 1)
+					{
+						led_red(1);
+					}
+					else
+					{
+						led_red(0);
+					}
+					switch (mcu_get_bt_work_state())
+					{
+							case		BT_UN_BIND:
+							case    BT_NOT_CONNECTED:
+							case    BT_SATE_UNKNOW:
+									led_green(0);
+									break;
+							case    BT_CONNECTED:
+									led_green(1);
+									break;
+							default:
+									break;
+					}	
 					break;
 				case 0x13://disable
 					onboard_led_en = 0;
+					led_red(0);
+					led_green(0);
 					break;
 				case 0x14://enable
 					breathe_upload_en = 1;
@@ -1011,7 +1034,7 @@ static unsigned char dp_download_common_command_handle(const unsigned char value
 					mcu_dp_value_update(DPID_LIGHT_THRESHOLD4, upssa0.ppp.Light_threshold4);
 					break;
 				case 0x1B:
-					mcu_dp_enum_update(DPID_LOAD_RADAR_PARAMETER, load_radar_parameter);
+					mcu_dp_enum_update(DPID_LOAD_RADAR_PARAMETER, upssa0.ppp.load_radar_parameter);
 					break;
         default:
 					break;
@@ -1635,6 +1658,8 @@ void reset_default_parameter(void)
 	upssa0.ppp.upload_duty = 8000;
 	SEGGER_RTT_printf(0, "%s%sload upload_duty: %dms%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.upload_duty, RTT_CTRL_RESET);		
 
+	upssa0.ppp.load_radar_parameter = 1;
+	SEGGER_RTT_printf(0, "%s%sload load_radar_parameter: %d%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.load_radar_parameter, RTT_CTRL_RESET);	
 	//
 }
 

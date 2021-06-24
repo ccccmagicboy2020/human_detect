@@ -627,9 +627,6 @@ void slow_check_process_s0(void)
       case    BT_SATE_UNKNOW:
           break;
       case    BT_CONNECTED:
-					//
-					//
-					//offset = 1.2f;
           break;
       default:
           break;
@@ -1378,7 +1375,7 @@ void save_upssa0(void)
 	
     u32Addr = USER_PARAMETER_START_SECTOR_ADDRESS0;
 
-    for(int i = 0u; i < 14u; i++)
+    for(int i = 0u; i < 15u; i++)
     {
         EFM_SingleProgram(u32Addr, upssa0.int_value[i]);
 				SEGGER_RTT_printf(0, "%s%ssave flash address: 0x%x with 0x%x%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, u32Addr, upssa0.int_value[i], RTT_CTRL_RESET);
@@ -1567,6 +1564,13 @@ void set_var_from_flash(void)
 		upssa0.ppp.upload_duty = 8000;
 	}	
 	SEGGER_RTT_printf(0, "%s%sload upload_duty: %dms%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.upload_duty, RTT_CTRL_RESET);		
+/////////////////////////////////////////////////////
+	upssa0.ppp.load_radar_parameter = LOAD_RADAR_PARAMETER_FLASH;
+	if (upssa0.ppp.load_radar_parameter == -1)
+	{
+		upssa0.ppp.load_radar_parameter = 1;
+	}	
+	SEGGER_RTT_printf(0, "%s%sload load_radar_parameter: %d%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.load_radar_parameter, RTT_CTRL_RESET);		
 }
 
 void	set_iot_network_from_flash(void)
