@@ -28,30 +28,30 @@ void led_red(char onoff)
 {
     if (onoff)
     {
+			if (onboard_led_en)
+			{
         PORT_ResetBits(PortA, Pin01);
-    }
+			}
+		}
     else
     {
-		if (onboard_led_en)
-		{
 			PORT_SetBits(PortA, Pin01);
 		}
-	}
 }
 
 void led_green(char onoff)
 {
     if (onoff)
     {
+			if (onboard_led_en)
+			{			
         PORT_ResetBits(PortA, Pin05);
-    }
+			}
+		}
     else
     {
-		if (onboard_led_en)
-		{
 			PORT_SetBits(PortA, Pin05);
 		}
-    }
 }
 
 /**

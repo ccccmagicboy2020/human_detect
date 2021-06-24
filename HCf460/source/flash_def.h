@@ -3,7 +3,7 @@
 
 union KKK
 {
-	int	int_value[14];
+	int	int_value[15];
 	struct
 	{
 		float	quick_time_times;
@@ -20,6 +20,7 @@ union KKK
 		int		Light_threshold4;
 		int		delay_time_num;
 		int		upload_duty;
+		int		load_radar_parameter;
 	}ppp;
 };
 
@@ -57,6 +58,8 @@ union KKK
 
 #define DELAY_TIME_NUM_FLASH (*((volatile int *)(USER_PARAMETER_START_SECTOR_ADDRESS0 + 0x30)))
 #define UPLOAD_DUTY_FLASH (*((volatile int *)(USER_PARAMETER_START_SECTOR_ADDRESS0 + 0x34)))
+
+#define LOAD_RADAR_PARAMETER_FLASH (*((volatile int *)(USER_PARAMETER_START_SECTOR_ADDRESS0 + 0x38)))
 
 
 
