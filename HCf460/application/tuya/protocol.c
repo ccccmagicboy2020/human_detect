@@ -193,54 +193,52 @@ void uart_transmit_output(unsigned char value)
 void all_data_update(void)
 {
   //此代码为平台自动生成，请按照实际数据修改每个可下发可上报函数和只上报函数
-    //mcu_dp_value_update(DPID_PIR_DELAY, 0); //枚举型数据上报;
-		//Delay_ms(ALL_UPLOAD_DELAY);
-    //mcu_dp_enum_update(DPID_LOAD_RADAR_PARAMETER, 0); //枚举型数据上报;
-	//Delay_ms(ALL_UPLOAD_DELAY);
+    mcu_dp_value_update(DPID_PIR_DELAY, upssa0.ppp.delay_time_num); //枚举型数据上报;
+	Delay_ms(ALL_UPLOAD_DELAY);
+    mcu_dp_enum_update(DPID_LOAD_RADAR_PARAMETER, upssa0.ppp.load_radar_parameter); //枚举型数据上报;
+	Delay_ms(ALL_UPLOAD_DELAY);
 	mcu_dp_enum_update(DPID_LIGHT_STATUS, light_status_flag);
 	Delay_ms(ALL_UPLOAD_DELAY);
 	//////////////////////////////////////////////////////////////////////////
 
     mcu_dp_enum_update(DPID_PERSON_IN_RANGE, person_in_range_flag); //枚举型数据上报;
-		Delay_ms(ALL_UPLOAD_DELAY);
+	Delay_ms(ALL_UPLOAD_DELAY);
 
-		if (person_meter != 0)
+	if (person_meter != 0)
+	{
+		if (1)	//enable this
 		{
-			if (0)	//bypass this
-			{
-				mcu_dp_value_update(DPID_PERSON_METER,person_meter); //VALUE型数据上报;
-			}
-			Delay_ms(ALL_UPLOAD_DELAY);
+			mcu_dp_value_update(DPID_PERSON_METER,person_meter); //VALUE型数据上报;
 		}
+		Delay_ms(ALL_UPLOAD_DELAY);
+	}
     
 	mcu_dp_enum_update(DPID_CHECK_PROCESS, check_status); //枚举型数据上报;
     Delay_ms(ALL_UPLOAD_DELAY);
 	mcu_dp_enum_update(DPID_SLOW_CHECK_RESULT, slow_check_result);
 	Delay_ms(ALL_UPLOAD_DELAY);
     mcu_dp_enum_update(DPID_WORK_MODE, g_work_mode); //枚举型数据上报;
-		Delay_ms(ALL_UPLOAD_DELAY);
-		mcu_dp_bool_update(DPID_FIND_ME,1);
-		Delay_ms(ALL_UPLOAD_DELAY);
-		mcu_dp_value_update(DPID_LIGHT_THRESHOLD1, upssa0.ppp.Light_threshold1);
-		Delay_ms(ALL_UPLOAD_DELAY);
-		mcu_dp_value_update(DPID_LIGHT_THRESHOLD2, upssa0.ppp.Light_threshold2);
-		Delay_ms(ALL_UPLOAD_DELAY);
-		mcu_dp_value_update(DPID_LIGHT_THRESHOLD3, upssa0.ppp.Light_threshold3);
-		Delay_ms(ALL_UPLOAD_DELAY);
-		mcu_dp_value_update(DPID_LIGHT_THRESHOLD4, upssa0.ppp.Light_threshold4);
-		Delay_ms(ALL_UPLOAD_DELAY);
+	Delay_ms(ALL_UPLOAD_DELAY);
+	mcu_dp_value_update(DPID_LIGHT_THRESHOLD1, upssa0.ppp.Light_threshold1);
+	Delay_ms(ALL_UPLOAD_DELAY);
+	mcu_dp_value_update(DPID_LIGHT_THRESHOLD2, upssa0.ppp.Light_threshold2);
+	Delay_ms(ALL_UPLOAD_DELAY);
+	mcu_dp_value_update(DPID_LIGHT_THRESHOLD3, upssa0.ppp.Light_threshold3);
+	Delay_ms(ALL_UPLOAD_DELAY);
+	mcu_dp_value_update(DPID_LIGHT_THRESHOLD4, upssa0.ppp.Light_threshold4);
+	Delay_ms(ALL_UPLOAD_DELAY);
 		
-		if (breathe_freq != 0)
+	if (breathe_freq != 0)
+	{
+		if (breathe_upload_en)	//
 		{
-			if (breathe_upload_en)	//
-			{
-				mcu_dp_value_update(DPID_BREATHE_FREQ, (int)((breathe_freq*10.0f)+0.5f));
-				Delay_ms(ALL_UPLOAD_DELAY);
-			}		
-		}
-		
-		update_check_parameter();
-		
+			mcu_dp_value_update(DPID_BREATHE_FREQ, (int)((breathe_freq*10.0f)+0.5f));
+			Delay_ms(ALL_UPLOAD_DELAY);
+		}		
+	}
+	
+	//disable this
+	//update_check_parameter();	
 }
 
 
@@ -386,6 +384,17 @@ void load_ceiling_setup(int mode)
 		upssa0.ppp.res_times = 85.85f;
 		upssa0.ppp.offsetmin = 1.08f*0.95f;
 	}	
+	else if (mode == 100)		//very near
+	{
+		upssa0.ppp.quick_time_times = 10.0f;
+		upssa0.ppp.quick_time_add = 500.0f;
+		upssa0.ppp.quick_freq_times = 150.0f;
+		upssa0.ppp.slow_time_times = 13.0f;
+		upssa0.ppp.slow_time_add = 500.0f;
+		upssa0.ppp.slow_freq_times = 150.0f;
+		upssa0.ppp.res_times = 300.0f;
+		upssa0.ppp.offsetmin = 2.5f;
+	}
 }
 
 void load_wall_setup(int mode)
@@ -422,8 +431,8 @@ static unsigned char dp_download_load_radar_parameter_handle(const unsigned char
     upssa0.ppp.load_radar_parameter = mcu_get_dp_download_enum(value,length);
     switch(upssa0.ppp.load_radar_parameter) {
         case 0:
-			//load_ceiling_setup(0);
-			//SEGGER_RTT_printf(0, "%s%sload ceiling setup %d%s\r\n", RTT_CTRL_BG_BRIGHT_YELLOW, RTT_CTRL_TEXT_BLACK, 0, RTT_CTRL_RESET);
+					load_ceiling_setup(100);
+					SEGGER_RTT_printf(0, "%s%sload very very near profile %d%s\r\n", RTT_CTRL_BG_BRIGHT_YELLOW, RTT_CTRL_TEXT_BLACK, RTT_CTRL_RESET);
         break;
      
         case 1:

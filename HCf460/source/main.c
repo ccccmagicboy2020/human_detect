@@ -951,7 +951,7 @@ void idle_process(void)
 	{
 		if (upload_disable == 0)
 		{	
-			if (0)	//bypass this
+			if (1)	//enable this
 			{
 				mcu_dp_value_update(DPID_PERSON_METER,person_meter);
 			}
