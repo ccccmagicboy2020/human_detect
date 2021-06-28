@@ -1546,7 +1546,7 @@ void set_var_from_flash(void)
 	upssa0.ppp.Light_threshold4 = LIGHT_THRESHOLD4_FLASH;
 	if (upssa0.ppp.Light_threshold4 == -1)
 	{
-		upssa0.ppp.Light_threshold4 = 3800;
+		upssa0.ppp.Light_threshold4 = 4000;
 	}	
 	SEGGER_RTT_printf(0, "%s%sload Light_threshold4: %d%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.Light_threshold4, RTT_CTRL_RESET);
 //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1620,6 +1620,9 @@ int main(void)
 	
 	set_var_from_flash();
 	set_iot_network_from_flash();
+	
+	//mcu_reset_bt();
+	//bt_unbound_req();
 	
 	while(1)
 	{
