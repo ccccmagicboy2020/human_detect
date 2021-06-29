@@ -72,7 +72,10 @@ Val_t adc_value;
 volatile float max_std = 0;
 //volatile float max_std __attribute__((section(".ARM.__at_0x1FFF8D60"))) = 0;
 volatile float max_std_last = 0;
-float pResult = 0;
+float pResult = 0.00f;
+float mid_avg = 0.00f;
+float mid_max = 0.00f;
+float mid_min = 0.00f;
 //float pResult __attribute__((section(".ARM.__at_0x1FFF8D64"))) = 0;
 float pResult_last = 0;
 ////////////////////////////////////////////////////////////
@@ -493,7 +496,7 @@ void slow_check_data_prepare_s0(void)
 	FIFO_DataType  temp[2048] = {0};//temp data
 	char float_str[64];
 	float data_temp[2048] = {0};
-	float temp_cent = 0.00f;
+//	float temp_cent = 0.00f;
 	
 	set_samplerate(slow_samplerate);
 	
@@ -509,6 +512,16 @@ void slow_check_data_prepare_s0(void)
 		}
 
 		arm_std_f32(data_temp, SLOW_CHECK_SAMPLES, &pResult);
+		arm_mean_f32(data_temp, SLOW_CHECK_SAMPLES, &mid_avg);
+		arm_max_f32(data_temp, SLOW_CHECK_SAMPLES, &mid_max, NULL);
+		arm_min_f32(data_temp, SLOW_CHECK_SAMPLES, &mid_min, NULL);
+		
+		sprintf(float_str, "mid avg result: %.2lf\r\n", mid_avg);
+		SEGGER_RTT_printf(0, "%s", float_str);
+		sprintf(float_str, "mid max result: %.2lf\r\n", mid_max);
+		SEGGER_RTT_printf(0, "%s", float_str);
+		sprintf(float_str, "mid min result: %.2lf\r\n", mid_min);
+		SEGGER_RTT_printf(0, "%s", float_str);		
 
 		if (pResult > max_std)
 		{
@@ -530,68 +543,75 @@ void slow_check_data_prepare_s0(void)
 			}
 		}
 		
-		if (light_sensor2_adc_data_last > 3700)
-		{
-			temp_cent = 0.9f;
-		}
-		else if (light_sensor2_adc_data_last > 3200)
-		{
-			temp_cent = 0.85f;
-		}
-		else if (light_sensor2_adc_data_last > 2500)
-		{
-			temp_cent = 0.80f;
-		}
-		else if (light_sensor2_adc_data_last > 1800)
-		{
-			temp_cent = 0.65f;
-		}
-		else
-		{
-			temp_cent = 0.60f;
-		}
+//		if (light_sensor2_adc_data_last > 3700)
+//		{
+//			temp_cent = 0.9f;
+//		}
+//		else if (light_sensor2_adc_data_last > 3200)
+//		{
+//			temp_cent = 0.85f;
+//		}
+//		else if (light_sensor2_adc_data_last > 2500)
+//		{
+//			temp_cent = 0.80f;
+//		}
+//		else if (light_sensor2_adc_data_last > 1800)
+//		{
+//			temp_cent = 0.65f;
+//		}
+//		else
+//		{
+//			temp_cent = 0.60f;
+//		}
 		
-		if (pResult > pResult_last*1.2f)
+		if (pResult > 1400.00f)
+		//if (pResult > pResult_last*1.2f && pResult > 1400.00f)
 		{
-			sprintf(float_str, "%s%spResult trigger!!!@%.2lf%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, pResult_last, RTT_CTRL_RESET);
+			sprintf(float_str, "%s%spResult trigger!!!@%.2lf > 1.2*%.2lf%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, pResult, pResult_last, RTT_CTRL_RESET);
 			SEGGER_RTT_printf(0, "%s", float_str);
 
-			if (light_sensor2_adc_data < light_sensor2_adc_data_last*temp_cent)
+			if (1)
+			//if (mid_avg < 2000.00f)
+			//if (light_sensor2_adc_data < light_sensor2_adc_data_last*temp_cent)
 			{
-				SEGGER_RTT_printf(0, "%s%slight_sensor2_adc_data trigger!!!@%d%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, light_sensor2_adc_data_last, RTT_CTRL_RESET);		
-				if (hand_swipe_enable)
+				//SEGGER_RTT_printf(0, "%s%slight_sensor2_adc_data trigger!!!@%d%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, light_sensor2_adc_data_last, RTT_CTRL_RESET);
+				if (mid_max > 3870.00f)		
+				//if (hand_swipe_enable)
 				{
-					if (current_light_color == WARM)
+					if (mid_min < 20.00f)
 					{
-						current_light_color = COOL;
+						if (current_light_color == WARM)
+						{
+							current_light_color = COOL;
+						}
+						else if (current_light_color == COOL)
+						{
+							current_light_color = WARM;
+						}
+						else
+						{
+							current_light_color = WARM;
+						}
+						
+						if (current_light_color == WARM)
+						{
+							GPIO0_LOW();
+							GPIO1_HIGH();
+							SEGGER_RTT_printf(0, "%s%swarm color!!!@%d%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, light_sensor2_adc_data, RTT_CTRL_RESET);
+						}
+						else if (current_light_color == COOL)
+						{				
+							GPIO0_HIGH();
+							GPIO1_LOW();
+							SEGGER_RTT_printf(0, "%s%scool color!!!@%d%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, light_sensor2_adc_data, RTT_CTRL_RESET);			
+						}
+						else
+						{
+							GPIO0_LOW();
+							GPIO1_LOW();
+						}
+						hand_swipe_enable = 0;
 					}
-					else if (current_light_color == COOL)
-					{
-						current_light_color = WARM;
-					}
-					else
-					{
-						current_light_color = WARM;
-					}
-					
-					if (current_light_color == WARM)
-					{
-						GPIO0_LOW();
-						GPIO1_HIGH();
-						SEGGER_RTT_printf(0, "%s%swarm color!!!@%d%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, light_sensor2_adc_data, RTT_CTRL_RESET);
-					}
-					else if (current_light_color == COOL)
-					{				
-						GPIO0_HIGH();
-						GPIO1_LOW();
-						SEGGER_RTT_printf(0, "%s%scool color!!!@%d%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, light_sensor2_adc_data, RTT_CTRL_RESET);			
-					}
-					else
-					{
-						GPIO0_LOW();
-						GPIO1_LOW();
-					}
-					hand_swipe_enable = 0;
 				}
 			}
 		}
@@ -892,7 +912,10 @@ void slow_check_process_s1(void)
 						next_state = FAST_CHECK_DATA_PREPARE;	//no person so all loopback	to fast check
 						//do some thing
 						clear_buffer();
-						pResult = 0;
+						pResult = 0.00f;
+						mid_avg = 0.00f;
+						mid_max = 0.00f;
+						mid_min = 0.00f;
 					}
 					else
 					{
