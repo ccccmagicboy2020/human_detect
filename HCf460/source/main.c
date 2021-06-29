@@ -401,7 +401,7 @@ void fast_check_data_prepare(void)
 
 			if (pp_result > 100.00f)
 			{
-				fast_output_result(1);
+				//fast_output_result(1);
 			}	
 		}
 	}
@@ -526,7 +526,7 @@ void slow_check_data_prepare_s0(void)
 		{
 			if (slow_check_result != BIG_MOTION)
 			{
-				slow_check_result_upload(BIG_MOTION);
+				//slow_check_result_upload(BIG_MOTION);
 			}
 		}
 		
@@ -1548,7 +1548,7 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		load_ceiling_setup(0);
+		load_ceiling_setup(101);
 	}
 	else
 	{
@@ -1564,7 +1564,7 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		load_ceiling_setup(0);
+		load_ceiling_setup(101);
 	}
 	else
 	{
@@ -1579,7 +1579,7 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		load_ceiling_setup(0);
+		load_ceiling_setup(101);
 	}
 	else
 	{
@@ -1594,7 +1594,7 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		load_ceiling_setup(0);
+		load_ceiling_setup(101);
 	}
 	else
 	{
@@ -1610,7 +1610,7 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		load_ceiling_setup(0);
+		load_ceiling_setup(101);
 	}
 	else
 	{
@@ -1625,7 +1625,7 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		load_ceiling_setup(0);
+		load_ceiling_setup(101);
 	}
 	else
 	{
@@ -1640,7 +1640,7 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		load_ceiling_setup(0);
+		load_ceiling_setup(101);
 	}
 	else
 	{
@@ -1655,7 +1655,7 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		load_ceiling_setup(0);
+		load_ceiling_setup(101);
 	}
 	else
 	{

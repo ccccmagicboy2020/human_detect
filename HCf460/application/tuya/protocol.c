@@ -381,7 +381,18 @@ void load_ceiling_setup(int mode)
 		upssa0.ppp.slow_freq_times = 17.54f;
 		upssa0.ppp.res_times = 85.85f;
 		upssa0.ppp.offsetmin = 1.08f*0.95f;
-	}	
+	}
+	else if (mode == 101)	//台灯
+	{
+		upssa0.ppp.quick_time_times = 3.05f;
+		upssa0.ppp.quick_time_add = 495.13f;
+		upssa0.ppp.quick_freq_times = 297.25f;
+		upssa0.ppp.slow_time_times = 24.55f;
+		upssa0.ppp.slow_time_add = 495.13f;
+		upssa0.ppp.slow_freq_times = 56.29f;
+		upssa0.ppp.res_times = 470.40f;
+		upssa0.ppp.offsetmin = 2.33f;
+	}
 }
 
 void load_wall_setup(int mode)
