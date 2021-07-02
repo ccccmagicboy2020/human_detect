@@ -385,7 +385,18 @@ void load_ceiling_setup(int mode)
 		upssa0.ppp.slow_freq_times = 17.54f;
 		upssa0.ppp.res_times = 85.85f;
 		upssa0.ppp.offsetmin = 1.08f*0.95f;
-	}	
+	}
+	else if (mode == 102)	//test use
+	{
+		upssa0.ppp.quick_time_times = 0.0f;
+		upssa0.ppp.quick_time_add = 0.0f;
+		upssa0.ppp.quick_freq_times = 0.0f;
+		upssa0.ppp.slow_time_times = 0.0f;
+		upssa0.ppp.slow_time_add = 0.0f;
+		upssa0.ppp.slow_freq_times = 0.0f;
+		upssa0.ppp.res_times = 0.0f;
+		upssa0.ppp.offsetmin = 0.0f;
+	}
 }
 
 void load_wall_setup(int mode)
@@ -448,6 +459,10 @@ static unsigned char dp_download_load_radar_parameter_handle(const unsigned char
             SEGGER_RTT_printf(0, "load user parameter%d\r\n", upssa0.ppp.load_radar_parameter - 0x60);
         break;
         
+		case 0xFF:
+            SEGGER_RTT_printf(0, "load test use parameter\r\n");
+			load_ceiling_setup(102);
+		break;
         default:
 					//
         break;
