@@ -1033,6 +1033,7 @@ void idle_process(void)
 			if (BT_CONNECTED == mcu_get_bt_work_state())
 			{
 				led_green(1);
+				all_data_update();
 			}
 			else
 			{
