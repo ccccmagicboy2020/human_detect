@@ -59,8 +59,8 @@ int run_mode = 0;
 int slow_only_flag = 0;
 
 volatile int check_status = TUYA_OTHER;
-//volatile int person_in_range_flag = 0;
-volatile int person_in_range_flag __attribute__((section(".ARM.__at_0x1FFF8D54"))) = 0;
+volatile int person_in_range_flag = 0;
+//volatile int person_in_range_flag __attribute__((section(".ARM.__at_0x1FFF8D54"))) = 0;
 volatile int light_status_flag = 0;
 
 char quick_detection_result_last = 0;
@@ -69,10 +69,10 @@ char slow_check_result_last = 1;//no person
 char JS_RTT_UpBuffer[1024];
 Val_t adc_value;
 ////////////////////////////////////////////////////////////
-//volatile float max_std = 0;
-volatile float max_std __attribute__((section(".ARM.__at_0x1FFF8D60"))) = 0;
-//float pResult = 0;
-float pResult __attribute__((section(".ARM.__at_0x1FFF8D64"))) = 0;
+volatile float max_std = 0;
+//volatile float max_std __attribute__((section(".ARM.__at_0x1FFF8D60"))) = 0;
+float pResult = 0;
+//float pResult __attribute__((section(".ARM.__at_0x1FFF8D64"))) = 0;
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
 void check_status_upload(unsigned int aaaa);
@@ -106,8 +106,8 @@ volatile unsigned int  person_meter = 0;
 volatile unsigned int  person_meter_last = 0;
 
 float breathe_freq = 0;
-//volatile unsigned int slow_check_result= 1;//no person
-volatile unsigned int slow_check_result __attribute__((section(".ARM.__at_0x1FFF8D7C"))) = 1;//no person
+volatile unsigned int slow_check_result= 1;//no person
+//volatile unsigned int slow_check_result __attribute__((section(".ARM.__at_0x1FFF8D7C"))) = 1;//no person
 int study_flag = 0;
 int study_mode = 0;
 
@@ -291,11 +291,17 @@ void slow_output_result(char slow_s0_result)
 		break;
 	}	
 }
-#pragma arm section code = "RAMCODE"
+//#pragma arm section code = "RAMCODE"
 void fast_check_data_prepare(void)
 {
 	static	int i = 0;	//index, fullfill the tank first
+	int j = 0;
 	int k = 0;	//index
+	float fpp_result = 0.00f;
+	float fpp_threshold = 0.00f;
+	
+	float data_temp[512] = {0};
+	char float_str[64];
 	
 	if (fast_retry_flag)
 	{
@@ -341,6 +347,58 @@ void fast_check_data_prepare(void)
 				state = IDLE;
 				next_state = FAST_CHECK_DATA_PREPARE;
 			}
+
+			for(j=0;j<FAST_CHECK_SAMPLES;j++)
+			{
+				data_temp[j] = Fast_detection_data[FAST_CHECK_SAMPLES*(i-1)+j];
+			}
+
+			arm_std_f32(data_temp, FAST_CHECK_SAMPLES, &fpp_result);
+
+			switch (upssa0.ppp.load_radar_parameter)
+			{
+				case 0:		//0.5m
+					fpp_threshold = 1200.00f;
+					break;
+				case 1:		//1.0m
+					fpp_threshold = 1100.00f;
+					break;
+				case 2:		//1.5m
+					fpp_threshold = 1000.00f;
+					break;
+				case 3:		//2.0m
+					fpp_threshold = 900.00f;
+					break;
+				case 4:		//2.5m
+					fpp_threshold = 800.00f;
+					break;					
+				case 5:		//3.0m
+					fpp_threshold = 700.00f;
+					break;
+				case 6:		//3.5m
+					fpp_threshold = 600.00f;
+					break;		
+				case 7:		//4.0m
+					fpp_threshold = 500.00f;
+					break;
+				case 8:		//4.5m
+					fpp_threshold = 400.00f;
+					break;
+				case 9:		//5.0m
+					fpp_threshold = 300.00f;
+					break;					
+				default:
+					fpp_threshold = 200.00f;
+					break;
+			}
+			
+			if (fpp_result > fpp_threshold)
+			{
+				fast_output_result(1);
+			}			
+			
+			sprintf(float_str, "%s%sfpp_result: %.3lf - %.3lf%s\r\n", RTT_CTRL_BG_BRIGHT_GREEN, RTT_CTRL_TEXT_BLACK, fpp_result, fpp_threshold, RTT_CTRL_RESET);
+			SEGGER_RTT_printf(0, "%s", float_str);
 		}
 	}
 	else
@@ -349,7 +407,8 @@ void fast_check_data_prepare(void)
 		next_state = FAST_CHECK_DATA_PREPARE;
 	}
 }
-#pragma arm section
+//#pragma arm section
+
 void fast_check_process(void)
 {
 	int i = 0;	//index
