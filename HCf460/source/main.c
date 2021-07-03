@@ -910,7 +910,8 @@ void idle_process(void)
 			//load a low pp1 pp2 value
 			upssa0.ppp.res_times = 10.f;
 			upssa0.ppp.offsetmin = 0.3f;
-			if (upload_disable == 0)
+			if (0)
+			//if (upload_disable == 0)
 			{
 				mcu_dp_value_update(DPID_FREQ_PARAMETER1, (int)((upssa0.ppp.res_times*100.0f)+0.5f));
 				Delay_ms(ALL_UPLOAD_DELAY);
@@ -926,16 +927,16 @@ void idle_process(void)
 				switch (study_mode)
 				{
 					case 0:
-						upssa0.ppp.res_times = max_pp1_rt*1.0f;
-						break;
-					case 1:
 						upssa0.ppp.res_times = max_pp1_rt*0.9f;
 						break;
+					case 1:
+						upssa0.ppp.res_times = max_pp1_rt*1.0f;
+						break;
 					case 2:
-						upssa0.ppp.res_times = max_pp1_rt*0.8f;
+						upssa0.ppp.res_times = max_pp1_rt*1.1f;
 						break;
 					case 3:
-						upssa0.ppp.res_times = max_pp1_rt*0.7f;
+						upssa0.ppp.res_times = max_pp1_rt*1.2f;
 						break;
 					default:
 						upssa0.ppp.res_times = max_pp1_rt*1.0f;
@@ -945,7 +946,8 @@ void idle_process(void)
 				sprintf(float_str, "%sstudy new pp1 values: %.3lf%s\r\n", RTT_CTRL_TEXT_BRIGHT_YELLOW, upssa0.ppp.res_times, RTT_CTRL_RESET);
 				SEGGER_RTT_printf(0, "%s", float_str);
 				
-				if (upload_disable == 0)
+				if (0)
+				//if (upload_disable == 0)
 				{			
 					mcu_dp_value_update(DPID_FREQ_PARAMETER1, (int)((upssa0.ppp.res_times*100.0f)+0.5f));
 				}
@@ -957,16 +959,16 @@ void idle_process(void)
 				switch (study_mode)
 				{
 					case 0:
-						upssa0.ppp.offsetmin = max_pp2_rt*1.0f;
-						break;
-					case 1:
 						upssa0.ppp.offsetmin = max_pp2_rt*0.9f;
 						break;
+					case 1:
+						upssa0.ppp.offsetmin = max_pp2_rt*1.0f;
+						break;
 					case 2:
-						upssa0.ppp.offsetmin = max_pp2_rt*0.8f;
+						upssa0.ppp.offsetmin = max_pp2_rt*1.1f;
 						break;
 					case 3:
-						upssa0.ppp.offsetmin = max_pp2_rt*0.7f;
+						upssa0.ppp.offsetmin = max_pp2_rt*1.2f;
 						break;
 					default:
 						upssa0.ppp.offsetmin = max_pp2_rt*1.0f;
@@ -976,7 +978,8 @@ void idle_process(void)
 				sprintf(float_str, "%sstudy new pp2 values: %.3lf%s\r\n", RTT_CTRL_TEXT_BRIGHT_YELLOW, upssa0.ppp.offsetmin, RTT_CTRL_RESET);
 				SEGGER_RTT_printf(0, "%s", float_str);
 				
-				if (upload_disable == 0)
+				if (0)
+				//if (upload_disable == 0)
 				{
 					mcu_dp_value_update(DPID_FREQ_PARAMETER2, (int)((upssa0.ppp.offsetmin*1000.0f)+0.5f));
 				}				
