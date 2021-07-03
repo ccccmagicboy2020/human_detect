@@ -55,7 +55,8 @@ Control5=IDC_STATIC_LINK,static,1342308352
 [DLG:IDD_PH10D3232EX_burn_DIALOG]
 Type=1
 Class=CPH10D3232EX_burnDlg
-ControlCount=2
+ControlCount=3
 Control1=IDC_BUTTON10,button,1342242816
 Control2=IDC_BUTTON1,button,1342242816
+Control3=IDC_BUTTON2,button,1342242816
 

@@ -125,6 +125,7 @@ BEGIN_MESSAGE_MAP(CPH10D3232EX_burnDlg, CDialog)
 	ON_WM_TIMER()
 	ON_BN_CLICKED(IDC_BUTTON10, OnButton10)
 	ON_BN_CLICKED(IDC_BUTTON1, OnButton1)
+	ON_BN_CLICKED(IDC_BUTTON2, OnButton2)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -350,4 +351,11 @@ BOOL CAboutDlg::OnInitDialog()
 	
 	return TRUE;  // return TRUE unless you set the focus to a control
 	              // EXCEPTION: OCX Property Pages should return FALSE
+}
+
+void CPH10D3232EX_burnDlg::OnButton2() 
+{
+	// TODO: Add your control notification handler code here
+	JLINKARM_Reset();
+	JLINKARM_Go();
 }
