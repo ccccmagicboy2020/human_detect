@@ -482,7 +482,7 @@ void fast_check_process(void)
 	fast_output_result(quick_detection_result);
 }
 
-#pragma arm section code = "RAMCODE"
+//#pragma arm section code = "RAMCODE"
 void slow_check_data_prepare_s0(void)
 {
 	int i = 0;	//index
@@ -538,9 +538,9 @@ void slow_check_data_prepare_s0(void)
 		next_state = SLOW_CHECK_DATA_PREPARE_S0;	//not enough so loopback
 	}
 }
-#pragma arm section
+//#pragma arm section
 
-#pragma arm section code = "RAMCODE"
+//#pragma arm section code = "RAMCODE"
 void slow_check_data_prepare_s1(void)
 {
 	static	int i = 0;	//index for fullfill the tank
@@ -589,7 +589,7 @@ void slow_check_data_prepare_s1(void)
 		next_state = SLOW_CHECK_DATA_PREPARE_S0;	//not enough so loopback
 	}
 }
-#pragma arm section
+//#pragma arm section
 
 void slow_check_process_s0(void)
 {
@@ -1033,7 +1033,6 @@ void idle_process(void)
 			if (BT_CONNECTED == mcu_get_bt_work_state())
 			{
 				led_green(1);
-				all_data_update();
 			}
 			else
 			{
@@ -1141,7 +1140,7 @@ void idle_process(void)
                 //bt_hand_up();
                 break;
             case    BT_CONNECTED:
-                SEGGER_RTT_printf(0,"bt binded and connected\r\n");
+                SEGGER_RTT_printf(0,"%sbt binded and connected%s\r\n", RTT_CTRL_TEXT_BRIGHT_MAGENTA, RTT_CTRL_RESET);
                 break;
             case    BT_SATE_UNKNOW:
                 SEGGER_RTT_printf(0,"bt unknow status\r\n");
@@ -1350,7 +1349,7 @@ void segger_init(void)
 	SEGGER_RTT_Init();
 	SEGGER_RTT_printf(0, "%sphosense radar chip: XBR816C DEMO%s\r\n", RTT_CTRL_BG_BRIGHT_RED, RTT_CTRL_RESET);
 	
-	SEGGER_SYSVIEW_Conf();
+	//SEGGER_SYSVIEW_Conf();
 }
 
 void read_uid(void)
@@ -1655,7 +1654,11 @@ void	set_iot_network_from_flash(void)
 
 int main(void)
 {
-
+	uint32_t start_tick = 0;
+	uint32_t init_finish_tick = 0;
+	
+	start_tick = SysTick_GetTick();
+	
 	memory_init();
 	SysClkIni();
 	usart_init();//both debug and tuya
@@ -1674,12 +1677,15 @@ int main(void)
 	
 	SysTick_GetTick();
 //	GPIO1_HIGH();
-//	Delay_ms(ALL_UPLOAD_DELAY);
+	Delay_ms(ALL_UPLOAD_DELAY);
 //	GPIO1_LOW();
 	SysTick_GetTick();
 	
 	set_var_from_flash();
 	set_iot_network_from_flash();
+	
+	init_finish_tick = SysTick_GetTick();
+	SEGGER_RTT_printf(0, "\r\n%s%sinit time: %dms%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, init_finish_tick - start_tick, RTT_CTRL_RESET);
 	
 	while(1)
 	{
