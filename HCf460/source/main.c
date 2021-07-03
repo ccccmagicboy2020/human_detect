@@ -358,34 +358,34 @@ void fast_check_data_prepare(void)
 			switch (upssa0.ppp.load_radar_parameter)
 			{
 				case 0:		//0.5m
-					fpp_threshold = 1200.00f;
+					fpp_threshold = 650.00f;
 					break;
 				case 1:		//1.0m
-					fpp_threshold = 1100.00f;
+					fpp_threshold = 600.00f;
 					break;
 				case 2:		//1.5m
-					fpp_threshold = 1000.00f;
+					fpp_threshold = 550.00f;
 					break;
 				case 3:		//2.0m
-					fpp_threshold = 900.00f;
-					break;
-				case 4:		//2.5m
-					fpp_threshold = 800.00f;
-					break;					
-				case 5:		//3.0m
-					fpp_threshold = 700.00f;
-					break;
-				case 6:		//3.5m
-					fpp_threshold = 600.00f;
-					break;		
-				case 7:		//4.0m
 					fpp_threshold = 500.00f;
 					break;
-				case 8:		//4.5m
+				case 4:		//2.5m
+					fpp_threshold = 450.00f;
+					break;					
+				case 5:		//3.0m
 					fpp_threshold = 400.00f;
 					break;
-				case 9:		//5.0m
+				case 6:		//3.5m
+					fpp_threshold = 350.00f;
+					break;		
+				case 7:		//4.0m
 					fpp_threshold = 300.00f;
+					break;
+				case 8:		//4.5m
+					fpp_threshold = 250.00f;
+					break;
+				case 9:		//5.0m
+					fpp_threshold = 200.00f;
 					break;					
 				default:
 					fpp_threshold = 200.00f;
