@@ -16,7 +16,7 @@ def check_p0(file_name):
                 #print(p0, end='\n')
                 p0_list.append(p0)
 
-    p0_list.sort(reverse=True)
+    #p0_list.sort(reverse=True)
     p0_list = p0_list[1:-1]
     p0_len = len(p0_list)
     p0_max = max(p0_list)
@@ -43,7 +43,7 @@ def check_p1(file_name):
                 #print(p1, end='\n')
                 p1_list.append(p1)
 
-    p1_list.sort(reverse=True)
+    #p1_list.sort(reverse=True)
     p1_list = p1_list[1:-1]
     p1_len = len(p1_list)
     p1_max = max(p1_list)
@@ -70,7 +70,7 @@ def check_p2(file_name):
                 #print(p2, end='\n')
                 p2_list.append(p2)
 
-    p2_list.sort(reverse=True)
+    #p2_list.sort(reverse=True)
     p2_list = p2_list[1:-1]
     p2_len = len(p2_list)
     p2_max = max(p2_list)
@@ -97,7 +97,7 @@ def check_p3(file_name):
                 #print(p2, end='\n')
                 p3_list.append(p2)
 
-    p3_list.sort(reverse=True)
+    #p3_list.sort(reverse=True)
     #p3_list = p3_list[1:-1]
     p2_len = len(p3_list)
     p2_max = max(p3_list)
@@ -124,7 +124,7 @@ def check_p4(file_name):
                 #print(p2, end='\n')
                 p4_list.append(p2)
 
-    p4_list.sort(reverse=True)
+    #p4_list.sort(reverse=True)
     #p4_list = p4_list[1:-1]
     p2_len = len(p4_list)
     p2_max = max(p4_list)
