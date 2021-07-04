@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<JScopeProject>
+    <FileVersion major="1" minor="1" />
+    <Project>
+        <Configuration>
+            <JLink>
+                <Options IsRTTSession="0" IsRTTWithTimeStamp="1" SamplingPeriod="20000" Connection="1" SerialNo="0" IP="" TargetDevice="HC32F46x" TargetInterface="SWD" InterfaceSpeed="4000" />
+            </JLink>
+            <ElfFile Name="D:\cccc2020\CODE\human_detect\HCf460\MDK\output\debug\adc_03_sa_interrupt.axf" />
+            <DataFile Name="" />
+            <RawFile Name="" />
+            <Scope>
+                <Options TimeResolutionUs="1000000" />
+            </Scope>
+        </Configuration>
+        <Windows>
+            <Graph Show="1" />
+            <Watch Show="1" />
+        </Windows>
+        <SelectedSymbols>
+            <Symbol>
+                <Options Name="fpp_result" Address="0x1FFF8930" Type="volatile float" TypeID="1" Size="4" GraphColorRed="255" GraphColorGreen="215" GraphColorBlue="0" YMinSampled="15" YMaxSampled="1951" YAvgSampled="225" Offset="4" ShowInGraph="1" YOffset="200" IsAutoConfig="0" YResolution="1000" MaxValue="20000" File="..\source\main.c" Scope="0" DrawStyle="0" />
+            </Symbol>
+            <Symbol>
+                <Options Name="fpp_threshold" Address="0x1FFF8934" Type="volatile float" TypeID="1" Size="4" GraphColorRed="0" GraphColorGreen="255" GraphColorBlue="0" YMinSampled="600" YMaxSampled="600" YAvgSampled="600" Offset="8" ShowInGraph="1" YOffset="200" IsAutoConfig="0" YResolution="1000" MaxValue="1000" File="..\source\main.c" Scope="0" DrawStyle="0" />
+            </Symbol>
+            <Symbol>
+                <Options Name="quick_check_prepare_lock" Address="0x1FFF88DC" Type="int" TypeID="12" Size="4" GraphColorRed="0" GraphColorGreen="0" GraphColorBlue="176" YMinSampled="0" YMaxSampled="1" YAvgSampled="0" Offset="12" ShowInGraph="1" YOffset="200" IsAutoConfig="1" YResolution="1" MaxValue="2" File="..\source\main.c" Scope="0" DrawStyle="0" />
+            </Symbol>
+        </SelectedSymbols>
+    </Project>
+</JScopeProject>

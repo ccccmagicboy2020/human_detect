@@ -57,6 +57,7 @@ char slow_retry_flag = 1;
 
 int run_mode = 0;
 int slow_only_flag = 0;
+int quick_check_prepare_lock = 0;
 
 volatile int check_status = TUYA_OTHER;
 volatile int person_in_range_flag = 0;
@@ -69,10 +70,8 @@ char slow_check_result_last = 1;//no person
 char JS_RTT_UpBuffer[1024];
 Val_t adc_value;
 ////////////////////////////////////////////////////////////
-volatile float max_std = 0;
-//volatile float max_std __attribute__((section(".ARM.__at_0x1FFF8D60"))) = 0;
-float pResult = 0;
-//float pResult __attribute__((section(".ARM.__at_0x1FFF8D64"))) = 0;
+float spp_result = 0;
+//float spp_result __attribute__((section(".ARM.__at_0x1FFF8D64"))) = 0;
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
 void check_status_upload(unsigned int aaaa);
@@ -131,6 +130,10 @@ unsigned int slow_samplerate = 9999;		//5K
 union KKK upssa0;
 ////////////////////////////////////////////////////////////
 int breathe_upload_en = 1;
+////////////////////////////////////////////////////////////
+volatile float fpp_result = 0.00f;
+volatile float fpp_threshold = 0.00f;
+volatile float spp_threshold = 0.00f;
 ////////////////////////////////////////////////////////////
 void clear_buffer(void)
 {
@@ -297,11 +300,10 @@ void fast_check_data_prepare(void)
 	static	int i = 0;	//index, fullfill the tank first
 	int j = 0;
 	int k = 0;	//index
-	float fpp_result = 0.00f;
-	float fpp_threshold = 0.00f;
 	
 	float data_temp[512] = {0};
 	char float_str[64];
+	float fpp_result2 = 0.00f;
 	
 	if (fast_retry_flag)
 	{
@@ -328,8 +330,18 @@ void fast_check_data_prepare(void)
 			SEGGER_RTT_printf(0, "fifo0 number: (i=%d) - %d\r\n", i, FIFO_GetDataCount(&FIFO_Data[0]));
 			FIFO_ReadData(&FIFO_Data[0], &Fast_detection_data[FAST_CHECK_SAMPLES*(i-1)], FAST_CHECK_SAMPLES);
 			SEGGER_RTT_printf(0, "fifo0 number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[0]));
-			state = IDLE;
-			next_state = FAST_CHECK;			//bingo to check
+			
+				if (quick_check_prepare_lock == 1)
+				{
+					i = 0;
+					state = IDLE;
+					next_state = FAST_CHECK_DATA_PREPARE;
+				}
+				else
+				{
+					state = IDLE;
+					next_state = FAST_CHECK;		//bingo to check
+				}			
 		}
 		else		// fullfill the tank
 		{
@@ -340,7 +352,16 @@ void fast_check_data_prepare(void)
 
 			if (i == FAST_CHECK_TIMES)
 			{
-				state = FAST_CHECK;		//bingo to check
+				if (quick_check_prepare_lock == 1)
+				{
+					state = IDLE;
+					next_state = FAST_CHECK_DATA_PREPARE;
+				}
+				else
+				{
+					state = IDLE;
+					next_state = FAST_CHECK;		//bingo to check
+				}
 			}
 			else
 			{
@@ -353,7 +374,9 @@ void fast_check_data_prepare(void)
 				data_temp[j] = Fast_detection_data[FAST_CHECK_SAMPLES*(i-1)+j];
 			}
 
-			arm_std_f32(data_temp, FAST_CHECK_SAMPLES, &fpp_result);
+			arm_std_f32(data_temp, FAST_CHECK_SAMPLES, &fpp_result2);
+			
+			fpp_result = fpp_result2;
 
 			switch (upssa0.ppp.load_radar_parameter)
 			{
@@ -504,21 +527,49 @@ void slow_check_data_prepare_s0(void)
 			data_temp[j] = temp[j];
 		}
 
-		arm_std_f32(data_temp, SLOW_CHECK_SAMPLES, &pResult);
+		arm_std_f32(data_temp, SLOW_CHECK_SAMPLES, &spp_result);
+		
+			switch (upssa0.ppp.load_radar_parameter)
+			{
+				case 0:		//0.5m
+					spp_threshold = 650.00f;
+					break;
+				case 1:		//1.0m
+					spp_threshold = 600.00f;
+					break;
+				case 2:		//1.5m
+					spp_threshold = 550.00f;
+					break;
+				case 3:		//2.0m
+					spp_threshold = 500.00f;
+					break;
+				case 4:		//2.5m
+					spp_threshold = 450.00f;
+					break;					
+				case 5:		//3.0m
+					spp_threshold = 400.00f;
+					break;
+				case 6:		//3.5m
+					spp_threshold = 350.00f;
+					break;		
+				case 7:		//4.0m
+					spp_threshold = 300.00f;
+					break;
+				case 8:		//4.5m
+					spp_threshold = 250.00f;
+					break;
+				case 9:		//5.0m
+					spp_threshold = 200.00f;
+					break;					
+				default:
+					spp_threshold = 200.00f;
+					break;
+			}
 
-		if (pResult > max_std)
-		{
-			max_std = pResult;
-		}
-		else
-		{
-			//do nothing
-		}
-
-		sprintf(float_str, "mid std result-max: %.2lf - %.2lf\r\n", pResult, max_std);
+		sprintf(float_str, "spp_threshold: %.3lf - %.3lf\r\n", spp_result, spp_threshold);
 		SEGGER_RTT_printf(0, "%s", float_str);			
 
-		if (max_std > 200.00f)
+		if (spp_result > spp_threshold)
 		{
 			if (slow_check_result != BIG_MOTION)
 			{
@@ -607,9 +658,7 @@ void slow_check_process_s0(void)
 	uint32_t now_tick = 0;
 	uint32_t diff = 0;
 	
-	char float_str[64];		
-	
-	max_std = 0;
+	char float_str[64];
 
 	now_tick = SysTick_GetTick();
 	diff = now_tick - last_tick;

@@ -52,6 +52,7 @@ extern int check_status;
 extern int person_in_range_flag;
 extern int run_mode;
 extern int slow_only_flag;
+extern int quick_check_prepare_lock;
 extern int state;
 extern int next_state;
 
@@ -582,11 +583,13 @@ static unsigned char dp_download_work_mode_handle(const unsigned char value[], u
         case 0:
 					run_mode = 0;//进慢
           slow_only_flag = 0;	//回快	
+		  quick_check_prepare_lock = 0;
         break;
         
         case 1:
 					run_mode = 1;//不进慢
           slow_only_flag = 0;//回快
+		  quick_check_prepare_lock = 0;
 				
 					if (next_state == FAST_CHECK_DATA_PREPARE)
 					{
@@ -625,6 +628,7 @@ static unsigned char dp_download_work_mode_handle(const unsigned char value[], u
         case 2:
 					run_mode = 0;//进慢
           slow_only_flag = 1;//不回快
+		  quick_check_prepare_lock = 0;
 
 					if (next_state == FAST_CHECK_DATA_PREPARE)
 					{
@@ -641,6 +645,45 @@ static unsigned char dp_download_work_mode_handle(const unsigned char value[], u
         break;
         
         case 3:
+					run_mode = 1;//不进慢
+          slow_only_flag = 0;//回快
+		  quick_check_prepare_lock = 1;
+		  
+				
+					if (next_state == FAST_CHECK_DATA_PREPARE)
+					{
+						//
+					}
+					else if(next_state == FAST_CHECK)
+					{
+						state = IDLE;
+						next_state = FAST_CHECK_DATA_PREPARE;
+						clear_buffer();
+					}
+					else if(next_state == SLOW_CHECK_DATA_PREPARE_S0)
+					{
+						state = IDLE;
+						next_state = FAST_CHECK_DATA_PREPARE;
+						clear_buffer();
+					}
+					else if(next_state == SLOW_CHECK_DATA_PREPARE_S1)
+					{
+						state = IDLE;
+						next_state = FAST_CHECK_DATA_PREPARE;
+						clear_buffer();
+					}
+					else if(next_state == SLOW_CHECK_S0)
+					{
+						state = IDLE;
+						next_state = FAST_CHECK_DATA_PREPARE;
+						clear_buffer();
+					}	
+					else if(next_state == SLOW_CHECK_S1)
+					{
+						state = IDLE;
+						next_state = FAST_CHECK_DATA_PREPARE;
+						clear_buffer();
+					}
         break;
         
         default:
