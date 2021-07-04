@@ -1,6 +1,8 @@
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib
+import peakutils
 
 matplotlib.rc("font",family='MicroSoft YaHei',weight="bold")
 
@@ -28,6 +30,18 @@ def check_p0(file_name):
     plt.figure(file_name.replace('.log', '') + '-p0')
     plt.title("p0")   
     plt.plot(p0_list)
+    ##
+    print('\r\n')
+    dist = 100
+    xx = pd.DataFrame(p0_list)
+    #print(xx)
+    yy = xx[0]
+    #print(yy)
+    indexes1 = peakutils.indexes(yy, thres=0.01, min_dist=dist)
+    #print(len(indexes1), indexes1)
+    print(yy[indexes1].nlargest(5))
+    print('\r\n')
+    ##
     plt.savefig(file_name.replace('.log', '') + '-p0.png')
     plt.close(file_name.replace('.log', '') + '-p0')
 
@@ -54,7 +68,19 @@ def check_p1(file_name):
     print("{:d}\t{:.2f}\t{:.2f}\t{:.2f}\t{:.2f}".format(p1_len, p1_max, p1_min, p1_avg, np.median(p1_list)))
     plt.figure(file_name.replace('.log', '') + '-p1')    
     plt.title("p1")       
-    plt.plot(p1_list)  
+    plt.plot(p1_list)
+    ##
+    print('\r\n')
+    dist = 100
+    xx = pd.DataFrame(p1_list)
+    #print(xx)
+    yy = xx[0]
+    #print(yy)
+    indexes1 = peakutils.indexes(yy, thres=0.01, min_dist=dist)
+    #print(len(indexes1), indexes1)
+    print(yy[indexes1].nlargest(5))
+    print('\r\n')
+    ##
     plt.savefig(file_name.replace('.log', '') + '-p1.png')
     plt.close(file_name.replace('.log', '') + '-p1')
 
@@ -82,6 +108,18 @@ def check_p2(file_name):
     plt.figure(file_name.replace('.log', '') + '-p2')    
     plt.title("p2")       
     plt.plot(p2_list)
+    ##
+    print('\r\n')
+    dist = 100
+    xx = pd.DataFrame(p2_list)
+    #print(xx)
+    yy = xx[0]
+    #print(yy)
+    indexes1 = peakutils.indexes(yy, thres=0.01, min_dist=dist)
+    #print(len(indexes1), indexes1)
+    print(yy[indexes1].nlargest(5))
+    print('\r\n')
+    ##
     plt.savefig(file_name.replace('.log', '') + '-p2.png')
     plt.close(file_name.replace('.log', '') + '-p2')
 
@@ -109,6 +147,18 @@ def check_p3(file_name):
     plt.figure(file_name.replace('.log', '') + '-p3')
     plt.title("p3")       
     plt.plot(p3_list)
+    ##
+    print('\r\n')
+    dist = 100
+    xx = pd.DataFrame(p3_list)
+    #print(xx)
+    yy = xx[0]
+    #print(yy)
+    indexes1 = peakutils.indexes(yy, thres=0.01, min_dist=dist)
+    #print(len(indexes1), indexes1)
+    print(yy[indexes1].nlargest(5))
+    print('\r\n')
+    ##
     plt.savefig(file_name.replace('.log', '') + '-p3.png') 
     plt.close(file_name.replace('.log', '') + '-p3')
 
@@ -136,6 +186,18 @@ def check_p4(file_name):
     plt.figure(file_name.replace('.log', '') + '-p4')
     plt.title("p4")      
     plt.plot(p4_list)
+    ##
+    print('\r\n')
+    dist = 5
+    xx = pd.DataFrame(p4_list)
+    #print(xx)
+    yy = xx[0]
+    #print(yy)
+    indexes1 = peakutils.indexes(yy, thres=0.01, min_dist=dist)
+    #print(len(indexes1), indexes1)
+    print(yy[indexes1].nlargest(5))
+    print('\r\n')
+    ##
     plt.savefig(file_name.replace('.log', '') + '-p4.png')
     plt.close(file_name.replace('.log', '') + '-p4')
 
