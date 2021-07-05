@@ -73,6 +73,7 @@ Val_t adc_value;
 float spp_result = 0;
 float mid_max = 0.00f;
 float mid_min = 0.00f;
+float mid_rms = 0.00f;
 //float spp_result __attribute__((section(".ARM.__at_0x1FFF8D64"))) = 0;
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
@@ -532,6 +533,7 @@ void slow_check_data_prepare_s0(void)
 		arm_std_f32(data_temp, SLOW_CHECK_SAMPLES, &spp_result);
 		arm_max_f32(data_temp, SLOW_CHECK_SAMPLES, &mid_max, NULL);
 		arm_min_f32(data_temp, SLOW_CHECK_SAMPLES, &mid_min, NULL);
+		arm_rms_f32(data_temp, SLOW_CHECK_SAMPLES, &mid_rms); 
 		
 			switch (upssa0.ppp.load_radar_parameter)
 			{
@@ -575,7 +577,9 @@ void slow_check_data_prepare_s0(void)
 		sprintf(float_str, "mid max: %.3lf\r\n", mid_max);
 		SEGGER_RTT_printf(0, "%s", float_str);
 		sprintf(float_str, "mid min: %.3lf\r\n", mid_min);
-		SEGGER_RTT_printf(0, "%s", float_str);		
+		SEGGER_RTT_printf(0, "%s", float_str);
+		sprintf(float_str, "mid rms: %.3lf\r\n", mid_rms);
+		SEGGER_RTT_printf(0, "%s", float_str);	
 
 		if (spp_result > spp_threshold)
 		{
