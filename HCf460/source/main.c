@@ -356,9 +356,9 @@ void fast_check_data_prepare(void)
 	{
 		fast_retry_flag = 0;		
 		set_samplerate(fast_samplerate);
-		//slow_samplerate = 9999;
+		slow_samplerate = 9999;
 		//slow_samplerate = 12499;
-		slow_samplerate = 24999;
+		//slow_samplerate = 24999;
 		i = 0;
 		memory_init();
 	}
@@ -813,7 +813,7 @@ void slow_check_process_s0(void)
 	{
 		SEGGER_RTT_printf(0, "slow check duty: %dms\r\n", diff);
 		
-		if (diff > 8000)
+		if (diff > 3276)
 		{
 			slow_samplerate -= 10;
 		}
