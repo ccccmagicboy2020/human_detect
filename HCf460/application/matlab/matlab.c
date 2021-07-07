@@ -269,8 +269,8 @@ int Fretting_detection(FIFO_DataType in_data5[4096],double N, double pro_N, doub
 		{
 			if (diff >= 0)
 			{
-				sprintf(float_str, "freq domain cfar trigger value: %.3lf-%.3lf\r\n", diff, offset);
-				SEGGER_RTT_printf(0, "%s", float_str);
+				//sprintf(float_str, "freq domain cfar trigger value: %.3lf-%.3lf\r\n", diff, offset);
+				//SEGGER_RTT_printf(0, "%s", float_str);
 			}
 		}
 	}

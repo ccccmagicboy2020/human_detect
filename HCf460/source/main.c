@@ -131,8 +131,9 @@ unsigned int fast_samplerate = 4999;	//10K-100us-51.2ms
 //unsigned int fast_samplerate = 2499;	//20K
 //unsigned int fast_samplerate = 1349;	//37K
 ////////////////////////////////////////////////////////////
+unsigned int slow_samplerate = 24999;		//2k-500us-1024ms-8192ms
 //unsigned int slow_samplerate = 12499;	//4K-250us-512ms-4096ms
-unsigned int slow_samplerate = 9999;		//5K-200us-409.6ms-3276.8ms
+//unsigned int slow_samplerate = 9999;		//5K-200us-409.6ms-3276.8ms
 //unsigned int slow_samplerate = 7499;	//6.7K
 ////////////////////////////////////////////////////////////
 union KKK upssa0;
@@ -357,7 +358,7 @@ void fast_check_data_prepare(void)
 		set_samplerate(fast_samplerate);
 		//slow_samplerate = 9999;
 		//slow_samplerate = 12499;
-		slow_samplerate = 14699;
+		slow_samplerate = 24999;
 		i = 0;
 		memory_init();
 	}
@@ -812,7 +813,7 @@ void slow_check_process_s0(void)
 	{
 		SEGGER_RTT_printf(0, "slow check duty: %dms\r\n", diff);
 		
-		if (diff > 4800)
+		if (diff > 8000)
 		{
 			slow_samplerate -= 10;
 		}
