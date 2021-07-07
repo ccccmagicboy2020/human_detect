@@ -394,7 +394,7 @@ void load_ceiling_setup(int mode)
 		upssa0.ppp.slow_time_add = 495.13f;
 		upssa0.ppp.slow_freq_times = 56.29f;
 		upssa0.ppp.res_times = 150.00f;
-		upssa0.ppp.offsetmin = 0.60f;
+		upssa0.ppp.offsetmin = 0.95f;
 	}
 	else if (mode == 102)	//test use
 	{
