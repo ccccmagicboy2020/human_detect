@@ -46,11 +46,13 @@
 #include "myusart.h"
 #include "hc32f46x_usart.h"
 #include "hc32_ddl.h"
+#include "myled.h"
 
 extern int check_status;
 extern int person_in_range_flag;
 extern int run_mode;
 extern int slow_only_flag;
+extern int quick_check_prepare_lock;
 extern int state;
 extern int next_state;
 
@@ -71,7 +73,10 @@ extern	union KKK upssa0;
 extern	char quick_detection_result_last;
 extern	char slow_check_result_last;
 extern	unsigned char data_report_upload_enable;
+extern	unsigned char data_report_upload_enable2;
 extern	int breathe_upload_en;
+
+int onboard_led_en = 1;
 ///////////////////////////////////////////////////////////////////////////////
 void Delay_ms(unsigned int t);
 void update_check_parameter(void);
@@ -189,16 +194,16 @@ void uart_transmit_output(unsigned char value)
 void all_data_update(void)
 {
   //此代码为平台自动生成，请按照实际数据修改每个可下发可上报函数和只上报函数
-    //mcu_dp_value_update(DPID_PIR_DELAY, 0); //枚举型数据上报;
-		//Delay_ms(ALL_UPLOAD_DELAY);
-    //mcu_dp_enum_update(DPID_LOAD_RADAR_PARAMETER, 0); //枚举型数据上报;
-	//Delay_ms(ALL_UPLOAD_DELAY);
+    mcu_dp_value_update(DPID_PIR_DELAY, upssa0.ppp.delay_time_num); //枚举型数据上报;
+	Delay_ms(ALL_UPLOAD_DELAY);
+    mcu_dp_enum_update(DPID_LOAD_RADAR_PARAMETER, upssa0.ppp.load_radar_parameter); //枚举型数据上报;
+	Delay_ms(ALL_UPLOAD_DELAY);
 	mcu_dp_enum_update(DPID_LIGHT_STATUS, light_status_flag);
 	Delay_ms(ALL_UPLOAD_DELAY);
 	//////////////////////////////////////////////////////////////////////////
 
     mcu_dp_enum_update(DPID_PERSON_IN_RANGE, person_in_range_flag); //枚举型数据上报;
-		Delay_ms(ALL_UPLOAD_DELAY);
+	Delay_ms(ALL_UPLOAD_DELAY);
 
 		if (person_meter != 0)
 		{
@@ -214,29 +219,27 @@ void all_data_update(void)
 	mcu_dp_enum_update(DPID_SLOW_CHECK_RESULT, slow_check_result);
 	Delay_ms(ALL_UPLOAD_DELAY);
     mcu_dp_enum_update(DPID_WORK_MODE, g_work_mode); //枚举型数据上报;
-		Delay_ms(ALL_UPLOAD_DELAY);
-		mcu_dp_bool_update(DPID_FIND_ME,1);
-		Delay_ms(ALL_UPLOAD_DELAY);
-		mcu_dp_value_update(DPID_LIGHT_THRESHOLD1, upssa0.ppp.Light_threshold1);
-		Delay_ms(ALL_UPLOAD_DELAY);
-		mcu_dp_value_update(DPID_LIGHT_THRESHOLD2, upssa0.ppp.Light_threshold2);
-		Delay_ms(ALL_UPLOAD_DELAY);
-		mcu_dp_value_update(DPID_LIGHT_THRESHOLD3, upssa0.ppp.Light_threshold3);
-		Delay_ms(ALL_UPLOAD_DELAY);
-		mcu_dp_value_update(DPID_LIGHT_THRESHOLD4, upssa0.ppp.Light_threshold4);
-		Delay_ms(ALL_UPLOAD_DELAY);
+	Delay_ms(ALL_UPLOAD_DELAY);
+	mcu_dp_value_update(DPID_LIGHT_THRESHOLD1, upssa0.ppp.Light_threshold1);
+	Delay_ms(ALL_UPLOAD_DELAY);
+	mcu_dp_value_update(DPID_LIGHT_THRESHOLD2, upssa0.ppp.Light_threshold2);
+	Delay_ms(ALL_UPLOAD_DELAY);
+	mcu_dp_value_update(DPID_LIGHT_THRESHOLD3, upssa0.ppp.Light_threshold3);
+	Delay_ms(ALL_UPLOAD_DELAY);
+	mcu_dp_value_update(DPID_LIGHT_THRESHOLD4, upssa0.ppp.Light_threshold4);
+	Delay_ms(ALL_UPLOAD_DELAY);
 		
-		if (breathe_freq != 0)
+	if (breathe_freq != 0)
+	{
+		if (breathe_upload_en)	//
 		{
-			if (breathe_upload_en)	//
-			{
-				mcu_dp_value_update(DPID_BREATHE_FREQ, (int)((breathe_freq*10.0f)+0.5f));
-				Delay_ms(ALL_UPLOAD_DELAY);
-			}		
-		}
-		
-		update_check_parameter();
-		
+			mcu_dp_value_update(DPID_BREATHE_FREQ, (int)((breathe_freq*10.0f)+0.5f));
+			Delay_ms(ALL_UPLOAD_DELAY);
+		}		
+	}
+	
+	//disable this
+	//update_check_parameter();	
 }
 
 
@@ -391,7 +394,18 @@ void load_ceiling_setup(int mode)
 		upssa0.ppp.slow_time_add = 495.13f;
 		upssa0.ppp.slow_freq_times = 56.29f;
 		upssa0.ppp.res_times = 470.40f;
-		upssa0.ppp.offsetmin = 2.33f;
+		upssa0.ppp.offsetmin = 2.33f*0.9f;
+	}
+	else if (mode == 102)	//test use
+	{
+		upssa0.ppp.quick_time_times = 0.0f;
+		upssa0.ppp.quick_time_add = 0.0f;
+		upssa0.ppp.quick_freq_times = 0.0f;
+		upssa0.ppp.slow_time_times = 0.0f;
+		upssa0.ppp.slow_time_add = 0.0f;
+		upssa0.ppp.slow_freq_times = 0.0f;
+		upssa0.ppp.res_times = 0.0f;
+		upssa0.ppp.offsetmin = 0.0f;
 	}
 }
 
@@ -425,10 +439,9 @@ static unsigned char dp_download_load_radar_parameter_handle(const unsigned char
 {
     //示例:当前DP类型为ENUM
     unsigned char ret;
-    unsigned char load_radar_parameter;
     
-    load_radar_parameter = mcu_get_dp_download_enum(value,length);
-    switch(load_radar_parameter) {
+    upssa0.ppp.load_radar_parameter = mcu_get_dp_download_enum(value,length);
+    switch(upssa0.ppp.load_radar_parameter) {
         case 0:
 			//load_ceiling_setup(0);
 			//SEGGER_RTT_printf(0, "%s%sload ceiling setup %d%s\r\n", RTT_CTRL_BG_BRIGHT_YELLOW, RTT_CTRL_TEXT_BLACK, 0, RTT_CTRL_RESET);
@@ -443,8 +456,8 @@ static unsigned char dp_download_load_radar_parameter_handle(const unsigned char
 				case 7:
 				case 8:
 				case 9:
-					load_ceiling_setup(load_radar_parameter - 1);
-					SEGGER_RTT_printf(0, "%s%sload ceiling setup %d%s\r\n", RTT_CTRL_BG_BRIGHT_YELLOW, RTT_CTRL_TEXT_BLACK, load_radar_parameter - 1, RTT_CTRL_RESET);   
+					load_ceiling_setup(upssa0.ppp.load_radar_parameter - 1);
+					SEGGER_RTT_printf(0, "%s%sload ceiling setup %d%s\r\n", RTT_CTRL_BG_BRIGHT_YELLOW, RTT_CTRL_TEXT_BLACK, upssa0.ppp.load_radar_parameter - 1, RTT_CTRL_RESET);   
         break;
         
         
@@ -453,16 +466,20 @@ static unsigned char dp_download_load_radar_parameter_handle(const unsigned char
         case 0x62:
         case 0x63:
         case 0x64:					
-            SEGGER_RTT_printf(0, "load user parameter%d\r\n", load_radar_parameter - 0x60);
+            SEGGER_RTT_printf(0, "load user parameter%d\r\n", upssa0.ppp.load_radar_parameter - 0x60);
         break;
         
+		case 0xFF:
+            SEGGER_RTT_printf(0, "load test use parameter\r\n");
+			load_ceiling_setup(102);
+		break;
         default:
 					//
         break;
     }
     
     //处理完DP数据后应有反馈
-    ret = mcu_dp_enum_update(DPID_LOAD_RADAR_PARAMETER, load_radar_parameter);
+    ret = mcu_dp_enum_update(DPID_LOAD_RADAR_PARAMETER, upssa0.ppp.load_radar_parameter);
     if(ret == SUCCESS)
         return SUCCESS;
     else
@@ -577,11 +594,13 @@ static unsigned char dp_download_work_mode_handle(const unsigned char value[], u
         case 0:
 					run_mode = 0;//进慢
           slow_only_flag = 0;	//回快	
+		  quick_check_prepare_lock = 0;
         break;
         
         case 1:
 					run_mode = 1;//不进慢
           slow_only_flag = 0;//回快
+		  quick_check_prepare_lock = 0;
 				
 					if (next_state == FAST_CHECK_DATA_PREPARE)
 					{
@@ -620,6 +639,7 @@ static unsigned char dp_download_work_mode_handle(const unsigned char value[], u
         case 2:
 					run_mode = 0;//进慢
           slow_only_flag = 1;//不回快
+		  quick_check_prepare_lock = 0;
 
 					if (next_state == FAST_CHECK_DATA_PREPARE)
 					{
@@ -636,6 +656,45 @@ static unsigned char dp_download_work_mode_handle(const unsigned char value[], u
         break;
         
         case 3:
+					run_mode = 1;//不进慢
+          slow_only_flag = 0;//回快
+		  quick_check_prepare_lock = 1;
+		  
+				
+					if (next_state == FAST_CHECK_DATA_PREPARE)
+					{
+						//
+					}
+					else if(next_state == FAST_CHECK)
+					{
+						state = IDLE;
+						next_state = FAST_CHECK_DATA_PREPARE;
+						clear_buffer();
+					}
+					else if(next_state == SLOW_CHECK_DATA_PREPARE_S0)
+					{
+						state = IDLE;
+						next_state = FAST_CHECK_DATA_PREPARE;
+						clear_buffer();
+					}
+					else if(next_state == SLOW_CHECK_DATA_PREPARE_S1)
+					{
+						state = IDLE;
+						next_state = FAST_CHECK_DATA_PREPARE;
+						clear_buffer();
+					}
+					else if(next_state == SLOW_CHECK_S0)
+					{
+						state = IDLE;
+						next_state = FAST_CHECK_DATA_PREPARE;
+						clear_buffer();
+					}	
+					else if(next_state == SLOW_CHECK_S1)
+					{
+						state = IDLE;
+						next_state = FAST_CHECK_DATA_PREPARE;
+						clear_buffer();
+					}
         break;
         
         default:
@@ -991,12 +1050,58 @@ static unsigned char dp_download_common_command_handle(const unsigned char value
         case 5://disalbe the data upload every 5s
 			data_report_upload_enable = 0;
         break;
-        
+				case 0x12://enable
+					onboard_led_en = 1;
+					if (person_in_range_flag == 1)
+					{
+						led_red(1);
+					}
+					else
+					{
+						led_red(0);
+					}
+					switch (mcu_get_bt_work_state())
+					{
+							case		BT_UN_BIND:
+							case    BT_NOT_CONNECTED:
+							case    BT_SATE_UNKNOW:
+									led_green(0);
+									break;
+							case    BT_CONNECTED:
+									led_green(1);
+									break;
+							default:
+									break;
+					}	
+					break;
+				case 0x13://disable
+					onboard_led_en = 0;
+					led_red(0);
+					led_green(0);
+					break;
 				case 0x14://enable
 					breathe_upload_en = 1;
 					break;
 				case 0x15://disable
 					breathe_upload_en = 0;
+					break;
+				case 0x16://enable
+					data_report_upload_enable2 = 1;
+					break;
+				case 0x17://disable
+					data_report_upload_enable2 = 0;
+					break;
+				case 0x18:
+					mcu_dp_value_update(DPID_PIR_DELAY, upssa0.ppp.delay_time_num);
+					break;
+				case 0x19:
+					mcu_dp_value_update(DPID_LIGHT_THRESHOLD3, upssa0.ppp.Light_threshold3);
+					break;
+				case 0x1A:
+					mcu_dp_value_update(DPID_LIGHT_THRESHOLD4, upssa0.ppp.Light_threshold4);
+					break;
+				case 0x1B:
+					mcu_dp_enum_update(DPID_LOAD_RADAR_PARAMETER, upssa0.ppp.load_radar_parameter);
 					break;
         default:
 					break;
@@ -1620,6 +1725,8 @@ void reset_default_parameter(void)
 	upssa0.ppp.upload_duty = 8000;
 	SEGGER_RTT_printf(0, "%s%sload upload_duty: %dms%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.upload_duty, RTT_CTRL_RESET);		
 
+	upssa0.ppp.load_radar_parameter = 1;
+	SEGGER_RTT_printf(0, "%s%sload load_radar_parameter: %d%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.load_radar_parameter, RTT_CTRL_RESET);	
 	//
 }
 

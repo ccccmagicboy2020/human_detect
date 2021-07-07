@@ -57,6 +57,7 @@ char slow_retry_flag = 1;
 
 int run_mode = 0;
 int slow_only_flag = 0;
+int quick_check_prepare_lock = 0;
 
 volatile int check_status = TUYA_OTHER;
 volatile int person_in_range_flag = 0;
@@ -69,15 +70,14 @@ char slow_check_result_last = 1;//no person
 char JS_RTT_UpBuffer[1024];
 Val_t adc_value;
 ////////////////////////////////////////////////////////////
-volatile float max_std = 0;
-//volatile float max_std __attribute__((section(".ARM.__at_0x1FFF8D60"))) = 0;
-volatile float max_std_last = 0;
-float pResult = 0.00f;
+float spp_result = 0;
 float mid_avg = 0.00f;
 float mid_max = 0.00f;
 float mid_min = 0.00f;
-//float pResult __attribute__((section(".ARM.__at_0x1FFF8D64"))) = 0;
-float pResult_last = 0;
+float mid_rms = 0.00f;
+//float spp_result __attribute__((section(".ARM.__at_0x1FFF8D64"))) = 0;
+float spp_result_last = 0;
+float mid_rms_last = 0;
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
 void check_status_upload(unsigned int aaaa);
@@ -106,6 +106,7 @@ unsigned short  light_sensor2_adc_data_last;
 ////////////////////////////////////////////////////////////
 unsigned char data_report_upload_flag = 0;
 unsigned char data_report_upload_enable = 0;
+unsigned char data_report_upload_enable2 = 0;
 ////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////
 volatile unsigned int  person_meter = 0;
@@ -139,6 +140,10 @@ union KKK upssa0;
 int breathe_upload_en = 1;
 unsigned char current_light_color = WARM;
 unsigned char hand_swipe_enable = 1;
+volatile float fpp_result = 0.00f;
+volatile float fpp_threshold = 0.00f;
+volatile float spp_threshold = 0.00f;
+int wave_bingo = 0;
 ////////////////////////////////////////////////////////////
 void clear_buffer(void)
 {
@@ -335,15 +340,16 @@ void slow_output_result(char slow_s0_result)
 		break;
 	}	
 }
-#pragma arm section code = "RAMCODE"
+//#pragma arm section code = "RAMCODE"
 void fast_check_data_prepare(void)
 {
 	static	int i = 0;	//index, fullfill the tank first
 	int j = 0;
 	int k = 0;	//index
-	float pp_result = 0.00f;
+	
 	float data_temp[512] = {0};
 	char float_str[64];
+	float fpp_result2 = 0.00f;
 	
 	if (fast_retry_flag)
 	{
@@ -372,8 +378,18 @@ void fast_check_data_prepare(void)
 			SEGGER_RTT_printf(0, "fifo0 number: (i=%d) - %d\r\n", i, FIFO_GetDataCount(&FIFO_Data[0]));
 			FIFO_ReadData(&FIFO_Data[0], &Fast_detection_data[FAST_CHECK_SAMPLES*(i-1)], FAST_CHECK_SAMPLES);
 			SEGGER_RTT_printf(0, "fifo0 number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[0]));
-			state = IDLE;
-			next_state = FAST_CHECK;			//bingo to check
+			
+				if (quick_check_prepare_lock == 1)
+				{
+					i = 0;
+					state = IDLE;
+					next_state = FAST_CHECK_DATA_PREPARE;
+				}
+				else
+				{
+					state = IDLE;
+					next_state = FAST_CHECK;		//bingo to check
+				}			
 		}
 		else		// fullfill the tank
 		{
@@ -384,7 +400,16 @@ void fast_check_data_prepare(void)
 
 			if (i == FAST_CHECK_TIMES)
 			{
-				state = FAST_CHECK;		//bingo to check
+				if (quick_check_prepare_lock == 1)
+				{
+					state = IDLE;
+					next_state = FAST_CHECK_DATA_PREPARE;
+				}
+				else
+				{
+					state = IDLE;
+					next_state = FAST_CHECK;		//bingo to check
+				}
 			}
 			else
 			{
@@ -397,15 +422,54 @@ void fast_check_data_prepare(void)
 				data_temp[j] = Fast_detection_data[FAST_CHECK_SAMPLES*(i-1)+j];
 			}
 
-			arm_std_f32(data_temp, FAST_CHECK_SAMPLES, &pp_result);
+			arm_std_f32(data_temp, FAST_CHECK_SAMPLES, &fpp_result2);
+			
+			fpp_result = fpp_result2;
 
-			sprintf(float_str, "%s%spp_result: %.3lf%s\r\n", RTT_CTRL_BG_BRIGHT_GREEN, RTT_CTRL_TEXT_BLACK, pp_result, RTT_CTRL_RESET);
-			SEGGER_RTT_printf(0, "%s", float_str);
-
-			if (pp_result > 100.00f)
+			switch (upssa0.ppp.load_radar_parameter)
 			{
-				//fast_output_result(1);
-			}	
+				case 0:		//0.5m
+					fpp_threshold = 650.00f;
+					break;
+				case 1:		//1.0m
+					fpp_threshold = 600.00f;
+					break;
+				case 2:		//1.5m
+					fpp_threshold = 550.00f;
+					break;
+				case 3:		//2.0m
+					fpp_threshold = 500.00f;
+					break;
+				case 4:		//2.5m
+					fpp_threshold = 450.00f;
+					break;					
+				case 5:		//3.0m
+					fpp_threshold = 400.00f;
+					break;
+				case 6:		//3.5m
+					fpp_threshold = 350.00f;
+					break;		
+				case 7:		//4.0m
+					fpp_threshold = 300.00f;
+					break;
+				case 8:		//4.5m
+					fpp_threshold = 250.00f;
+					break;
+				case 9:		//5.0m
+					fpp_threshold = 200.00f;
+					break;					
+				default:
+					fpp_threshold = 200.00f;
+					break;
+			}
+			
+			if (fpp_result > fpp_threshold)
+			{
+				fast_output_result(1);
+			}			
+			
+			sprintf(float_str, "%s%sfpp_result: %.3lf - %.3lf%s\r\n", RTT_CTRL_BG_BRIGHT_GREEN, RTT_CTRL_TEXT_BLACK, fpp_result, fpp_threshold, RTT_CTRL_RESET);
+			SEGGER_RTT_printf(0, "%s", float_str);
 		}
 	}
 	else
@@ -414,7 +478,8 @@ void fast_check_data_prepare(void)
 		next_state = FAST_CHECK_DATA_PREPARE;
 	}
 }
-#pragma arm section
+//#pragma arm section
+
 void fast_check_process(void)
 {
 	int i = 0;	//index
@@ -488,7 +553,7 @@ void fast_check_process(void)
 	fast_output_result(quick_detection_result);
 }
 
-#pragma arm section code = "RAMCODE"
+//#pragma arm section code = "RAMCODE"
 void slow_check_data_prepare_s0(void)
 {
 	int i = 0;	//index
@@ -496,7 +561,6 @@ void slow_check_data_prepare_s0(void)
 	FIFO_DataType  temp[2048] = {0};//temp data
 	char float_str[64];
 	float data_temp[2048] = {0};
-//	float temp_cent = 0.00f;
 	
 	set_samplerate(slow_samplerate);
 	
@@ -511,35 +575,65 @@ void slow_check_data_prepare_s0(void)
 			data_temp[j] = temp[j];
 		}
 
-		arm_std_f32(data_temp, SLOW_CHECK_SAMPLES, &pResult);
+		arm_std_f32(data_temp, SLOW_CHECK_SAMPLES, &spp_result);
 		arm_mean_f32(data_temp, SLOW_CHECK_SAMPLES, &mid_avg);
 		arm_max_f32(data_temp, SLOW_CHECK_SAMPLES, &mid_max, NULL);
 		arm_min_f32(data_temp, SLOW_CHECK_SAMPLES, &mid_min, NULL);
+		arm_rms_f32(data_temp, SLOW_CHECK_SAMPLES, &mid_rms); 
 		
-		sprintf(float_str, "mid avg result: %.2lf\r\n", mid_avg);
-		SEGGER_RTT_printf(0, "%s", float_str);
-		sprintf(float_str, "mid max result: %.2lf\r\n", mid_max);
-		SEGGER_RTT_printf(0, "%s", float_str);
-		sprintf(float_str, "mid min result: %.2lf\r\n", mid_min);
+			switch (upssa0.ppp.load_radar_parameter)
+			{
+				case 0:		//0.5m
+					spp_threshold = 650.00f;
+					break;
+				case 1:		//1.0m
+					spp_threshold = 600.00f;
+					break;
+				case 2:		//1.5m
+					spp_threshold = 550.00f;
+					break;
+				case 3:		//2.0m
+					spp_threshold = 500.00f;
+					break;
+				case 4:		//2.5m
+					spp_threshold = 450.00f;
+					break;					
+				case 5:		//3.0m
+					spp_threshold = 400.00f;
+					break;
+				case 6:		//3.5m
+					spp_threshold = 350.00f;
+					break;		
+				case 7:		//4.0m
+					spp_threshold = 300.00f;
+					break;
+				case 8:		//4.5m
+					spp_threshold = 250.00f;
+					break;
+				case 9:		//5.0m
+					spp_threshold = 200.00f;
+					break;					
+				default:
+					spp_threshold = 200.00f;
+					break;
+			}
+
+		sprintf(float_str, "spp_threshold: %.3lf - %.3lf\r\n", spp_result, spp_threshold);
 		SEGGER_RTT_printf(0, "%s", float_str);		
+		sprintf(float_str, "mid avg: %.3lf\r\n", mid_avg);
+		SEGGER_RTT_printf(0, "%s", float_str);
+		sprintf(float_str, "mid max: %.3lf\r\n", mid_max);
+		SEGGER_RTT_printf(0, "%s", float_str);
+		sprintf(float_str, "mid min: %.3lf\r\n", mid_min);
+		SEGGER_RTT_printf(0, "%s", float_str);
+		sprintf(float_str, "mid rms: %.3lf\r\n", mid_rms);
+		SEGGER_RTT_printf(0, "%s", float_str);	
 
-		if (pResult > max_std)
-		{
-			max_std = pResult;
-		}
-		else
-		{
-			//do nothing
-		}
-
-		sprintf(float_str, "mid std result-max: %.2lf - %.2lf\r\n", pResult, max_std);
-		SEGGER_RTT_printf(0, "%s", float_str);			
-
-		if (max_std > 200.00f)
+		if (spp_result > spp_threshold)
 		{
 			if (slow_check_result != BIG_MOTION)
 			{
-				//slow_check_result_upload(BIG_MOTION);
+				slow_check_result_upload(BIG_MOTION);
 			}
 		}
 		
@@ -563,60 +657,70 @@ void slow_check_data_prepare_s0(void)
 //		{
 //			temp_cent = 0.60f;
 //		}
-		
-		if (pResult > 1400.00f)
-		//if (pResult > pResult_last*1.2f && pResult > 1400.00f)
+		if (wave_bingo == 0)
 		{
-			sprintf(float_str, "%s%spResult trigger!!!@%.2lf > 1.2*%.2lf%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, pResult, pResult_last, RTT_CTRL_RESET);
-			SEGGER_RTT_printf(0, "%s", float_str);
-
-			if (1)
-			//if (mid_avg < 2000.00f)
-			//if (light_sensor2_adc_data < light_sensor2_adc_data_last*temp_cent)
+			if (spp_result > 1300.00f || spp_result_last > 1300.00f)
+			//if (spp_result > spp_result_last*1.2f && spp_result > 1400.00f)
 			{
-				//SEGGER_RTT_printf(0, "%s%slight_sensor2_adc_data trigger!!!@%d%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, light_sensor2_adc_data_last, RTT_CTRL_RESET);
-				if (mid_max > 3870.00f)		
-				//if (hand_swipe_enable)
+				//sprintf(float_str, "%s%sspp_result trigger!!!@%.2lf > 1.2*%.2lf%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, spp_result, spp_result_last, RTT_CTRL_RESET);
+				//SEGGER_RTT_printf(0, "%s", float_str);
+
+				//if (1)
+				if (mid_rms > 2700.00f || mid_rms_last > 2700.00f)
+				//if (mid_avg < 2000.00f)
+				//if (light_sensor2_adc_data < light_sensor2_adc_data_last*temp_cent)
 				{
-					if (mid_min < 20.00f)
+					//SEGGER_RTT_printf(0, "%s%slight_sensor2_adc_data trigger!!!@%d%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, light_sensor2_adc_data_last, RTT_CTRL_RESET);
+					if (mid_max > 3800.00f)		
+					//if (hand_swipe_enable)
 					{
-						if (current_light_color == WARM)
+						if (mid_min < 20.00f)
 						{
-							current_light_color = COOL;
+							if (current_light_color == WARM)
+							{
+								current_light_color = COOL;
+							}
+							else if (current_light_color == COOL)
+							{
+								current_light_color = WARM;
+							}
+							else
+							{
+								current_light_color = WARM;
+							}
+							
+							if (current_light_color == WARM)
+							{
+								GPIO0_LOW();
+								GPIO1_HIGH();
+								SEGGER_RTT_printf(0, "%s%swarm color!!!@%d%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, light_sensor2_adc_data, RTT_CTRL_RESET);
+							}
+							else if (current_light_color == COOL)
+							{				
+								GPIO0_HIGH();
+								GPIO1_LOW();
+								SEGGER_RTT_printf(0, "%s%scool color!!!@%d%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, light_sensor2_adc_data, RTT_CTRL_RESET);			
+							}
+							else
+							{
+								GPIO0_LOW();
+								GPIO1_LOW();
+							}
+							hand_swipe_enable = 0;
+							wave_bingo = 1;
 						}
-						else if (current_light_color == COOL)
-						{
-							current_light_color = WARM;
-						}
-						else
-						{
-							current_light_color = WARM;
-						}
-						
-						if (current_light_color == WARM)
-						{
-							GPIO0_LOW();
-							GPIO1_HIGH();
-							SEGGER_RTT_printf(0, "%s%swarm color!!!@%d%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, light_sensor2_adc_data, RTT_CTRL_RESET);
-						}
-						else if (current_light_color == COOL)
-						{				
-							GPIO0_HIGH();
-							GPIO1_LOW();
-							SEGGER_RTT_printf(0, "%s%scool color!!!@%d%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, light_sensor2_adc_data, RTT_CTRL_RESET);			
-						}
-						else
-						{
-							GPIO0_LOW();
-							GPIO1_LOW();
-						}
-						hand_swipe_enable = 0;
 					}
 				}
 			}
 		}
+		else
+		{
+			//
+			wave_bingo = 0;
+		}
 
-		pResult_last = pResult;	//update var
+		spp_result_last = spp_result;	//update var
+		mid_rms_last = mid_rms;
 		light_sensor2_adc_data_last = light_sensor2_adc_data;	//update var
 
 		for(i=0;i<SLOW_CHECK_USE_SAMPLES;i++)
@@ -631,9 +735,9 @@ void slow_check_data_prepare_s0(void)
 		next_state = SLOW_CHECK_DATA_PREPARE_S0;	//not enough so loopback
 	}
 }
-#pragma arm section
+//#pragma arm section
 
-#pragma arm section code = "RAMCODE"
+//#pragma arm section code = "RAMCODE"
 void slow_check_data_prepare_s1(void)
 {
 	static	int i = 0;	//index for fullfill the tank
@@ -682,7 +786,7 @@ void slow_check_data_prepare_s1(void)
 		next_state = SLOW_CHECK_DATA_PREPARE_S0;	//not enough so loopback
 	}
 }
-#pragma arm section
+//#pragma arm section
 
 void slow_check_process_s0(void)
 {
@@ -700,10 +804,7 @@ void slow_check_process_s0(void)
 	uint32_t now_tick = 0;
 	uint32_t diff = 0;
 	
-	char float_str[64];		
-	
-	max_std = 0;
-	hand_swipe_enable = 1;
+	char float_str[64];
 
 	now_tick = SysTick_GetTick();
 	diff = now_tick - last_tick;
@@ -777,10 +878,10 @@ void slow_check_process_s0(void)
   switch (mcu_get_bt_work_state())
   {
       case	BT_UN_BIND:
-      case	BT_NOT_CONNECTED:
-      case	BT_SATE_UNKNOW:
+      case    BT_NOT_CONNECTED:
+      case    BT_SATE_UNKNOW:
           break;
-      case	BT_CONNECTED:
+      case    BT_CONNECTED:
           break;
       default:
           break;
@@ -912,10 +1013,11 @@ void slow_check_process_s1(void)
 						next_state = FAST_CHECK_DATA_PREPARE;	//no person so all loopback	to fast check
 						//do some thing
 						clear_buffer();
-						pResult = 0.00f;
+						spp_result = 0.00f;
 						mid_avg = 0.00f;
 						mid_max = 0.00f;
 						mid_min = 0.00f;
+						mid_rms = 0.00f;
 					}
 					else
 					{
@@ -1551,7 +1653,7 @@ void save_upssa0(void)
 	
     u32Addr = USER_PARAMETER_START_SECTOR_ADDRESS0;
 
-    for(int i = 0u; i < 14u; i++)
+    for(int i = 0u; i < 15u; i++)
     {
         EFM_SingleProgram(u32Addr, upssa0.int_value[i]);
 				SEGGER_RTT_printf(0, "%s%ssave flash address: 0x%x with 0x%x%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, u32Addr, upssa0.int_value[i], RTT_CTRL_RESET);
@@ -1730,6 +1832,13 @@ void set_var_from_flash(void)
 		upssa0.ppp.upload_duty = 8000;
 	}	
 	SEGGER_RTT_printf(0, "%s%sload upload_duty: %dms%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.upload_duty, RTT_CTRL_RESET);		
+/////////////////////////////////////////////////////
+	upssa0.ppp.load_radar_parameter = LOAD_RADAR_PARAMETER_FLASH;
+	if (upssa0.ppp.load_radar_parameter == -1)
+	{
+		upssa0.ppp.load_radar_parameter = 1;
+	}	
+	SEGGER_RTT_printf(0, "%s%sload load_radar_parameter: %d%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.load_radar_parameter, RTT_CTRL_RESET);		
 }
 
 void	set_iot_network_from_flash(void)
@@ -1754,7 +1863,11 @@ void	set_iot_network_from_flash(void)
 
 int main(void)
 {
-
+	uint32_t start_tick = 0;
+	uint32_t init_finish_tick = 0;
+	
+	start_tick = SysTick_GetTick();
+	
 	memory_init();
 	SysClkIni();
 	usart_init();//both debug and tuya
@@ -1785,6 +1898,9 @@ int main(void)
 	
 	set_var_from_flash();
 	set_iot_network_from_flash();
+	
+	init_finish_tick = SysTick_GetTick();
+	SEGGER_RTT_printf(0, "\r\n%s%sinit time: %dms%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, init_finish_tick - start_tick, RTT_CTRL_RESET);
 	
 	while(1)
 	{
