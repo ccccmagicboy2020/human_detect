@@ -263,7 +263,11 @@ int Fretting_detection(FIFO_DataType in_data5[4096],double N, double pro_N, doub
 				}              
 			}
 			
-			break;			
+#ifdef SAMPLE_USE_ONLY
+			//
+#else
+			break;
+#endif	
 		}
 	}
 	
