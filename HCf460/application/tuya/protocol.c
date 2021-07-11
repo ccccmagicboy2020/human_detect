@@ -390,11 +390,11 @@ void load_ceiling_setup(int mode)
 		upssa0.ppp.quick_time_times = 3.05f;
 		upssa0.ppp.quick_time_add = 495.13f;
 		upssa0.ppp.quick_freq_times = 297.25f;
-		upssa0.ppp.slow_time_times = 24.55f;
-		upssa0.ppp.slow_time_add = 495.13f;
-		upssa0.ppp.slow_freq_times = 56.29f;
-		upssa0.ppp.res_times = 150.00f;
-		upssa0.ppp.offsetmin = 0.95f;
+		upssa0.ppp.slow_time_times = 3.05f;
+		upssa0.ppp.slow_time_add = 19.00f;
+		upssa0.ppp.slow_freq_times = 33.29f;
+		upssa0.ppp.res_times = 40.00f;
+		upssa0.ppp.offsetmin = -2.0f;
 	}
 	else if (mode == 102)	//test use
 	{
@@ -405,7 +405,7 @@ void load_ceiling_setup(int mode)
 		upssa0.ppp.slow_time_add = 0.0f;
 		upssa0.ppp.slow_freq_times = 0.0f;
 		upssa0.ppp.res_times = 0.0f;
-		upssa0.ppp.offsetmin = 0.0f;
+		upssa0.ppp.offsetmin = -3.0f;
 	}
 }
 

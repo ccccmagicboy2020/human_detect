@@ -435,42 +435,7 @@ void fast_check_data_prepare(void)
 			
 			fpp_result = fpp_result2;
 
-			switch (upssa0.ppp.load_radar_parameter)
-			{
-				case 0:		//0.5m
-					fpp_threshold = 650.00f;
-					break;
-				case 1:		//1.0m
-					fpp_threshold = 600.00f;
-					break;
-				case 2:		//1.5m
-					fpp_threshold = 550.00f;
-					break;
-				case 3:		//2.0m
-					fpp_threshold = 500.00f;
-					break;
-				case 4:		//2.5m
-					fpp_threshold = 450.00f;
-					break;					
-				case 5:		//3.0m
-					fpp_threshold = 400.00f;
-					break;
-				case 6:		//3.5m
-					fpp_threshold = 350.00f;
-					break;		
-				case 7:		//4.0m
-					fpp_threshold = 300.00f;
-					break;
-				case 8:		//4.5m
-					fpp_threshold = 250.00f;
-					break;
-				case 9:		//5.0m
-					fpp_threshold = 200.00f;
-					break;					
-				default:
-					fpp_threshold = 200.00f;
-					break;
-			}
+			fpp_threshold = 350.00f;
 			
 			if (fpp_result > fpp_threshold)
 			{
@@ -593,42 +558,7 @@ void slow_check_data_prepare_s0(void)
 		arm_min_f32(data_temp, SLOW_CHECK_SAMPLES, &mid_min, NULL);
 		arm_rms_f32(data_temp, SLOW_CHECK_SAMPLES, &mid_rms); 
 		
-			switch (upssa0.ppp.load_radar_parameter)
-			{
-				case 0:		//0.5m
-					spp_threshold = 650.00f;
-					break;
-				case 1:		//1.0m
-					spp_threshold = 600.00f;
-					break;
-				case 2:		//1.5m
-					spp_threshold = 550.00f;
-					break;
-				case 3:		//2.0m
-					spp_threshold = 500.00f;
-					break;
-				case 4:		//2.5m
-					spp_threshold = 450.00f;
-					break;					
-				case 5:		//3.0m
-					spp_threshold = 400.00f;
-					break;
-				case 6:		//3.5m
-					spp_threshold = 350.00f;
-					break;		
-				case 7:		//4.0m
-					spp_threshold = 300.00f;
-					break;
-				case 8:		//4.5m
-					spp_threshold = 250.00f;
-					break;
-				case 9:		//5.0m
-					spp_threshold = 200.00f;
-					break;					
-				default:
-					spp_threshold = 200.00f;
-					break;
-			}
+		spp_threshold = 350.00f;
 
 		sprintf(float_str, "spp_threshold: %.3lf - %.3lf\r\n", spp_result, spp_threshold);
 		SEGGER_RTT_printf(0, "%s", float_str);		
@@ -1062,7 +992,10 @@ void slow_check_process_s1(void)
 			break;
 		default:
 			state = IDLE;
-			next_state = SLOW_CHECK_DATA_PREPARE_S0;			
+			next_state = SLOW_CHECK_DATA_PREPARE_S0;	
+			breathe_timer = 1;
+			no_person_timer = 1;
+			no_person_start_tick = SysTick_GetTick();
 			break;
 		}
 	}
@@ -1852,7 +1785,7 @@ void set_var_from_flash(void)
 	upssa0.ppp.delay_time_num = DELAY_TIME_NUM_FLASH;
 	if (upssa0.ppp.delay_time_num == -1)
 	{
-		upssa0.ppp.delay_time_num = 30;//Êµ¼Ê»á45s
+		upssa0.ppp.delay_time_num = 7;
 	}
 	
 	SEGGER_RTT_printf(0, "%s%sload delay_time_num: %ds%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.delay_time_num, RTT_CTRL_RESET);	

@@ -213,11 +213,16 @@ int Fretting_detection(FIFO_DataType in_data5[4096],double N, double pro_N, doub
 		
 		if( xc2[i] > offset + XT1[OP])
 		{
-			flag_Fretting = 1;		
+			flag_Fretting = 1;
+#ifndef SAMPLE_USE_ONLY			
+			break;
+#endif
 		}
 		else
 		{
-			//
+#ifndef SAMPLE_USE_ONLY
+			flag_Fretting = 0;
+#endif
 		}
 	}
 	
