@@ -215,7 +215,7 @@ int Fretting_detection(FIFO_DataType in_data5[4096],double N, double pro_N, doub
 		if( xc2[i] > offset + XT1[OP])
 		{
 			flag_Fretting = 1;
-			sprintf(float_str, "freq domain cfar trigger value: %.3lf-%.3lf\r\n", diff, offset);
+			sprintf(float_str, "freq domain cfar trigger value: %.3lf-%.3lf-%.3lf\r\n", diff, offset, diff_max);
 			SEGGER_RTT_printf(0, "%s", float_str);
 			
 			//if (upload_disable == 0)
@@ -263,7 +263,7 @@ int Fretting_detection(FIFO_DataType in_data5[4096],double N, double pro_N, doub
 				}              
 			}
 			
-			break;			
+			//break;			
 		}
 		else
 		{

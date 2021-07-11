@@ -57,7 +57,7 @@ char slow_retry_flag = 1;
 
 int run_mode = 0;
 int slow_only_flag = 0;
-int quick_check_prepare_lock = 0;
+int quick_check_prepare_lock = 0;//lock to fast data prepare
 
 volatile int check_status = TUYA_OTHER;
 volatile int person_in_range_flag = 0;
@@ -145,6 +145,9 @@ volatile float fpp_result = 0.00f;
 volatile float fpp_threshold = 0.00f;
 volatile float spp_threshold = 0.00f;
 int wave_bingo = 0;
+////////////////////////////////////////////////////////////
+uint32_t start_tick = 0;
+uint32_t init_finish_tick = 0;
 ////////////////////////////////////////////////////////////
 void clear_buffer(void)
 {
@@ -466,6 +469,9 @@ void fast_check_data_prepare(void)
 			
 			if (fpp_result > fpp_threshold)
 			{
+				state = SLOW_CHECK_DATA_PREPARE_S0;	//bingo to next
+				slow_s0_result_last = SLOW_OTHERS;	//reset the slow check result
+				memory_init();				
 				fast_output_result(1);
 			}			
 			
@@ -1822,7 +1828,7 @@ void set_var_from_flash(void)
 	upssa0.ppp.delay_time_num = DELAY_TIME_NUM_FLASH;
 	if (upssa0.ppp.delay_time_num == -1)
 	{
-		upssa0.ppp.delay_time_num = 40;
+		upssa0.ppp.delay_time_num = 30;
 	}
 	
 	SEGGER_RTT_printf(0, "%s%sload delay_time_num: %ds%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.delay_time_num, RTT_CTRL_RESET);	
@@ -1864,9 +1870,6 @@ void	set_iot_network_from_flash(void)
 
 int main(void)
 {
-	uint32_t start_tick = 0;
-	uint32_t init_finish_tick = 0;
-	
 	start_tick = SysTick_GetTick();
 	
 	memory_init();
@@ -1886,15 +1889,9 @@ int main(void)
 	enable_flash_cache(Enable);
 	
 	SysTick_GetTick();
-//	GPIO0_HIGH();
-//	Delay_ms(ALL_UPLOAD_DELAY);
-//	GPIO0_LOW();	
-//	GPIO1_HIGH();
-//	Delay_ms(ALL_UPLOAD_DELAY);
-//	GPIO1_LOW();
-//	GPIO4_HIGH();
-//	Delay_ms(1000);
-//	GPIO4_LOW();
+	GPIO0_LOW();	//cool color
+	GPIO1_HIGH();
+	Delay_ms(ALL_UPLOAD_DELAY * 100);
 	SysTick_GetTick();
 	
 	set_var_from_flash();
