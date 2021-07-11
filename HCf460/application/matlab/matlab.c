@@ -91,10 +91,6 @@ int Fretting_detection(FIFO_DataType in_data5[4096],double N, double pro_N, doub
 	static int run_counter = 0;
 	
 	char float_str[64];
-    
-    static float diff_last = 0;
-		static float diff_max2 = 0;
-    static float breathe_freq_last = 0;
 	  
 	//º”¥∞¥¶¿Ì		
 	for(b=0;b<4096;b++)
@@ -212,66 +208,16 @@ int Fretting_detection(FIFO_DataType in_data5[4096],double N, double pro_N, doub
 			diff_max = diff;
 		}
 		
+		sprintf(float_str, "freq domain cfar trigger value: %.3lf-%.3lf-%.3lf\r\n", diff, offset, diff_max);
+		SEGGER_RTT_printf(0, "%s", float_str);		
+		
 		if( xc2[i] > offset + XT1[OP])
 		{
-			flag_Fretting = 1;
-			sprintf(float_str, "freq domain cfar trigger value: %.3lf-%.3lf-%.3lf\r\n", diff, offset, diff_max);
-			SEGGER_RTT_printf(0, "%s", float_str);
-			
-			//if (upload_disable == 0)
-			if (1)
-			{		
-				breathe_freq = 60*diff/4;
-				
-				if (breathe_freq < 6.0f)
-				{
-					breathe_freq = 6.0f;
-				}
-				else if (breathe_freq > 30.0f)
-				{
-					breathe_freq = 30.0f;
-				}
-				
-				if (breathe_freq != breathe_freq_last)
-				{
-					if (breathe_upload_en)
-					{
-						mcu_dp_value_update(DPID_BREATHE_FREQ, (int)((breathe_freq*1.0f)+0.5f));
-					}
-					breathe_freq_last = breathe_freq;
-				}
-				
-				Delay_ms(ALL_UPLOAD_DELAY);
-				
-				if (diff != diff_last)
-				{
-					//mcu_dp_value_update(DPID_FREQ_PARAMETER2_RT, (int)((diff*1000.0f)+0.5f));
-					diff_last = diff;
-							
-					if (study_flag == 1)
-					{									
-						if (diff_max2 < diff)
-						{
-							diff_max2 = diff;
-						}
-						max_pp2_rt = diff_max2;
-					}
-					else
-					{
-						diff_max2 = 0;
-					}
-				}              
-			}
-			
-			//break;			
+			flag_Fretting = 1;		
 		}
 		else
 		{
-			if (diff >= 0)
-			{
-				//sprintf(float_str, "freq domain cfar trigger value: %.3lf-%.3lf\r\n", diff, offset);
-				//SEGGER_RTT_printf(0, "%s", float_str);
-			}
+			//
 		}
 	}
 	

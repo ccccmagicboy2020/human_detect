@@ -131,9 +131,9 @@ unsigned int fast_samplerate = 4999;	//10K-100us-51.2ms
 //unsigned int fast_samplerate = 2499;	//20K
 //unsigned int fast_samplerate = 1349;	//37K
 ////////////////////////////////////////////////////////////
-unsigned int slow_samplerate = 24999;		//2k-500us-1024ms-8192ms
+//unsigned int slow_samplerate = 24999;		//2k-500us-1024ms-8192ms
 //unsigned int slow_samplerate = 12499;	//4K-250us-512ms-4096ms
-//unsigned int slow_samplerate = 9999;		//5K-200us-409.6ms-3276.8ms
+unsigned int slow_samplerate = 9999;		//5K-200us-409.6ms-3276.8ms
 //unsigned int slow_samplerate = 7499;	//6.7K
 ////////////////////////////////////////////////////////////
 union KKK upssa0;
@@ -148,6 +148,11 @@ int wave_bingo = 0;
 ////////////////////////////////////////////////////////////
 uint32_t start_tick = 0;
 uint32_t init_finish_tick = 0;
+#ifdef SAMPLE_USE_ONLY
+	#define	DEFAULT_PARAMETER_NUMBER	102
+#else
+	#define	DEFAULT_PARAMETER_NUMBER	101
+#endif 
 ////////////////////////////////////////////////////////////
 void clear_buffer(void)
 {
@@ -723,7 +728,11 @@ void slow_check_data_prepare_s0(void)
 		else
 		{
 			//
-			wave_bingo = 0;
+			wave_bingo++;
+			if (wave_bingo > 2)
+			{
+				wave_bingo = 0;
+			}
 		}
 
 		spp_result_last = spp_result;	//update var
@@ -820,6 +829,7 @@ void slow_check_process_s0(void)
 		SEGGER_RTT_printf(0, "slow check duty: %dms\r\n", diff);
 		
 		if (diff > 3276)
+		//if (diff > 8192)
 		{
 			slow_samplerate -= 10;
 		}
@@ -928,6 +938,10 @@ void slow_check_process_s0(void)
 	{
 		slow_s0_result = BREATHE_NOT_SURE;
 	}
+	else if ((1 == bigmotion_freq_vote) && (0 == respirationfreq_vote[0]))
+	{
+		slow_s0_result = BREATHE_NOT_SURE;
+	}	
 	else
 	{
 		slow_s0_result = NO_PERSON_NOT_SURE;
@@ -1680,7 +1694,8 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		load_ceiling_setup(101);
+		//upssa0.ppp.quick_time_times = 3.8f;
+		load_ceiling_setup(DEFAULT_PARAMETER_NUMBER);
 	}
 	else
 	{
@@ -1696,7 +1711,8 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		load_ceiling_setup(101);
+		//upssa0.ppp.quick_time_add = 35.0f;
+		load_ceiling_setup(DEFAULT_PARAMETER_NUMBER);
 	}
 	else
 	{
@@ -1711,7 +1727,9 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		load_ceiling_setup(101);
+		//upssa0.ppp.quick_freq_times = 4.0f;
+		//upssa0.ppp.quick_freq_times = 20.0f;
+		load_ceiling_setup(DEFAULT_PARAMETER_NUMBER);
 	}
 	else
 	{
@@ -1726,7 +1744,8 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		load_ceiling_setup(101);
+		//upssa0.ppp.slow_time_times = 3.8f;
+		load_ceiling_setup(DEFAULT_PARAMETER_NUMBER);
 	}
 	else
 	{
@@ -1742,7 +1761,8 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		load_ceiling_setup(101);
+		//upssa0.ppp.slow_time_add = 35.0f;
+		load_ceiling_setup(DEFAULT_PARAMETER_NUMBER);
 	}
 	else
 	{
@@ -1757,7 +1777,9 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		load_ceiling_setup(101);
+		//upssa0.ppp.slow_freq_times = 4.0f;
+		//upssa0.ppp.slow_freq_times = 20.0f;
+		load_ceiling_setup(DEFAULT_PARAMETER_NUMBER);
 	}
 	else
 	{
@@ -1772,7 +1794,8 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		load_ceiling_setup(101);
+		//upssa0.ppp.res_times = 16.5f;
+		load_ceiling_setup(DEFAULT_PARAMETER_NUMBER);
 	}
 	else
 	{
@@ -1787,7 +1810,8 @@ void set_var_from_flash(void)
 	
 	if (temp_int == -1)
 	{
-		load_ceiling_setup(101);
+		//upssa0.ppp.offsetmin = 0.33f;
+		load_ceiling_setup(DEFAULT_PARAMETER_NUMBER);
 	}
 	else
 	{
@@ -1828,7 +1852,7 @@ void set_var_from_flash(void)
 	upssa0.ppp.delay_time_num = DELAY_TIME_NUM_FLASH;
 	if (upssa0.ppp.delay_time_num == -1)
 	{
-		upssa0.ppp.delay_time_num = 30;
+		upssa0.ppp.delay_time_num = 30;//Êµ¼Ê»á45s
 	}
 	
 	SEGGER_RTT_printf(0, "%s%sload delay_time_num: %ds%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.delay_time_num, RTT_CTRL_RESET);	
