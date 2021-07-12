@@ -154,6 +154,11 @@ uint32_t init_finish_tick = 0;
 	#define	DEFAULT_PARAMETER_NUMBER	101
 #endif 
 ////////////////////////////////////////////////////////////
+int bigmotion_time_vote = 0;
+int bigmotion_freq_vote  = 0;
+int	micromotion_detection_result = 0;
+int respirationfreq_vote[2] = {0};
+////////////////////////////////////////////////////////////
 void clear_buffer(void)
 {
 	fast_retry_flag = 1;
@@ -538,6 +543,7 @@ void slow_check_data_prepare_s0(void)
 	FIFO_DataType  temp[2048] = {0};//temp data
 	char float_str[64];
 	float data_temp[2048] = {0};
+	static int sleep_timer = 0;
 	
 	set_samplerate(slow_samplerate);
 	
@@ -674,6 +680,49 @@ void slow_check_data_prepare_s0(void)
 			FIFO_WriteOneData(&FIFO_Data[1], temp[i*SLOW_CHECK_OVER_SAMPLE]);
 		}
 		state = SLOW_CHECK_DATA_PREPARE_S1;		//bingo to next
+		
+		if (spp_result < 120.00f && spp_result_last < 120.00f)
+		{
+			if (bigmotion_time_vote == 0 && micromotion_detection_result == 0)
+			//if (bigmotion_time_vote == 0 && bigmotion_freq_vote == 0)
+			{
+				sleep_timer++;
+				SEGGER_RTT_printf(0, "%s%ssleep_timer bingo - %d!!!%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, sleep_timer, RTT_CTRL_RESET);		
+			}
+			else
+			{
+				sleep_timer = 0;
+			}
+			
+			if (sleep_timer > 60)		//
+			{
+					sleep_timer = 0;
+					state = IDLE;
+
+					if (slow_only_flag == 0)
+					{
+						next_state = FAST_CHECK_DATA_PREPARE;	//no person so all loopback	to fast check
+						//do some thing
+						clear_buffer();
+						spp_result = 0.00f;
+						mid_avg = 0.00f;
+						mid_max = 0.00f;
+						mid_min = 0.00f;
+						mid_rms = 0.00f;
+					}
+					else
+					{
+						next_state = SLOW_CHECK_DATA_PREPARE_S0;
+					}				
+
+					slow_s0_result = NO_PERSON;
+					slow_output_result(slow_s0_result);
+			}
+		}
+		else
+		{
+			sleep_timer = 0;
+		}		
 	}
 	else
 	{
@@ -740,10 +789,7 @@ void slow_check_process_s0(void)
 	int adc_sum = 0;
 	int	adc_temp = 0;
 	int	adc_average= 0;
-	int bigmotion_time_vote = 0;
-	int bigmotion_freq_vote  = 0;
-	int respirationfreq_vote[2] = {0};
-	int	micromotion_detection_result = 0;
+
 	float offset = 0;
 	
 	static uint32_t last_tick = 0;
@@ -1827,6 +1873,12 @@ void	set_iot_network_from_flash(void)
 
 int main(void)
 {
+	FIFO_DataType  temp[2048] = {0};//temp data
+	char float_str[64];
+	float data_temp[2048] = {0};
+	int j = 0;
+	float ipp_result = 0.00f;
+	
 	start_tick = SysTick_GetTick();
 	
 	memory_init();
@@ -1845,17 +1897,43 @@ int main(void)
 	tick_init();
 	enable_flash_cache(Enable);
 	
-	SysTick_GetTick();
+	//init color
 	GPIO0_LOW();	//cool color
 	GPIO1_HIGH();
-	Delay_ms(ALL_UPLOAD_DELAY * 100);
-	SysTick_GetTick();
+	
+	set_samplerate(slow_samplerate);
+	stop_sample(0);
+	while(1)
+	{
+		if (SLOW_CHECK_SAMPLES < FIFO_GetDataCount(&FIFO_Data[0]))
+		{
+			SEGGER_RTT_printf(0, "fifo0 number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[0]));
+			FIFO_ReadData(&FIFO_Data[0], temp, SLOW_CHECK_SAMPLES);
+			SEGGER_RTT_printf(0, "fifo0 number: %d\r\n", FIFO_GetDataCount(&FIFO_Data[0]));
+
+			for(j=0;j<SLOW_CHECK_SAMPLES;j++)
+			{
+				data_temp[j] = temp[j];
+			}
+
+			arm_std_f32(data_temp, SLOW_CHECK_SAMPLES, &ipp_result);
+			
+			sprintf(float_str, "ipp_threshold: %.3lf\r\n", ipp_result);
+			SEGGER_RTT_printf(0, "%s", float_str);
+			
+			if (ipp_result > 10.0f)
+			{
+				break;
+			}
+		}
+	}
+	stop_sample(1);
 	
 	set_var_from_flash();
 	set_iot_network_from_flash();
 	
 	init_finish_tick = SysTick_GetTick();
-	SEGGER_RTT_printf(0, "\r\n%s%sinit time: %dms%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, init_finish_tick - start_tick, RTT_CTRL_RESET);
+	SEGGER_RTT_printf(0, "\r\n%s%sinit time: %dms%s\r\n", RTT_CTRL_BG_BRIGHT_RED, RTT_CTRL_TEXT_WHITE, init_finish_tick - start_tick, RTT_CTRL_RESET);
 	
 	while(1)
 	{
