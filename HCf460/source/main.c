@@ -148,7 +148,7 @@ uint32_t init_finish_tick = 0;
 #ifdef SAMPLE_USE_ONLY
 	#define	DEFAULT_PARAMETER_NUMBER	102
 #else
-	#define	DEFAULT_PARAMETER_NUMBER	0
+	#define	DEFAULT_PARAMETER_NUMBER	8
 #endif 
 ////////////////////////////////////////////////////////////
 int bigmotion_time_vote = 0;
@@ -487,7 +487,10 @@ void slow_check_data_prepare_s0(void)
 	char float_str[64];
 	float data_temp[2048] = {0};
 	static int sleep_timer = 0;
-	float scale = 0.75f;
+	//3m
+	//float scale = 0.75f;
+	//5m
+	float scale = 0.6f;
 	static float std_sum = 0;
 	static int std_cnt = 0;
 	float std_avg = 0;
@@ -1146,12 +1149,9 @@ void idle_process(void)
 	if (data_report_upload_flag)
 	{
 		data_report_upload_flag = 0;
-		if (data_report_upload_enable)
+		if (data_report_upload_enable)//topband only here
 		{
 			mcu_dp_enum_update(DPID_PERSON_IN_RANGE, quick_detection_result_last);
-		}
-		if (data_report_upload_enable2)
-		{
 			mcu_dp_enum_update(DPID_SLOW_CHECK_RESULT, slow_check_result_last);
 		}		
 	}
