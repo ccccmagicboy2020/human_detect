@@ -34,6 +34,7 @@
                 "ARM_MATH_ROUNDING",
                 "SYSTEM_GLOBAL",
                 "USE_INTERN_HRC",
+                "SAMPLE_USE_ONLY",
                 "__CC_ARM",
                 "__arm__",
                 "__align(x)=",

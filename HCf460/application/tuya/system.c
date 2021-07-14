@@ -352,7 +352,7 @@ void data_handle(unsigned short offset)
 	}
 	else if(BT_CONNECTED == bt_work_state)
 	{
-		//all_data_update();
+		all_data_update();
 		upload_disable = 0;
 		led_green(1);
 	}

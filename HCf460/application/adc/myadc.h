@@ -26,9 +26,19 @@
 
 /* PGA factor definitions. */
 /* Choose a part from @ref en_adc_pga_factor_t. */		//P483
-#define PGA_FACTOR_2X              	(2u)
-#define PGA_FACTOR_3X              	(3u)
-#define PGA_FACTOR                  (PGA_FACTOR_3X)
+#define PGA_FACTOR_200X            	(0u)
+#define PGA_FACTOR_213X            	(1u)
+#define PGA_FACTOR_229X            	(2u)
+#define PGA_FACTOR_267X            	(3u)
+#define PGA_FACTOR_291X            	(4u)
+#define PGA_FACTOR_320X            	(5u)
+#define PGA_FACTOR_356X            	(6u)
+#define PGA_FACTOR_400X            	(7u)
+#define PGA_FACTOR_457X            	(8u)
+#define PGA_FACTOR_533X            	(9u)
+#define PGA_FACTOR_640X            	(10u)
+#define PGA_FACTOR_800X            	(11u)
+#define PGA_FACTOR                  (PGA_FACTOR_640X)
 
 /* DMA definition for ADC1. */
 #define ADC1_SA_DMA_UNIT            (M4_DMA1)

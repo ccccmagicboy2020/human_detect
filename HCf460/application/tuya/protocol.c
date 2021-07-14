@@ -52,6 +52,7 @@ extern int check_status;
 extern int person_in_range_flag;
 extern int run_mode;
 extern int slow_only_flag;
+extern int quick_check_prepare_lock;
 extern int state;
 extern int next_state;
 
@@ -193,16 +194,16 @@ void uart_transmit_output(unsigned char value)
 void all_data_update(void)
 {
   //此代码为平台自动生成，请按照实际数据修改每个可下发可上报函数和只上报函数
-    //mcu_dp_value_update(DPID_PIR_DELAY, 0); //枚举型数据上报;
-		//Delay_ms(ALL_UPLOAD_DELAY);
-    //mcu_dp_enum_update(DPID_LOAD_RADAR_PARAMETER, 0); //枚举型数据上报;
-	//Delay_ms(ALL_UPLOAD_DELAY);
+    mcu_dp_value_update(DPID_PIR_DELAY, upssa0.ppp.delay_time_num); //枚举型数据上报;
+	Delay_ms(ALL_UPLOAD_DELAY);
+    mcu_dp_enum_update(DPID_LOAD_RADAR_PARAMETER, upssa0.ppp.load_radar_parameter); //枚举型数据上报;
+	Delay_ms(ALL_UPLOAD_DELAY);
 	mcu_dp_enum_update(DPID_LIGHT_STATUS, light_status_flag);
 	Delay_ms(ALL_UPLOAD_DELAY);
 	//////////////////////////////////////////////////////////////////////////
 
     mcu_dp_enum_update(DPID_PERSON_IN_RANGE, person_in_range_flag); //枚举型数据上报;
-		Delay_ms(ALL_UPLOAD_DELAY);
+	Delay_ms(ALL_UPLOAD_DELAY);
 
 		if (person_meter != 0)
 		{
@@ -218,29 +219,27 @@ void all_data_update(void)
 	mcu_dp_enum_update(DPID_SLOW_CHECK_RESULT, slow_check_result);
 	Delay_ms(ALL_UPLOAD_DELAY);
     mcu_dp_enum_update(DPID_WORK_MODE, g_work_mode); //枚举型数据上报;
-		Delay_ms(ALL_UPLOAD_DELAY);
-		mcu_dp_bool_update(DPID_FIND_ME,1);
-		Delay_ms(ALL_UPLOAD_DELAY);
-		mcu_dp_value_update(DPID_LIGHT_THRESHOLD1, upssa0.ppp.Light_threshold1);
-		Delay_ms(ALL_UPLOAD_DELAY);
-		mcu_dp_value_update(DPID_LIGHT_THRESHOLD2, upssa0.ppp.Light_threshold2);
-		Delay_ms(ALL_UPLOAD_DELAY);
-		mcu_dp_value_update(DPID_LIGHT_THRESHOLD3, upssa0.ppp.Light_threshold3);
-		Delay_ms(ALL_UPLOAD_DELAY);
-		mcu_dp_value_update(DPID_LIGHT_THRESHOLD4, upssa0.ppp.Light_threshold4);
-		Delay_ms(ALL_UPLOAD_DELAY);
+	Delay_ms(ALL_UPLOAD_DELAY);
+	mcu_dp_value_update(DPID_LIGHT_THRESHOLD1, upssa0.ppp.Light_threshold1);
+	Delay_ms(ALL_UPLOAD_DELAY);
+	mcu_dp_value_update(DPID_LIGHT_THRESHOLD2, upssa0.ppp.Light_threshold2);
+	Delay_ms(ALL_UPLOAD_DELAY);
+	mcu_dp_value_update(DPID_LIGHT_THRESHOLD3, upssa0.ppp.Light_threshold3);
+	Delay_ms(ALL_UPLOAD_DELAY);
+	mcu_dp_value_update(DPID_LIGHT_THRESHOLD4, upssa0.ppp.Light_threshold4);
+	Delay_ms(ALL_UPLOAD_DELAY);
 		
-		if (breathe_freq != 0)
+	if (breathe_freq != 0)
+	{
+		if (breathe_upload_en)	//
 		{
-			if (breathe_upload_en)	//
-			{
-				mcu_dp_value_update(DPID_BREATHE_FREQ, (int)((breathe_freq*10.0f)+0.5f));
-				Delay_ms(ALL_UPLOAD_DELAY);
-			}		
-		}
-		
-		update_check_parameter();
-		
+			mcu_dp_value_update(DPID_BREATHE_FREQ, (int)((breathe_freq*10.0f)+0.5f));
+			Delay_ms(ALL_UPLOAD_DELAY);
+		}		
+	}
+	
+	//disable this
+	//update_check_parameter();	
 }
 
 
@@ -287,6 +286,7 @@ static unsigned char dp_download_pir_delay_handle(const unsigned char value[], u
 *****************************************************************************/
 void load_ceiling_setup(int mode)
 {
+#ifndef SAMPLE_USE_ONLY
 	if (mode == 0)		//1M
 	{
 		upssa0.ppp.quick_time_times = 3.05f;
@@ -336,11 +336,11 @@ void load_ceiling_setup(int mode)
 		upssa0.ppp.quick_time_times = 2.37f;
 		upssa0.ppp.quick_time_add = 51.72f;
 		upssa0.ppp.quick_freq_times = 27.72f;
-		upssa0.ppp.slow_time_times = 2.37f*1.3f;
-		upssa0.ppp.slow_time_add = 51.72f;
-		upssa0.ppp.slow_freq_times = 27.72f;
-		upssa0.ppp.res_times = 116.44f;
-		upssa0.ppp.offsetmin = 1.07f*1.1f;
+		upssa0.ppp.slow_time_times = 3.0f;
+		upssa0.ppp.slow_time_add = 70.0f;
+		upssa0.ppp.slow_freq_times = 11.0f;
+		upssa0.ppp.res_times = 55.0f;
+		upssa0.ppp.offsetmin = 1.2f;
 	}
 	else if (mode == 5)		//3.5M
 	{
@@ -386,6 +386,17 @@ void load_ceiling_setup(int mode)
 		upssa0.ppp.res_times = 85.85f;
 		upssa0.ppp.offsetmin = 1.08f*0.95f;
 	}
+	else if (mode == 101)	//台灯
+	{
+		upssa0.ppp.quick_time_times = 3.05f;
+		upssa0.ppp.quick_time_add = 495.13f;
+		upssa0.ppp.quick_freq_times = 297.25f;
+		upssa0.ppp.slow_time_times = 7.0f;		//P0
+		upssa0.ppp.slow_time_add = 100.00f;		//P1
+		upssa0.ppp.slow_freq_times = 40.00f;	//P2
+		upssa0.ppp.res_times = 150.00f;				//P3
+		upssa0.ppp.offsetmin = 1.5f;					//P4
+	}
 	else if (mode == 102)	//test use
 	{
 		upssa0.ppp.quick_time_times = 0.0f;
@@ -395,8 +406,21 @@ void load_ceiling_setup(int mode)
 		upssa0.ppp.slow_time_add = 0.0f;
 		upssa0.ppp.slow_freq_times = 0.0f;
 		upssa0.ppp.res_times = 0.0f;
-		upssa0.ppp.offsetmin = 0.0f;
+		upssa0.ppp.offsetmin = -3.0f;
 	}
+#else
+	if (mode == 102)	//test use
+	{
+		upssa0.ppp.quick_time_times = 0.0f;
+		upssa0.ppp.quick_time_add = 0.0f;
+		upssa0.ppp.quick_freq_times = 0.0f;
+		upssa0.ppp.slow_time_times = 0.0f;
+		upssa0.ppp.slow_time_add = 0.0f;
+		upssa0.ppp.slow_freq_times = 0.0f;
+		upssa0.ppp.res_times = 0.0f;
+		upssa0.ppp.offsetmin = -3.0f;
+	}
+#endif 
 }
 
 void load_wall_setup(int mode)
@@ -584,11 +608,13 @@ static unsigned char dp_download_work_mode_handle(const unsigned char value[], u
         case 0:
 					run_mode = 0;//进慢
           slow_only_flag = 0;	//回快	
+		  quick_check_prepare_lock = 0;
         break;
         
         case 1:
 					run_mode = 1;//不进慢
           slow_only_flag = 0;//回快
+		  quick_check_prepare_lock = 0;
 				
 					if (next_state == FAST_CHECK_DATA_PREPARE)
 					{
@@ -627,6 +653,7 @@ static unsigned char dp_download_work_mode_handle(const unsigned char value[], u
         case 2:
 					run_mode = 0;//进慢
           slow_only_flag = 1;//不回快
+		  quick_check_prepare_lock = 0;
 
 					if (next_state == FAST_CHECK_DATA_PREPARE)
 					{
@@ -643,6 +670,45 @@ static unsigned char dp_download_work_mode_handle(const unsigned char value[], u
         break;
         
         case 3:
+					run_mode = 1;//不进慢
+          slow_only_flag = 0;//回快
+		  quick_check_prepare_lock = 1;
+		  
+				
+					if (next_state == FAST_CHECK_DATA_PREPARE)
+					{
+						//
+					}
+					else if(next_state == FAST_CHECK)
+					{
+						state = IDLE;
+						next_state = FAST_CHECK_DATA_PREPARE;
+						clear_buffer();
+					}
+					else if(next_state == SLOW_CHECK_DATA_PREPARE_S0)
+					{
+						state = IDLE;
+						next_state = FAST_CHECK_DATA_PREPARE;
+						clear_buffer();
+					}
+					else if(next_state == SLOW_CHECK_DATA_PREPARE_S1)
+					{
+						state = IDLE;
+						next_state = FAST_CHECK_DATA_PREPARE;
+						clear_buffer();
+					}
+					else if(next_state == SLOW_CHECK_S0)
+					{
+						state = IDLE;
+						next_state = FAST_CHECK_DATA_PREPARE;
+						clear_buffer();
+					}	
+					else if(next_state == SLOW_CHECK_S1)
+					{
+						state = IDLE;
+						next_state = FAST_CHECK_DATA_PREPARE;
+						clear_buffer();
+					}
         break;
         
         default:

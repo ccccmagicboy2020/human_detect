@@ -16,14 +16,14 @@ static void UsartRxIrqCallback(void)
 		uint16_t rev_data = 0;
 		unsigned char rev_data1 = 0;
 	
-	SEGGER_SYSVIEW_RecordEnterISR();	
+//	SEGGER_SYSVIEW_RecordEnterISR();	
 		rev_data = USART_RecData(USART_CH);
 	
 		rev_data1 = (unsigned char)rev_data;
 	
     uart_receive_input(rev_data1);
 	
-	SEGGER_SYSVIEW_RecordExitISR();	
+//	SEGGER_SYSVIEW_RecordExitISR();	
 }
 
 static void tuya_UsartRxIrqCallback(void)
@@ -31,14 +31,14 @@ static void tuya_UsartRxIrqCallback(void)
 		uint16_t rev_data = 0;
 		unsigned char rev_data1 = 0;
 	
-	SEGGER_SYSVIEW_RecordEnterISR();	
+//	SEGGER_SYSVIEW_RecordEnterISR();	
 		rev_data = USART_RecData(USART_TUYA_CH);
 	
 		rev_data1 = (unsigned char)rev_data;
 	
     uart_receive_input(rev_data1);
 	
-	SEGGER_SYSVIEW_RecordExitISR();	
+//	SEGGER_SYSVIEW_RecordExitISR();	
 }
 
 /**
@@ -52,7 +52,7 @@ static void tuya_UsartRxIrqCallback(void)
  ******************************************************************************/
 void UsartRxErrProcess(void)
 {
-	SEGGER_SYSVIEW_RecordEnterISR();	
+//	SEGGER_SYSVIEW_RecordEnterISR();	
     if (Set == USART_GetStatus(USART_CH, UsartFrameErr))
     {
         USART_ClearStatus(USART_CH, UsartFrameErr);
@@ -67,12 +67,12 @@ void UsartRxErrProcess(void)
     {
         USART_ClearStatus(USART_CH, UsartOverrunErr);
     }
-	SEGGER_SYSVIEW_RecordExitISR();			
+//	SEGGER_SYSVIEW_RecordExitISR();			
 }
 
 void tuya_UsartRxErrProcess(void)
 {
-	SEGGER_SYSVIEW_RecordEnterISR();	
+//	SEGGER_SYSVIEW_RecordEnterISR();	
     if (Set == USART_GetStatus(USART_TUYA_CH, UsartFrameErr))
     {
         USART_ClearStatus(USART_TUYA_CH, UsartFrameErr);
@@ -87,7 +87,7 @@ void tuya_UsartRxErrProcess(void)
     {
         USART_ClearStatus(USART_TUYA_CH, UsartOverrunErr);
     }
-	SEGGER_SYSVIEW_RecordExitISR();	
+//	SEGGER_SYSVIEW_RecordExitISR();	
 }
 
 void usart_init(void)

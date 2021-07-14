@@ -36,6 +36,9 @@ typedef const uint8_t uc8;
 #define TMR02_BASE				0x40024400u
 #define TMR02_CMPBR			(TMR02_BASE + 0x0C)
 
+#define ADC1_BASE					0x40040000u
+#define ADC_CR0			(ADC1_BASE + 0x02)
+
 /////////////////////////////////////////////////////////////////////
 #define	USER_PARAMETER_START_SECTOR_ADDRESS0	0x0007A000u
 #define	USER_PARAMETER_START_SECTOR_ADDRESS1	0x0007C000u
