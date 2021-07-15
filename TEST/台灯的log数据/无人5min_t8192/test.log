@@ -1,0 +1,2894 @@
+# SEGGER J-Link RTT Viewer V7.00 Terminal Log File
+# Compiled: 14:33:20 on Apr  8 2021
+# Logging started @ 11 Jul 2021 12:57:39
+00> time domain times trigger value: 7.88-0.00
+00> time domain add trigger value: 1235.87-0.00
+00> freq domain trigger value: 45.54-0.00
+00> freq domain res trigger value: 225.58-0.00
+00> freq domain cfar trigger value: 1.469-0.050-1.469
+00> freq domain cfar trigger value: 1.060-0.050-1.469
+00> freq domain cfar trigger value: 1.987-0.050-1.987
+00> freq domain cfar trigger value: 0.606-0.050-1.987
+00> freq domain cfar trigger value: 0.294-0.050-1.987
+00> freq domain cfar trigger value: 1.327-0.050-1.987
+00> freq domain cfar trigger value: 1.910-0.050-1.987
+00> slow result: 1 - 1 - 1 - 1
+00> slow check last: 1306ms
+00> light sensor: 3857(3.107V)
+00> light sensor2: 3645(2.937V)
+00> 
+00> gpio0~gpio6 read bit:1-0-0-0-0-1-1
+00> bt unknow status
+00> 
+00> fifo0 number: 2618
+00> fifo0 number: 571
+00> spp_threshold: 546.456 - 600.000
+00> mid avg: 1945.510
+00> mid max: 2974.000
+00> mid min: 195.000
+00> mid rms: 2020.762
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 1246.487 - 600.000
+00> mid avg: 1900.627
+00> mid max: 3777.000
+00> mid min: 114.000
+00> mid rms: 2272.745
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 1091.248 - 600.000
+00> mid avg: 2352.721
+00> mid max: 3742.000
+00> mid min: 479.000
+00> mid rms: 2593.368
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 385.565 - 600.000
+00> mid avg: 2107.829
+00> mid max: 2987.000
+00> mid min: 787.000
+00> mid rms: 2142.788
+00> fifo0 number: 2049
+00> fifo0 number: 1
+00> spp_threshold: 1096.182 - 600.000
+00> mid avg: 1961.784
+00> mid max: 3734.000
+00> mid min: 135.000
+00> mid rms: 2247.140
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 897.175 - 600.000
+00> mid avg: 2327.270
+00> mid max: 3757.000
+00> mid min: 464.000
+00> mid rms: 2494.137
+00> fifo0 number: 2049
+00> fifo0 number: 1
+00> spp_threshold: 1165.957 - 600.000
+00> mid avg: 2247.270
+00> mid max: 3712.000
+00> mid min: 127.000
+00> mid rms: 2531.604
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 1298.630 - 600.000
+00> mid avg: 2307.481
+00> mid max: 3859.000
+00> mid min: 147.000
+00> mid rms: 2647.657
+00> fifo1 number: (i=2) - 2304
+00> fifo1 number: 256
+00> slow check duty: 8193ms
+00> slow_samplerate: 24989
+00> 
+00> slow check adc_avg: 2155(1.736V) = 8827631 / 4096
+00> time domain times trigger value: 7.30-0.00
+00> time domain add trigger value: 1221.61-0.00
+00> freq domain trigger value: 51.62-0.00
+00> freq domain res trigger value: 237.67-0.00
+00> freq domain cfar trigger value: 1.222-0.050-1.222
+00> freq domain cfar trigger value: 0.511-0.050-1.222
+00> freq domain cfar trigger value: 0.350-0.050-1.222
+00> freq domain cfar trigger value: 1.056-0.050-1.222
+00> freq domain cfar trigger value: 1.320-0.050-1.320
+00> slow result: 1 - 1 - 1 - 1
+00> slow check last: 1106ms
+00> fifo0 number: 2217
+00> fifo0 number: 170
+00> spp_threshold: 719.523 - 600.000
+00> mid avg: 2241.756
+00> mid max: 3556.000
+00> mid min: 462.000
+00> mid rms: 2354.343
+00> fifo0 number: 2049
+00> fifo0 number: 1
+00> spp_threshold: 422.642 - 600.000
+00> mid avg: 1981.817
+00> mid max: 2811.000
+00> mid min: 997.000
+00> mid rms: 2026.362
+00> light sensor: 3859(3.109V)
+00> light sensor2: 3595(2.896V)
+00> 
+00> gpio0~gpio6 read bit:1-0-0-0-0-1-1
+00> bt unknow status
+00> 
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 358.104 - 600.000
+00> mid avg: 1984.875
+00> mid max: 2732.000
+00> mid min: 1101.000
+00> mid rms: 2016.906
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 330.762 - 600.000
+00> mid avg: 2564.927
+00> mid max: 3329.000
+00> mid min: 1715.000
+00> mid rms: 2586.157
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 768.638 - 600.000
+00> mid avg: 2163.681
+00> mid max: 3785.000
+00> mid min: 786.000
+00> mid rms: 2296.092
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 796.967 - 600.000
+00> mid avg: 2021.888
+00> mid max: 3625.000
+00> mid min: 868.000
+00> mid rms: 2173.219
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 494.805 - 600.000
+00> mid avg: 2430.815
+00> mid max: 3692.000
+00> mid min: 1045.000
+00> mid rms: 2480.640
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 1131.139 - 600.000
+00> mid avg: 2139.360
+00> mid max: 3806.000
+00> mid min: 163.000
+00> mid rms: 2419.859
+00> fifo1 number: (i=2) - 2304
+00> fifo1 number: 256
+00> slow check duty: 8190ms
+00> slow_samplerate: 24999
+00> 
+00> slow check adc_avg: 2211(1.781V) = 9057827 / 4096
+00> time domain times trigger value: 6.34-0.00
+00> time domain add trigger value: 1113.36-0.00
+00> freq domain trigger value: 77.72-0.00
+00> freq domain res trigger value: 311.36-0.00
+00> freq domain cfar trigger value: 0.614-0.050-0.614
+00> freq domain cfar trigger value: 0.798-0.050-0.798
+00> freq domain cfar trigger value: 1.222-0.050-1.222
+00> freq domain cfar trigger value: 1.129-0.050-1.222
+00> freq domain cfar trigger value: 1.599-0.050-1.599
+00> freq domain cfar trigger value: 0.645-0.050-1.599
+00> freq domain cfar trigger value: 1.005-0.050-1.599
+00> slow result: 1 - 1 - 1 - 1
+00> slow check last: 1307ms
+00> fifo0 number: 2621
+00> fifo0 number: 574
+00> spp_threshold: 811.735 - 600.000
+00> mid avg: 2119.348
+00> mid max: 3664.000
+00> mid min: 459.000
+00> mid rms: 2269.414
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 918.808 - 600.000
+00> mid avg: 2251.246
+00> mid max: 3757.000
+00> mid min: 303.000
+00> mid rms: 2431.443
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 641.879 - 600.000
+00> mid avg: 2166.308
+00> mid max: 3541.000
+00> mid min: 471.000
+00> mid rms: 2259.359
+00> light sensor: 3858(3.108V)
+00> light sensor2: 3320(2.675V)
+00> 
+00> gpio0~gpio6 read bit:1-0-0-0-0-1-1
+00> bt unknow status
+00> 
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 441.308 - 600.000
+00> mid avg: 2150.373
+00> mid max: 3321.000
+00> mid min: 708.000
+00> mid rms: 2195.168
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 295.432 - 600.000
+00> mid avg: 2189.931
+00> mid max: 3061.000
+00> mid min: 1246.000
+00> mid rms: 2209.762
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 203.093 - 600.000
+00> mid avg: 2184.546
+00> mid max: 2814.000
+00> mid min: 1594.000
+00> mid rms: 2193.962
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.278 - 600.000
+00> mid avg: 2172.266
+00> mid max: 2628.000
+00> mid min: 1761.000
+00> mid rms: 2179.006
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 170.995 - 600.000
+00> mid avg: 2173.933
+00> mid max: 2615.000
+00> mid min: 1801.000
+00> mid rms: 2180.646
+00> fifo1 number: (i=2) - 2304
+00> fifo1 number: 256
+00> slow check duty: 8191ms
+00> slow_samplerate: 25009
+00> 
+00> slow check adc_avg: 2156(1.737V) = 8834501 / 4096
+00> time domain times trigger value: 8.15-0.00
+00> time domain add trigger value: 1224.24-0.00
+00> freq domain trigger value: 45.71-0.00
+00> freq domain res trigger value: 129.91-0.00
+00> slow result: 1 - 1 - 1 - 0
+00> slow check last: 602ms
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 168.452 - 600.000
+00> mid avg: 2187.500
+00> mid max: 2615.000
+00> mid min: 1850.000
+00> mid rms: 2193.976
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 169.431 - 600.000
+00> mid avg: 2177.698
+00> mid max: 2589.000
+00> mid min: 1829.000
+00> mid rms: 2184.277
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 167.543 - 600.000
+00> mid avg: 2176.215
+00> mid max: 2597.000
+00> mid min: 1830.000
+00> mid rms: 2182.653
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 168.051 - 600.000
+00> mid avg: 2177.958
+00> mid max: 2574.000
+00> mid min: 1828.000
+00> mid rms: 2184.430
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 167.591 - 600.000
+00> mid avg: 2179.406
+00> mid max: 2592.000
+00> mid min: 1821.000
+00> mid rms: 2185.839
+00> light sensor: 3858(3.108V)
+00> light sensor2: 3328(2.681V)
+00> 
+00> gpio0~gpio6 read bit:1-0-0-0-0-1-1
+00> bt unknow status
+00> 
+00> fifo0 number: 2049
+00> fifo0 number: 1
+00> spp_threshold: 166.978 - 600.000
+00> mid avg: 2179.719
+00> mid max: 2586.000
+00> mid min: 1823.000
+00> mid rms: 2186.103
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 167.752 - 600.000
+00> mid avg: 2187.302
+00> mid max: 2603.000
+00> mid min: 1830.000
+00> mid rms: 2193.723
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 168.101 - 600.000
+00> mid avg: 2190.164
+00> mid max: 2595.000
+00> mid min: 1848.000
+00> mid rms: 2196.602
+00> fifo1 number: (i=2) - 2304
+00> fifo1 number: 256
+00> slow check duty: 8196ms
+00> slow_samplerate: 24999
+00> 
+00> slow check adc_avg: 2163(1.743V) = 8863644 / 4096
+00> time domain times trigger value: 8.40-0.00
+00> time domain add trigger value: 1229.19-0.00
+00> freq domain trigger value: 19.56-0.00
+00> freq domain res trigger value: 38.89-0.00
+00> slow result: 1 - 1 - 1 - 0
+00> slow check last: 603ms
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 166.792 - 600.000
+00> mid avg: 2185.863
+00> mid max: 2583.000
+00> mid min: 1833.000
+00> mid rms: 2192.215
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 170.565 - 600.000
+00> mid avg: 2179.960
+00> mid max: 2603.000
+00> mid min: 1840.000
+00> mid rms: 2186.622
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 170.113 - 600.000
+00> mid avg: 2196.017
+00> mid max: 2606.000
+00> mid min: 1818.000
+00> mid rms: 2202.594
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 169.025 - 600.000
+00> mid avg: 2175.842
+00> mid max: 2583.000
+00> mid min: 1835.000
+00> mid rms: 2182.396
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 169.992 - 600.000
+00> mid avg: 2191.766
+00> mid max: 2608.000
+00> mid min: 1821.000
+00> mid rms: 2198.346
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 167.519 - 600.000
+00> mid avg: 2175.150
+00> mid max: 2576.000
+00> mid min: 1821.000
+00> mid rms: 2181.589
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 169.155 - 600.000
+00> mid avg: 2176.790
+00> mid max: 2569.000
+00> mid min: 1834.000
+00> mid rms: 2183.351
+00> light sensor: 3858(3.108V)
+00> light sensor2: 3223(2.597V)
+00> 
+00> gpio0~gpio6 read bit:1-0-0-0-0-1-1
+00> bt unknow status
+00> 
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 166.474 - 600.000
+00> mid avg: 2189.730
+00> mid max: 2583.000
+00> mid min: 1843.000
+00> mid rms: 2196.048
+00> fifo1 number: (i=2) - 2304
+00> fifo1 number: 256
+00> slow check duty: 8192ms
+00> slow_samplerate: 25009
+00> 
+00> slow check adc_avg: 2182(1.758V) = 8938688 / 4096
+00> time domain times trigger value: 1.04-0.00
+00> time domain add trigger value: 6.46-0.00
+00> freq domain trigger value: 7.59-0.00
+00> freq domain res trigger value: 6.25-0.00
+00> slow result: 1 - 1 - 1 - 0
+00> slow check last: 602ms
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 169.047 - 600.000
+00> mid avg: 2194.295
+00> mid max: 2608.000
+00> mid min: 1834.000
+00> mid rms: 2200.796
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 170.281 - 600.000
+00> mid avg: 2173.306
+00> mid max: 2574.000
+00> mid min: 1840.000
+00> mid rms: 2179.965
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.624 - 600.000
+00> mid avg: 2183.933
+00> mid max: 2594.000
+00> mid min: 1810.000
+00> mid rms: 2190.743
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 174.042 - 600.000
+00> mid avg: 2180.393
+00> mid max: 2585.000
+00> mid min: 1806.000
+00> mid rms: 2187.326
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.399 - 600.000
+00> mid avg: 2179.700
+00> mid max: 2584.000
+00> mid min: 1840.000
+00> mid rms: 2186.428
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 170.616 - 600.000
+00> mid avg: 2181.566
+00> mid max: 2602.000
+00> mid min: 1815.000
+00> mid rms: 2188.227
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.247 - 600.000
+00> mid avg: 2178.923
+00> mid max: 2593.000
+00> mid min: 1811.000
+00> mid rms: 2185.718
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.910 - 600.000
+00> mid avg: 2178.105
+00> mid max: 2572.000
+00> mid min: 1806.000
+00> mid rms: 2184.876
+00> fifo1 number: (i=2) - 2304
+00> fifo1 number: 256
+00> slow check duty: 8195ms
+00> slow_samplerate: 24999
+00> 
+00> slow check adc_avg: 2182(1.758V) = 8939434 / 4096
+00> time domain times trigger value: 1.06-0.00
+00> time domain add trigger value: 10.64-0.00
+00> freq domain trigger value: 7.52-0.00
+00> freq domain res trigger value: 6.06-0.00
+00> slow result: 1 - 1 - 1 - 0
+00> slow check last: 602ms
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 169.411 - 600.000
+00> mid avg: 2184.004
+00> mid max: 2575.000
+00> mid min: 1845.000
+00> mid rms: 2190.563
+00> light sensor: 3858(3.108V)
+00> light sensor2: 3221(2.595V)
+00> 
+00> gpio0~gpio6 read bit:1-0-0-0-0-1-1
+00> bt unknow status
+00> 
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 170.933 - 600.000
+00> mid avg: 2182.245
+00> mid max: 2592.000
+00> mid min: 1826.000
+00> mid rms: 2188.927
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 169.383 - 600.000
+00> mid avg: 2181.766
+00> mid max: 2573.000
+00> mid min: 1819.000
+00> mid rms: 2188.330
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 169.416 - 600.000
+00> mid avg: 2179.391
+00> mid max: 2592.000
+00> mid min: 1821.000
+00> mid rms: 2185.965
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.865 - 600.000
+00> mid avg: 2188.032
+00> mid max: 2604.000
+00> mid min: 1824.000
+00> mid rms: 2194.768
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 170.148 - 600.000
+00> mid avg: 2186.958
+00> mid max: 2614.000
+00> mid min: 1844.000
+00> mid rms: 2193.566
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 167.127 - 600.000
+00> mid avg: 2186.296
+00> mid max: 2603.000
+00> mid min: 1832.000
+00> mid rms: 2192.674
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 166.437 - 600.000
+00> mid avg: 2176.357
+00> mid max: 2585.000
+00> mid min: 1819.000
+00> mid rms: 2182.713
+00> fifo1 number: (i=2) - 2304
+00> fifo1 number: 256
+00> slow check duty: 8193ms
+00> slow_samplerate: 24989
+00> 
+00> slow check adc_avg: 2182(1.758V) = 8939099 / 4096
+00> time domain times trigger value: 1.06-0.00
+00> time domain add trigger value: 10.64-0.00
+00> freq domain trigger value: 7.89-0.00
+00> freq domain res trigger value: 5.22-0.00
+00> slow result: 1 - 1 - 1 - 0
+00> slow check last: 601ms
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 167.200 - 600.000
+00> mid avg: 2177.544
+00> mid max: 2590.000
+00> mid min: 1830.000
+00> mid rms: 2183.953
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 164.528 - 600.000
+00> mid avg: 2175.001
+00> mid max: 2582.000
+00> mid min: 1831.000
+00> mid rms: 2181.213
+00> light sensor: 3857(3.107V)
+00> light sensor2: 3323(2.677V)
+00> 
+00> gpio0~gpio6 read bit:1-0-0-0-0-1-1
+00> bt unknow status
+00> 
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 169.452 - 600.000
+00> mid avg: 2181.430
+00> mid max: 2594.000
+00> mid min: 1820.000
+00> mid rms: 2188.000
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 167.784 - 600.000
+00> mid avg: 2179.360
+00> mid max: 2585.000
+00> mid min: 1804.000
+00> mid rms: 2185.808
+00> fifo0 number: 2049
+00> fifo0 number: 1
+00> spp_threshold: 166.474 - 600.000
+00> mid avg: 2187.271
+00> mid max: 2596.000
+00> mid min: 1807.000
+00> mid rms: 2193.597
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 166.984 - 600.000
+00> mid avg: 2177.374
+00> mid max: 2586.000
+00> mid min: 1830.000
+00> mid rms: 2183.766
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 167.945 - 600.000
+00> mid avg: 2187.544
+00> mid max: 2599.000
+00> mid min: 1821.000
+00> mid rms: 2193.979
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.513 - 600.000
+00> mid avg: 2175.598
+00> mid max: 2590.000
+00> mid min: 1818.000
+00> mid rms: 2182.347
+00> fifo1 number: (i=2) - 2304
+00> fifo1 number: 256
+00> slow check duty: 8189ms
+00> slow_samplerate: 24999
+00> 
+00> slow check adc_avg: 2181(1.757V) = 8936538 / 4096
+00> time domain times trigger value: 1.06-0.00
+00> time domain add trigger value: 9.97-0.00
+00> freq domain trigger value: 7.62-0.00
+00> freq domain res trigger value: 6.32-0.00
+00> slow result: 1 - 1 - 1 - 0
+00> slow check last: 602ms
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 168.309 - 600.000
+00> mid avg: 2179.429
+00> mid max: 2581.000
+00> mid min: 1822.000
+00> mid rms: 2185.915
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 167.802 - 600.000
+00> mid avg: 2185.063
+00> mid max: 2587.000
+00> mid min: 1831.000
+00> mid rms: 2191.495
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 168.502 - 600.000
+00> mid avg: 2179.208
+00> mid max: 2586.000
+00> mid min: 1809.000
+00> mid rms: 2185.711
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 166.739 - 600.000
+00> mid avg: 2183.810
+00> mid max: 2561.000
+00> mid min: 1811.000
+00> mid rms: 2190.165
+00> light sensor: 3859(3.109V)
+00> light sensor2: 3236(2.607V)
+00> 
+00> gpio0~gpio6 read bit:1-0-0-0-0-1-1
+00> bt unknow status
+00> 
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 167.119 - 600.000
+00> mid avg: 2176.236
+00> mid max: 2561.000
+00> mid min: 1779.000
+00> mid rms: 2182.642
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 167.774 - 600.000
+00> mid avg: 2182.551
+00> mid max: 2577.000
+00> mid min: 1830.000
+00> mid rms: 2188.988
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 167.074 - 600.000
+00> mid avg: 2185.129
+00> mid max: 2580.000
+00> mid min: 1835.000
+00> mid rms: 2191.505
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 168.613 - 600.000
+00> mid avg: 2190.232
+00> mid max: 2599.000
+00> mid min: 1853.000
+00> mid rms: 2196.710
+00> fifo1 number: (i=2) - 2304
+00> fifo1 number: 256
+00> slow check duty: 8192ms
+00> slow_samplerate: 25009
+00> 
+00> slow check adc_avg: 2181(1.757V) = 8934400 / 4096
+00> time domain times trigger value: 1.06-0.00
+00> time domain add trigger value: 9.07-0.00
+00> freq domain trigger value: 8.30-0.00
+00> freq domain res trigger value: 6.47-0.00
+00> slow result: 1 - 1 - 1 - 0
+00> slow check last: 601ms
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 169.497 - 600.000
+00> mid avg: 2173.999
+00> mid max: 2568.000
+00> mid min: 1800.000
+00> mid rms: 2180.595
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 169.289 - 600.000
+00> mid avg: 2184.742
+00> mid max: 2593.000
+00> mid min: 1828.000
+00> mid rms: 2191.290
+00> fifo0 number: 2049
+00> fifo0 number: 1
+00> spp_threshold: 178.093 - 600.000
+00> mid avg: 2212.071
+00> mid max: 2685.000
+00> mid min: 1835.000
+00> mid rms: 2219.227
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.245 - 600.000
+00> mid avg: 2168.039
+00> mid max: 2612.000
+00> mid min: 1762.000
+00> mid rms: 2174.790
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 168.970 - 600.000
+00> mid avg: 2178.441
+00> mid max: 2590.000
+00> mid min: 1838.000
+00> mid rms: 2184.984
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 169.707 - 600.000
+00> mid avg: 2182.715
+00> mid max: 2606.000
+00> mid min: 1817.000
+00> mid rms: 2189.301
+00> light sensor: 3857(3.107V)
+00> light sensor2: 3276(2.639V)
+00> 
+00> gpio0~gpio6 read bit:1-0-0-0-0-1-1
+00> bt unknow status
+00> 
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 170.057 - 600.000
+00> mid avg: 2181.394
+00> mid max: 2572.000
+00> mid min: 1814.000
+00> mid rms: 2188.010
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.269 - 600.000
+00> mid avg: 2184.410
+00> mid max: 2589.000
+00> mid min: 1813.000
+00> mid rms: 2191.114
+00> fifo1 number: (i=2) - 2304
+00> fifo1 number: 256
+00> slow check duty: 8195ms
+00> slow_samplerate: 24999
+00> 
+00> slow check adc_avg: 2183(1.759V) = 8942659 / 4096
+00> time domain times trigger value: 1.06-0.00
+00> time domain add trigger value: 10.47-0.00
+00> freq domain trigger value: 7.58-0.00
+00> freq domain res trigger value: 3.65-0.00
+00> slow result: 1 - 1 - 1 - 0
+00> slow check last: 602ms
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 170.683 - 600.000
+00> mid avg: 2180.400
+00> mid max: 2582.000
+00> mid min: 1804.000
+00> mid rms: 2187.070
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.152 - 600.000
+00> mid avg: 2182.368
+00> mid max: 2604.000
+00> mid min: 1831.000
+00> mid rms: 2189.146
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 174.463 - 600.000
+00> mid avg: 2187.831
+00> mid max: 2619.000
+00> mid min: 1802.000
+00> mid rms: 2194.774
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 169.930 - 600.000
+00> mid avg: 2180.955
+00> mid max: 2590.000
+00> mid min: 1808.000
+00> mid rms: 2187.564
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.330 - 600.000
+00> mid avg: 2179.764
+00> mid max: 2578.000
+00> mid min: 1824.000
+00> mid rms: 2186.486
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 173.494 - 600.000
+00> mid avg: 2183.312
+00> mid max: 2596.000
+00> mid min: 1812.000
+00> mid rms: 2190.192
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 170.787 - 600.000
+00> mid avg: 2176.991
+00> mid max: 2602.000
+00> mid min: 1811.000
+00> mid rms: 2183.678
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 173.509 - 600.000
+00> mid avg: 2181.416
+00> mid max: 2588.000
+00> mid min: 1810.000
+00> mid rms: 2188.303
+00> fifo1 number: (i=2) - 2304
+00> fifo1 number: 256
+00> slow check duty: 8192ms
+00> slow_samplerate: 25009
+00> 
+00> slow check adc_avg: 2182(1.758V) = 8941496 / 4096
+00> time domain times trigger value: 1.06-0.00
+00> time domain add trigger value: 9.52-0.00
+00> freq domain trigger value: 7.82-0.00
+00> freq domain res trigger value: 7.41-0.00
+00> slow result: 1 - 1 - 1 - 0
+00> slow check last: 603ms
+00> light sensor: 3859(3.109V)
+00> light sensor2: 3352(2.701V)
+00> 
+00> gpio0~gpio6 read bit:1-0-0-0-0-1-1
+00> bt unknow status
+00> 
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.043 - 600.000
+00> mid avg: 2193.152
+00> mid max: 2578.000
+00> mid min: 1819.000
+00> mid rms: 2199.809
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 170.763 - 600.000
+00> mid avg: 2175.678
+00> mid max: 2565.000
+00> mid min: 1809.000
+00> mid rms: 2182.366
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.706 - 600.000
+00> mid avg: 2179.369
+00> mid max: 2581.000
+00> mid min: 1806.000
+00> mid rms: 2186.121
+00> fifo0 number: 2049
+00> fifo0 number: 1
+00> spp_threshold: 170.320 - 600.000
+00> mid avg: 2188.809
+00> mid max: 2600.000
+00> mid min: 1790.000
+00> mid rms: 2195.423
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 170.984 - 600.000
+00> mid avg: 2182.369
+00> mid max: 2593.000
+00> mid min: 1825.000
+00> mid rms: 2189.056
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 168.411 - 600.000
+00> mid avg: 2177.049
+00> mid max: 2595.000
+00> mid min: 1833.000
+00> mid rms: 2183.552
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 166.347 - 600.000
+00> mid avg: 2187.225
+00> mid max: 2583.000
+00> mid min: 1816.000
+00> mid rms: 2193.541
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 166.200 - 600.000
+00> mid avg: 2180.158
+00> mid max: 2576.000
+00> mid min: 1839.000
+00> mid rms: 2186.481
+00> fifo1 number: (i=2) - 2304
+00> fifo1 number: 256
+00> slow check duty: 8196ms
+00> slow_samplerate: 24999
+00> 
+00> slow check adc_avg: 2181(1.757V) = 8936334 / 4096
+00> time domain times trigger value: 1.06-0.00
+00> time domain add trigger value: 10.06-0.00
+00> freq domain trigger value: 8.14-0.00
+00> freq domain res trigger value: 5.04-0.00
+00> slow result: 1 - 1 - 1 - 0
+00> slow check last: 601ms
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 166.770 - 600.000
+00> mid avg: 2178.641
+00> mid max: 2599.000
+00> mid min: 1830.000
+00> mid rms: 2185.013
+00> light sensor: 3858(3.108V)
+00> light sensor2: 3257(2.624V)
+00> 
+00> gpio0~gpio6 read bit:1-0-0-0-0-1-1
+00> bt unknow status
+00> 
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.692 - 600.000
+00> mid avg: 2185.137
+00> mid max: 2577.000
+00> mid min: 1814.000
+00> mid rms: 2191.870
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.308 - 600.000
+00> mid avg: 2180.594
+00> mid max: 2615.000
+00> mid min: 1839.000
+00> mid rms: 2187.390
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.043 - 600.000
+00> mid avg: 2187.266
+00> mid max: 2591.000
+00> mid min: 1812.000
+00> mid rms: 2193.942
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.671 - 600.000
+00> mid avg: 2179.905
+00> mid max: 2568.000
+00> mid min: 1788.000
+00> mid rms: 2186.654
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 173.188 - 600.000
+00> mid avg: 2185.502
+00> mid max: 2589.000
+00> mid min: 1824.000
+00> mid rms: 2192.352
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.729 - 600.000
+00> mid avg: 2180.291
+00> mid max: 2582.000
+00> mid min: 1816.000
+00> mid rms: 2187.121
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 170.908 - 600.000
+00> mid avg: 2187.055
+00> mid max: 2586.000
+00> mid min: 1832.000
+00> mid rms: 2193.720
+00> fifo1 number: (i=2) - 2304
+00> fifo1 number: 256
+00> slow check duty: 8192ms
+00> slow_samplerate: 25009
+00> 
+00> slow check adc_avg: 2182(1.758V) = 8939885 / 4096
+00> time domain times trigger value: 1.06-0.00
+00> time domain add trigger value: 10.01-0.00
+00> freq domain trigger value: 8.69-0.00
+00> freq domain res trigger value: 8.12-0.00
+00> slow result: 1 - 1 - 1 - 0
+00> slow check last: 602ms
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 169.590 - 600.000
+00> mid avg: 2181.881
+00> mid max: 2576.000
+00> mid min: 1828.000
+00> mid rms: 2188.461
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 170.288 - 600.000
+00> mid avg: 2183.373
+00> mid max: 2570.000
+00> mid min: 1829.000
+00> mid rms: 2190.003
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.041 - 600.000
+00> mid avg: 2192.560
+00> mid max: 2578.000
+00> mid min: 1806.000
+00> mid rms: 2199.296
+00> light sensor: 3858(3.108V)
+00> light sensor2: 3221(2.595V)
+00> 
+00> gpio0~gpio6 read bit:1-0-0-0-0-1-1
+00> bt unknow status
+00> 
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 170.941 - 600.000
+00> mid avg: 2180.185
+00> mid max: 2582.000
+00> mid min: 1825.000
+00> mid rms: 2186.874
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.200 - 600.000
+00> mid avg: 2183.460
+00> mid max: 2584.000
+00> mid min: 1833.000
+00> mid rms: 2190.160
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.277 - 600.000
+00> mid avg: 2188.169
+00> mid max: 2604.000
+00> mid min: 1829.000
+00> mid rms: 2194.939
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 170.106 - 600.000
+00> mid avg: 2180.860
+00> mid max: 2611.000
+00> mid min: 1809.000
+00> mid rms: 2187.482
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.091 - 600.000
+00> mid avg: 2192.811
+00> mid max: 2598.000
+00> mid min: 1833.000
+00> mid rms: 2199.550
+00> fifo1 number: (i=2) - 2304
+00> fifo1 number: 256
+00> slow check duty: 8195ms
+00> slow_samplerate: 24999
+00> 
+00> slow check adc_avg: 2183(1.759V) = 8945269 / 4096
+00> time domain times trigger value: 1.06-0.00
+00> time domain add trigger value: 9.94-0.00
+00> freq domain trigger value: 7.58-0.00
+00> freq domain res trigger value: 6.46-0.00
+00> slow result: 1 - 1 - 1 - 0
+00> slow check last: 602ms
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.512 - 600.000
+00> mid avg: 2200.649
+00> mid max: 2604.000
+00> mid min: 1850.000
+00> mid rms: 2207.322
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.175 - 600.000
+00> mid avg: 2173.690
+00> mid max: 2602.000
+00> mid min: 1794.000
+00> mid rms: 2180.417
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 174.510 - 600.000
+00> mid avg: 2174.136
+00> mid max: 2586.000
+00> mid min: 1797.000
+00> mid rms: 2181.126
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 170.241 - 600.000
+00> mid avg: 2182.994
+00> mid max: 2580.000
+00> mid min: 1767.000
+00> mid rms: 2189.620
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 175.190 - 600.000
+00> mid avg: 2189.878
+00> mid max: 2605.000
+00> mid min: 1838.000
+00> mid rms: 2196.872
+00> light sensor: 3857(3.107V)
+00> light sensor2: 3308(2.665V)
+00> 
+00> gpio0~gpio6 read bit:1-0-0-0-0-1-1
+00> bt unknow status
+00> 
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 174.278 - 600.000
+00> mid avg: 2173.964
+00> mid max: 2599.000
+00> mid min: 1796.000
+00> mid rms: 2180.937
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 173.504 - 600.000
+00> mid avg: 2180.586
+00> mid max: 2583.000
+00> mid min: 1784.000
+00> mid rms: 2187.476
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 173.678 - 600.000
+00> mid avg: 2184.045
+00> mid max: 2597.000
+00> mid min: 1796.000
+00> mid rms: 2190.938
+00> fifo1 number: (i=2) - 2304
+00> fifo1 number: 256
+00> slow check duty: 8193ms
+00> slow_samplerate: 24989
+00> 
+00> slow check adc_avg: 2186(1.761V) = 8956244 / 4096
+00> time domain times trigger value: 1.09-0.00
+00> time domain add trigger value: 15.60-0.00
+00> freq domain trigger value: 7.94-0.00
+00> freq domain res trigger value: 11.06-0.00
+00> slow result: 1 - 1 - 1 - 0
+00> slow check last: 602ms
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.752 - 600.000
+00> mid avg: 2180.692
+00> mid max: 2583.000
+00> mid min: 1823.000
+00> mid rms: 2187.442
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 173.170 - 600.000
+00> mid avg: 2177.177
+00> mid max: 2589.000
+00> mid min: 1831.000
+00> mid rms: 2184.053
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 173.633 - 600.000
+00> mid avg: 2187.156
+00> mid max: 2588.000
+00> mid min: 1828.000
+00> mid rms: 2194.035
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.697 - 600.000
+00> mid avg: 2174.403
+00> mid max: 2598.000
+00> mid min: 1816.000
+00> mid rms: 2181.250
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 174.228 - 600.000
+00> mid avg: 2183.661
+00> mid max: 2595.000
+00> mid min: 1839.000
+00> mid rms: 2190.599
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 174.168 - 600.000
+00> mid avg: 2193.314
+00> mid max: 2634.000
+00> mid min: 1826.000
+00> mid rms: 2200.217
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 174.858 - 600.000
+00> mid avg: 2190.770
+00> mid max: 2617.000
+00> mid min: 1838.000
+00> mid rms: 2197.735
+00> light sensor: 3858(3.108V)
+00> light sensor2: 3331(2.684V)
+00> 
+00> gpio0~gpio6 read bit:1-0-0-0-0-1-1
+00> bt unknow status
+00> 
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 173.891 - 600.000
+00> mid avg: 2188.134
+00> mid max: 2608.000
+00> mid min: 1829.000
+00> mid rms: 2195.032
+00> fifo1 number: (i=2) - 2304
+00> fifo1 number: 256
+00> slow check duty: 8188ms
+00> slow_samplerate: 24999
+00> 
+00> slow check adc_avg: 2186(1.761V) = 8953895 / 4096
+00> time domain times trigger value: 1.08-0.00
+00> time domain add trigger value: 12.81-0.00
+00> freq domain trigger value: 9.67-0.00
+00> freq domain res trigger value: 13.54-0.00
+00> slow result: 1 - 1 - 1 - 0
+00> slow check last: 603ms
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 175.115 - 600.000
+00> mid avg: 2181.664
+00> mid max: 2608.000
+00> mid min: 1822.000
+00> mid rms: 2188.679
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 176.228 - 600.000
+00> mid avg: 2196.448
+00> mid max: 2605.000
+00> mid min: 1825.000
+00> mid rms: 2203.504
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 173.794 - 600.000
+00> mid avg: 2173.912
+00> mid max: 2617.000
+00> mid min: 1817.000
+00> mid rms: 2180.846
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 175.376 - 600.000
+00> mid avg: 2185.594
+00> mid max: 2602.000
+00> mid min: 1804.000
+00> mid rms: 2192.618
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 173.186 - 600.000
+00> mid avg: 2181.977
+00> mid max: 2592.000
+00> mid min: 1848.000
+00> mid rms: 2188.837
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 175.141 - 600.000
+00> mid avg: 2180.990
+00> mid max: 2595.000
+00> mid min: 1810.000
+00> mid rms: 2188.009
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 173.435 - 600.000
+00> mid avg: 2179.352
+00> mid max: 2581.000
+00> mid min: 1802.000
+00> mid rms: 2186.241
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 174.367 - 600.000
+00> mid avg: 2184.603
+00> mid max: 2593.000
+00> mid min: 1823.000
+00> mid rms: 2191.550
+00> fifo1 number: (i=2) - 2304
+00> fifo1 number: 256
+00> slow check duty: 8192ms
+00> slow_samplerate: 25009
+00> 
+00> slow check adc_avg: 2184(1.760V) = 8948750 / 4096
+00> time domain times trigger value: 1.06-0.00
+00> time domain add trigger value: 10.67-0.00
+00> freq domain trigger value: 8.43-0.00
+00> freq domain res trigger value: 10.72-0.00
+00> slow result: 1 - 1 - 1 - 0
+00> slow check last: 603ms
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.970 - 600.000
+00> mid avg: 2183.703
+00> mid max: 2583.000
+00> mid min: 1829.000
+00> mid rms: 2190.540
+00> light sensor: 3858(3.108V)
+00> light sensor2: 3217(2.592V)
+00> 
+00> gpio0~gpio6 read bit:1-0-0-0-0-1-1
+00> bt unknow status
+00> 
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 174.763 - 600.000
+00> mid avg: 2206.738
+00> mid max: 2628.000
+00> mid min: 1816.000
+00> mid rms: 2213.647
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 176.592 - 600.000
+00> mid avg: 2192.840
+00> mid max: 2601.000
+00> mid min: 1808.000
+00> mid rms: 2199.937
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 174.590 - 600.000
+00> mid avg: 2182.945
+00> mid max: 2594.000
+00> mid min: 1827.000
+00> mid rms: 2189.914
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 175.781 - 600.000
+00> mid avg: 2187.209
+00> mid max: 2610.000
+00> mid min: 1831.000
+00> mid rms: 2194.259
+00> fifo0 number: 2049
+00> fifo0 number: 1
+00> spp_threshold: 175.751 - 600.000
+00> mid avg: 2172.710
+00> mid max: 2615.000
+00> mid min: 1798.000
+00> mid rms: 2179.806
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 175.292 - 600.000
+00> mid avg: 2180.786
+00> mid max: 2595.000
+00> mid min: 1814.000
+00> mid rms: 2187.819
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 173.426 - 600.000
+00> mid avg: 2177.840
+00> mid max: 2582.000
+00> mid min: 1823.000
+00> mid rms: 2184.732
+00> fifo1 number: (i=2) - 2304
+00> fifo1 number: 256
+00> slow check duty: 8196ms
+00> slow_samplerate: 24999
+00> 
+00> slow check adc_avg: 2184(1.760V) = 8949282 / 4096
+00> time domain times trigger value: 1.06-0.00
+00> time domain add trigger value: 9.52-0.00
+00> freq domain trigger value: 8.84-0.00
+00> freq domain res trigger value: 7.07-0.00
+00> slow result: 1 - 1 - 1 - 0
+00> slow check last: 602ms
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 173.663 - 600.000
+00> mid avg: 2180.434
+00> mid max: 2574.000
+00> mid min: 1798.000
+00> mid rms: 2187.338
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 174.844 - 600.000
+00> mid avg: 2187.649
+00> mid max: 2601.000
+00> mid min: 1818.000
+00> mid rms: 2194.624
+00> light sensor: 3858(3.108V)
+00> light sensor2: 3353(2.701V)
+00> 
+00> gpio0~gpio6 read bit:1-0-0-0-0-1-1
+00> bt unknow status
+00> 
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 174.414 - 600.000
+00> mid avg: 2177.697
+00> mid max: 2608.000
+00> mid min: 1811.000
+00> mid rms: 2184.669
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 174.955 - 600.000
+00> mid avg: 2181.809
+00> mid max: 2576.000
+00> mid min: 1814.000
+00> mid rms: 2188.811
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.676 - 600.000
+00> mid avg: 2196.870
+00> mid max: 2583.000
+00> mid min: 1826.000
+00> mid rms: 2203.645
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 174.212 - 600.000
+00> mid avg: 2178.468
+00> mid max: 2587.000
+00> mid min: 1821.000
+00> mid rms: 2185.421
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 175.601 - 600.000
+00> mid avg: 2178.516
+00> mid max: 2587.000
+00> mid min: 1813.000
+00> mid rms: 2185.580
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 174.905 - 600.000
+00> mid avg: 2181.642
+00> mid max: 2568.000
+00> mid min: 1814.000
+00> mid rms: 2188.640
+00> fifo1 number: (i=2) - 2304
+00> fifo1 number: 256
+00> slow check duty: 8192ms
+00> slow_samplerate: 25009
+00> 
+00> slow check adc_avg: 2182(1.758V) = 8941344 / 4096
+00> time domain times trigger value: 1.05-0.00
+00> time domain add trigger value: 8.01-0.00
+00> freq domain trigger value: 8.21-0.00
+00> freq domain res trigger value: 6.93-0.00
+00> slow result: 1 - 1 - 1 - 0
+00> slow check last: 601ms
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 175.206 - 600.000
+00> mid avg: 2178.998
+00> mid max: 2589.000
+00> mid min: 1802.000
+00> mid rms: 2186.029
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.815 - 600.000
+00> mid avg: 2177.736
+00> mid max: 2601.000
+00> mid min: 1790.000
+00> mid rms: 2184.579
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.997 - 600.000
+00> mid avg: 2182.146
+00> mid max: 2615.000
+00> mid min: 1802.000
+00> mid rms: 2188.990
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.952 - 600.000
+00> mid avg: 2177.918
+00> mid max: 2604.000
+00> mid min: 1837.000
+00> mid rms: 2184.774
+00> light sensor: 3858(3.108V)
+00> light sensor2: 3216(2.591V)
+00> 
+00> gpio0~gpio6 read bit:1-0-0-0-0-1-1
+00> bt unknow status
+00> 
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 173.023 - 600.000
+00> mid avg: 2195.588
+00> mid max: 2618.000
+00> mid min: 1820.000
+00> mid rms: 2202.393
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.127 - 600.000
+00> mid avg: 2183.915
+00> mid max: 2648.000
+00> mid min: 1813.000
+00> mid rms: 2190.686
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.654 - 600.000
+00> mid avg: 2174.124
+00> mid max: 2578.000
+00> mid min: 1805.000
+00> mid rms: 2180.887
+00> fifo0 number: 2049
+00> fifo0 number: 1
+00> spp_threshold: 171.653 - 600.000
+00> mid avg: 2197.361
+00> mid max: 2610.000
+00> mid min: 1853.000
+00> mid rms: 2204.053
+00> fifo1 number: (i=2) - 2304
+00> fifo1 number: 256
+00> slow check duty: 8195ms
+00> slow_samplerate: 24999
+00> 
+00> slow check adc_avg: 2182(1.758V) = 8938333 / 4096
+00> time domain times trigger value: 1.05-0.00
+00> time domain add trigger value: 9.03-0.00
+00> freq domain trigger value: 8.80-0.00
+00> freq domain res trigger value: 7.92-0.00
+00> slow result: 1 - 1 - 1 - 0
+00> slow check last: 602ms
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 173.313 - 600.000
+00> mid avg: 2176.536
+00> mid max: 2593.000
+00> mid min: 1762.000
+00> mid rms: 2183.422
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 169.691 - 600.000
+00> mid avg: 2181.347
+00> mid max: 2585.000
+00> mid min: 1829.000
+00> mid rms: 2187.936
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 170.332 - 600.000
+00> mid avg: 2201.890
+00> mid max: 2611.000
+00> mid min: 1838.000
+00> mid rms: 2208.467
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 168.737 - 600.000
+00> mid avg: 2176.156
+00> mid max: 2567.000
+00> mid min: 1816.000
+00> mid rms: 2182.686
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 169.196 - 600.000
+00> mid avg: 2178.915
+00> mid max: 2557.000
+00> mid min: 1807.000
+00> mid rms: 2185.474
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.982 - 600.000
+00> mid avg: 2201.241
+00> mid max: 2606.000
+00> mid min: 1815.000
+00> mid rms: 2207.949
+00> light sensor: 3859(3.109V)
+00> light sensor2: 3255(2.622V)
+00> 
+00> gpio0~gpio6 read bit:1-0-0-0-0-1-1
+00> bt unknow status
+00> 
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 170.121 - 600.000
+00> mid avg: 2189.762
+00> mid max: 2601.000
+00> mid min: 1834.000
+00> mid rms: 2196.359
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.883 - 600.000
+00> mid avg: 2191.269
+00> mid max: 2608.000
+00> mid min: 1844.000
+00> mid rms: 2198.076
+00> fifo1 number: (i=2) - 2304
+00> fifo1 number: 256
+00> slow check duty: 8193ms
+00> slow_samplerate: 24989
+00> 
+00> slow check adc_avg: 2186(1.761V) = 8957328 / 4096
+00> time domain times trigger value: 1.07-0.00
+00> time domain add trigger value: 11.75-0.00
+00> freq domain trigger value: 7.47-0.00
+00> freq domain res trigger value: 7.81-0.00
+00> slow result: 1 - 1 - 1 - 0
+00> slow check last: 602ms
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 170.797 - 600.000
+00> mid avg: 2164.383
+00> mid max: 2554.000
+00> mid min: 1801.000
+00> mid rms: 2171.110
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 169.430 - 600.000
+00> mid avg: 2179.780
+00> mid max: 2595.000
+00> mid min: 1828.000
+00> mid rms: 2186.353
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 170.393 - 600.000
+00> mid avg: 2174.747
+00> mid max: 2570.000
+00> mid min: 1813.000
+00> mid rms: 2181.410
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 167.240 - 600.000
+00> mid avg: 2181.709
+00> mid max: 2587.000
+00> mid min: 1834.000
+00> mid rms: 2188.109
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.061 - 600.000
+00> mid avg: 2212.263
+00> mid max: 2627.000
+00> mid min: 1842.000
+00> mid rms: 2218.942
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 169.367 - 600.000
+00> mid avg: 2163.357
+00> mid max: 2577.000
+00> mid min: 1834.000
+00> mid rms: 2169.977
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 173.564 - 600.000
+00> mid avg: 2177.575
+00> mid max: 2598.000
+00> mid min: 1786.000
+00> mid rms: 2184.479
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.570 - 600.000
+00> mid avg: 2187.082
+00> mid max: 2588.000
+00> mid min: 1842.000
+00> mid rms: 2193.800
+00> fifo1 number: (i=2) - 2304
+00> fifo1 number: 256
+00> slow check duty: 8189ms
+00> slow_samplerate: 24999
+00> 
+00> slow check adc_avg: 2186(1.761V) = 8954516 / 4096
+00> time domain times trigger value: 1.07-0.00
+00> time domain add trigger value: 10.84-0.00
+00> freq domain trigger value: 7.44-0.00
+00> freq domain res trigger value: 14.04-0.00
+00> slow result: 1 - 1 - 1 - 0
+00> slow check last: 602ms
+00> light sensor: 3858(3.108V)
+00> light sensor2: 3245(2.614V)
+00> 
+00> gpio0~gpio6 read bit:1-0-0-0-0-1-1
+00> bt unknow status
+00> 
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 176.847 - 600.000
+00> mid avg: 2205.588
+00> mid max: 2635.000
+00> mid min: 1780.000
+00> mid rms: 2212.666
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.294 - 600.000
+00> mid avg: 2199.621
+00> mid max: 2604.000
+00> mid min: 1822.000
+00> mid rms: 2206.357
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 175.645 - 600.000
+00> mid avg: 2186.493
+00> mid max: 2632.000
+00> mid min: 1785.000
+00> mid rms: 2193.535
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.598 - 600.000
+00> mid avg: 2167.433
+00> mid max: 2601.000
+00> mid min: 1808.000
+00> mid rms: 2174.292
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.594 - 600.000
+00> mid avg: 2173.309
+00> mid max: 2580.000
+00> mid min: 1818.000
+00> mid rms: 2180.150
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 175.776 - 600.000
+00> mid avg: 2177.225
+00> mid max: 2576.000
+00> mid min: 1809.000
+00> mid rms: 2184.307
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.826 - 600.000
+00> mid avg: 2189.619
+00> mid max: 2627.000
+00> mid min: 1827.000
+00> mid rms: 2196.348
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.093 - 600.000
+00> mid avg: 2171.755
+00> mid max: 2561.000
+00> mid min: 1807.000
+00> mid rms: 2178.563
+00> fifo1 number: (i=2) - 2304
+00> fifo1 number: 256
+00> slow check duty: 8192ms
+00> slow_samplerate: 25009
+00> 
+00> slow check adc_avg: 2184(1.760V) = 8949615 / 4096
+00> time domain times trigger value: 1.07-0.00
+00> time domain add trigger value: 11.67-0.00
+00> freq domain trigger value: 8.20-0.00
+00> freq domain res trigger value: 19.95-0.00
+00> slow result: 1 - 1 - 1 - 0
+00> slow check last: 602ms
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 169.538 - 600.000
+00> mid avg: 2174.893
+00> mid max: 2574.000
+00> mid min: 1817.000
+00> mid rms: 2181.489
+00> light sensor: 3858(3.108V)
+00> light sensor2: 3228(2.601V)
+00> 
+00> gpio0~gpio6 read bit:1-0-0-0-0-1-1
+00> bt unknow status
+00> 
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.472 - 600.000
+00> mid avg: 2174.985
+00> mid max: 2565.000
+00> mid min: 1793.000
+00> mid rms: 2181.811
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 170.546 - 600.000
+00> mid avg: 2182.667
+00> mid max: 2584.000
+00> mid min: 1817.000
+00> mid rms: 2189.319
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 169.740 - 600.000
+00> mid avg: 2177.446
+00> mid max: 2562.000
+00> mid min: 1802.000
+00> mid rms: 2184.051
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.320 - 600.000
+00> mid avg: 2178.169
+00> mid max: 2585.000
+00> mid min: 1825.000
+00> mid rms: 2184.896
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 169.935 - 600.000
+00> mid avg: 2181.658
+00> mid max: 2563.000
+00> mid min: 1816.000
+00> mid rms: 2188.266
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 170.152 - 600.000
+00> mid avg: 2175.076
+00> mid max: 2583.000
+00> mid min: 1820.000
+00> mid rms: 2181.719
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 170.603 - 600.000
+00> mid avg: 2179.303
+00> mid max: 2589.000
+00> mid min: 1820.000
+00> mid rms: 2185.968
+00> fifo1 number: (i=2) - 2304
+00> fifo1 number: 256
+00> slow check duty: 8195ms
+00> slow_samplerate: 24999
+00> 
+00> slow check adc_avg: 2183(1.759V) = 8942536 / 4096
+00> time domain times trigger value: 1.05-0.00
+00> time domain add trigger value: 8.61-0.00
+00> freq domain trigger value: 7.90-0.00
+00> freq domain res trigger value: 9.36-0.00
+00> slow result: 1 - 1 - 1 - 0
+00> slow check last: 602ms
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.036 - 600.000
+00> mid avg: 2181.030
+00> mid max: 2584.000
+00> mid min: 1833.000
+00> mid rms: 2187.725
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.082 - 600.000
+00> mid avg: 2181.398
+00> mid max: 2572.000
+00> mid min: 1829.000
+00> mid rms: 2188.095
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.608 - 600.000
+00> mid avg: 2175.118
+00> mid max: 2573.000
+00> mid min: 1796.000
+00> mid rms: 2181.875
+00> light sensor: 3858(3.108V)
+00> light sensor2: 3287(2.648V)
+00> 
+00> gpio0~gpio6 read bit:1-0-0-0-0-1-1
+00> bt unknow status
+00> 
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.883 - 600.000
+00> mid avg: 2184.262
+00> mid max: 2578.000
+00> mid min: 1815.000
+00> mid rms: 2191.091
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 173.234 - 600.000
+00> mid avg: 2186.154
+00> mid max: 2590.000
+00> mid min: 1778.000
+00> mid rms: 2193.007
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.799 - 600.000
+00> mid avg: 2180.886
+00> mid max: 2576.000
+00> mid min: 1811.000
+00> mid rms: 2187.642
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 180.327 - 600.000
+00> mid avg: 2205.899
+00> mid max: 2742.000
+00> mid min: 1788.000
+00> mid rms: 2213.255
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 177.361 - 600.000
+00> mid avg: 2191.234
+00> mid max: 2665.000
+00> mid min: 1806.000
+00> mid rms: 2198.398
+00> fifo1 number: (i=2) - 2304
+00> fifo1 number: 256
+00> slow check duty: 8192ms
+00> slow_samplerate: 25009
+00> 
+00> slow check adc_avg: 2182(1.758V) = 8938966 / 4096
+00> time domain times trigger value: 1.07-0.00
+00> time domain add trigger value: 11.31-0.00
+00> freq domain trigger value: 9.21-0.00
+00> freq domain res trigger value: 4.80-0.00
+00> slow result: 1 - 1 - 1 - 0
+00> slow check last: 602ms
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.483 - 600.000
+00> mid avg: 2170.003
+00> mid max: 2575.000
+00> mid min: 1784.000
+00> mid rms: 2176.845
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.974 - 600.000
+00> mid avg: 2184.972
+00> mid max: 2594.000
+00> mid min: 1808.000
+00> mid rms: 2191.805
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 177.300 - 600.000
+00> mid avg: 2207.554
+00> mid max: 2713.000
+00> mid min: 1814.000
+00> mid rms: 2214.661
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 173.247 - 600.000
+00> mid avg: 2162.977
+00> mid max: 2575.000
+00> mid min: 1800.000
+00> mid rms: 2169.903
+00> fifo0 number: 2049
+00> fifo0 number: 1
+00> spp_threshold: 170.426 - 600.000
+00> mid avg: 2179.273
+00> mid max: 2573.000
+00> mid min: 1844.000
+00> mid rms: 2185.926
+00> light sensor: 3857(3.107V)
+00> light sensor2: 3267(2.632V)
+00> 
+00> gpio0~gpio6 read bit:1-0-0-0-0-1-1
+00> bt unknow status
+00> 
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.164 - 600.000
+00> mid avg: 2179.279
+00> mid max: 2590.000
+00> mid min: 1824.000
+00> mid rms: 2185.990
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.249 - 600.000
+00> mid avg: 2179.123
+00> mid max: 2579.000
+00> mid min: 1793.000
+00> mid rms: 2185.918
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.633 - 600.000
+00> mid avg: 2179.286
+00> mid max: 2593.000
+00> mid min: 1831.000
+00> mid rms: 2186.032
+00> fifo1 number: (i=2) - 2304
+00> fifo1 number: 256
+00> slow check duty: 8195ms
+00> slow_samplerate: 24999
+00> 
+00> slow check adc_avg: 2184(1.760V) = 8948604 / 4096
+00> time domain times trigger value: 1.08-0.00
+00> time domain add trigger value: 13.15-0.00
+00> freq domain trigger value: 8.19-0.00
+00> freq domain res trigger value: 23.71-0.00
+00> slow result: 1 - 1 - 1 - 0
+00> slow check last: 603ms
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 170.401 - 600.000
+00> mid avg: 2180.065
+00> mid max: 2575.000
+00> mid min: 1800.000
+00> mid rms: 2186.713
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.078 - 600.000
+00> mid avg: 2182.561
+00> mid max: 2604.000
+00> mid min: 1816.000
+00> mid rms: 2189.334
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.319 - 600.000
+00> mid avg: 2179.718
+00> mid max: 2586.000
+00> mid min: 1836.000
+00> mid rms: 2186.438
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.558 - 600.000
+00> mid avg: 2181.278
+00> mid max: 2576.000
+00> mid min: 1821.000
+00> mid rms: 2188.090
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.785 - 600.000
+00> mid avg: 2183.378
+00> mid max: 2582.000
+00> mid min: 1814.000
+00> mid rms: 2190.123
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.270 - 600.000
+00> mid avg: 2182.035
+00> mid max: 2585.000
+00> mid min: 1820.000
+00> mid rms: 2188.743
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.394 - 600.000
+00> mid avg: 2175.359
+00> mid max: 2575.000
+00> mid min: 1815.000
+00> mid rms: 2182.177
+00> light sensor: 3859(3.109V)
+00> light sensor2: 3286(2.647V)
+00> 
+00> gpio0~gpio6 read bit:1-0-0-0-0-1-1
+00> bt unknow status
+00> 
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 170.619 - 600.000
+00> mid avg: 2186.972
+00> mid max: 2604.000
+00> mid min: 1850.000
+00> mid rms: 2193.615
+00> fifo1 number: (i=2) - 2304
+00> fifo1 number: 256
+00> slow check duty: 8193ms
+00> slow_samplerate: 24989
+00> 
+00> slow check adc_avg: 2180(1.756V) = 8933259 / 4096
+00> time domain times trigger value: 1.10-0.00
+00> time domain add trigger value: 16.71-0.00
+00> freq domain trigger value: 8.45-0.00
+00> freq domain res trigger value: 7.02-0.00
+00> slow result: 1 - 1 - 1 - 0
+00> slow check last: 602ms
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 170.118 - 600.000
+00> mid avg: 2175.587
+00> mid max: 2582.000
+00> mid min: 1799.000
+00> mid rms: 2182.226
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 173.569 - 600.000
+00> mid avg: 2187.342
+00> mid max: 2601.000
+00> mid min: 1822.000
+00> mid rms: 2194.216
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.038 - 600.000
+00> mid avg: 2183.677
+00> mid max: 2583.000
+00> mid min: 1829.000
+00> mid rms: 2190.442
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 175.666 - 600.000
+00> mid avg: 2179.939
+00> mid max: 2603.000
+00> mid min: 1808.000
+00> mid rms: 2187.004
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 173.544 - 600.000
+00> mid avg: 2184.468
+00> mid max: 2616.000
+00> mid min: 1801.000
+00> mid rms: 2191.350
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 173.040 - 600.000
+00> mid avg: 2184.754
+00> mid max: 2577.000
+00> mid min: 1818.000
+00> mid rms: 2191.596
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 173.847 - 600.000
+00> mid avg: 2182.282
+00> mid max: 2609.000
+00> mid min: 1804.000
+00> mid rms: 2189.193
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 169.613 - 600.000
+00> mid avg: 2181.317
+00> mid max: 2596.000
+00> mid min: 1823.000
+00> mid rms: 2187.901
+00> fifo1 number: (i=2) - 2304
+00> fifo1 number: 256
+00> slow check duty: 8188ms
+00> slow_samplerate: 24999
+00> 
+00> slow check adc_avg: 2181(1.757V) = 8935629 / 4096
+00> time domain times trigger value: 1.08-0.00
+00> time domain add trigger value: 12.57-0.00
+00> freq domain trigger value: 7.48-0.00
+00> freq domain res trigger value: 6.75-0.00
+00> slow result: 1 - 1 - 1 - 0
+00> slow check last: 602ms
+00> light sensor: 3858(3.108V)
+00> light sensor2: 3340(2.691V)
+00> 
+00> gpio0~gpio6 read bit:1-0-0-0-0-1-1
+00> bt unknow status
+00> 
+00> fifo0 number: 2049
+00> fifo0 number: 1
+00> spp_threshold: 174.045 - 600.000
+00> mid avg: 2179.117
+00> mid max: 2568.000
+00> mid min: 1804.000
+00> mid rms: 2186.054
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 173.649 - 600.000
+00> mid avg: 2185.426
+00> mid max: 2586.000
+00> mid min: 1778.000
+00> mid rms: 2192.312
+00> fifo0 number: 2049
+00> fifo0 number: 1
+00> spp_threshold: 172.104 - 600.000
+00> mid avg: 2177.877
+00> mid max: 2619.000
+00> mid min: 1812.000
+00> mid rms: 2184.666
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.010 - 600.000
+00> mid avg: 2184.115
+00> mid max: 2583.000
+00> mid min: 1812.000
+00> mid rms: 2190.799
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.219 - 600.000
+00> mid avg: 2178.228
+00> mid max: 2587.000
+00> mid min: 1820.000
+00> mid rms: 2185.024
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.010 - 600.000
+00> mid avg: 2184.833
+00> mid max: 2586.000
+00> mid min: 1827.000
+00> mid rms: 2191.513
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.879 - 600.000
+00> mid avg: 2179.168
+00> mid max: 2595.000
+00> mid min: 1820.000
+00> mid rms: 2185.935
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 170.647 - 600.000
+00> mid avg: 2180.834
+00> mid max: 2570.000
+00> mid min: 1803.000
+00> mid rms: 2187.499
+00> fifo1 number: (i=2) - 2304
+00> fifo1 number: 256
+00> slow check duty: 8193ms
+00> slow_samplerate: 24989
+00> 
+00> slow check adc_avg: 2181(1.757V) = 8933733 / 4096
+00> time domain times trigger value: 1.06-0.00
+00> time domain add trigger value: 9.59-0.00
+00> freq domain trigger value: 7.88-0.00
+00> freq domain res trigger value: 7.98-0.00
+00> slow result: 1 - 1 - 1 - 0
+00> slow check last: 602ms
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.141 - 600.000
+00> mid avg: 2185.580
+00> mid max: 2599.000
+00> mid min: 1804.000
+00> mid rms: 2192.346
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 170.860 - 600.000
+00> mid avg: 2178.750
+00> mid max: 2590.000
+00> mid min: 1834.000
+00> mid rms: 2185.438
+00> light sensor: 3859(3.109V)
+00> light sensor2: 3288(2.649V)
+00> 
+00> gpio0~gpio6 read bit:1-0-0-0-0-1-1
+00> bt unknow status
+00> 
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 170.161 - 600.000
+00> mid avg: 2181.980
+00> mid max: 2579.000
+00> mid min: 1799.000
+00> mid rms: 2188.604
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 170.616 - 600.000
+00> mid avg: 2189.251
+00> mid max: 2613.000
+00> mid min: 1835.000
+00> mid rms: 2195.887
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.214 - 600.000
+00> mid avg: 2174.395
+00> mid max: 2590.000
+00> mid min: 1810.000
+00> mid rms: 2181.124
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 169.678 - 600.000
+00> mid avg: 2180.177
+00> mid max: 2571.000
+00> mid min: 1847.000
+00> mid rms: 2186.768
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 170.086 - 600.000
+00> mid avg: 2176.715
+00> mid max: 2574.000
+00> mid min: 1821.000
+00> mid rms: 2183.349
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.656 - 600.000
+00> mid avg: 2188.911
+00> mid max: 2591.000
+00> mid min: 1810.000
+00> mid rms: 2195.708
+00> fifo1 number: (i=2) - 2304
+00> fifo1 number: 256
+00> slow check duty: 8189ms
+00> slow_samplerate: 24999
+00> 
+00> slow check adc_avg: 2180(1.756V) = 8932260 / 4096
+00> time domain times trigger value: 1.04-0.00
+00> time domain add trigger value: 6.59-0.00
+00> freq domain trigger value: 9.22-0.00
+00> freq domain res trigger value: 8.53-0.00
+00> slow result: 1 - 1 - 1 - 0
+00> slow check last: 601ms
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 169.071 - 600.000
+00> mid avg: 2188.369
+00> mid max: 2592.000
+00> mid min: 1812.000
+00> mid rms: 2194.887
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 168.703 - 600.000
+00> mid avg: 2183.945
+00> mid max: 2581.000
+00> mid min: 1839.000
+00> mid rms: 2190.450
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 168.634 - 600.000
+00> mid avg: 2173.389
+00> mid max: 2575.000
+00> mid min: 1837.000
+00> mid rms: 2179.919
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.354 - 600.000
+00> mid avg: 2180.752
+00> mid max: 2571.000
+00> mid min: 1825.000
+00> mid rms: 2187.472
+00> light sensor: 3858(3.108V)
+00> light sensor2: 3295(2.655V)
+00> 
+00> gpio0~gpio6 read bit:1-0-0-0-0-1-1
+00> bt unknow status
+00> 
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.649 - 600.000
+00> mid avg: 2186.780
+00> mid max: 2618.000
+00> mid min: 1817.000
+00> mid rms: 2193.582
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 169.481 - 600.000
+00> mid avg: 2179.047
+00> mid max: 2600.000
+00> mid min: 1783.000
+00> mid rms: 2185.627
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 170.602 - 600.000
+00> mid avg: 2178.984
+00> mid max: 2568.000
+00> mid min: 1806.000
+00> mid rms: 2185.650
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 168.644 - 600.000
+00> mid avg: 2179.683
+00> mid max: 2578.000
+00> mid min: 1802.000
+00> mid rms: 2186.196
+00> fifo1 number: (i=2) - 2304
+00> fifo1 number: 256
+00> slow check duty: 8192ms
+00> slow_samplerate: 25009
+00> 
+00> slow check adc_avg: 2182(1.758V) = 8939173 / 4096
+00> time domain times trigger value: 1.04-0.00
+00> time domain add trigger value: 7.10-0.00
+00> freq domain trigger value: 8.08-0.00
+00> freq domain res trigger value: 11.54-0.00
+00> slow result: 1 - 1 - 1 - 0
+00> slow check last: 603ms
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 167.939 - 600.000
+00> mid avg: 2183.729
+00> mid max: 2567.000
+00> mid min: 1818.000
+00> mid rms: 2190.176
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 169.636 - 600.000
+00> mid avg: 2182.160
+00> mid max: 2572.000
+00> mid min: 1824.000
+00> mid rms: 2188.741
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 167.788 - 600.000
+00> mid avg: 2184.940
+00> mid max: 2584.000
+00> mid min: 1834.000
+00> mid rms: 2191.372
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 169.349 - 600.000
+00> mid avg: 2177.658
+00> mid max: 2585.000
+00> mid min: 1823.000
+00> mid rms: 2184.232
+00> fifo0 number: 2049
+00> fifo0 number: 1
+00> spp_threshold: 168.229 - 600.000
+00> mid avg: 2182.483
+00> mid max: 2591.000
+00> mid min: 1832.000
+00> mid rms: 2188.955
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 167.764 - 600.000
+00> mid avg: 2186.723
+00> mid max: 2592.000
+00> mid min: 1803.000
+00> mid rms: 2193.146
+00> light sensor: 3859(3.109V)
+00> light sensor2: 3336(2.688V)
+00> 
+00> gpio0~gpio6 read bit:1-0-0-0-0-1-1
+00> bt unknow status
+00> 
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 169.631 - 600.000
+00> mid avg: 2198.104
+00> mid max: 2593.000
+00> mid min: 1850.000
+00> mid rms: 2204.638
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 169.521 - 600.000
+00> mid avg: 2175.988
+00> mid max: 2567.000
+00> mid min: 1801.000
+00> mid rms: 2182.580
+00> fifo1 number: (i=2) - 2304
+00> fifo1 number: 256
+00> slow check duty: 8196ms
+00> slow_samplerate: 24999
+00> 
+00> slow check adc_avg: 2182(1.758V) = 8940113 / 4096
+00> time domain times trigger value: 1.06-0.00
+00> time domain add trigger value: 9.33-0.00
+00> freq domain trigger value: 8.74-0.00
+00> freq domain res trigger value: 7.84-0.00
+00> slow result: 1 - 1 - 1 - 0
+00> slow check last: 602ms
+00> fifo0 number: 2049
+00> fifo0 number: 1
+00> spp_threshold: 168.592 - 600.000
+00> mid avg: 2192.881
+00> mid max: 2597.000
+00> mid min: 1829.000
+00> mid rms: 2199.351
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.334 - 600.000
+00> mid avg: 2204.114
+00> mid max: 2620.000
+00> mid min: 1809.000
+00> mid rms: 2210.839
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 169.235 - 600.000
+00> mid avg: 2204.212
+00> mid max: 2632.000
+00> mid min: 1813.000
+00> mid rms: 2210.698
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 170.329 - 600.000
+00> mid avg: 2181.444
+00> mid max: 2601.000
+00> mid min: 1794.000
+00> mid rms: 2188.082
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 170.204 - 600.000
+00> mid avg: 2175.591
+00> mid max: 2596.000
+00> mid min: 1806.000
+00> mid rms: 2182.236
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.118 - 600.000
+00> mid avg: 2221.344
+00> mid max: 2622.000
+00> mid min: 1847.000
+00> mid rms: 2228.001
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.018 - 600.000
+00> mid avg: 2163.818
+00> mid max: 2572.000
+00> mid min: 1804.000
+00> mid rms: 2170.642
+00> light sensor: 3859(3.109V)
+00> light sensor2: 3314(2.670V)
+00> 
+00> gpio0~gpio6 read bit:1-0-0-0-0-1-1
+00> bt unknow status
+00> 
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 169.312 - 600.000
+00> mid avg: 2172.859
+00> mid max: 2567.000
+00> mid min: 1827.000
+00> mid rms: 2179.444
+00> fifo1 number: (i=2) - 2304
+00> fifo1 number: 256
+00> slow check duty: 8192ms
+00> slow_samplerate: 25009
+00> 
+00> slow check adc_avg: 2187(1.762V) = 8960833 / 4096
+00> time domain times trigger value: 1.04-0.00
+00> time domain add trigger value: 7.24-0.00
+00> freq domain trigger value: 6.98-0.00
+00> freq domain res trigger value: 8.66-0.00
+00> slow result: 1 - 1 - 1 - 0
+00> slow check last: 603ms
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 169.663 - 600.000
+00> mid avg: 2176.878
+00> mid max: 2566.000
+00> mid min: 1818.000
+00> mid rms: 2183.479
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 166.742 - 600.000
+00> mid avg: 2176.010
+00> mid max: 2568.000
+00> mid min: 1807.000
+00> mid rms: 2182.386
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.299 - 600.000
+00> mid avg: 2181.023
+00> mid max: 2573.000
+00> mid min: 1815.000
+00> mid rms: 2187.739
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 169.463 - 600.000
+00> mid avg: 2186.845
+00> mid max: 2573.000
+00> mid min: 1839.000
+00> mid rms: 2193.400
+00> fifo0 number: 2049
+00> fifo0 number: 1
+00> spp_threshold: 168.195 - 600.000
+00> mid avg: 2176.854
+00> mid max: 2557.000
+00> mid min: 1840.000
+00> mid rms: 2183.340
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.615 - 600.000
+00> mid avg: 2178.896
+00> mid max: 2581.000
+00> mid min: 1819.000
+00> mid rms: 2185.642
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 169.413 - 600.000
+00> mid avg: 2178.423
+00> mid max: 2581.000
+00> mid min: 1828.000
+00> mid rms: 2184.999
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.134 - 600.000
+00> mid avg: 2196.558
+00> mid max: 2599.000
+00> mid min: 1837.000
+00> mid rms: 2203.213
+00> fifo1 number: (i=2) - 2304
+00> fifo1 number: 256
+00> slow check duty: 8196ms
+00> slow_samplerate: 24999
+00> 
+00> slow check adc_avg: 2185(1.760V) = 8951829 / 4096
+00> time domain times trigger value: 1.05-0.00
+00> time domain add trigger value: 8.29-0.00
+00> freq domain trigger value: 8.09-0.00
+00> freq domain res trigger value: 12.38-0.00
+00> slow result: 1 - 1 - 1 - 0
+00> slow check last: 602ms
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 170.602 - 600.000
+00> mid avg: 2184.250
+00> mid max: 2577.000
+00> mid min: 1802.000
+00> mid rms: 2190.901
+00> light sensor: 3859(3.109V)
+00> light sensor2: 3333(2.685V)
+00> 
+00> gpio0~gpio6 read bit:1-0-0-0-0-1-1
+00> bt unknow status
+00> 
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.380 - 600.000
+00> mid avg: 2195.559
+00> mid max: 2645.000
+00> mid min: 1821.000
+00> mid rms: 2202.313
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 169.108 - 600.000
+00> mid avg: 2190.725
+00> mid max: 2581.000
+00> mid min: 1835.000
+00> mid rms: 2197.240
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.775 - 600.000
+00> mid avg: 2181.134
+00> mid max: 2588.000
+00> mid min: 1804.000
+00> mid rms: 2187.886
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.883 - 600.000
+00> mid avg: 2190.056
+00> mid max: 2589.000
+00> mid min: 1797.000
+00> mid rms: 2196.866
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.372 - 600.000
+00> mid avg: 2171.663
+00> mid max: 2566.000
+00> mid min: 1805.000
+00> mid rms: 2178.412
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.948 - 600.000
+00> mid avg: 2172.804
+00> mid max: 2570.000
+00> mid min: 1802.000
+00> mid rms: 2179.596
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 170.950 - 600.000
+00> mid avg: 2181.736
+00> mid max: 2575.000
+00> mid min: 1817.000
+00> mid rms: 2188.422
+00> fifo1 number: (i=2) - 2304
+00> fifo1 number: 256
+00> slow check duty: 8192ms
+00> slow_samplerate: 25009
+00> 
+00> slow check adc_avg: 2182(1.758V) = 8939780 / 4096
+00> time domain times trigger value: 1.07-0.00
+00> time domain add trigger value: 11.50-0.00
+00> freq domain trigger value: 8.22-0.00
+00> freq domain res trigger value: 11.26-0.00
+00> slow result: 1 - 1 - 1 - 0
+00> slow check last: 602ms
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 169.741 - 600.000
+00> mid avg: 2179.476
+00> mid max: 2588.000
+00> mid min: 1819.000
+00> mid rms: 2186.073
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.002 - 600.000
+00> mid avg: 2197.912
+00> mid max: 2645.000
+00> mid min: 1842.000
+00> mid rms: 2204.551
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.527 - 600.000
+00> mid avg: 2185.945
+00> mid max: 2612.000
+00> mid min: 1787.000
+00> mid rms: 2192.740
+00> light sensor: 3858(3.108V)
+00> light sensor2: 3220(2.594V)
+00> 
+00> gpio0~gpio6 read bit:1-0-0-0-0-1-1
+00> bt unknow status
+00> 
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.238 - 600.000
+00> mid avg: 2175.409
+00> mid max: 2586.000
+00> mid min: 1825.000
+00> mid rms: 2182.137
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.845 - 600.000
+00> mid avg: 2200.596
+00> mid max: 2609.000
+00> mid min: 1838.000
+00> mid rms: 2207.371
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.251 - 600.000
+00> mid avg: 2178.119
+00> mid max: 2572.000
+00> mid min: 1805.000
+00> mid rms: 2184.918
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.257 - 600.000
+00> mid avg: 2184.166
+00> mid max: 2602.000
+00> mid min: 1798.000
+00> mid rms: 2190.947
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 174.619 - 600.000
+00> mid avg: 2167.628
+00> mid max: 2575.000
+00> mid min: 1819.000
+00> mid rms: 2174.649
+00> fifo1 number: (i=2) - 2304
+00> fifo1 number: 256
+00> slow check duty: 8195ms
+00> slow_samplerate: 24999
+00> 
+00> slow check adc_avg: 2186(1.761V) = 8954178 / 4096
+00> time domain times trigger value: 1.05-0.00
+00> time domain add trigger value: 7.88-0.00
+00> freq domain trigger value: 9.14-0.00
+00> freq domain res trigger value: 13.69-0.00
+00> slow result: 1 - 1 - 1 - 0
+00> slow check last: 602ms
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.766 - 600.000
+00> mid avg: 2180.467
+00> mid max: 2654.000
+00> mid min: 1799.000
+00> mid rms: 2187.298
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 174.603 - 600.000
+00> mid avg: 2197.989
+00> mid max: 2594.000
+00> mid min: 1811.000
+00> mid rms: 2204.912
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 169.051 - 600.000
+00> mid avg: 2180.168
+00> mid max: 2560.000
+00> mid min: 1819.000
+00> mid rms: 2186.712
+00> fifo0 number: 2049
+00> fifo0 number: 1
+00> spp_threshold: 172.195 - 600.000
+00> mid avg: 2186.015
+00> mid max: 2594.000
+00> mid min: 1812.000
+00> mid rms: 2192.785
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.806 - 600.000
+00> mid avg: 2168.552
+00> mid max: 2576.000
+00> mid min: 1805.000
+00> mid rms: 2175.346
+00> light sensor: 3857(3.107V)
+00> light sensor2: 3282(2.644V)
+00> 
+00> gpio0~gpio6 read bit:1-0-0-0-0-1-1
+00> bt unknow status
+00> 
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.605 - 600.000
+00> mid avg: 2174.011
+00> mid max: 2576.000
+00> mid min: 1807.000
+00> mid rms: 2180.771
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.749 - 600.000
+00> mid avg: 2182.223
+00> mid max: 2586.000
+00> mid min: 1793.000
+00> mid rms: 2189.048
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.051 - 600.000
+00> mid avg: 2176.804
+00> mid max: 2589.000
+00> mid min: 1817.000
+00> mid rms: 2183.513
+00> fifo1 number: (i=2) - 2304
+00> fifo1 number: 256
+00> slow check duty: 8193ms
+00> slow_samplerate: 24989
+00> 
+00> slow check adc_avg: 2181(1.757V) = 8936995 / 4096
+00> time domain times trigger value: 1.05-0.00
+00> time domain add trigger value: 9.27-0.00
+00> freq domain trigger value: 7.90-0.00
+00> freq domain res trigger value: 10.64-0.00
+00> slow result: 1 - 1 - 1 - 0
+00> slow check last: 601ms
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 173.503 - 600.000
+00> mid avg: 2177.769
+00> mid max: 2610.000
+00> mid min: 1808.000
+00> mid rms: 2184.669
+00> fifo0 number: 2049
+00> fifo0 number: 1
+00> spp_threshold: 171.477 - 600.000
+00> mid avg: 2193.276
+00> mid max: 2614.000
+00> mid min: 1815.000
+00> mid rms: 2199.968
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.525 - 600.000
+00> mid avg: 2182.929
+00> mid max: 2582.000
+00> mid min: 1799.000
+00> mid rms: 2189.655
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 173.825 - 600.000
+00> mid avg: 2182.557
+00> mid max: 2574.000
+00> mid min: 1814.000
+00> mid rms: 2189.467
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 171.784 - 600.000
+00> mid avg: 2180.275
+00> mid max: 2596.000
+00> mid min: 1803.000
+00> mid rms: 2187.030
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 175.000 - 600.000
+00> mid avg: 2166.426
+00> mid max: 2599.000
+00> mid min: 1793.000
+00> mid rms: 2173.480
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 174.344 - 600.000
+00> mid avg: 2179.167
+00> mid max: 2591.000
+00> mid min: 1799.000
+00> mid rms: 2186.127
+00> light sensor: 3857(3.107V)
+00> light sensor2: 3334(2.686V)
+00> 
+00> gpio0~gpio6 read bit:1-0-0-0-0-1-1
+00> bt unknow status
+00> 
+00> fifo0 number: 2049
+00> fifo0 number: 1
+00> spp_threshold: 178.545 - 600.000
+00> mid avg: 2204.129
+00> mid max: 2636.000
+00> mid min: 1788.000
+00> mid rms: 2211.347
+00> fifo1 number: (i=2) - 2304
+00> fifo1 number: 256
+00> slow check duty: 8189ms
+00> slow_samplerate: 24999
+00> 
+00> slow check adc_avg: 2178(1.755V) = 8921137 / 4096
+00> time domain times trigger value: 1.07-0.00
+00> time domain add trigger value: 11.03-0.00
+00> freq domain trigger value: 8.78-0.00
+00> freq domain res trigger value: 8.31-0.00
+00> slow result: 1 - 1 - 1 - 0
+00> slow check last: 603ms
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 175.591 - 600.000
+00> mid avg: 2178.583
+00> mid max: 2610.000
+00> mid min: 1778.000
+00> mid rms: 2185.646
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 176.509 - 600.000
+00> mid avg: 2179.659
+00> mid max: 2605.000
+00> mid min: 1794.000
+00> mid rms: 2186.793
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 172.567 - 600.000
+00> mid avg: 2173.539
+00> mid max: 2575.000
+00> mid min: 1815.000
+00> mid rms: 2180.377
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 176.451 - 600.000
+00> mid avg: 2178.703
+00> mid max: 2583.000
+00> mid min: 1792.000
+00> mid rms: 2185.834
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 179.454 - 600.000
+00> mid avg: 2181.568
+00> mid max: 2676.000
+00> mid min: 1782.000
+00> mid rms: 2188.934
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 234.597 - 600.000
+00> mid avg: 2175.267
+00> mid max: 2929.000
+00> mid min: 1365.000
+00> mid rms: 2187.876
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 357.055 - 600.000
+00> mid avg: 2168.049
+00> mid max: 3240.000
+00> mid min: 1104.000
+00> mid rms: 2197.242
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 713.280 - 600.000
+00> mid avg: 2197.991
+00> mid max: 3603.000
+00> mid min: 453.000
+00> mid rms: 2310.776
+00> fifo1 number: (i=2) - 2304
+00> fifo1 number: 256
+00> slow check duty: 8193ms
+00> slow_samplerate: 24989
+00> 
+00> slow check adc_avg: 2180(1.756V) = 8931500 / 4096
+00> time domain times trigger value: 2.19-0.00
+00> time domain add trigger value: 196.69-0.00
+00> freq domain trigger value: 8.75-0.00
+00> freq domain res trigger value: 12.18-0.00
+00> slow result: 1 - 1 - 1 - 0
+00> slow check last: 602ms
+00> light sensor: 3858(3.108V)
+00> light sensor2: 3617(2.914V)
+00> 
+00> gpio0~gpio6 read bit:1-0-0-0-0-1-1
+00> bt unknow status
+00> 
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 1270.509 - 600.000
+00> mid avg: 2311.257
+00> mid max: 3789.000
+00> mid min: 133.000
+00> mid rms: 2637.295
+00> fifo0 number: 2049
+00> fifo0 number: 2
+00> spp_threshold: 1049.782 - 600.000
+00> mid avg: 2249.514
+00> mid max: 3661.000
+00> mid min: 329.000
+00> mid rms: 2482.303
+
+# Logging stopped @ 11 Jul 2021 13:02:48
