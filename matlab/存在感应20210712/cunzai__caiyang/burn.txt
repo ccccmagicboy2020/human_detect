@@ -1,0 +1,14 @@
+usb
+si 1
+speed 25000
+device HC32F46x
+TestCSpeed 0x1FFF8000
+r
+h
+loadfile .\adc_03_sa_interrupt.hex 0
+setpc 0
+r
+g
+qc
+
+
