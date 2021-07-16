@@ -56,7 +56,11 @@ char fast_retry_flag = 1;
 char slow_retry_flag = 1;
 
 int run_mode = 0;
-int slow_only_flag = 0;
+#ifdef SAMPLE_USE_ONLY
+	int slow_only_flag = 1;
+#else
+	int slow_only_flag = 0;
+#endif
 int quick_check_prepare_lock = 0;//lock to fast data prepare
 
 volatile int check_status = TUYA_OTHER;
