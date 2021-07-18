@@ -1,0 +1,10 @@
+1. PH10D3232EX_burn
+面向客户及FAE，用于使用jlink烧写firmware
+2. PH10D3232EX_manager
+面向客户及FAE，用于使用串口查看状态上报及下发命令设置及OTA升级等功能
+3. PH10D3232EX_upload_verify
+面向开发，使用hss技术，协助标定门限以及检查一些不易发现的bug，数据要带时间戳
+4. PH10D3232EX_logger
+面向开发，使用rtt技术，记录长时间的数据用于历史数据分析，数据要带时间戳
+
+
