@@ -1,0 +1,1 @@
+vsrename.exe PH10D3232EX_logger PH10D3232EX_logger .\
