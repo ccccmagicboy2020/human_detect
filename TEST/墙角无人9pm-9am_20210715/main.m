@@ -13,4 +13,9 @@ fprintf(fid,'p3: %.3f\r\n', p3);
 fprintf(fid,'p4: %.3f\r\n', p4);
 fprintf(fid,'p5: %.3f\r\n', p5);
 fclose(fid);
-
+p0_raw = load('test-p0.mat', 'value')
+p1_raw = load('test-p1.mat', 'value')
+p2_raw = load('test-p2.mat', 'value')
+p3_raw = load('test-p3.mat', 'value')
+p4_raw = load('test-p4.mat', 'value')
+p5_raw = load('test-p5.mat', 'value')
