@@ -97,6 +97,7 @@ void gpio_output(unsigned char res);
 void set_samplerate(unsigned int speed);
 void save_upssa0(void);
 void set_adc1_avg(unsigned int mode);
+float get_voltage(int adc_raw);
 ////////////////////////////////////////////////////////////
 unsigned char upload_disable = 1;
 unsigned char g_work_mode = ALL_CHECK;
@@ -442,7 +443,7 @@ void fast_check_process(void)
 
 	adc_average = adc_sum/FAST_MAX_DATA_POOL;
 	
-	sprintf(float_str, "\r\n%s%sfast check adc_avg: %d(%.3lfV) = %d / %d%s\r\n", RTT_CTRL_BG_BRIGHT_GREEN, RTT_CTRL_TEXT_BLACK, adc_average, adc_average*3.3f/4096, adc_sum, FAST_MAX_DATA_POOL, RTT_CTRL_RESET);
+	sprintf(float_str, "\r\n%s%sfast check adc_avg: %d(%.3lfV) = %d / %d%s\r\n", RTT_CTRL_BG_BRIGHT_GREEN, RTT_CTRL_TEXT_BLACK, adc_average, get_voltage(adc_average), adc_sum, FAST_MAX_DATA_POOL, RTT_CTRL_RESET);
 	SEGGER_RTT_printf(0, "%s", float_str);
 	
 	for(i=0; i<FAST_MAX_DATA_POOL; i++)
@@ -707,7 +708,7 @@ void slow_check_process_s0(void)
 	
 	adc_average = adc_sum/SLOW_MAX_DATA_POOL;
 	
-	sprintf(float_str, "\r\n%s%sslow check adc_avg: %d(%.3lfV) = %d / %d%s\r\n", RTT_CTRL_BG_BRIGHT_GREEN, RTT_CTRL_TEXT_BLACK, adc_average, adc_average*3.3f/4096, adc_sum, SLOW_MAX_DATA_POOL, RTT_CTRL_RESET);
+	sprintf(float_str, "\r\n%s%sslow check adc_avg: %d(%.3lfV) = %d / %d%s\r\n", RTT_CTRL_BG_BRIGHT_GREEN, RTT_CTRL_TEXT_BLACK, adc_average, get_voltage(adc_average), adc_sum, SLOW_MAX_DATA_POOL, RTT_CTRL_RESET);
 	SEGGER_RTT_printf(0, "%s", float_str);	
 
 	for(i=0; i<SLOW_MAX_DATA_POOL; i++)
@@ -1176,9 +1177,9 @@ void idle_process(void)
 		
 		if (1)
 		{
-			sprintf(float_str, "%slight sensor: %d(%.3lfV)%s\r\n", RTT_CTRL_TEXT_BRIGHT_MAGENTA, light_sensor_adc_data, light_sensor_adc_data*3.3f/4096, RTT_CTRL_RESET);
+			sprintf(float_str, "%slight sensor: %d(%.3lfV)%s\r\n", RTT_CTRL_TEXT_BRIGHT_MAGENTA, light_sensor_adc_data, get_voltage(light_sensor_adc_data), RTT_CTRL_RESET);
 			SEGGER_RTT_printf(0, "%s", float_str);				
-			sprintf(float_str, "%slight sensor2: %d(%.3lfV)%s\r\n", RTT_CTRL_TEXT_BRIGHT_MAGENTA, light_sensor2_adc_data, light_sensor2_adc_data*3.3f/4096, RTT_CTRL_RESET);
+			sprintf(float_str, "%slight sensor2: %d(%.3lfV)%s\r\n", RTT_CTRL_TEXT_BRIGHT_MAGENTA, light_sensor2_adc_data, get_voltage(light_sensor2_adc_data), RTT_CTRL_RESET);
 			SEGGER_RTT_printf(0, "%s", float_str);				
 		}
 			
@@ -1719,6 +1720,11 @@ void set_var_from_flash(void)
 		upssa0.ppp.load_radar_parameter = 1;
 	}	
 	SEGGER_RTT_printf(0, "%s%sload load_radar_parameter: %d%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.load_radar_parameter, RTT_CTRL_RESET);		
+}
+
+float get_voltage(int adc_raw)
+{
+	return adc_raw*3.3f/4096;
 }
 
 void	set_iot_network_from_flash(void)
