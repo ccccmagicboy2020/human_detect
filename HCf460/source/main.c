@@ -1707,7 +1707,7 @@ void set_var_from_flash(void)
 	upssa0.ppp.delay_time_num = DELAY_TIME_NUM_FLASH;
 	if (upssa0.ppp.delay_time_num == -1)
 	{
-		upssa0.ppp.delay_time_num = 32;
+		upssa0.ppp.delay_time_num = 40;
 	}
 	
 	SEGGER_RTT_printf(0, "%s%sload delay_time_num: %ds%s\r\n", RTT_CTRL_BG_BRIGHT_BLUE, RTT_CTRL_TEXT_WHITE, upssa0.ppp.delay_time_num, RTT_CTRL_RESET);	
