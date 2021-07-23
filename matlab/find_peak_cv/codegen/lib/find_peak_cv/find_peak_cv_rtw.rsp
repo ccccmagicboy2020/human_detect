@@ -1,8 +1,0 @@
-eml_setop.o
-find_peak_cv.o
-find_peak_cv_data.o
-find_peak_cv_initialize.o
-find_peak_cv_terminate.o
-rtGetInf.o
-rtGetNaN.o
-rt_nonfinite.o

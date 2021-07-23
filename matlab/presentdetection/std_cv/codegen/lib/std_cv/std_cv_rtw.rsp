@@ -1,7 +1,0 @@
-rtGetInf.o
-rtGetNaN.o
-rt_nonfinite.o
-std_cv.o
-std_cv_data.o
-std_cv_initialize.o
-std_cv_terminate.o

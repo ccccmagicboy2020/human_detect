@@ -1,5 +1,0 @@
-remove_pf.o
-remove_pf_emxAPI.o
-remove_pf_emxutil.o
-remove_pf_initialize.o
-remove_pf_terminate.o

@@ -1,5 +1,0 @@
-cfar_ca.o
-cfar_ca_emxAPI.o
-cfar_ca_emxutil.o
-cfar_ca_initialize.o
-cfar_ca_terminate.o
